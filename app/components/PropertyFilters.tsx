@@ -14,7 +14,7 @@ export interface FilterValues {
   limit: string;
 }
 
-export default function PropertyFilters({ onFilterChange }) {
+export default function PropertyFilters({ onFilterChange }: FilterProps) {
   const [filters, setFilters] = useState({
     operation_type: '',
     property_type: '',
@@ -23,7 +23,7 @@ export default function PropertyFilters({ onFilterChange }) {
     limit: '50',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
     const updatedFilters = { ...filters, [name]: value };
     setFilters(updatedFilters);
