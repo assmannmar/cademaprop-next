@@ -11,7 +11,7 @@ export async function GET() {
   }
 
   try {
-    const url = `https://www.tokkobroker.com/api/v1/property/?key=${apiKey}&limit=5000&format=json`;
+    const url = `https://www.tokkobroker.com/api/v1/property/?key=${apiKey}&limit=60&format=json`;
 
     const response = await fetch(url);
 
