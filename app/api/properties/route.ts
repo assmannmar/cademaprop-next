@@ -23,7 +23,7 @@ export async function GET() {
 
   try {
     // Mantuvimos el límite reducido para asegurar que el build pase
-    const url = `https://www.tokkobroker.com/api/v1/property/?key=${apiKey}&limit=10&format=json`;
+    const url = `https://www.tokkobroker.com/api/v1/property/?key=${apiKey}&limit=100&format=json`;
 
     const response = await fetch(url, {
         // Configuraciones de cacheado para asegurar que Vercel no use una respuesta antigua
