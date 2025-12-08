@@ -1,42 +1,28 @@
 import { NextResponse } from "next/server";
 
-const API_KEY = process.env.TOKKO_API_KEY!;
+const API_KEY = process.env.TOKKO_API_KEY;
 const BASE_URL = "https://www.tokkobroker.com/api/v1/property/";
 
 export async function GET() {
   let page = 1;
   const allProps: any[] = [];
+  let keepGoing = true;
 
-  try {
-    while (true) {
-      const url = `${BASE_URL}?key=${API_KEY}&page=${page}&format=json`;
+  while (keepGoing) {
+    const res = await fetch(
+      `${BASE_URL}?key=${API_KEY}&page=${page}&page_size=100&format=json`
+    );
 
-      const res = await fetch(url);
+    const data = await res.json();
 
-      // Si Tokko devuelve error → salimos
-      if (!res.ok) break;
-
-      let data: any;
-      try {
-        data = await res.json();
-      } catch (err) {
-        console.error("Error parseando JSON de Tokko:", err);
-        break;
-      }
-
-      if (!data.objects || data.objects.length === 0) break;
-
-      allProps.push(...data.objects);
-      page++;
+    if (!data.objects || data.objects.length === 0) {
+      keepGoing = false;
+      break;
     }
 
-    return NextResponse.json(allProps);
-
-  } catch (error) {
-    console.error("Tokko API ERROR:", error);
-    return NextResponse.json(
-      { error: "Tokko API failed" },
-      { status: 500 }
-    );
+    allProps.push(...data.objects);
+    page++;
   }
+
+  return NextResponse.json(allProps);
 }
