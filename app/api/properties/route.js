@@ -1,10 +1,26 @@
-export async function GET(request) {
-  const apiKey = process.env.TOKKO_API_KEY;
+import { NextResponse } from "next/server";
 
-  const url = "https://www.tokkobroker.com/api/v1/property/?format=json&lang=es_ar";
+const API_KEY = process.env.TOKKO_API_KEY;
 
-  const res = await fetch(url + "&key=" + apiKey);
-  const data = await res.json();
+const BASE_URL = "https://www.tokkobroker.com/api/v1/property/";
 
-  return Response.json(data);
+export async function GET() {
+  let page = 1;
+  const allProps: any[] = [];
+  let keepGoing = true;
+
+  while (keepGoing) {
+    const res = await fetch(`${BASE_URL}?key=${API_KEY}&page=${page}&format=json`);
+    const data = await res.json();
+
+    if (!data.objects || data.objects.length === 0) {
+      keepGoing = false;
+      break;
+    }
+
+    allProps.push(...data.objects);
+    page++;
+  }
+
+  return NextResponse.json(allProps);
 }
