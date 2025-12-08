@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import PropertiesContainer from '@/app/components/PropertiesContainer';
 
 export default function PropertiesPage() {
