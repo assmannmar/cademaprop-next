@@ -10,7 +10,7 @@ interface TokkoResponse {
   objects: any[];
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   const apiKey = process.env.TOKKO_API_KEY;
 
   // 1. Manejo de la clave API (cambiamos a 401/404)
@@ -22,8 +22,22 @@ export async function GET() {
   }
 
   try {
-    // Mantuvimos el límite reducido para asegurar que el build pase
-    const url = `https://www.tokkobroker.com/api/v1/property/?key=${apiKey}&limit=10&format=json`;
+    // Extrae parámetros de query
+    const { searchParams } = new URL(request.url);
+    const limit = searchParams.get("limit") || "50";
+    const offset = searchParams.get("offset") || "0";
+    const operationType = searchParams.get("operation_type") || "";
+    const propertyType = searchParams.get("property_type") || "";
+    const minPrice = searchParams.get("min_price") || "";
+    const maxPrice = searchParams.get("max_price") || "";
+
+    // Construye URL con filtros dinámicos
+    let url = `https://www.tokkobroker.com/api/v1/property/?key=${apiKey}&limit=${limit}&offset=${offset}&format=json`;
+    
+    if (operationType) url += `&operation=${operationType}`;
+    if (propertyType) url += `&type=${propertyType}`;
+    if (minPrice) url += `&price_from=${minPrice}`;
+    if (maxPrice) url += `&price_to=${maxPrice}`;
 
     const response = await fetch(url, {
         // Configuraciones de cacheado para asegurar que Vercel no use una respuesta antigua
