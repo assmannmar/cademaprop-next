@@ -1,9 +1,36 @@
-export default function Home() {
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function PropiedadesPage() {
+  const [props, setProps] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch("/api/properties");
+        const data = await res.json();
+        setProps(data?.objects || []);
+      } catch (e) {
+        console.error("Error cargando propiedades:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
+
+  if (loading) return <p>Cargando propiedades...</p>;
+
   return (
-    <main style={{ padding: 20 }}>
-      <h1>Buscador de Propiedades</h1>
-      <p>Prueba inicial — conectada a la API de Tokko 😎</p>
-      <a href="/api/properties">Ver datos crudos de propiedades</a>
-    </main>
+    <div>
+      <h1>Propiedades ({props.length})</h1>
+      <ul>
+        {props.map((p: any) => (
+          <li key={p.id}>{p.address}</li>
+        ))}
+      </ul>
+    </div>
   );
 }
