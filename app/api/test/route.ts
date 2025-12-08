@@ -1,31 +1,36 @@
-import { NextResponse } from "next/server";
+export default async function handler(req, res) {
+  try {
+    let page = 1;
+    let allProps = [];
+    let keepGoing = true;
 
-const API_KEY = process.env.TOKKO_API_KEY;
-const BASE_URL = "https://www.tokkobroker.com/api/v1/property/";
+    while (keepGoing) {
+      const url = `https://www.tokkobroker.com/api/v1/property/?format=json&lang=es_ar&key=TU_API_KEY&page=${page}`;
 
-export async function GET() {
-  let page = 1;
-  let total = 0;
-  let keepGoing = true;
+      const response = await fetch(url);
+      if (!response.ok) {
+        return res.status(response.status).json({ error: "Error al obtener datos de Tokko" });
+      }
 
-  while (keepGoing) {
-    const res = await fetch(
-      `${BASE_URL}?key=${API_KEY}&page=${page}&page_size=100&format=json`
-    );
+      const data = await response.json();
 
-    const data = await res.json();
+      // Acá vienen las propiedades de esta página
+      const props = data.objects || [];
 
-    if (!data.objects || data.objects.length === 0) {
-      keepGoing = false;
-      break;
+      allProps = [...allProps, ...props];
+
+      // Si no hay más páginas, cortamos
+      if (!data.meta || !data.meta.next) {
+        keepGoing = false;
+      } else {
+        page++;
+      }
     }
 
-    total += data.objects.length;
-    page++;
-  }
+    return res.status(200).json({ properties: allProps });
 
-  return NextResponse.json({
-    total,
-    pagesFetched: page - 1,
-  });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error interno" });
+  }
 }
