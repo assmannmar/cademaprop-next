@@ -4,7 +4,24 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
 
-      {/* HERO */}
+      {/* NAV BAR */}
+      <nav className="w-full bg-white shadow-md">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href="/" className="text-2xl font-bold text-blue-600">
+          LOGO
+          </Link>
+          <div className="space-x-6">
+            <Link href="/propiedades" className="text-gray-700 hover:text-blue-600 transition">
+              Propiedades
+            </Link>
+            <Link href="/contacto" className="text-gray-700 hover:text-blue-600 transition">
+              Contacto
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* TEXTO PRINCIPAL */}
       <section className="flex flex-col items-center text-center py-24 px-6 bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat bg-black/40 bg-blend-multiply">
         <h1 className="text-4xl md:text-5xl font-bold text-white max-w-2xl">
           Texto H1
@@ -14,19 +31,19 @@ export default function HomePage() {
           Texto p
         </p>
 
-        {/* BUSCADOR SIMPLE */}
+        {/* BOTONES PRINCIPALES */}
         <div className="w-full flex justify-center mt-10">
-  <div className="grid grid-cols-2 gap-4">
-      <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">Comprar</a>
+          <div className="grid grid-cols-2 gap-4">
+              <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">Comprar</a>
 
-      <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">Vender</a>
+              <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">Vender</a>
 
-      <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">Residencial</a>
+              <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">Residencial</a>
 
-      <a href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">Industrial</a>
+              <a href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">Industrial</a>
 
-    </div>
-  </div>
+            </div>
+          </div>
 
 
       </section>
