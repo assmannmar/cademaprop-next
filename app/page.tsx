@@ -1,60 +1,47 @@
-import Link from 'next/link';
-
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col">
+    <main className="min-h-screen flex flex-col justify-center items-center bg-gray-50 px-6">
 
-      {/* HERO */}
-      <section className="flex flex-col items-center text-center py-24 px-6 bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat bg-black/40 bg-blend-multiply">
-        <h1 className="text-4xl md:text-5xl font-bold text-white max-w-2xl">
-          Encontrá tu próximo hogar con comodidad y precisión
-        </h1>
+      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 text-center mb-10">
+        Encontrá lo que buscás
+      </h1>
 
-        <p className="text-white/90 mt-4 max-w-xl">
-          Buscá propiedades por ubicación, tipo, precio y mucho más.
-        </p>
+      {/* GRID de los 4 botones */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-xl">
 
-        {/* BUSCADOR SIMPLE */}
-        <div className="mt-8 w-full max-w-lg bg-white rounded-xl shadow-lg p-4 flex gap-2">
-          <input
-            type="text"
-            placeholder="Buscar por ubicación…"
-            className="flex-1 px-4 py-2 rounded-md border border-gray-300"
-          />
-          <Link
-            href="/propiedades"
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
-          >
-            Buscar
-          </Link>
-        </div>
-      </section>
+        {/* COMPRAR */}
+        <a
+          href="https://comprar.tusubdominio.com"
+          className="bg-white shadow-md p-8 rounded-xl text-center border border-gray-200 hover:shadow-lg transition cursor-pointer"
+        >
+          <span className="text-2xl font-semibold text-gray-800">Comprar</span>
+        </a>
 
-      {/* BLOQUES */}
-      <section className="py-20 grid grid-cols-1 md:grid-cols-3 gap-6 px-6 max-w-6xl mx-auto">
-        
-        <div className="bg-white shadow-md p-8 rounded-xl text-center">
-          <h3 className="text-xl font-semibold">Filtros avanzados</h3>
-          <p className="text-gray-600 mt-2">
-            Combiná ubicación, precio, tipo, dormitorios, cochera y más.
-          </p>
-        </div>
+        {/* VENDER */}
+        <a
+          href="https://vender.tusubdominio.com"
+          className="bg-white shadow-md p-8 rounded-xl text-center border border-gray-200 hover:shadow-lg transition cursor-pointer"
+        >
+          <span className="text-2xl font-semibold text-gray-800">Vender</span>
+        </a>
 
-        <div className="bg-white shadow-md p-8 rounded-xl text-center">
-          <h3 className="text-xl font-semibold">Resultados en tarjetas</h3>
-          <p className="text-gray-600 mt-2">
-            Mostrá todas las propiedades con fotos, precio y detalles claves.
-          </p>
-        </div>
+        {/* RESIDENCIAL → BUSCADOR */}
+        <a
+          href="/propiedades"
+          className="bg-white shadow-md p-8 rounded-xl text-center border border-gray-200 hover:shadow-lg transition cursor-pointer"
+        >
+          <span className="text-2xl font-semibold text-gray-800">Residencial</span>
+        </a>
 
-        <div className="bg-white shadow-md p-8 rounded-xl text-center">
-          <h3 className="text-xl font-semibold">Ficha individual</h3>
-          <p className="text-gray-600 mt-2">
-            Accedé a la ficha completa de cada inmueble.
-          </p>
-        </div>
+        {/* INDUSTRIAL */}
+        <a
+          href="https://industrial.tusubdominio.com"
+          className="bg-white shadow-md p-8 rounded-xl text-center border border-gray-200 hover:shadow-lg transition cursor-pointer"
+        >
+          <span className="text-2xl font-semibold text-gray-800">Industrial</span>
+        </a>
 
-      </section>
+      </div>
 
     </main>
   );
