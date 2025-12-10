@@ -41,7 +41,7 @@ export default function Navbar() {
 
         {/* LINKS */}
         <div className="hidden sm:flex space-x-6">
-          <Link href="/quienes-somos" className="nav-item">Quienes Somos</Link>
+          <Link href="/quienes-somos" className="nav-item">Quienes omos</Link>
           <Link href="/propiedades" className="nav-item">Propiedades</Link>
           <Link href="/emprendimientos" className="nav-item">Emprendimientos</Link>
           <Link href="/industria" className="nav-item">Industria</Link>
