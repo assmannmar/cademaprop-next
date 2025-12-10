@@ -4,22 +4,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
 
-      {/* NAV BAR */}
-      <nav className="w-full bg-white shadow-md">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-blue-600">
-          LOGO
-          </Link>
-          <div className="space-x-6">
-            <Link href="/propiedades" className="text-gray-700 hover:text-blue-600 transition">
-              Propiedades
-            </Link>
-            <Link href="/contacto" className="text-gray-700 hover:text-blue-600 transition">
-              Contacto
-            </Link>
-          </div>
-        </div>
-      </nav>
+      
 
       {/* TEXTO PRINCIPAL */}
       <section className="flex flex-col items-center text-center py-24 px-6 bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat bg-black/40 bg-blend-multiply">
