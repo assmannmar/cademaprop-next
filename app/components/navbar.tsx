@@ -44,7 +44,7 @@ export default function Navbar() {
           <Link href="/quienes-somos" className="nav-item">Quienes Somos</Link>
           <Link href="/propiedades" className="nav-item">Propiedades</Link>
           <Link href="/emprendimientos" className="nav-item">Emprendimientos</Link>
-          <Link href="/industria" className="nav-item">Industria</Link>
+          <Link href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" className="nav-item">Industria</Link>
           <Link href="/contacto" className="nav-item">Contacto</Link>
         </div>
 
