@@ -4,8 +4,6 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
 
-      
-
       {/* TEXTO PRINCIPAL */}
       <section className="flex flex-col items-center text-center py-24 px-6 bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat bg-black/40 bg-blend-multiply">
         <h1 className="text-4xl md:text-5xl font-bold text-white max-w-2xl">
@@ -29,7 +27,7 @@ export default function HomePage() {
 
             </div>
           </div>
-
+        <img src="/down-arrow.svg" alt="Scroll Down" className="mt-12 h-6 w-6 animate-bounce" />
 
       </section>
 
