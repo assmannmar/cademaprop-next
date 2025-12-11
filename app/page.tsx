@@ -6,7 +6,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-gray-50 flex flex-col">
 
       {/* HEADER SOBRE EL CARRUSEL */}
-      <header className="absolute top-0 left-0 w-full py-6 z-20 flex justify-center bg-white/80 backdrop-blur-md">
+      <header className="absolute top-[50px] left-0 w-full py-6 z-20 flex justify-center bg-white/80 backdrop-blur-md">
 
         <div className="grid grid-cols-2 gap-4">
           <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
