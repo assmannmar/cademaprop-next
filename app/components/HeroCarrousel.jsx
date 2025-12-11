@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 
 const images = [
-  "/img/casa1.jpg",
-  "/img/casa2.jpg",
-  "/img/casa3.jpg",
+  "/img/1.jpg",
+  "/img/2.jpg",
+  "/img/3.jpg",
 ];
 
 export default function HeroCarousel() {
