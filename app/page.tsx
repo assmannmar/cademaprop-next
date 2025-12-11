@@ -8,31 +8,32 @@ export default function HomePage() {
       {/* CARRUSEL DE FONDO */}
       <section className="relative w-full h-[450px] z-0">
         <HeroCarousel />
+        {/* HEADER FLOTANDO ENCIMA DEL CARRUSEL */}
+        <header className="absolute top-0 left-0 w-full py-6 z-20 flex justify-center bg-white/70 backdrop-blur-md">
+          <div className="grid grid-cols-2 gap-4 px-4">
+            <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
+              Comprar
+            </a>
+
+            <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
+              Vender
+            </a>
+
+            <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
+              Residencial
+            </a>
+
+            <a
+              href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/"
+              className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold"
+            >
+              Industrial
+            </a>
+          </div>
+        </header>
       </section>
 
-      {/* HEADER FLOTANDO ENCIMA DEL CARRUSEL */}
-      <header className="absolute top-0 left-0 w-full py-6 z-20 flex justify-center bg-white/70 backdrop-blur-md">
-        <div className="grid grid-cols-2 gap-4 px-4">
-          <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
-            Comprar
-          </a>
-
-          <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
-            Vender
-          </a>
-
-          <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
-            Residencial
-          </a>
-
-          <a
-            href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/"
-            className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold"
-          >
-            Industrial
-          </a>
-        </div>
-      </header>
+      
 
       {/* CONTENIDO RESTANTE */}
       <section className="flex flex-col items-center text-center py-16 px-6">
