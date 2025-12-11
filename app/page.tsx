@@ -1,4 +1,4 @@
-import HeroCarousel from "./components/HeroCarousel";
+import HeroCarousel from "./components/HeroCarrousel";
 
 import Link from 'next/link';
 
