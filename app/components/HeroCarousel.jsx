@@ -3,15 +3,25 @@
 import { useState, useEffect } from "react";
 
 export default function HeroCarousel() {
+  // 🔥 ACA DEFINIMOS LAS IMÁGENES
+  const images = [
+    "/carousel/1.webp",
+    "/carousel/2.webp",
+    "/carousel/3.webp",
+    "/carousel/4.webp"
+  ];
+
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (images.length === 0) return; // seguridad
+
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
     }, 3500);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [images.length]);
 
   return (
     <div className="relative w-full h-[450px] overflow-hidden">
@@ -25,8 +35,8 @@ export default function HeroCarousel() {
           }`}
         />
       ))}
-      
-      {/* GRADIENTE SUPERIOR PARA QUE TUS BOTONES SE VEAN CLARITOS */}
+
+      {/* sombreado para que tus botones/textos se lean mejor */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
     </div>
   );
