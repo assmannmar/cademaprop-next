@@ -1,4 +1,6 @@
+import HeroCarrousel from './components/HeroCarrousel';
 import Link from 'next/link';
+
 
 export default function HomePage() {
   return (
