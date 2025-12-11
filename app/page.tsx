@@ -1,13 +1,17 @@
 import HeroCarousel from "./components/HeroCarousel";
 import Link from "next/link";
- 
+
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col">
+    <main className="min-h-screen flex flex-col">
 
-      {/* HEADER SOBRE EL CARRUSEL */}
-      <header className="absolute top-[70px] left-0 w-full py-6 z-20 flex justify-center bg-white/80 backdrop-blur-md">
+      {/* CARRUSEL DE FONDO */}
+      <section className="relative w-full h-[450px] z-0">
+        <HeroCarousel />
+      </section>
 
+      {/* HEADER FLOTANDO ENCIMA DEL CARRUSEL */}
+      <header className="absolute top-0 left-0 w-full py-6 z-20 flex justify-center bg-white/70 backdrop-blur-md">
         <div className="grid grid-cols-2 gap-4">
           <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
             Comprar
@@ -30,12 +34,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* CARRUSEL — AHORA ATRÁS */}
-      <section className="relative w-full h-[0px] z-0">
-        <HeroCarousel />
-      </section>
-
-      {/* SECCIONES RESTANTES */}
+      {/* CONTENIDO RESTANTE */}
       <section className="flex flex-col items-center text-center py-16 px-6">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 max-w-2xl">
           Texto H1
