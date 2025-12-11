@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 
 export default function HeroCarousel() {
-  // 🔥 ACA DEFINIMOS LAS IMÁGENES
   const images = [
     "/carousel/1.jpg",
     "/carousel/2.jpg",
@@ -13,7 +12,7 @@ export default function HeroCarousel() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (images.length === 0) return; // seguridad
+    if (images.length === 0) return; 
 
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
@@ -35,7 +34,7 @@ export default function HeroCarousel() {
         />
       ))}
 
-      {/* sombreado para que tus botones/textos se lean mejor */}
+      {/* sombreado para que botones/textos se lean mejor */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
     </div>
   );
