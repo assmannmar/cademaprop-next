@@ -30,11 +30,16 @@ export default function HomePage() {
 
             </div>
           </div>
-        <img src="/down-arrow.svg" alt="Scroll Down" className="mt-12 h-6 w-6 animate-bounce" />
+
+
 
       </section>
       {/* CARROUSEL */}
       <section className="w-full flex justify-center py-10 px-6">
+        <div className="w-full h-[400px] bg-red-500 relative z-0">
+          <HeroCarousel />
+        </div>
+
         <div className="w-full max-w-5xl">
           <div className="relative w-full h-80 rounded-xl overflow-hidden shadow-lg">
             <HeroCarousel />

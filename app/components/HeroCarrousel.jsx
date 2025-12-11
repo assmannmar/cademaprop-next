@@ -1,12 +1,3 @@
-"use client";
-import { useState, useEffect } from "react";
-
-const images = [
-  "/img/1.jpg",
-  "/img/2.jpg",
-  "/img/3.jpg",
-];
-
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0);
 
@@ -19,7 +10,7 @@ export default function HeroCarousel() {
   }, []);
 
   return (
-    <div className="relative w-full h-80 bg-red-500">
+    <div className="relative w-full h-[450px] overflow-hidden">
       {images.map((img, i) => (
         <img
           key={i}
@@ -30,6 +21,9 @@ export default function HeroCarousel() {
           }`}
         />
       ))}
+      
+      {/* GRADIENTE SUPERIOR PARA QUE TUS BOTONES SE VEAN CLARITOS */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
     </div>
   );
 }
