@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0);
 
