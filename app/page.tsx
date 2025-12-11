@@ -1,6 +1,6 @@
-import HeroCarousel from "./components/HeroCarrousel";
+import HeroCarousel from "./components/HeroCarousel";
 import Link from "next/link";
-
+ 
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
