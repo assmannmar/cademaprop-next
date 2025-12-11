@@ -31,7 +31,7 @@ export default function HomePage() {
       </header>
 
       {/* CARRUSEL — AHORA ATRÁS */}
-      <section className="relative w-full h-[450px] z-0">
+      <section className="relative w-full h-[0px] z-0">
         <HeroCarousel />
       </section>
 
