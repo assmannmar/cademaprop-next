@@ -3,30 +3,40 @@
 import { useState, useEffect } from 'react';
 import PropertyFilters from '@/app/components/PropertyFilters';
 import PropertyCard from '@/app/components/PropertyCard';
-
-interface FilterValues {
-  operation_type: string;
-  property_type: string;
-  min_price: string;
-  max_price: string;
-  limit: string;
-}
+import type { FilterValues } from '@/app/components/PropertyFilters';
 
 interface Property {
   id: number;
-  title: string;
+  publication_title?: string;
   address?: string;
-  price?: number;
-  currency?: string;
-  operation_type?: { name: string };
-  property_type?: { name: string };
-  description?: string;
+  fake_address?: string;
+  location?: { 
+    name: string;
+    short_location?: string;
+  };
   operations?: Array<{
+    operation_type: string;
     prices?: Array<{
       price: number;
       currency: string;
     }>;
   }>;
+  type?: { name: string };
+  suite_amount?: number;
+  room_amount?: number;
+  bathroom_amount?: number;
+  parking_lot_amount?: number;
+  surface?: number;
+  roofed_surface?: number;
+  total_surface?: number;
+  photos?: Array<{ 
+    image: string; 
+    is_front_cover?: boolean;
+  }>;
+  videos?: Array<any>;
+  tags?: Array<{ name: string }>;
+  custom_tags?: Array<{ name: string; group_name?: string }>;
+  created_at?: string;
 }
 
 interface ApiResponse {
@@ -38,69 +48,128 @@ interface ApiResponse {
   };
 }
 
+type SortOption = 'surface' | 'roofed_surface' | 'price' | 'recent';
+
 export default function PropertiesContainer() {
   const [properties, setProperties] = useState<Property[]>([]);
+  const [displayedProperties, setDisplayedProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [totalCount, setTotalCount] = useState(0);
-  const [filters, setFilters] = useState<FilterValues>({
-    operation_type: '',
-    property_type: '',
-    min_price: '',
-    max_price: '',
-    limit: '50',
-  });
+  const [sortBy, setSortBy] = useState<SortOption>('recent');
 
-  // Fetch inicial de propiedades
   useEffect(() => {
     fetchProperties();
   }, []);
+
+  useEffect(() => {
+    sortProperties(sortBy);
+  }, [properties, sortBy]);
 
   const fetchProperties = async (filterValues?: FilterValues) => {
     setLoading(true);
     setError(null);
 
     try {
-      const filtersToUse = filterValues || filters;
-      const queryParams = new URLSearchParams();
-
-      queryParams.append('limit', filtersToUse.limit);
-      
-      if (filtersToUse.operation_type) {
-        queryParams.append('operation_type', filtersToUse.operation_type);
-      }
-      if (filtersToUse.property_type) {
-        queryParams.append('property_type', filtersToUse.property_type);
-      }
-      if (filtersToUse.min_price) {
-        queryParams.append('min_price', filtersToUse.min_price);
-      }
-      if (filtersToUse.max_price) {
-        queryParams.append('max_price', filtersToUse.max_price);
-      }
-
-      const response = await fetch(`/api/properties?${queryParams.toString()}`);
+      const response = await fetch('/api/properties');
 
       if (!response.ok) {
         throw new Error(`Error al cargar propiedades: ${response.statusText}`);
       }
 
       const data: ApiResponse = await response.json();
+      let filtered = data.objects;
 
-      // Extrae precio de la estructura anidada de Tokko si es necesario
-      const processedProperties = data.objects.map((prop) => {
-        if (!prop.price && prop.operations?.[0]?.prices?.[0]) {
-          return {
-            ...prop,
-            price: prop.operations[0].prices[0].price,
-            currency: prop.operations[0].prices[0].currency,
-          };
-        }
-        return prop;
-      });
+      // Aplicar filtros del lado del cliente
+      if (filterValues) {
+        filtered = data.objects.filter((prop) => {
+          // Filtro por división
+          if (filterValues.division) {
+            const hasDivision = prop.custom_tags?.some(tag => 
+              tag.group_name === 'División' && 
+              tag.name.toLowerCase().includes(filterValues.division.toLowerCase())
+            );
+            if (!hasDivision) return false;
+          }
 
-      setProperties(processedProperties);
-      setTotalCount(data.meta.total_count || data.objects.length);
+          // Filtro por ubicación
+          if (filterValues.location) {
+            const searchTerm = filterValues.location.toLowerCase();
+            const matchAddress = prop.address?.toLowerCase().includes(searchTerm);
+            const matchLocation = prop.location?.name.toLowerCase().includes(searchTerm);
+            const matchFakeAddress = prop.fake_address?.toLowerCase().includes(searchTerm);
+            const matchShortLocation = prop.location?.short_location?.toLowerCase().includes(searchTerm);
+            if (!matchAddress && !matchLocation && !matchFakeAddress && !matchShortLocation) {
+              return false;
+            }
+          }
+
+          // Filtro por tipo de operación
+          if (filterValues.operation_type) {
+            const hasOperation = prop.operations?.some(op => 
+              op.operation_type.toLowerCase() === filterValues.operation_type.toLowerCase()
+            );
+            if (!hasOperation) return false;
+          }
+
+          // Filtro por tipo de propiedad
+          if (filterValues.property_type) {
+            const propertyTypeName = prop.type?.name.toLowerCase() || '';
+            if (!propertyTypeName.includes(filterValues.property_type.toLowerCase())) {
+              return false;
+            }
+          }
+
+          // Filtro por dormitorios
+          if (filterValues.bedrooms) {
+            const minBedrooms = parseInt(filterValues.bedrooms);
+            const totalRooms = (prop.room_amount || 0) + (prop.suite_amount || 0);
+            if (totalRooms < minBedrooms) {
+              return false;
+            }
+          }
+
+          // Filtro por cochera
+          if (filterValues.has_parking === 'yes' && (!prop.parking_lot_amount || prop.parking_lot_amount === 0)) {
+            return false;
+          }
+          if (filterValues.has_parking === 'no' && prop.parking_lot_amount && prop.parking_lot_amount > 0) {
+            return false;
+          }
+
+          // Filtro por pileta
+          if (filterValues.has_pool === 'yes') {
+            const hasPool = prop.tags?.some(tag => 
+              tag.name.toLowerCase().includes('pool') || 
+              tag.name.toLowerCase().includes('swimming')
+            ) || prop.custom_tags?.some(tag =>
+              tag.name.toLowerCase().includes('pileta') || 
+              tag.name.toLowerCase().includes('piscina')
+            );
+            if (!hasPool) return false;
+          }
+
+          // Filtro por apto crédito
+          if (filterValues.credit_eligible === 'yes') {
+            const isCreditEligible = 
+              prop.tags?.some(tag => tag.name.toLowerCase().includes('credit')) ||
+              prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
+            if (!isCreditEligible) return false;
+          }
+
+          // Filtro por precio máximo
+          if (filterValues.max_price) {
+            const maxPrice = parseFloat(filterValues.max_price);
+            const propertyPrice = prop.operations?.[0]?.prices?.[0]?.price;
+            if (propertyPrice && propertyPrice > maxPrice) {
+              return false;
+            }
+          }
+
+          return true;
+        });
+      }
+
+      setProperties(filtered);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido al cargar propiedades');
       setProperties([]);
@@ -109,9 +178,34 @@ export default function PropertiesContainer() {
     }
   };
 
+  const sortProperties = (criteria: SortOption) => {
+    const sorted = [...properties].sort((a, b) => {
+      switch (criteria) {
+        case 'surface':
+          return (b.total_surface || b.surface || 0) - (a.total_surface || a.surface || 0);
+        case 'roofed_surface':
+          return (b.roofed_surface || 0) - (a.roofed_surface || 0);
+        case 'price':
+          const priceA = a.operations?.[0]?.prices?.[0]?.price || 0;
+          const priceB = b.operations?.[0]?.prices?.[0]?.price || 0;
+          return priceB - priceA;
+        case 'recent':
+          const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
+          const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+          return dateB - dateA;
+        default:
+          return 0;
+      }
+    });
+    setDisplayedProperties(sorted);
+  };
+
   const handleFilterChange = (newFilters: FilterValues) => {
-    setFilters(newFilters);
     fetchProperties(newFilters);
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(e.target.value as SortOption);
   };
 
   return (
@@ -123,6 +217,31 @@ export default function PropertiesContainer() {
 
       {/* Filtros */}
       <PropertyFilters onFilterChange={handleFilterChange} />
+
+      {/* Barra de ordenamiento y resultados */}
+      {!loading && properties.length > 0 && (
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <p className="text-gray-600 dark:text-gray-400">
+            Mostrando <span className="font-semibold">{displayedProperties.length}</span> propiedades
+          </p>
+          
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              Ordenar por:
+            </label>
+            <select
+              value={sortBy}
+              onChange={handleSortChange}
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+            >
+              <option value="recent">Más recientes</option>
+              <option value="price">Precio (mayor a menor)</option>
+              <option value="surface">Superficie terreno (mayor a menor)</option>
+              <option value="roofed_surface">Superficie cubierta (mayor a menor)</option>
+            </select>
+          </div>
+        </div>
+      )}
 
       {/* Estado de carga */}
       {loading && (
@@ -140,29 +259,11 @@ export default function PropertiesContainer() {
         </div>
       )}
 
-      {/* Información de resultados */}
-      {!loading && properties.length > 0 && (
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          Mostrando <span className="font-semibold">{properties.length}</span> de{' '}
-          <span className="font-semibold">{totalCount}</span> propiedades
-        </p>
-      )}
-
       {/* Grid de propiedades */}
-      {!loading && properties.length > 0 ? (
+      {!loading && displayedProperties.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {properties.map((property) => (
-            <PropertyCard
-              key={property.id}
-              id={property.id}
-              title={property.title}
-              address={property.address}
-              price={property.price}
-              currency={property.currency}
-              operation_type={property.operation_type}
-              property_type={property.property_type}
-              description={property.description}
-            />
+          {displayedProperties.map((property) => (
+            <PropertyCard key={property.id} {...property} />
           ))}
         </div>
       ) : (
