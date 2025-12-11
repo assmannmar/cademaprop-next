@@ -1,3 +1,4 @@
+import HeroCarousel from "./components/HeroCarousel";
 
 import Link from 'next/link';
 
@@ -32,6 +33,15 @@ export default function HomePage() {
         <img src="/down-arrow.svg" alt="Scroll Down" className="mt-12 h-6 w-6 animate-bounce" />
 
       </section>
+      {/* CARROUSEL */}
+      <section className="w-full flex justify-center py-10 px-6">
+        <div className="w-full max-w-5xl">
+          <div className="relative w-full h-80 rounded-xl overflow-hidden shadow-lg">
+            <HeroCarousel />
+          </div>
+        </div>
+      </section>
+
 
       {/* BLOQUES */}
       <section className="py-20 grid grid-cols-1 md:grid-cols-3 gap-6 px-6 max-w-6xl mx-auto">
