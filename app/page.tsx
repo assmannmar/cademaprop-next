@@ -36,7 +36,7 @@ export default function HomePage() {
       
 
       {/* CONTENIDO RESTANTE */}
-      <section className="flex flex-col items-center text-center py-16 px-6">
+      <section className="flex flex-col items-center text-center py-16 px-6 -mt-[450px] pt-[450px]">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 max-w-2xl">
           Texto H1
         </h1>
