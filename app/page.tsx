@@ -9,7 +9,7 @@ export default function HomePage() {
       <section className="relative w-full h-[450px] z-0">
         <HeroCarousel />
         {/* HEADER FLOTANDO ENCIMA DEL CARRUSEL */}
-        <header className="absolute top-0 left-0 w-full h-full flex items-center mt-20 justify-center z-20">
+        <header className="absolute top-0 left-0 w-full h-full flex items-center mt-30 justify-center z-20">
           <div className="grid grid-cols-2 gap-4 px-4">
             <a href="/propiedades" className="px-4 py-2 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-base font-semibold">Comprar</a>
 
