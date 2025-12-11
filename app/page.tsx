@@ -27,6 +27,9 @@ export default function HomePage() {
             Industrial
           </a>
         </div>
+        <div className="relative w-full h-[450px] overflow-hidden z-0">
+          <HeroCarousel />
+        </div>
       </header>
 
       {/* CARRUSEL PRINCIPAL (ESTILO REMAX) */}
