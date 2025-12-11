@@ -5,10 +5,10 @@ import { useState, useEffect } from "react";
 export default function HeroCarousel() {
   // 🔥 ACA DEFINIMOS LAS IMÁGENES
   const images = [
-    "/carousel/1.webp",
-    "/carousel/2.webp",
-    "/carousel/3.webp",
-    "/carousel/4.webp"
+    "/carousel/1.jpg",
+    "/carousel/2.jpg",
+    "/carousel/3.jpg",
+    "/carousel/4.jpg"
   ];
 
   const [index, setIndex] = useState(0);
