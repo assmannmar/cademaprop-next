@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col -mt-[70px]">
 
       {/* CARRUSEL DE FONDO */}
       <section className="relative w-full h-[450px] z-0">
