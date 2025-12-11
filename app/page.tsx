@@ -5,8 +5,8 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
 
-      {/* HEADER CON BOTONES */}
-      <header className="w-full bg-white py-6 shadow-md flex justify-center">
+      {/* HEADER SOBRE EL CARRUSEL */}
+      <header className="w-full py-6 absolute top-0 left-0 z-20 flex justify-center">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <a href="/propiedades" className="px-6 py-3 bg-white shadow-md rounded-lg border hover:shadow-lg transition text-center text-lg font-semibold">
             Comprar
@@ -27,17 +27,14 @@ export default function HomePage() {
             Industrial
           </a>
         </div>
-        <div className="relative w-full h-[450px] overflow-hidden z-0">
-          <HeroCarousel />
-        </div>
       </header>
 
-      {/* CARRUSEL PRINCIPAL (ESTILO REMAX) */}
+      {/* CARRUSEL — AHORA ATRÁS */}
       <section className="relative w-full h-[450px] overflow-hidden z-0">
         <HeroCarousel />
       </section>
 
-      {/* TEXTO CENTRAL */}
+      {/* SECCIONES RESTANTES */}
       <section className="flex flex-col items-center text-center py-16 px-6">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 max-w-2xl">
           Texto H1
@@ -48,7 +45,6 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* BLOQUES / FEATURES */}
       <section className="py-20 grid grid-cols-1 md:grid-cols-3 gap-6 px-6 max-w-6xl mx-auto">
         <div className="bg-white shadow-md p-8 rounded-xl text-center">
           <h3 className="text-xl font-semibold">Filtros avanzados</h3>
