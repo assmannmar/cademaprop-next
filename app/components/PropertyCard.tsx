@@ -105,6 +105,7 @@ export default function PropertyCard(property: PropertyCardProps) {
       'commercial': 'Comercial',
       'office': 'Oficina',
       'building': 'Edificio',
+      'industrial ship': 'Nave Industrial',
     };
     return translations[type] || type;
   };
