@@ -493,25 +493,35 @@ export default function PropertyDetailPage() {
               {/* Formulario de Contacto */}
               <div className="mb-6">
                 <h3 className="text-xl font-bold mb-4">Contactar</h3>
-                <iframe
-                    src="https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz"
-                    style="display:none;width:100%;height:100%;border:none;border-radius:3px"
-                    id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz" 
-                    data-layout="{'id':'POLITE_SLIDE_IN','minimizedTitle':'','isLeftAligned':false,'isRightAligned':true,'allowMinimize':false}"
-                    data-trigger-type="alwaysShow"
-                    data-trigger-value=""
-                    data-activation-type="alwaysActivated"
-                    data-activation-value=""
-                    data-deactivation-type="neverDeactivate"
-                    data-deactivation-value=""
-                    data-form-name="Form Web Inmueble"
-                    data-height="531"
-                    data-layout-iframe-id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz"
-                    data-form-id="OWI77RP94NZkMNa4BIaz"
-                    title="Form Web Inmueble"
-                ></iframe>
-                <script src="https://link.ventux.io/js/form_embed.js"></script>
-
+                <form className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Teléfono"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                  />
+                  <textarea
+                    placeholder="Mensaje"
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                    defaultValue={`Hola, estoy interesado en la propiedad #${property.id}`}
+                  />
+                  <button
+                    type="submit"
+                    className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-md transition"
+                  >
+                    Enviar Consulta
+                  </button>
+                </form>
               </div>
 
               {/* Info Sucursal */}
