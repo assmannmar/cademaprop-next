@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import HeroCarousel from "./components/HeroCarousel";
-import VentuxForm from "./components/VentuxForm";
+import VentuxForm from "@/app/components/VentuxForm";
 import Link from "next/link";
 
 interface Property {

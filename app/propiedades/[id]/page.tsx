@@ -3,10 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import PropertyGallery from '@/app/components/PropertyGallery';
-import PropertyHeader from '@/app/components/PropertyHeader';
-import PropertyInfo from '@/app/components/PropertyInfo';
-import VentuxForm from '@/app/components/VentuxForm';
 
 interface Property {
   id: number;
@@ -78,7 +74,7 @@ export default function PropertyDetailPage() {
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
     if (id) {
@@ -130,19 +126,39 @@ export default function PropertyDetailPage() {
       'Office': 'Oficina',
       'Building': 'Edificio',
       'PH': 'PH',
-      'Warehouse': 'Depósito',
-      'Country house': 'Quinta',
-      'Farm': 'Campo',
     };
     return translations[type] || type;
+  };
+
+  const translateOrientation = (orientation: string) => {
+    const translations: Record<string, string> = {
+      'North': 'Norte',
+      'South': 'Sur',
+      'East': 'Este',
+      'West': 'Oeste',
+      'Northeast': 'Noreste',
+      'Northwest': 'Noroeste',
+      'Southeast': 'Sudeste',
+      'Southwest': 'Sudoeste',
+    };
+    return translations[orientation] || orientation;
+  };
+
+  const translateCreditEligible = (credit: string) => {
+    const translations: Record<string, string> = {
+      'Yes': 'Sí',
+      'No': 'No',
+      'Not specified': 'No especificado',
+    };
+    return translations[credit] || credit;
   };
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center -mt-[70px] pt-[70px]">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-red-600"></div>
-          <p className="mt-6 text-xl text-gray-600">Cargando propiedad...</p>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+          <p className="mt-4 text-lg text-gray-600">Cargando propiedad...</p>
         </div>
       </div>
     );
@@ -152,12 +168,9 @@ export default function PropertyDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4 -mt-[70px] pt-[70px]">
         <div className="text-center">
-          <svg className="w-24 h-24 mx-auto text-gray-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
           <h1 className="text-4xl font-bold text-gray-800 mb-4">Propiedad no encontrada</h1>
           <p className="text-gray-600 mb-6">{error}</p>
-          <Link href="/propiedades" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition shadow-lg">
+          <Link href="/propiedades" className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition">
             Volver a Propiedades
           </Link>
         </div>
@@ -171,15 +184,19 @@ export default function PropertyDetailPage() {
   const currency = webPrice?.currency || mainOperation?.prices?.[0]?.currency || 'USD';
   const operationType = translateOperationType(mainOperation?.operation_type || '');
   
+  // Tipo de propiedad (priorizar development.type si existe)
   const propertyType = translatePropertyType(
     property.development?.type?.name || property.type?.name || 'Propiedad'
   );
   
   const displayAddress = property.fake_address || property.address || 'Consultar ubicación';
+  const totalRooms = (property.room_amount || 0) + (property.suite_amount || 0);
 
+  // Filtrar fotos (excluir blueprints)
   const photos = property.photos?.filter(p => !p.is_blueprint) || [];
   const blueprints = property.photos?.filter(p => p.is_blueprint) || [];
 
+  // Descripción con formato
   const description = property.rich_description || property.description || '';
 
   return (
@@ -187,86 +204,224 @@ export default function PropertyDetailPage() {
       <div className="container mx-auto px-4 py-8">
         
         {/* Breadcrumb */}
-        <nav className="mb-6 text-sm text-gray-600" aria-label="Breadcrumb">
-          <Link href="/" className="hover:text-red-600 transition">Inicio</Link>
+        <div className="mb-6 text-sm text-gray-600">
+          <Link href="/" className="hover:text-red-600">Inicio</Link>
           {' > '}
-          <Link href="/propiedades" className="hover:text-red-600 transition">Propiedades</Link>
+          <Link href="/propiedades" className="hover:text-red-600">Propiedades</Link>
           {' > '}
-          <span className="text-gray-800 font-semibold">#{property.id}</span>
-        </nav>
+          <span className="text-gray-800 font-semibold">Propiedad #{property.id}</span>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* COLUMNA IZQUIERDA - Galería e Info */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2">
             
-            {/* Galería */}
-            <PropertyGallery photos={photos} propertyTitle={property.publication_title || propertyType} />
+            {/* Galería de Imágenes */}
+            {photos.length > 0 && (
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
+                {/* Imagen Principal */}
+                <div className="relative w-full h-96 bg-gray-200">
+                  <img
+                    src={photos[selectedImage]?.image}
+                    alt={property.publication_title}
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  {/* Botones de navegación */}
+                  {photos.length > 1 && (
+                    <>
+                      <button
+                        onClick={() => setSelectedImage(prev => prev === 0 ? photos.length - 1 : prev - 1)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition"
+                      >
+                        ←
+                      </button>
+                      <button
+                        onClick={() => setSelectedImage(prev => prev === photos.length - 1 ? 0 : prev + 1)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition"
+                      >
+                        →
+                      </button>
+                    </>
+                  )}
 
-            {/* Header */}
-            <PropertyHeader
-              id={property.id}
-              publication_title={property.publication_title}
-              propertyType={propertyType}
-              operationType={operationType}
-              displayAddress={displayAddress}
-              locationName={property.location?.name}
-              fullLocation={property.location?.full_location}
-              price={price}
-              currency={currency}
-              tags={property.tags}
-              custom_tags={property.custom_tags}
-            />
-
-            {/* Información y Características */}
-            <PropertyInfo
-              suite_amount={property.suite_amount}
-              room_amount={property.room_amount}
-              bathroom_amount={property.bathroom_amount}
-              toilet_amount={property.toilet_amount}
-              parking_lot_amount={property.parking_lot_amount}
-              surface={property.surface}
-              roofed_surface={property.roofed_surface}
-              total_surface={property.total_surface}
-              front_measure={property.front_measure}
-              depth_measure={property.depth_measure}
-              age={property.age}
-              orientation={property.orientation}
-              disposition={property.disposition}
-              credit_eligible={property.credit_eligible}
-              expenses={property.expenses}
-            />
-
-            {/* Descripción */}
-            {description && (
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold mb-4 text-gray-900">Descripción</h2>
-                <div 
-                  className="text-gray-700 leading-relaxed prose prose-sm max-w-none"
-                  dangerouslySetInnerHTML={{ __html: description }}
-                />
-              </div>
-            )}
-
-            {/* Amenities */}
-            {property.tags && property.tags.length > 0 && (
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold mb-4 text-gray-900">Amenities</h2>
-                <div className="flex flex-wrap gap-3">
-                  {property.tags.map((tag, idx) => (
-                    <span key={idx} className="px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-medium">
-                      ✓ {tag.name}
-                    </span>
-                  ))}
+                  {/* Contador */}
+                  <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-md text-sm">
+                    {selectedImage + 1} / {photos.length}
+                  </div>
                 </div>
+
+                {/* Miniaturas */}
+                {photos.length > 1 && (
+                  <div className="flex gap-2 p-4 overflow-x-auto">
+                    {photos.map((photo, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setSelectedImage(idx)}
+                        className={`flex-shrink-0 w-20 h-20 rounded-md overflow-hidden border-2 transition ${
+                          selectedImage === idx ? 'border-red-600' : 'border-gray-300'
+                        }`}
+                      >
+                        <img src={photo.image} alt="" className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
+
+            {/* Información Principal */}
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+              {/* Código de propiedad */}
+              <div className="mb-2">
+                <span className="text-xs text-gray-500">Código: #{property.id}</span>
+              </div>
+
+              <div className="mb-4">
+                <span className="text-sm font-semibold text-red-600 uppercase">
+                  {propertyType} en {operationType}
+                </span>
+              </div>
+
+              {/* Titular de Tokko */}
+              <h1 className="text-3xl font-bold mb-2">
+                {property.publication_title || `${propertyType} en ${property.location?.name}`}
+              </h1>
+
+              {/* Descripción automática */}
+              <p className="text-lg text-gray-600 mb-4">
+                {propertyType} en {operationType} en {property.location?.name}
+              </p>
+
+              {/* Dirección ficticia */}
+              <p className="text-lg text-gray-600 mb-2 flex items-center gap-2">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                </svg>
+                {displayAddress}
+              </p>
+
+              {/* Ubicación completa */}
+              {property.location?.full_location && (
+                <p className="text-sm text-gray-500 mb-6">
+                  📍 {property.location.full_location}
+                </p>
+              )}
+
+              {/* Características Principales */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+                {totalRooms > 0 && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{totalRooms}</p>
+                    <p className="text-sm text-gray-600">Ambientes</p>
+                  </div>
+                )}
+                {property.bathroom_amount && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.bathroom_amount}</p>
+                    <p className="text-sm text-gray-600">Baños</p>
+                  </div>
+                )}
+                {property.parking_lot_amount && property.parking_lot_amount > 0 && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.parking_lot_amount}</p>
+                    <p className="text-sm text-gray-600">Cocheras</p>
+                  </div>
+                )}
+                {property.surface && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.surface}m²</p>
+                    <p className="text-sm text-gray-600">Sup. Terreno</p>
+                  </div>
+                )}
+                {property.roofed_surface && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.roofed_surface}m²</p>
+                    <p className="text-sm text-gray-600">Sup. Cubierta</p>
+                  </div>
+                )}
+                {property.front_measure && parseFloat(property.front_measure) > 0 && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.front_measure}m</p>
+                    <p className="text-sm text-gray-600">Frente</p>
+                  </div>
+                )}
+                {property.depth_measure && parseFloat(property.depth_measure) > 0 && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.depth_measure}m</p>
+                    <p className="text-sm text-gray-600">Fondo</p>
+                  </div>
+                )}
+                {property.age !== undefined && property.age !== null && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.age}</p>
+                    <p className="text-sm text-gray-600">Años</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Detalles adicionales */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-sm">
+                {property.orientation && (
+                  <div className="flex justify-between border-b border-gray-200 py-2">
+                    <span className="font-semibold text-gray-700">Orientación:</span>
+                    <span className="text-gray-600">{translateOrientation(property.orientation)}</span>
+                  </div>
+                )}
+                {property.disposition && (
+                  <div className="flex justify-between border-b border-gray-200 py-2">
+                    <span className="font-semibold text-gray-700">Disposición:</span>
+                    <span className="text-gray-600">{property.disposition}</span>
+                  </div>
+                )}
+                {property.credit_eligible && (
+                  <div className="flex justify-between border-b border-gray-200 py-2">
+                    <span className="font-semibold text-gray-700">Apto Crédito:</span>
+                    <span className={`font-semibold ${property.credit_eligible === 'Yes' ? 'text-green-600' : 'text-gray-600'}`}>
+                      {translateCreditEligible(property.credit_eligible)}
+                    </span>
+                  </div>
+                )}
+                {property.expenses && property.expenses > 0 && (
+                  <div className="flex justify-between border-b border-gray-200 py-2">
+                    <span className="font-semibold text-gray-700">Expensas:</span>
+                    <span className="text-gray-600">${property.expenses.toLocaleString('es-AR')}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Descripción */}
+              {description && (
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold mb-3">Descripción</h2>
+                  <div 
+                    className="text-gray-700 whitespace-pre-line prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  />
+                </div>
+              )}
+
+              {/* Amenities/Tags */}
+              {property.tags && property.tags.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-bold mb-3">Características</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {property.tags.map((tag, idx) => (
+                      <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Mapa */}
             {property.geo_lat && property.geo_long && (
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold mb-4 text-gray-900">Ubicación</h2>
-                <div className="w-full h-96 rounded-lg overflow-hidden shadow-md mb-4">
+              <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h2 className="text-2xl font-bold mb-4">Ubicación</h2>
+                <div className="w-full h-96 bg-gray-200 rounded-lg overflow-hidden">
                   <iframe
                     width="100%"
                     height="100%"
@@ -276,26 +431,23 @@ export default function PropertyDetailPage() {
                     allowFullScreen
                   />
                 </div>
-                <p className="text-sm text-gray-500 flex items-center gap-2">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  {displayAddress}, {property.location?.name}
+                <p className="text-xs text-gray-500 mt-2">
+                  Coordenadas: {property.geo_lat}, {property.geo_long}
                 </p>
               </div>
             )}
 
             {/* Planos */}
             {blueprints.length > 0 && (
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold mb-4 text-gray-900">Planos</h2>
+              <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h2 className="text-2xl font-bold mb-4">Planos</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {blueprints.map((blueprint, idx) => (
                     <img
                       key={idx}
                       src={blueprint.image}
                       alt={`Plano ${idx + 1}`}
-                      className="w-full rounded-lg border-2 border-gray-200 hover:border-red-600 transition cursor-pointer"
+                      className="w-full rounded-lg border border-gray-200"
                     />
                   ))}
                 </div>
@@ -305,141 +457,95 @@ export default function PropertyDetailPage() {
             {/* Videos */}
             {property.videos && property.videos.length > 0 && (
               <div className="bg-white rounded-lg shadow-lg p-6">
-                <h2 className="text-2xl font-bold mb-4 text-gray-900">Videos</h2>
-                <div className="space-y-4">
-                  {property.videos.map((video, idx) => (
-                    <div key={idx}>
-                      <iframe
-                        src={video.player_url}
-                        className="w-full h-64 md:h-96 rounded-lg shadow-md"
-                        allowFullScreen
-                        title={video.title || `Video ${idx + 1}`}
-                      />
-                    </div>
-                  ))}
-                </div>
+                <h2 className="text-2xl font-bold mb-4">Videos</h2>
+                {property.videos.map((video, idx) => (
+                  <div key={idx} className="mb-4">
+                    <iframe
+                      src={video.player_url}
+                      className="w-full h-64 rounded-lg"
+                      allowFullScreen
+                      title={video.title || `Video ${idx + 1}`}
+                    />
+                  </div>
+                ))}
               </div>
             )}
           </div>
 
-          {/* COLUMNA DERECHA - Contacto Sticky */}
+          {/* COLUMNA DERECHA - Precio y Contacto */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 space-y-6">
+            <div className="bg-white rounded-lg shadow-lg p-6 sticky top-24">
               
-              {/* Card de Contacto Principal */}
-              <div className="bg-white rounded-lg shadow-xl p-6">
-                
-                {/* Precio */}
-                <div className="mb-6 pb-6 border-b border-gray-200">
-                  {price && price > 0 ? (
-                    <>
-                      <p className="text-sm text-gray-600 mb-1">Precio</p>
-                      <p className="text-4xl font-bold text-red-600">
-                        {currency} ${price.toLocaleString('es-AR')}
-                      </p>
-                    </>
-                  ) : (
-                    <p className="text-2xl font-bold text-gray-600">Consultar precio</p>
-                  )}
-                </div>
+              {/* Precio */}
+              <div className="mb-6 pb-6 border-b border-gray-200">
+                {price && price > 0 ? (
+                  <>
+                    <p className="text-sm text-gray-600 mb-1">Precio</p>
+                    <p className="text-4xl font-bold text-red-600">
+                      {currency} ${price.toLocaleString('es-AR')}
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-2xl font-bold text-gray-600">Consultar precio</p>
+                )}
+              </div>
 
-                {/* Botón Sticky CTA */}
-                <button
-                  onClick={() => setShowScheduleModal(true)}
-                  className="w-full mb-4 px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  Agendar Visita
-                </button>
-
-                {/* Formulario Ventux */}
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold mb-4 text-gray-900">Contactar</h3>
-                  <VentuxForm />
-                </div>
-
-                {/* WhatsApp CTA */}
-                <a
-                  href={`https://wa.me/5491112345678?text=Hola, estoy interesado en la propiedad ${property.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full block px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition text-center flex items-center justify-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                  </svg>
-                  Consultar por WhatsApp
-                </a>
+              {/* Formulario de Contacto */}
+              <div className="mb-6">
+                <h3 className="text-xl font-bold mb-4">Contactar</h3>
+                <form className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Teléfono"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                  />
+                  <textarea
+                    placeholder="Mensaje"
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                    defaultValue={`Hola, estoy interesado en la propiedad #${property.id}`}
+                  />
+                  <button
+                    type="submit"
+                    className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-md transition"
+                  >
+                    Enviar Consulta
+                  </button>
+                </form>
               </div>
 
               {/* Info Sucursal */}
               {property.branch && (
-                <div className="bg-white rounded-lg shadow-lg p-6">
-                  <h3 className="font-bold text-lg mb-4 text-gray-900">{property.branch.name}</h3>
+                <div className="pt-6 border-t border-gray-200">
+                  <h3 className="font-bold mb-2">{property.branch.name}</h3>
                   {property.branch.phone && (
-                    <p className="text-sm text-gray-600 mb-2 flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                      </svg>
-                      {property.branch.phone_area ? `(${property.branch.phone_area}) ` : ''}{property.branch.phone}
+                    <p className="text-sm text-gray-600 mb-1">
+                      📞 {property.branch.phone_area ? `(${property.branch.phone_area}) ` : ''}{property.branch.phone}
                     </p>
                   )}
                   {property.branch.email && (
-                    <p className="text-sm text-gray-600 mb-2 flex items-center gap-2">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                      </svg>
-                      {property.branch.email}
-                    </p>
+                    <p className="text-sm text-gray-600 mb-1">📧 {property.branch.email}</p>
                   )}
                   {property.branch.address && (
-                    <p className="text-sm text-gray-600 flex items-start gap-2">
-                      <svg className="w-4 h-4 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                      </svg>
-                      {property.branch.address}
-                    </p>
+                    <p className="text-sm text-gray-600">📍 {property.branch.address}</p>
                   )}
                 </div>
               )}
-
-              {/* Compartir */}
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h3 className="font-bold text-lg mb-4 text-gray-900">Compartir</h3>
-                <div className="flex gap-3">
-                  <button className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
-                    Facebook
-                  </button>
-                  <button className="flex-1 px-4 py-2 bg-blue-400 hover:bg-blue-500 text-white rounded-lg transition">
-                    Twitter
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
 
         </div>
       </div>
-
-      {/* Modal Agendar Visita */}
-      {showScheduleModal && (
-        <div className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4" onClick={() => setShowScheduleModal(false)}>
-          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8" onClick={(e) => e.stopPropagation()}>
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold">Agendar Visita</h3>
-              <button onClick={() => setShowScheduleModal(false)} className="text-gray-500 hover:text-gray-700">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <VentuxForm />
-          </div>
-        </div>
-      )}
     </div>
   );
 }
