@@ -44,10 +44,9 @@ export default function QuienesSomosPage() {
   ];
 
   const equipo = [
-    { nombre: 'Juan Pérez', cargo: 'Director General', imagen: '/team/1.jpg' },
-    { nombre: 'María González', cargo: 'Gerente Comercial', imagen: '/team/2.jpg' },
-    { nombre: 'Carlos Rodríguez', cargo: 'Asesor Senior', imagen: '/team/3.jpg' },
-    { nombre: 'Ana Martínez', cargo: 'Asesora Comercial', imagen: '/team/4.jpg' }
+    { nombre: 'Juan Pérez', cargo: 'Director General', imagen: '/team/rolo.png' },
+    { nombre: 'María González', cargo: 'Director General', imagen: '/team/aldo.png' },
+    { nombre: 'Carlos Rodríguez', cargo: 'Director General', imagen: '/team/carlos.png' },
   ];
 
   return (
