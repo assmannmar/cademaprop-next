@@ -66,6 +66,48 @@ export default function PropertyCard(property: PropertyCardProps) {
   const price = mainOperation?.prices?.[0]?.price;
   const currency = mainOperation?.prices?.[0]?.currency || 'USD';
 
+  // Traducir tipo de operación
+  const translateOperationType = (type: string) => {
+    const translations: Record<string, string> = {
+      'Sale': 'Venta',
+      'Rental': 'Alquiler',
+      'Temporary Rental': 'Alquiler Temporal',
+      'sale': 'Venta',
+      'rental': 'Alquiler',
+      'temporary rental': 'Alquiler Temporal',
+    };
+    return translations[type] || type;
+  };
+
+  // Tipo de propiedad
+  const propertyType = propertyTypeObj?.name || 'Propiedad';
+
+  // Traducir tipo de propiedad
+  const translatePropertyType = (type: string) => {
+    const translations: Record<string, string> = {
+      'House': 'Casa',
+      'Apartment': 'Departamento',
+      'Land': 'Terreno',
+      'Commercial': 'Comercial',
+      'Office': 'Oficina',
+      'Building': 'Edificio',
+      'PH': 'PH',
+      'Warehouse': 'Depósito',
+      'Country house': 'Quinta',
+      'Farm': 'Campo',
+      'house': 'Casa',
+      'apartment': 'Departamento',
+      'land': 'Terreno',
+      'commercial': 'Comercial',
+      'office': 'Oficina',
+      'building': 'Edificio',
+    };
+    return translations[type] || type;
+  };
+
+  const operationTypeSpanish = translateOperationType(operationType);
+  const propertyTypeSpanish = translatePropertyType(propertyType);
+
   // Verificar si es apto crédito
   const isCreditEligible = 
     tags?.some(tag => tag.name.toLowerCase().includes('credit')) ||
@@ -81,9 +123,6 @@ export default function PropertyCard(property: PropertyCardProps) {
 
   // Total de dormitorios/ambientes
   const totalRooms = (room_amount || 0) + (suite_amount || 0);
-
-  // Tipo de propiedad
-  const propertyType = propertyTypeObj?.name || 'Propiedad';
 
   return (
     <Link href={`/propiedades/${id}`}>

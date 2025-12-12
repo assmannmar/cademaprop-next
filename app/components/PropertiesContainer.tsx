@@ -48,14 +48,14 @@ interface ApiResponse {
   };
 }
 
-type SortOption = 'surface' | 'roofed_surface' | 'price' | 'recent';
+type SortOption = 'recent_desc' | 'recent_asc' | 'price_desc' | 'price_asc' | 'surface_desc' | 'surface_asc' | 'roofed_desc' | 'roofed_asc';
 
 export default function PropertiesContainer() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [displayedProperties, setDisplayedProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<SortOption>('recent');
+  const [sortBy, setSortBy] = useState<SortOption>('recent_desc');
 
   useEffect(() => {
     fetchProperties();
@@ -181,18 +181,30 @@ export default function PropertiesContainer() {
   const sortProperties = (criteria: SortOption) => {
     const sorted = [...properties].sort((a, b) => {
       switch (criteria) {
-        case 'surface':
+        case 'surface_desc':
           return (b.total_surface || b.surface || 0) - (a.total_surface || a.surface || 0);
-        case 'roofed_surface':
+        case 'surface_asc':
+          return (a.total_surface || a.surface || 0) - (b.total_surface || b.surface || 0);
+        case 'roofed_desc':
           return (b.roofed_surface || 0) - (a.roofed_surface || 0);
-        case 'price':
-          const priceA = a.operations?.[0]?.prices?.[0]?.price || 0;
-          const priceB = b.operations?.[0]?.prices?.[0]?.price || 0;
-          return priceB - priceA;
-        case 'recent':
-          const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
-          const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
-          return dateB - dateA;
+        case 'roofed_asc':
+          return (a.roofed_surface || 0) - (b.roofed_surface || 0);
+        case 'price_desc':
+          const priceA_desc = a.operations?.[0]?.prices?.[0]?.price || 0;
+          const priceB_desc = b.operations?.[0]?.prices?.[0]?.price || 0;
+          return priceB_desc - priceA_desc;
+        case 'price_asc':
+          const priceA_asc = a.operations?.[0]?.prices?.[0]?.price || 0;
+          const priceB_asc = b.operations?.[0]?.prices?.[0]?.price || 0;
+          return priceA_asc - priceB_asc;
+        case 'recent_desc':
+          const dateA_desc = a.created_at ? new Date(a.created_at).getTime() : 0;
+          const dateB_desc = b.created_at ? new Date(b.created_at).getTime() : 0;
+          return dateB_desc - dateA_desc;
+        case 'recent_asc':
+          const dateA_asc = a.created_at ? new Date(a.created_at).getTime() : 0;
+          const dateB_asc = b.created_at ? new Date(b.created_at).getTime() : 0;
+          return dateA_asc - dateB_asc;
         default:
           return 0;
       }
@@ -234,10 +246,14 @@ export default function PropertiesContainer() {
               onChange={handleSortChange}
               className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
             >
-              <option value="recent">Más recientes</option>
-              <option value="price">Precio (mayor a menor)</option>
-              <option value="surface">Superficie terreno (mayor a menor)</option>
-              <option value="roofed_surface">Superficie cubierta (mayor a menor)</option>
+              <option value="recent_desc">Más recientes primero</option>
+              <option value="recent_asc">Más antiguos primero</option>
+              <option value="price_desc">Precio: mayor a menor</option>
+              <option value="price_asc">Precio: menor a mayor</option>
+              <option value="surface_desc">Sup. terreno: mayor a menor</option>
+              <option value="surface_asc">Sup. terreno: menor a mayor</option>
+              <option value="roofed_desc">Sup. cubierta: mayor a menor</option>
+              <option value="roofed_asc">Sup. cubierta: menor a mayor</option>
             </select>
           </div>
         </div>
