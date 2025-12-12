@@ -10,19 +10,26 @@ interface Property {
   address?: string;
   fake_address?: string;
   description?: string;
+  rich_description?: string;
   location?: {
     name: string;
     short_location?: string;
     full_location?: string;
   };
+  geo_lat?: string;
+  geo_long?: string;
   operations?: Array<{
     operation_type: string;
     prices?: Array<{
       price: number;
       currency: string;
+      web_price?: boolean;
     }>;
   }>;
   type?: { name: string };
+  development?: {
+    type?: { name: string };
+  };
   suite_amount?: number;
   room_amount?: number;
   bathroom_amount?: number;
@@ -31,12 +38,19 @@ interface Property {
   surface?: number;
   roofed_surface?: number;
   total_surface?: number;
+  front_measure?: string;
+  depth_measure?: string;
   age?: number;
+  orientation?: string;
+  disposition?: string;
+  credit_eligible?: string;
+  expenses?: number;
   photos?: Array<{
     image: string;
     original?: string;
     description?: string;
     is_blueprint?: boolean;
+    is_front_cover?: boolean;
   }>;
   videos?: Array<{
     player_url: string;
@@ -47,6 +61,7 @@ interface Property {
   branch?: {
     name: string;
     phone?: string;
+    phone_area?: string;
     email?: string;
     address?: string;
   };
@@ -115,9 +130,32 @@ export default function PropertyDetailPage() {
     return translations[type] || type;
   };
 
+  const translateOrientation = (orientation: string) => {
+    const translations: Record<string, string> = {
+      'North': 'Norte',
+      'South': 'Sur',
+      'East': 'Este',
+      'West': 'Oeste',
+      'Northeast': 'Noreste',
+      'Northwest': 'Noroeste',
+      'Southeast': 'Sudeste',
+      'Southwest': 'Sudoeste',
+    };
+    return translations[orientation] || orientation;
+  };
+
+  const translateCreditEligible = (credit: string) => {
+    const translations: Record<string, string> = {
+      'Yes': 'Sí',
+      'No': 'No',
+      'Not specified': 'No especificado',
+    };
+    return translations[credit] || credit;
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center -mt-[70px] pt-[70px]">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
           <p className="mt-4 text-lg text-gray-600">Cargando propiedad...</p>
@@ -128,7 +166,7 @@ export default function PropertyDetailPage() {
 
   if (error || !property) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="min-h-screen flex items-center justify-center px-4 -mt-[70px] pt-[70px]">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">Propiedad no encontrada</h1>
           <p className="text-gray-600 mb-6">{error}</p>
@@ -141,10 +179,16 @@ export default function PropertyDetailPage() {
   }
 
   const mainOperation = property.operations?.[0];
-  const price = mainOperation?.prices?.[0]?.price;
-  const currency = mainOperation?.prices?.[0]?.currency || 'USD';
+  const webPrice = mainOperation?.prices?.find(p => p.web_price);
+  const price = webPrice?.price || mainOperation?.prices?.[0]?.price;
+  const currency = webPrice?.currency || mainOperation?.prices?.[0]?.currency || 'USD';
   const operationType = translateOperationType(mainOperation?.operation_type || '');
-  const propertyType = translatePropertyType(property.type?.name || '');
+  
+  // Tipo de propiedad (priorizar development.type si existe)
+  const propertyType = translatePropertyType(
+    property.development?.type?.name || property.type?.name || 'Propiedad'
+  );
+  
   const displayAddress = property.fake_address || property.address || 'Consultar ubicación';
   const totalRooms = (property.room_amount || 0) + (property.suite_amount || 0);
 
@@ -152,8 +196,11 @@ export default function PropertyDetailPage() {
   const photos = property.photos?.filter(p => !p.is_blueprint) || [];
   const blueprints = property.photos?.filter(p => p.is_blueprint) || [];
 
+  // Descripción con formato
+  const description = property.rich_description || property.description || '';
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 -mt-[70px] pt-[70px]">
       <div className="container mx-auto px-4 py-8">
         
         {/* Breadcrumb */}
@@ -162,7 +209,7 @@ export default function PropertyDetailPage() {
           {' > '}
           <Link href="/propiedades" className="hover:text-red-600">Propiedades</Link>
           {' > '}
-          <span className="text-gray-800 font-semibold">{property.publication_title}</span>
+          <span className="text-gray-800 font-semibold">Propiedad #{property.id}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -186,13 +233,13 @@ export default function PropertyDetailPage() {
                     <>
                       <button
                         onClick={() => setSelectedImage(prev => prev === 0 ? photos.length - 1 : prev - 1)}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition"
                       >
                         ←
                       </button>
                       <button
                         onClick={() => setSelectedImage(prev => prev === photos.length - 1 ? 0 : prev + 1)}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition"
                       >
                         →
                       </button>
@@ -208,7 +255,7 @@ export default function PropertyDetailPage() {
                 {/* Miniaturas */}
                 {photos.length > 1 && (
                   <div className="flex gap-2 p-4 overflow-x-auto">
-                    {photos.slice(0, 10).map((photo, idx) => (
+                    {photos.map((photo, idx) => (
                       <button
                         key={idx}
                         onClick={() => setSelectedImage(idx)}
@@ -226,29 +273,48 @@ export default function PropertyDetailPage() {
 
             {/* Información Principal */}
             <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+              {/* Código de propiedad */}
+              <div className="mb-2">
+                <span className="text-xs text-gray-500">Código: #{property.id}</span>
+              </div>
+
               <div className="mb-4">
                 <span className="text-sm font-semibold text-red-600 uppercase">
                   {propertyType} en {operationType}
                 </span>
               </div>
 
-              <h1 className="text-3xl font-bold mb-4">
+              {/* Titular de Tokko */}
+              <h1 className="text-3xl font-bold mb-2">
                 {property.publication_title || `${propertyType} en ${property.location?.name}`}
               </h1>
 
-              <p className="text-lg text-gray-600 mb-6 flex items-center gap-2">
+              {/* Descripción automática */}
+              <p className="text-lg text-gray-600 mb-4">
+                {propertyType} en {operationType} en {property.location?.name}
+              </p>
+
+              {/* Dirección ficticia */}
+              <p className="text-lg text-gray-600 mb-2 flex items-center gap-2">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                 </svg>
-                {displayAddress}, {property.location?.name}
+                {displayAddress}
               </p>
+
+              {/* Ubicación completa */}
+              {property.location?.full_location && (
+                <p className="text-sm text-gray-500 mb-6">
+                  📍 {property.location.full_location}
+                </p>
+              )}
 
               {/* Características Principales */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
                 {totalRooms > 0 && (
                   <div className="text-center">
                     <p className="text-2xl font-bold text-red-600">{totalRooms}</p>
-                    <p className="text-sm text-gray-600">Dormitorios</p>
+                    <p className="text-sm text-gray-600">Ambientes</p>
                   </div>
                 )}
                 {property.bathroom_amount && (
@@ -263,25 +329,76 @@ export default function PropertyDetailPage() {
                     <p className="text-sm text-gray-600">Cocheras</p>
                   </div>
                 )}
-                {(property.total_surface || property.surface) && (
+                {property.surface && (
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-red-600">{property.total_surface || property.surface}m²</p>
-                    <p className="text-sm text-gray-600">Terreno</p>
+                    <p className="text-2xl font-bold text-red-600">{property.surface}m²</p>
+                    <p className="text-sm text-gray-600">Sup. Terreno</p>
                   </div>
                 )}
                 {property.roofed_surface && (
                   <div className="text-center">
                     <p className="text-2xl font-bold text-red-600">{property.roofed_surface}m²</p>
-                    <p className="text-sm text-gray-600">Cubierta</p>
+                    <p className="text-sm text-gray-600">Sup. Cubierta</p>
+                  </div>
+                )}
+                {property.front_measure && parseFloat(property.front_measure) > 0 && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.front_measure}m</p>
+                    <p className="text-sm text-gray-600">Frente</p>
+                  </div>
+                )}
+                {property.depth_measure && parseFloat(property.depth_measure) > 0 && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.depth_measure}m</p>
+                    <p className="text-sm text-gray-600">Fondo</p>
+                  </div>
+                )}
+                {property.age !== undefined && property.age !== null && (
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-red-600">{property.age}</p>
+                    <p className="text-sm text-gray-600">Años</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Detalles adicionales */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-sm">
+                {property.orientation && (
+                  <div className="flex justify-between border-b border-gray-200 py-2">
+                    <span className="font-semibold text-gray-700">Orientación:</span>
+                    <span className="text-gray-600">{translateOrientation(property.orientation)}</span>
+                  </div>
+                )}
+                {property.disposition && (
+                  <div className="flex justify-between border-b border-gray-200 py-2">
+                    <span className="font-semibold text-gray-700">Disposición:</span>
+                    <span className="text-gray-600">{property.disposition}</span>
+                  </div>
+                )}
+                {property.credit_eligible && (
+                  <div className="flex justify-between border-b border-gray-200 py-2">
+                    <span className="font-semibold text-gray-700">Apto Crédito:</span>
+                    <span className={`font-semibold ${property.credit_eligible === 'Yes' ? 'text-green-600' : 'text-gray-600'}`}>
+                      {translateCreditEligible(property.credit_eligible)}
+                    </span>
+                  </div>
+                )}
+                {property.expenses && property.expenses > 0 && (
+                  <div className="flex justify-between border-b border-gray-200 py-2">
+                    <span className="font-semibold text-gray-700">Expensas:</span>
+                    <span className="text-gray-600">${property.expenses.toLocaleString('es-AR')}</span>
                   </div>
                 )}
               </div>
 
               {/* Descripción */}
-              {property.description && (
+              {description && (
                 <div className="mb-6">
                   <h2 className="text-2xl font-bold mb-3">Descripción</h2>
-                  <p className="text-gray-700 whitespace-pre-line">{property.description}</p>
+                  <div 
+                    className="text-gray-700 whitespace-pre-line prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: description }}
+                  />
                 </div>
               )}
 
@@ -299,6 +416,26 @@ export default function PropertyDetailPage() {
                 </div>
               )}
             </div>
+
+            {/* Mapa */}
+            {property.geo_lat && property.geo_long && (
+              <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <h2 className="text-2xl font-bold mb-4">Ubicación</h2>
+                <div className="w-full h-96 bg-gray-200 rounded-lg overflow-hidden">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    frameBorder="0"
+                    style={{ border: 0 }}
+                    src={`https://www.google.com/maps?q=${property.geo_lat},${property.geo_long}&z=15&output=embed`}
+                    allowFullScreen
+                  />
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Coordenadas: {property.geo_lat}, {property.geo_long}
+                </p>
+              </div>
+            )}
 
             {/* Planos */}
             {blueprints.length > 0 && (
@@ -376,7 +513,7 @@ export default function PropertyDetailPage() {
                     placeholder="Mensaje"
                     rows={4}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
-                    defaultValue={`Hola, estoy interesado en ${property.publication_title}`}
+                    defaultValue={`Hola, estoy interesado en la propiedad #${property.id}`}
                   />
                   <button
                     type="submit"
@@ -392,10 +529,15 @@ export default function PropertyDetailPage() {
                 <div className="pt-6 border-t border-gray-200">
                   <h3 className="font-bold mb-2">{property.branch.name}</h3>
                   {property.branch.phone && (
-                    <p className="text-sm text-gray-600 mb-1">📞 {property.branch.phone}</p>
+                    <p className="text-sm text-gray-600 mb-1">
+                      📞 {property.branch.phone_area ? `(${property.branch.phone_area}) ` : ''}{property.branch.phone}
+                    </p>
                   )}
                   {property.branch.email && (
-                    <p className="text-sm text-gray-600">📧 {property.branch.email}</p>
+                    <p className="text-sm text-gray-600 mb-1">📧 {property.branch.email}</p>
+                  )}
+                  {property.branch.address && (
+                    <p className="text-sm text-gray-600">📍 {property.branch.address}</p>
                   )}
                 </div>
               )}
