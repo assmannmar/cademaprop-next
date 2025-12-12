@@ -57,9 +57,16 @@ export default function PropertyCard(property: PropertyCardProps) {
     custom_tags,
   } = property;
 
-  // Obtener imagen de portada
-  const coverImage = photos?.find(p => p.is_front_cover)?.image || photos?.[0]?.image;
-  
+  // Dirección a mostrar (ficticia tiene prioridad)
+  const displayAddress = fake_address || address || 'Consultar ubicación';
+  const locationName = location?.name || '';
+
+  // Total de dormitorios/ambientes
+  const totalRooms = (room_amount || 0) + (suite_amount || 0);
+
+  // Tipo de propiedad
+  const propertyType = propertyTypeObj?.name || 'Propiedad';
+
   // Obtener operación y precio
   const mainOperation = operations?.[0];
   const operationType = mainOperation?.operation_type || '';
@@ -78,9 +85,6 @@ export default function PropertyCard(property: PropertyCardProps) {
     };
     return translations[type] || type;
   };
-
-  // Tipo de propiedad
-  const propertyType = propertyTypeObj?.name || 'Propiedad';
 
   // Traducir tipo de propiedad
   const translatePropertyType = (type: string) => {
@@ -108,6 +112,9 @@ export default function PropertyCard(property: PropertyCardProps) {
   const operationTypeSpanish = translateOperationType(operationType);
   const propertyTypeSpanish = translatePropertyType(propertyType);
 
+  // Obtener imagen de portada
+  const coverImage = photos?.find(p => p.is_front_cover)?.image || photos?.[0]?.image;
+
   // Verificar si es apto crédito
   const isCreditEligible = 
     tags?.some(tag => tag.name.toLowerCase().includes('credit')) ||
@@ -117,19 +124,12 @@ export default function PropertyCard(property: PropertyCardProps) {
   const photoCount = photos?.length || 0;
   const videoCount = videos?.length || 0;
 
-  // Dirección a mostrar (ficticia tiene prioridad)
-  const displayAddress = fake_address || address || 'Consultar ubicación';
-  const locationName = location?.name || '';
-
-  // Total de dormitorios/ambientes
-  const totalRooms = (room_amount || 0) + (suite_amount || 0);
-
   return (
     <Link href={`/propiedades/${id}`}>
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-[1.02] transform cursor-pointer">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-[1.02] transform cursor-pointer h-full flex flex-col">
         
         {/* IMAGEN DE PORTADA */}
-        <div className="relative w-full h-48 bg-gray-200 dark:bg-gray-700">
+        <div className="relative w-full h-48 bg-gray-200 dark:bg-gray-700 flex-shrink-0">
           {coverImage ? (
             <img
               src={coverImage}
@@ -172,17 +172,17 @@ export default function PropertyCard(property: PropertyCardProps) {
           </div>
         </div>
 
-        <div className="p-4">
+        <div className="p-4 flex flex-col flex-grow">
           {/* TIPOLOGÍA Y OPERACIÓN */}
           <div className="mb-2">
-            <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
-              {propertyType} en {operationType}
+            <span className="text-sm font-semibold text-red-600 dark:text-red-400">
+              {propertyTypeSpanish} en {operationTypeSpanish}
             </span>
           </div>
 
           {/* TÍTULO DE PUBLICACIÓN */}
-          <h3 className="text-lg font-bold mb-2 line-clamp-2 min-h-[3.5rem]">
-            {publication_title || `${propertyType} en ${locationName}`}
+          <h3 className="text-lg font-bold mb-2 line-clamp-2 h-14">
+            {publication_title || `${propertyTypeSpanish} en ${locationName}`}
           </h3>
           
           {/* DIRECCIÓN Y UBICACIÓN */}
@@ -239,17 +239,17 @@ export default function PropertyCard(property: PropertyCardProps) {
 
           {/* PRECIO */}
           {price && price > 0 ? (
-            <p className="text-2xl font-bold text-green-600 dark:text-green-400 mb-3">
+            <p className="text-2xl font-bold text-red-600 dark:text-red-400 mb-3 mt-auto">
               {currency} ${price.toLocaleString('es-AR')}
             </p>
           ) : (
-            <p className="text-lg text-gray-500 dark:text-gray-400 mb-3">
+            <p className="text-lg text-gray-500 dark:text-gray-400 mb-3 mt-auto">
               Consultar precio
             </p>
           )}
 
           {/* BOTÓN */}
-          <button className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md transition">
+          <button className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-md transition">
             Ver Detalles
           </button>
         </div>
