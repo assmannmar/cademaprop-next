@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import VentuxForm from '@/app/components/VentuxForm';
+import Script from 'next/script';
 
 export default function QuienesSomosPage() {
   const valores = [
@@ -44,9 +44,42 @@ export default function QuienesSomosPage() {
   ];
 
   const equipo = [
-    { nombre: 'Juan Pérez', cargo: 'Director General', imagen: '/team/rolo.png' },
-    { nombre: 'María González', cargo: 'Director General', imagen: '/team/aldo.png' },
-    { nombre: 'Carlos Rodríguez', cargo: 'Director General', imagen: '/team/carlos.png' },
+    { nombre: 'Juan Pérez', cargo: 'Director General', imagen: '/team/1.jpg' },
+    { nombre: 'María González', cargo: 'Gerente Comercial', imagen: '/team/2.jpg' },
+    { nombre: 'Carlos Rodríguez', cargo: 'Asesor Senior', imagen: '/team/3.jpg' }
+  ];
+
+  const servicios = [
+    {
+      title: 'Compra y Venta',
+      link: '/propiedades',
+      image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80'
+    },
+    {
+      title: 'Alquileres',
+      link: '/propiedades?operation=rental',
+      image: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&q=80'
+    },
+    {
+      title: 'Tasaciones',
+      link: '/contacto',
+      image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80'
+    },
+    {
+      title: 'Asesoramiento',
+      link: '/contacto',
+      image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80'
+    },
+    {
+      title: 'Administración',
+      link: '/contacto',
+      image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80'
+    },
+    {
+      title: 'Desarrollos',
+      link: '/emprendimientos',
+      image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80'
+    }
   ];
 
   return (
@@ -85,12 +118,9 @@ export default function QuienesSomosPage() {
             </div>
             <div className="relative h-96 lg:h-full min-h-[400px] rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="/about-history.jpg"
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
                 alt="Historia Cadema Prop"
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23ddd" width="400" height="400"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EImagen%3C/text%3E%3C/svg%3E';
-                }}
               />
             </div>
           </div>
@@ -159,7 +189,7 @@ export default function QuienesSomosPage() {
         </div>
       </section>
 
-      {/* Equipo */}
+      {/* Equipo - CENTRADO CON 3 PERSONAS */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -169,35 +199,37 @@ export default function QuienesSomosPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {equipo.map((miembro, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105"
-              >
-                <div className="relative h-72 bg-gray-200">
-                  <img
-                    src={miembro.imagen}
-                    alt={miembro.nombre}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="300"%3E%3Crect fill="%23ddd" width="300" height="300"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em" font-size="20"%3E${miembro.nombre.split(' ')[0]}%3C/text%3E%3C/svg%3E`;
-                    }}
-                  />
+          <div className="flex justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl">
+              {equipo.map((miembro, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:scale-105"
+                >
+                  <div className="relative h-72 bg-gray-200">
+                    <img
+                      src={miembro.imagen}
+                      alt={miembro.nombre}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="300"%3E%3Crect fill="%23ddd" width="300" height="300"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em" font-size="20"%3E${miembro.nombre.split(' ')[0]}%3C/text%3E%3C/svg%3E`;
+                      }}
+                    />
+                  </div>
+                  <div className="p-6 text-center">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      {miembro.nombre}
+                    </h3>
+                    <p className="text-red-600 font-semibold">{miembro.cargo}</p>
+                  </div>
                 </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {miembro.nombre}
-                  </h3>
-                  <p className="text-red-600 font-semibold">{miembro.cargo}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Servicios */}
+      {/* Servicios - TARJETAS CON IMAGEN OSCURA Y TEXTO */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -207,51 +239,30 @@ export default function QuienesSomosPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Compra y Venta',
-                description: 'Te acompañamos en todo el proceso de compra o venta de tu propiedad.',
-                icon: '🏠'
-              },
-              {
-                title: 'Alquileres',
-                description: 'Gestión completa de alquileres con garantía y seguimiento.',
-                icon: '🔑'
-              },
-              {
-                title: 'Tasaciones',
-                description: 'Valuaciones profesionales con certificación oficial.',
-                icon: '📊'
-              },
-              {
-                title: 'Asesoramiento',
-                description: 'Consultoría experta en inversiones inmobiliarias.',
-                icon: '💼'
-              },
-              {
-                title: 'Administración',
-                description: 'Gestión integral de propiedades y consorcios.',
-                icon: '📋'
-              },
-              {
-                title: 'Desarrollos',
-                description: 'Emprendimientos inmobiliarios llave en mano.',
-                icon: '🏗️'
-              }
-            ].map((servicio, idx) => (
-              <div
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {servicios.map((servicio, idx) => (
+              <Link
                 key={idx}
-                className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all border border-gray-100"
+                href={servicio.link}
+                className="group relative h-64 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer"
               >
-                <div className="text-5xl mb-4">{servicio.icon}</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                  {servicio.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  {servicio.description}
-                </p>
-              </div>
+                {/* Imagen de fondo */}
+                <img
+                  src={servicio.image}
+                  alt={servicio.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                
+                {/* Overlay oscuro */}
+                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/70 transition-colors" />
+                
+                {/* Texto centrado */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <h3 className="text-3xl font-bold text-white text-center px-4">
+                    {servicio.title}
+                  </h3>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -303,7 +314,25 @@ export default function QuienesSomosPage() {
               <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
                 Formulario de Contacto
               </h3>
-              <VentuxForm />
+              <div style={{ minHeight: '531px' }}>
+                <iframe
+                  src="https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz"
+                  style={{ display: 'block', width: '100%', height: '531px', border: 'none', borderRadius: '3px' }}
+                  id="quienes-somos-form"
+                  data-layout='{"id":"POLITE_SLIDE_IN","minimizedTitle":"","isLeftAligned":false,"isRightAligned":true,"allowMinimize":false}'
+                  data-trigger-type="alwaysShow"
+                  data-trigger-value=""
+                  data-activation-type="alwaysActivated"
+                  data-activation-value=""
+                  data-deactivation-type="neverDeactivate"
+                  data-deactivation-value=""
+                  data-form-name="Form Web Inmueble"
+                  data-height="531"
+                  data-layout-iframe-id="quienes-somos-form"
+                  data-form-id="OWI77RP94NZkMNa4BIaz"
+                  title="Form Web Inmueble"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -334,6 +363,9 @@ export default function QuienesSomosPage() {
           </div>
         </div>
       </section>
+
+      {/* Script de Ventux */}
+      <Script src="https://link.ventux.io/js/form_embed.js" strategy="lazyOnload" />
     </div>
   );
 }

@@ -59,7 +59,8 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
     <div className="space-y-4">
       <h2 className="text-2xl font-bold mb-4">Filtros de Búsqueda</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Filtros uno debajo del otro */}
+      <div className="space-y-4">
         {/* División */}
         <div>
           <label className="block text-sm font-semibold mb-2">División</label>
@@ -212,8 +213,8 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
 
   return (
     <>
-      {/* BOTÓN MÓVIL - Solo visible en pantallas pequeñas */}
-      <div className="lg:hidden flex justify-center mb-6">
+      {/* BOTÓN - Siempre visible */}
+      <div className="flex justify-center mb-6">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md flex items-center gap-2 transition"
@@ -225,10 +226,17 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
         </button>
       </div>
 
-      {/* MODAL MÓVIL */}
+      {/* SIDEBAR DESDE LA IZQUIERDA */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50 flex items-end">
-          <div className="bg-white dark:bg-gray-800 w-full rounded-t-2xl max-h-[85vh] overflow-y-auto p-6 animate-slide-up">
+        <div className="fixed inset-0 z-50 flex">
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-black bg-opacity-50"
+            onClick={() => setIsOpen(false)}
+          />
+          
+          {/* Sidebar desde la izquierda */}
+          <div className="relative w-80 bg-white dark:bg-gray-800 h-full overflow-y-auto p-6 shadow-2xl animate-slide-left">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">Filtros</h2>
               <button
@@ -242,11 +250,6 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
           </div>
         </div>
       )}
-
-      {/* FILTROS DESKTOP - Siempre visible en pantallas grandes */}
-      <div className="hidden lg:block bg-gray-100 dark:bg-gray-800 p-6 rounded-lg mb-8 shadow-md">
-        <FilterContent />
-      </div>
     </>
   );
 }
