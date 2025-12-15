@@ -59,7 +59,6 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
     <div className="space-y-4">
       <h2 className="text-2xl font-bold mb-4">Filtros de Búsqueda</h2>
       
-      {/* Filtros uno debajo del otro */}
       <div className="space-y-4">
         {/* División */}
         <div>
@@ -226,12 +225,12 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
         </button>
       </div>
 
-      {/* SIDEBAR DESDE LA IZQUIERDA */}
+      {/* MODAL CON OVERLAY TRANSLÚCIDO */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex">
-          {/* Overlay */}
+          {/* Overlay translúcido - permite ver el contenido detrás */}
           <div 
-            className="absolute inset-0 bg-black bg-opacity-50"
+            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
           />
           
