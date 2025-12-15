@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import HeroCarousel from "./components/HeroCarousel";
 import VentuxForm from "@/app/components/VentuxForm";
 import Link from "next/link";
+import { EmprendimientosCarousel, DestacadasCarousel, TestimoniosCarousel, InstagramCarousel } from './components/Carousels';
+
 
 interface Property {
   id: number;
