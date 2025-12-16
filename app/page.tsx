@@ -4,8 +4,14 @@ import { useState, useEffect } from 'react';
 import HeroCarousel from "./components/HeroCarousel";
 import VentuxForm from "@/app/components/VentuxForm";
 import Link from "next/link";
-import { EmprendimientosCarousel, DestacadasCarousel, TestimoniosCarousel, InstagramCarousel } from './components/Carousels';
 
+// Importar los carousels
+import { 
+  EmprendimientosCarousel, 
+  DestacadasCarousel, 
+  TestimoniosCarousel, 
+  InstagramCarousel 
+} from './components/Carousels';
 
 interface Property {
   id: number;
@@ -18,6 +24,7 @@ interface Property {
     prices?: Array<{ price: number; currency: string }>;
   }>;
   custom_tags?: Array<{ name: string; group_name?: string }>;
+  development?: { type?: { name: string } };
 }
 
 export default function HomePage() {
@@ -35,11 +42,13 @@ export default function HomePage() {
       const data = await res.json();
       
       // Filtrar emprendimientos (tienen development type)
-      const emps = data.objects.filter((p: any) => p.development?.type?.name).slice(0, 6);
+      const emps = data.objects
+        .filter((p: any) => p.development?.type?.name)
+        .slice(0, 9); // Aumentamos a 9 para el carousel
       setEmprendimientos(emps);
 
-      // Propiedades destacadas (primeras 8)
-      setDestacadas(data.objects.slice(0, 8));
+      // Propiedades destacadas (primeras 12 para el carousel)
+      setDestacadas(data.objects.slice(0, 12));
     } catch (err) {
       console.error('Error cargando propiedades:', err);
     } finally {
@@ -78,7 +87,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* EMPRENDIMIENTOS */}
+      {/* EMPRENDIMIENTOS - CAROUSEL */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -91,35 +100,7 @@ export default function HomePage() {
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
             </div>
           ) : emprendimientos.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {emprendimientos.map((emp) => (
-                <Link key={emp.id} href={`/propiedades/${emp.id}`} className="group">
-                  <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition hover:scale-105 hover:shadow-2xl">
-                    <div className="relative h-64 bg-gray-200">
-                      {emp.photos?.[0] ? (
-                        <img src={emp.photos[0].image} alt={emp.publication_title} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="flex items-center justify-center h-full text-gray-400">Sin imagen</div>
-                      )}
-                      <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
-                        Emprendimiento
-                      </div>
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-red-600 transition">
-                        {emp.publication_title || emp.type?.name}
-                      </h3>
-                      <p className="text-gray-600 mb-3">{emp.location?.name}</p>
-                      {emp.operations?.[0]?.prices?.[0] && (
-                        <p className="text-2xl font-bold text-red-600">
-                          {emp.operations[0].prices[0].currency} ${emp.operations[0].prices[0].price.toLocaleString('es-AR')}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <EmprendimientosCarousel emprendimientos={emprendimientos} />
           ) : (
             <p className="text-center text-gray-500">No hay emprendimientos disponibles</p>
           )}
@@ -132,7 +113,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PROPIEDADES DESTACADAS */}
+      {/* PROPIEDADES DESTACADAS - CAROUSEL */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -140,34 +121,15 @@ export default function HomePage() {
             <p className="text-xl text-gray-600">Selección especial de inmuebles</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {destacadas.slice(0, 8).map((prop) => (
-              <Link key={prop.id} href={`/propiedades/${prop.id}`} className="group">
-                <div className="bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden transform transition hover:scale-105 hover:shadow-xl">
-                  <div className="relative h-48 bg-gray-200">
-                    {prop.photos?.[0] ? (
-                      <img src={prop.photos[0].image} alt={prop.publication_title} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="flex items-center justify-center h-full text-gray-400">Sin imagen</div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <p className="text-sm font-semibold text-red-600 mb-2">
-                      {prop.type?.name} - {prop.location?.name}
-                    </p>
-                    <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-red-600 transition">
-                      {prop.publication_title || `${prop.type?.name} en ${prop.location?.name}`}
-                    </h3>
-                    {prop.operations?.[0]?.prices?.[0] && (
-                      <p className="text-xl font-bold text-red-600">
-                        {prop.operations[0].prices[0].currency} ${prop.operations[0].prices[0].price.toLocaleString('es-AR')}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+            </div>
+          ) : destacadas.length > 0 ? (
+            <DestacadasCarousel propiedades={destacadas} />
+          ) : (
+            <p className="text-center text-gray-500">No hay propiedades disponibles</p>
+          )}
 
           <div className="text-center mt-12">
             <Link href="/propiedades" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition transform hover:scale-105">
@@ -223,7 +185,7 @@ export default function HomePage() {
                 alt="Cadema Prop"
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = '/placeholder-about.jpg';
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80';
                 }}
               />
             </div>
@@ -259,29 +221,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TESTIMONIOS */}
+      {/* TESTIMONIOS - CAROUSEL DE GOOGLE REVIEWS */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Testimonios</h2>
             <p className="text-xl text-gray-600">Lo que dicen nuestros clientes</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-gray-50 p-8 rounded-xl shadow-lg">
-                <div className="flex items-center mb-4">
-                  <div className="w-16 h-16 bg-gray-300 rounded-full mr-4"></div>
-                  <div>
-                    <p className="font-bold text-lg">Cliente {i}</p>
-                    <div className="flex text-yellow-400">★★★★★</div>
-                  </div>
-                </div>
-                <p className="text-gray-700 italic">
-                  "Excelente atención y profesionalismo. Encontramos nuestra casa ideal gracias al equipo de Cadema Prop."
-                </p>
-              </div>
-            ))}
-          </div>
+          <TestimoniosCarousel />
         </div>
       </section>
 
@@ -310,23 +257,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* INSTAGRAM */}
+      {/* INSTAGRAM - CAROUSEL */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Síguenos en Instagram</h2>
-            <p className="text-xl text-gray-600">@cademaprop</p>
+            <p className="text-xl text-gray-600">@cademabienesraices</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <div key={i} className="aspect-square bg-gray-200 rounded-lg overflow-hidden hover:opacity-80 transition cursor-pointer">
-                <div className="w-full h-full bg-gradient-to-br from-purple-400 to-pink-500"></div>
-              </div>
-            ))}
-          </div>
+          <InstagramCarousel />
           <div className="text-center mt-8">
             <a
-              href="https://instagram.com/cademaprop"
+              href="https://www.instagram.com/cademabienesraices/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold rounded-lg shadow-lg transition"
@@ -368,7 +309,7 @@ export default function HomePage() {
             <div>
               <h4 className="font-bold mb-4">Contacto</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>📞 +54 11 1234-5678</li>
+                <li>📞 +54 9 3489 36-8518</li>
                 <li>📧 info@cademaprop.com</li>
                 <li>📍 Campana, Buenos Aires</li>
               </ul>
