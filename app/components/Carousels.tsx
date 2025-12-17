@@ -26,7 +26,7 @@ export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarou
       } else if (window.innerWidth < 1024) {
         setItemsPerView(2);
       } else {
-        setItemsPerView(3);
+        setItemsPerView(5);
       }
     };
 
