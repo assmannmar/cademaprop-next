@@ -17,7 +17,7 @@ interface EmprendimientoCarouselProps {
 
 export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerView, setItemsPerView] = useState(3);
+  const [itemsPerView, setItemsPerView] = useState(5);
 
   useEffect(() => {
     const handleResize = () => {
