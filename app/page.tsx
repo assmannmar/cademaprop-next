@@ -52,7 +52,7 @@ export default function HomePage() {
       const devData = await devRes.json();
       
       // Tomar los primeros 9 emprendimientos
-      setEmprendimientos(devData.objects?.slice(0, 9) || []);
+      setEmprendimientos(devData.objects?.slice(0, 20) || []);
 
       // Fetch propiedades para destacadas
       const propRes = await fetch('/api/properties');
