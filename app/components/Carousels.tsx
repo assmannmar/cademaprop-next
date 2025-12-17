@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,6 +8,7 @@ import Link from 'next/link';
 interface EmprendimientoCarouselProps {
   emprendimientos: Array<{
     id: number;
+    name?: string;
     publication_title?: string;
     photos?: Array<{ image: string }>;
     location?: { name: string };
@@ -77,7 +79,7 @@ export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarou
                   
                   <div className="absolute inset-0 flex items-center justify-center px-6">
                     <h3 className="text-2xl md:text-3xl font-bold text-white text-center drop-shadow-2xl transform translate-y-4">
-                      {emp.publication_title || emp.location?.name}
+                      {emp.name || emp.publication_title || emp.location?.name}
                     </h3>
                   </div>
 

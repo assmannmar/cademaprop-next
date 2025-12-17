@@ -27,30 +27,41 @@ interface Property {
   development?: { type?: { name: string } };
 }
 
+interface Development {
+  id: number;
+  name?: string;
+  photos?: Array<{ image: string }>;
+  location?: { name: string };
+  type?: { name: string };
+  description?: string;
+}
+
 export default function HomePage() {
-  const [emprendimientos, setEmprendimientos] = useState<Property[]>([]);
+  const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [destacadas, setDestacadas] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProperties();
+    fetchData();
   }, []);
 
-  const fetchProperties = async () => {
+  const fetchData = async () => {
     try {
-      const res = await fetch('/api/properties');
-      const data = await res.json();
+      // Fetch emprendimientos desde el nuevo endpoint
+      const devRes = await fetch('/api/developments');
+      const devData = await devRes.json();
       
-      // Filtrar emprendimientos (tienen development type)
-      const emps = data.objects
-        .filter((p: any) => p.development?.type?.name)
-        .slice(0, 9); // Aumentamos a 9 para el carousel
-      setEmprendimientos(emps);
+      // Tomar los primeros 9 emprendimientos
+      setEmprendimientos(devData.objects?.slice(0, 9) || []);
 
-      // Propiedades destacadas (primeras 12 para el carousel)
-      setDestacadas(data.objects.slice(0, 12));
+      // Fetch propiedades para destacadas
+      const propRes = await fetch('/api/properties');
+      const propData = await propRes.json();
+      
+      // Propiedades destacadas (primeras 12)
+      setDestacadas(propData.objects?.slice(0, 12) || []);
     } catch (err) {
-      console.error('Error cargando propiedades:', err);
+      console.error('Error cargando datos:', err);
     } finally {
       setLoading(false);
     }
@@ -262,12 +273,12 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Síguenos en Instagram</h2>
-            <p className="text-xl text-gray-600">@cademabienesraices</p>
+            <p className="text-xl text-gray-600">@cademaprop</p>
           </div>
           <InstagramCarousel />
           <div className="text-center mt-8">
             <a
-              href="https://www.instagram.com/cademabienesraices/"
+              href="https://instagram.com/cademaprop"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold rounded-lg shadow-lg transition"
@@ -309,7 +320,7 @@ export default function HomePage() {
             <div>
               <h4 className="font-bold mb-4">Contacto</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>📞 +54 9 3489 36-8518</li>
+                <li>📞 +54 11 1234-5678</li>
                 <li>📧 info@cademaprop.com</li>
                 <li>📍 Campana, Buenos Aires</li>
               </ul>
