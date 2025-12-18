@@ -78,7 +78,7 @@ export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarou
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                   
                   <div className="absolute inset-0 flex items-center justify-center px-6">
-                    <h3 className="text-2xl md:text-3xl font-bold text-white text-center drop-shadow-2xl transform translate-y-4">
+                    <h3 className="text-xl md:text-2xl font-bold text-white text-center drop-shadow-2xl transform translate-y-4">
                       {emp.name || emp.publication_title || emp.location?.name}
                     </h3>
                   </div>
