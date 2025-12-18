@@ -51,7 +51,7 @@ export default function HomePage() {
       const devRes = await fetch('/api/developments');
       const devData = await devRes.json();
       
-      // Tomar los primeros 9 emprendimientos
+      // Tomar los primeros 20 emprendimientos
       setEmprendimientos(devData.objects?.slice(0, 20) || []);
 
       // Fetch propiedades para destacadas
