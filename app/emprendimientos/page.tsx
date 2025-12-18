@@ -11,6 +11,7 @@ interface Development {
   type?: { name: string };
   location?: { name: string; short_location?: string };
   description?: string;
+  web_url?: string;
 }
 
 export default function EmprendimientosPage() {
@@ -156,13 +157,10 @@ export default function EmprendimientosPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredEmprendimientos.map((emp) => {
                 const coverImage = emp.photos?.find(p => p.is_front_cover)?.image || emp.photos?.[0]?.image;
+                const hasWebUrl = emp.web_url && emp.web_url.trim() !== '';
 
                 return (
-                  <Link
-                    key={emp.id}
-                    href={`/propiedades/${emp.id}`}
-                    className="group"
-                  >
+                  <div key={emp.id} className="group">
                     <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                       {/* Imagen */}
                       <div className="relative h-72 bg-gray-200 overflow-hidden">
@@ -218,13 +216,27 @@ export default function EmprendimientosPage() {
                           </p>
                         )}
 
-                        {/* CTA */}
-                        <button className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg shadow-lg transition-all transform group-hover:scale-105">
-                          Ver Detalles
-                        </button>
+                        {/* CTA - Condicional según tenga web_url */}
+                        {hasWebUrl ? (
+                          <a
+                            href={emp.web_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full mt-4 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 text-center"
+                          >
+                            Ver Landing
+                          </a>
+                        ) : (
+                          <Link
+                            href={`/propiedades/${emp.id}`}
+                            className="block w-full mt-4 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 text-center"
+                          >
+                            Ver Detalles
+                          </Link>
+                        )}
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 );
               })}
             </div>

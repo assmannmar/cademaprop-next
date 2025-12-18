@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -12,6 +11,7 @@ interface EmprendimientoCarouselProps {
     publication_title?: string;
     photos?: Array<{ image: string }>;
     location?: { name: string };
+    web_url?: string;
   }>;
 }
 
@@ -61,35 +61,42 @@ export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarou
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
         >
-          {emprendimientos.map((emp) => (
-            <div
-              key={emp.id}
-              className="flex-shrink-0 px-3"
-              style={{ width: `${100 / itemsPerView}%` }}
-            >
-              <Link href={`/propiedades/${emp.id}`} className="block group">
-                <div className="relative aspect-[3/4] overflow-hidden shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
-                  <img
-                    src={emp.photos?.[0]?.image || '/placeholder.jpg'}
-                    alt={emp.publication_title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75"
-                  />
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  
-                  <div className="absolute inset-0 flex items-center justify-center px-6">
-                    <h3 className="text-xl md:text-2xl font-bold text-white text-center drop-shadow-2xl transform translate-y-4">
-                      {emp.name || emp.publication_title || emp.location?.name}
-                    </h3>
-                  </div>
+          {emprendimientos.map((emp) => {
+            const hasWebUrl = emp.web_url && emp.web_url.trim() !== '';
+            const linkProps = hasWebUrl 
+              ? { href: emp.web_url, target: "_blank", rel: "noopener noreferrer" }
+              : { href: `/propiedades/${emp.id}` };
 
-                  <div className="absolute top-4 left-4 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                    Emprendimiento
+            return (
+              <div
+                key={emp.id}
+                className="flex-shrink-0 px-3"
+                style={{ width: `${100 / itemsPerView}%` }}
+              >
+                <a {...linkProps} className="block group">
+                  <div className="relative aspect-[3/4] overflow-hidden shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
+                    <img
+                      src={emp.photos?.[0]?.image || '/placeholder.jpg'}
+                      alt={emp.publication_title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75"
+                    />
+                    
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    
+                    <div className="absolute inset-0 flex items-center justify-center px-6">
+                      <h3 className="text-xl md:text-2xl font-bold text-white text-center drop-shadow-2xl transform translate-y-4">
+                        {emp.name || emp.publication_title || emp.location?.name}
+                      </h3>
+                    </div>
+
+                    <div className="absolute top-4 left-4 bg-red-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                      Emprendimiento
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </div>
-          ))}
+                </a>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -279,14 +286,12 @@ export function TestimoniosCarousel() {
 
   const fetchGoogleReviews = async () => {
     try {
-      // Llamar a tu API route que maneja Google Places
       const response = await fetch('/api/google-reviews');
       const data = await response.json();
       
       if (data.reviews && data.reviews.length > 0) {
         setReviews(data.reviews);
       } else {
-        // Fallback a datos de ejemplo si no hay reseñas
         setReviews([
           {
             author_name: "María González",
@@ -310,7 +315,6 @@ export function TestimoniosCarousel() {
       }
     } catch (error) {
       console.error('Error fetching Google reviews:', error);
-      // Usar datos de ejemplo en caso de error
       setReviews([
         {
           author_name: "Cliente Satisfecho",
@@ -432,14 +436,12 @@ export function InstagramCarousel() {
 
   const fetchInstagramPosts = async () => {
     try {
-      // Llamar a tu API route que maneja Instagram
       const response = await fetch('/api/instagram-feed');
       const data = await response.json();
       
       if (data.posts && data.posts.length > 0) {
         setPosts(data.posts);
       } else {
-        // Fallback a imágenes de ejemplo
         setPosts(Array.from({ length: 12 }, (_, i) => ({
           id: i,
           media_url: `https://images.unsplash.com/photo-${1560518883 + i}-ce09059eeffa?w=400&q=80`,
@@ -449,7 +451,6 @@ export function InstagramCarousel() {
       }
     } catch (error) {
       console.error('Error fetching Instagram posts:', error);
-      // Usar imágenes de ejemplo en caso de error
       setPosts(Array.from({ length: 8 }, (_, i) => ({
         id: i,
         media_url: `https://images.unsplash.com/photo-${1560518883 + i}-ce09059eeffa?w=400&q=80`,
