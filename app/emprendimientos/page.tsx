@@ -3,28 +3,18 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-interface Property {
+interface Development {
   id: number;
+  name?: string;
   publication_title?: string;
   photos?: Array<{ image: string; is_front_cover?: boolean }>;
   type?: { name: string };
   location?: { name: string; short_location?: string };
-  operations?: Array<{
-    operation_type: string;
-    prices?: Array<{ price: number; currency: string }>;
-  }>;
-  development?: {
-    type?: { name: string };
-    name?: string;
-  };
   description?: string;
-  room_amount?: number;
-  suite_amount?: number;
-  custom_tags?: Array<{ name: string; group_name?: string }>;
 }
 
 export default function EmprendimientosPage() {
-  const [emprendimientos, setEmprendimientos] = useState<Property[]>([]);
+  const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
@@ -38,17 +28,17 @@ export default function EmprendimientosPage() {
     setError(null);
 
     try {
-      const response = await fetch('/api/properties');
+      // Usar el mismo endpoint que el carousel del home
+      const response = await fetch('/api/developments');
+      
       if (!response.ok) {
         throw new Error('Error al cargar emprendimientos');
       }
 
       const data = await response.json();
       
-      // Filtrar solo propiedades que son emprendimientos
-      const emps = data.objects.filter((p: Property) => p.development?.type?.name);
-      
-      setEmprendimientos(emps);
+      // Tomar los emprendimientos del endpoint (ya vienen filtrados)
+      setEmprendimientos(data.objects || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
@@ -98,41 +88,43 @@ export default function EmprendimientosPage() {
       <div className="container mx-auto px-4 py-12">
         
         {/* Filtros */}
-        <div className="mb-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold mb-4 text-gray-900">Filtrar por ubicación</h2>
-            <div className="flex flex-wrap gap-3">
-              <button
-                onClick={() => setSelectedFilter('all')}
-                className={`px-6 py-2 rounded-full font-semibold transition ${
-                  selectedFilter === 'all'
-                    ? 'bg-red-600 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Todos ({emprendimientos.length})
-              </button>
-              {uniqueLocations.map((location) => {
-                const count = emprendimientos.filter(
-                  e => e.location?.name === location
-                ).length;
-                return (
-                  <button
-                    key={location}
-                    onClick={() => setSelectedFilter(location!)}
-                    className={`px-6 py-2 rounded-full font-semibold transition ${
-                      selectedFilter === location
-                        ? 'bg-red-600 text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {location} ({count})
-                  </button>
-                );
-              })}
+        {uniqueLocations.length > 0 && (
+          <div className="mb-8">
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-xl font-bold mb-4 text-gray-900">Filtrar por ubicación</h2>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => setSelectedFilter('all')}
+                  className={`px-6 py-2 rounded-full font-semibold transition ${
+                    selectedFilter === 'all'
+                      ? 'bg-red-600 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  Todos ({emprendimientos.length})
+                </button>
+                {uniqueLocations.map((location) => {
+                  const count = emprendimientos.filter(
+                    e => e.location?.name === location
+                  ).length;
+                  return (
+                    <button
+                      key={location}
+                      onClick={() => setSelectedFilter(location!)}
+                      className={`px-6 py-2 rounded-full font-semibold transition ${
+                        selectedFilter === location
+                          ? 'bg-red-600 text-white shadow-lg'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {location} ({count})
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Estado de carga */}
         {loading && (
@@ -163,11 +155,7 @@ export default function EmprendimientosPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredEmprendimientos.map((emp) => {
-                const mainOperation = emp.operations?.[0];
-                const price = mainOperation?.prices?.[0]?.price;
-                const currency = mainOperation?.prices?.[0]?.currency || 'USD';
                 const coverImage = emp.photos?.find(p => p.is_front_cover)?.image || emp.photos?.[0]?.image;
-                const totalRooms = (emp.room_amount || 0) + (emp.suite_amount || 0);
 
                 return (
                   <Link
@@ -181,7 +169,7 @@ export default function EmprendimientosPage() {
                         {coverImage ? (
                           <img
                             src={coverImage}
-                            alt={emp.publication_title}
+                            alt={emp.publication_title || emp.name}
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                           />
                         ) : (
@@ -220,7 +208,7 @@ export default function EmprendimientosPage() {
 
                         {/* Título */}
                         <h3 className="text-2xl font-bold mb-3 line-clamp-2 group-hover:text-red-600 transition-colors min-h-[3.5rem]">
-                          {emp.publication_title || emp.development?.name || `Emprendimiento en ${emp.location?.name}`}
+                          {emp.name || emp.publication_title || `Emprendimiento en ${emp.location?.name}`}
                         </h3>
 
                         {/* Descripción breve */}
@@ -229,30 +217,6 @@ export default function EmprendimientosPage() {
                             {emp.description}
                           </p>
                         )}
-
-                        {/* Características rápidas */}
-                        {totalRooms > 0 && (
-                          <div className="flex items-center gap-2 mb-4 text-sm text-gray-700">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                            </svg>
-                            <span>Desde {totalRooms} ambientes</span>
-                          </div>
-                        )}
-
-                        {/* Precio */}
-                        <div className="pt-4 border-t border-gray-200">
-                          {price && price > 0 ? (
-                            <div>
-                              <p className="text-sm text-gray-600 mb-1">Desde</p>
-                              <p className="text-3xl font-bold text-red-600">
-                                {currency} ${price.toLocaleString('es-AR')}
-                              </p>
-                            </div>
-                          ) : (
-                            <p className="text-xl font-bold text-gray-600">Consultar precio</p>
-                          )}
-                        </div>
 
                         {/* CTA */}
                         <button className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg shadow-lg transition-all transform group-hover:scale-105">
