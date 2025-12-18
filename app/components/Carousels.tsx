@@ -72,7 +72,7 @@ export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarou
                   <img
                     src={emp.photos?.[0]?.image || '/placeholder.jpg'}
                     alt={emp.publication_title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75"
                   />
                   
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -208,7 +208,7 @@ export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
                     <img
                       src={prop.photos?.[0]?.image || '/placeholder.jpg'}
                       alt={prop.publication_title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-75"
                     />
                     
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
@@ -527,7 +527,7 @@ export function InstagramCarousel() {
                   <img
                     src={post.media_url}
                     alt={post.caption}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 brightness-75"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-purple-600/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
