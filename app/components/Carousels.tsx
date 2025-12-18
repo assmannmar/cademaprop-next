@@ -68,7 +68,7 @@ export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarou
               style={{ width: `${100 / itemsPerView}%` }}
             >
               <Link href={`/propiedades/${emp.id}`} className="block group">
-                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
+                <div className="relative aspect-[3/4] overflow-hidden shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
                   <img
                     src={emp.photos?.[0]?.image || '/placeholder.jpg'}
                     alt={emp.publication_title}
@@ -204,7 +204,7 @@ export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
                 style={{ width: `${100 / itemsPerView}%` }}
               >
                 <Link href={`/propiedades/${prop.id}`} className="block group">
-                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
+                  <div className="relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
                     <img
                       src={prop.photos?.[0]?.image || '/placeholder.jpg'}
                       alt={prop.publication_title}
@@ -356,7 +356,7 @@ export function TestimoniosCarousel() {
         >
           {reviews.map((review, idx) => (
             <div key={idx} className="w-full flex-shrink-0 px-4">
-              <div className="bg-white p-8 rounded-2xl shadow-xl">
+              <div className="bg-white p-8 shadow-xl">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-white text-2xl font-bold">
                     {review.author_name.charAt(0)}
