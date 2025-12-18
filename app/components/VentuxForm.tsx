@@ -5,18 +5,25 @@ import { useEffect, useRef } from 'react';
 export default function VentuxForm() {
   const containerRef = useRef<HTMLDivElement>(null);
   const scriptLoadedRef = useRef(false);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
-    // Prevenir múltiples cargas del script
+    // Prevent multiple loads
     if (scriptLoadedRef.current) return;
+    
+    // Check for browser environment
+    if (typeof window === 'undefined') return;
     
     const container = containerRef.current;
     if (!container) return;
 
-    // Crear el iframe
+    // Clear any existing content to prevent conflicts
+    container.innerHTML = '';
+
+    // Create the iframe
     const iframe = document.createElement('iframe');
     iframe.src = "https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz";
-    iframe.style.cssText = "display:none;width:100%;height:100%;border:none;border-radius:3px";
+    iframe.style.cssText = "display:block;width:100%;height:531px;border:none;border-radius:3px";
     iframe.id = "polite-slide-in-right-OWI77RP94NZkMNa4BIaz";
     iframe.setAttribute('data-layout', JSON.stringify({
       id: 'POLITE_SLIDE_IN',
@@ -37,32 +44,58 @@ export default function VentuxForm() {
     iframe.setAttribute('data-form-id', 'OWI77RP94NZkMNa4BIaz');
     iframe.title = "Form Web Inmueble";
 
-    // Agregar el iframe al contenedor
+    // Store reference for cleanup
+    iframeRef.current = iframe;
+    
+    // Append iframe
     container.appendChild(iframe);
 
-    // Cargar el script de Ventux
-    const script = document.createElement('script');
-    script.src = "https://link.ventux.io/js/form_embed.js";
-    script.async = true;
-    
-    script.onload = () => {
+    // Load Ventux script only if not already loaded
+    if (!document.querySelector('script[src*="form_embed.js"]')) {
+      const script = document.createElement('script');
+      script.src = "https://link.ventux.io/js/form_embed.js";
+      script.async = true;
+      
+      script.onload = () => {
+        scriptLoadedRef.current = true;
+        console.log('Ventux script loaded successfully');
+      };
+
+      script.onerror = () => {
+        console.error('Error loading Ventux script');
+      };
+
+      document.body.appendChild(script);
+    } else {
       scriptLoadedRef.current = true;
-    };
+    }
 
-    script.onerror = () => {
-      console.error('Error al cargar el script de Ventux');
-    };
-
-    document.body.appendChild(script);
-
-    // Cleanup
+    // Cleanup function
     return () => {
-      if (container.contains(iframe)) {
-        container.removeChild(iframe);
+      const currentIframe = iframeRef.current;
+      const currentContainer = containerRef.current;
+      
+      if (currentIframe && currentContainer) {
+        try {
+          // Check if iframe is still a child before removing
+          if (currentContainer.contains(currentIframe)) {
+            currentContainer.removeChild(currentIframe);
+          }
+        } catch (error) {
+          // Silently handle if already removed
+          console.debug('Iframe cleanup handled gracefully');
+        }
       }
-      // No remover el script ya que puede ser usado por otros formularios
+      
+      iframeRef.current = null;
     };
-  }, []);
+  }, []); // Empty dependency array - run once
 
-  return <div ref={containerRef} className="ventux-form-container" />;
+  return (
+    <div 
+      ref={containerRef} 
+      className="ventux-form-container w-full min-h-[531px] bg-gray-50 rounded-lg"
+      style={{ minHeight: '531px' }}
+    />
+  );
 }
