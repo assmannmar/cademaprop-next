@@ -53,7 +53,7 @@ export default function Navbar() {
         ${visible ? "translate-y-0" : "-translate-y-full"} 
         bg-white/70 backdrop-blur shadow-md`}
       >
-        <div className="max-w-6xl mx-auto px-4 py-6 flex justify-between items-center">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
 
           {/* LOGO */}
           <Link 
