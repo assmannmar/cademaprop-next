@@ -58,8 +58,21 @@ export default function HomePage() {
       const propRes = await fetch('/api/properties');
       const propData = await propRes.json();
       
-      // Propiedades destacadas (primeras 12)
-      setDestacadas(propData.objects?.slice(0, 12) || []);
+      // Filtrar propiedades que tengan el custom_tag "Destacar En Landing"
+      const propiedadesDestacadas = propData.objects?.filter((prop: Property) => {
+        return prop.custom_tags?.some(tag => 
+          tag.name.toLowerCase().includes('destacar') && 
+          tag.name.toLowerCase().includes('landing')
+        );
+      }) || [];
+
+      // Si hay propiedades destacadas, usarlas. Si no, tomar las primeras 12
+      if (propiedadesDestacadas.length > 0) {
+        setDestacadas(propiedadesDestacadas.slice(0, 12));
+      } else {
+        // Fallback: tomar las primeras 12 si no hay destacadas
+        setDestacadas(propData.objects?.slice(0, 12) || []);
+      }
     } catch (err) {
       console.error('Error cargando datos:', err);
     } finally {
