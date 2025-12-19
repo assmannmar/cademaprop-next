@@ -6,8 +6,8 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-red-600">CADEMA PROP</h3>
-            <p className="text-gray-400">Tu socio inmobiliario de confianza desde 1998</p>
+            <h3 className="text-2xl font-bold mb-4 text-red-600">LOGO CHICO</h3>
+            <p className="text-gray-400">TEXTO</p>
           </div>
           <div>
             <h4 className="font-bold mb-4">Enlaces Rápidos</h4>
