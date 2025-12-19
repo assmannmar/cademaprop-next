@@ -70,7 +70,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col -mt-[70px]">
       {/* HERO SECTION */}
-      <section className="relative w-full h-[800px] md:h-[600px] z-0">
+      <section className="relative w-full h-[800px] md:h-[800px] z-0">
         <HeroCarousel />
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-20">
           <div className="text-center px-4">
