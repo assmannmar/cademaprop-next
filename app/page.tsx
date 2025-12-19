@@ -83,7 +83,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col -mt-[70px]">
       {/* HERO SECTION */}
-      <section className="relative w-full h-[800px] md:h-[500px] z-0">
+      <section className="relative w-full h-[500px] md:h-[600px] z-0">
         <HeroCarousel />
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-20">
           <div className="text-center px-4">
@@ -113,7 +113,7 @@ export default function HomePage() {
       </section>
 
       {/* EMPRENDIMIENTOS - CAROUSEL */}
-      <section className="py-[100px] bg-gray-50">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Emprendimientos</h2>
@@ -313,46 +313,6 @@ export default function HomePage() {
           <VentuxForm />
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-2xl font-bold mb-4 text-red-600">LOGO CHICO</h3>
-              <p className="text-gray-400">Texto</p>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Enlaces Rápidos</h4>
-              <ul className="space-y-2">
-                <li><Link href="/" className="text-gray-400 hover:text-white">Inicio</Link></li>
-                <li><Link href="/propiedades" className="text-gray-400 hover:text-white">Propiedades</Link></li>
-                <li><Link href="/emprendimientos" className="text-gray-400 hover:text-white">Emprendimientos</Link></li>
-                <li><Link href="/quienes-somos" className="text-gray-400 hover:text-white">Quiénes Somos</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Contacto</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>📞 +54 11 1234-5678</li>
-                <li>📧 info@cademaprop.com</li>
-                <li>📍 Campana, Buenos Aires</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Redes Sociales</h4>
-              <div className="flex gap-4">
-                <a href="#" className="text-gray-400 hover:text-white text-2xl">📘</a>
-                <a href="#" className="text-gray-400 hover:text-white text-2xl">📷</a>
-                <a href="#" className="text-gray-400 hover:text-white text-2xl">🐦</a>
-              </div>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-            <p>© 2025 Cadema Prop. Todos los derechos reservados.</p>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
