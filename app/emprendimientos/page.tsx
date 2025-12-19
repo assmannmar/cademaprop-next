@@ -161,7 +161,7 @@ export default function EmprendimientosPage() {
 
                 return (
                   <div key={emp.id} className="group">
-                    <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div className="bg-white shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                       {/* Imagen */}
                       <div className="relative h-72 bg-gray-200 overflow-hidden">
                         {coverImage ? (
