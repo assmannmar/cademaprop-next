@@ -224,7 +224,7 @@ export default function EmprendimientosPage() {
                             rel="noopener noreferrer"
                             className="block w-full mt-4 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 text-center"
                           >
-                            Ver Landing
+                            Más Información
                           </a>
                         ) : (
                           <Link
