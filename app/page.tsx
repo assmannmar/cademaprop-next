@@ -80,7 +80,8 @@ export default function HomePage() {
             <p className="text-xl md:text-2xl text-white mb-8 drop-shadow-lg">
               Más de 25 años conectando personas con propiedades
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+            {/* Grid fijo de 2x2 en todos los tamaños */}
+            <div className="grid grid-cols-2 gap-4 max-w-xl mx-auto">
               <Link href="/propiedades?operation=sale" className="px-6 py-4 bg-white hover:bg-red-600 hover:text-white shadow-xl rounded-lg border-2 border-white hover:border-red-600 transition-all text-center text-lg font-semibold transform hover:scale-105">
                 Comprar
               </Link>
