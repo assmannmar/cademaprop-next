@@ -154,7 +154,7 @@ export default function EmprendimientosPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1  gap-8">
               {filteredEmprendimientos.map((emp) => {
                 const coverImage = emp.photos?.find(p => p.is_front_cover)?.image || emp.photos?.[0]?.image;
                 const hasWebUrl = emp.web_url && emp.web_url.trim() !== '';
