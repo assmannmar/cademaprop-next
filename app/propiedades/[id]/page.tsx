@@ -127,6 +127,7 @@ export default function PropertyDetailPage() {
       'Office': 'Oficina',
       'Building': 'Edificio',
       'PH': 'PH',
+      'Industrial Ship': 'Nave Industrial',
     };
     return translations[type] || type;
   };
