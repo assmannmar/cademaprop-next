@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import HeroCarousel from "./components/HeroCarousel";
 import VentuxForm from "@/app/components/VentuxForm";
 import Link from "next/link";
+import Image from "next/image";
 
 // Importar los carousels
 import { 
@@ -166,14 +167,16 @@ export default function HomePage() {
 
       {/* BANNER INMUEBLES INDUSTRIALES */}
       <section className="relative h-96 bg-gray-900">
-        <img
-          src="/industrial-banner.jpg"
-          alt="Inmuebles Industriales"
-          className="w-full h-full object-cover opacity-40"
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-          }}
-        />
+        <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden relative">
+          <Image
+            src="/industrial-banner.jpg"
+            alt="Cadema Prop"
+            fill // Esto hace que ocupe todo el contenedor padre (que debe tener position: relative)
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={false} // true si es la imagen principal (Hero), false si está abajo
+          />
+        </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white px-4">
             <h2 className="text-5xl font-bold mb-4 drop-shadow-lg">Inmuebles Industriales</h2>
