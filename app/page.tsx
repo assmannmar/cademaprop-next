@@ -144,7 +144,6 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Propiedades Destacadas</h2>
-            <p className="text-xl text-gray-600">Selección especial de inmuebles</p>
           </div>
 
           {loading ? (
@@ -158,7 +157,7 @@ export default function HomePage() {
           )}
 
           <div className="text-center mt-12">
-            <Link href="/propiedades" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition transform hover:scale-105">
+            <Link href="/propiedades" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition transform hover:scale-105">
               Ver Todas las Propiedades
             </Link>
           </div>
