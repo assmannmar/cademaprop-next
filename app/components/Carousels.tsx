@@ -186,7 +186,7 @@ export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
   };
 
   useEffect(() => {
-    const timer = setInterval(next, 5000);
+    const timer = setInterval(next, 4000);
     return () => clearInterval(timer);
   }, [currentIndex, maxIndex]);
 
