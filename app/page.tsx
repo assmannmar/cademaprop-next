@@ -156,11 +156,11 @@ export default function HomePage() {
             <p className="text-center text-gray-500">No hay propiedades disponibles</p>
           )}
 
-          <div className="text-center mt-12">
+          {/*<div className="text-center mt-12">
             <Link href="/propiedades" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition transform hover:scale-105">
               Ver Todas las Propiedades
             </Link>
-          </div>
+          </div>*/}
         </div>
       </section>
 
