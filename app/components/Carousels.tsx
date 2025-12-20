@@ -224,11 +224,6 @@ export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
                       <h3 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-2xl line-clamp-2">
                         {prop.publication_title || `${prop.type?.name} en ${prop.location?.name}`}
                       </h3>
-                      {price && (
-                        <p className="text-lg font-bold text-white drop-shadow-lg">
-                          {price.currency} ${price.price.toLocaleString('es-AR')}
-                        </p>
-                      )}
                     </div>
                   </div>
                 </Link>
