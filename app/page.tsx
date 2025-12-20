@@ -183,7 +183,7 @@ export default function HomePage() {
             <p className="text-2xl mb-8 drop-shadow-lg">Galpones, naves y terrenos para tu empresa</p>
             <Link
               href="https://cademaprop.com.ar/parque-industrial/"
-              className="inline-block px-10 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-xl transition transform hover:scale-105 text-lg"
+              className="inline-block px-10 py-4 bg-red-600 hover:bg-red-700 text-white font-bold shadow-xl transition transform hover:scale-105 text-lg"
             >
               Explorar Sector Industrial
             </Link>
