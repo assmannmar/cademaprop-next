@@ -81,7 +81,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col -mt-[70px]">
+    <main className="min-h-screen flex flex-col">
       {/* HERO SECTION */}
       <section className="relative w-full h-[500px] md:h-[600px] z-0">
         <HeroCarousel />

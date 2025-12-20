@@ -33,7 +33,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* CONTENIDO DE CADA PÁGINA */}
-        <div className="pt-[70px]">
+        {/*<div className="pt-[70px]">
           {children}
         </div>
 
