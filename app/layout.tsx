@@ -29,15 +29,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
       >
-        {/* NAVBAR - Aparece en todas las páginas */}
         <Navbar />
 
-        {/* CONTENIDO DE CADA PÁGINA */}
-        <div className="pt-[70px]">
-          {children}
-        </div>
+        {/* ❌ ANTES: <div className="pt-[70px]">{children}</div> 
+           ✅ AHORA: Renderiza children directamente. 
+           Esto elimina el espacio físico reservado para el navbar.
+        */}
+        {children}
 
-        {/* FOOTER - Aparece en todas las páginas */}
         <Footer />
       </body>
     </html>
