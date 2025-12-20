@@ -106,7 +106,7 @@ export default function PropertyCard(property: PropertyCardProps) {
       'office': 'Oficina',
       'building': 'Edificio',
       'Industrial Ship': 'Nave Industrial',
-      'Weekend House': 'Casa de Fin de Semana',
+      'Weekend House': 'Casa de fin de semana',
     };
     return translations[type] || type;
   };
