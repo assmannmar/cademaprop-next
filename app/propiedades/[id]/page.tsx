@@ -120,6 +120,7 @@ export default function PropertyDetailPage() {
   const translatePropertyType = (type: string) => {
     const translations: Record<string, string> = {
       'House': 'Casa',
+      'Weekend House': 'Casa de Fin de Semana',
       'Apartment': 'Departamento',
       'Land': 'Terreno',
       'Commercial': 'Comercial',
