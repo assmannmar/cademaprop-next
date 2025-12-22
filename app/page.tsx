@@ -100,7 +100,7 @@ export default function HomePage() {
                 Comprar
               </Link>
               <Link href="/propiedades?operation=rental" className="px-6 py-4 bg-white hover:bg-red-600 hover:text-white shadow-xl rounded-lg border-2 border-white hover:border-red-600 transition-all text-center text-lg font-semibold transform hover:scale-105">
-                Alquilar
+                Vender
               </Link>
               <Link href="/propiedades" className="px-6 py-4 bg-white hover:bg-red-600 hover:text-white shadow-xl rounded-lg border-2 border-white hover:border-red-600 transition-all text-center text-lg font-semibold transform hover:scale-105">
                 Residencial
