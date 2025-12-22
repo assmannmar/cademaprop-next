@@ -10,8 +10,7 @@ import Image from "next/image";
 import { 
   EmprendimientosCarousel, 
   DestacadasCarousel, 
-  TestimoniosCarousel, 
-  InstagramCarousel 
+  TestimoniosCarousel 
 } from './components/Carousels';
 
 interface Property {
@@ -291,7 +290,19 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Síguenos en Instagram</h2>
             <p className="text-xl text-gray-600">@cademaprop</p>
           </div>
-          <InstagramCarousel />
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <a
+                key={i}
+                href="https://instagram.com/cademaprop"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block overflow-hidden rounded-lg"
+              >
+                <div className="w-full h-24 bg-gray-200"></div>
+              </a>
+            ))}
+          </div>
           <div className="text-center mt-8">
             <a
               href="https://instagram.com/cademaprop"
