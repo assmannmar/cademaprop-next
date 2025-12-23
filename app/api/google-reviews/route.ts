@@ -1,60 +1,31 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-  const placeId = process.env.GOOGLE_PLACE_ID;
+  const SPREADSHEET_ID = '1nWEyaRGyfd4fxxu_-Is7pAVIrwmflSJj-AnZ74LlIwA';
+  const RANGE = 'Reviews!A2:C10';
+  const SHEETS_KEY = process.env.GOOGLE_SHEETS_API_KEY; // Sin el prefijo NEXT_PUBLIC_
 
-  if (!apiKey || !placeId) {
-    return NextResponse.json(
-      { 
-        error: "Faltan credenciales de Google Places",
-        reviews: [] 
-      },
-      { status: 400 }
-    );
+  if (!SHEETS_KEY) {
+    return NextResponse.json({ error: "API Key no configurada" }, { status: 500 });
   }
 
   try {
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating,user_ratings_total&key=${apiKey}&language=es`;
-
-    const response = await fetch(url, {
-      cache: 'no-store' // No cachear para obtener reseñas actualizadas
-    });
-
-    if (!response.ok) {
-      throw new Error(`Google Places API error: ${response.status}`);
-    }
-
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${SHEETS_KEY}`;
+    const response = await fetch(url, { next: { revalidate: 3600 } }); // Cache opcional de 1 hora
     const data = await response.json();
 
-    if (data.status === 'OK' && data.result?.reviews) {
-      // Ordenar por fecha (más recientes primero)
-      const sortedReviews = data.result.reviews.sort((a: any, b: any) => b.time - a.time);
-      
-      return NextResponse.json({
-        reviews: sortedReviews,
-        rating: data.result.rating,
-        total_ratings: data.result.user_ratings_total
-      });
+    if (!data.values) {
+      return NextResponse.json([]);
     }
 
-    return NextResponse.json(
-      { 
-        error: "No se encontraron reseñas",
-        reviews: [] 
-      },
-      { status: 404 }
-    );
+    const mappedReviews = data.values.map((row: any) => ({
+      author_name: row[0] || "Cliente",
+      rating: parseInt(row[1]) || 5,
+      text: row[2] || "",
+    }));
 
+    return NextResponse.json(mappedReviews);
   } catch (error) {
-    console.error('Error fetching Google reviews:', error);
-    return NextResponse.json(
-      { 
-        error: "Error al obtener reseñas de Google",
-        details: String(error),
-        reviews: []
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Error al obtener datos" }, { status: 500 });
   }
 }

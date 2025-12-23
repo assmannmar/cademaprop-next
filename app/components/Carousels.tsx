@@ -220,48 +220,44 @@ interface Review {
 }
 
 export function TestimoniosCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // 1. DECLARACIÓN DEL ESTADO (Esto es lo que te falta)
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const SPREADSHEET_ID = '1nWEyaRGyfd4fxxu_-Is7pAVIrwmflSJj-AnZ74LlIwA';
-  const RANGE = 'Reviews!A2:C10';
-  const SHEETS_KEY = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SHEETS_KEY;
-
   const fetchSheetReviews = useCallback(async () => {
-    if (!SHEETS_KEY) {
-      console.error("API Key no configurada");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${SHEETS_KEY}`;
-      const response = await fetch(url);
-      const data = await response.json();
+      // Llamamos a tu ruta interna en app/api/reviews/route.ts
+      const response = await fetch('/api/reviews');
+      
+      if (!response.ok) {
+        throw new Error('Error al conectar con la API interna');
+      }
 
-      if (data.values) {
-        const mappedReviews = data.values
-          .filter((row: any[]) => row.length >= 3) // Solo filas con nombre, rating y texto
-          .map((row: any) => ({
-            author_name: row[0] || "Cliente",
-            rating: Math.min(Math.max(parseInt(row[1]) || 5, 1), 5), // Asegura rango 1-5
-            text: row[2] || "",
-          }));
-        setReviews(mappedReviews);
+      const data = await response.json();
+      
+      // Verificamos que data sea un array antes de guardarlo
+      if (Array.isArray(data)) {
+        setReviews(data);
       }
     } catch (error) {
-      console.error('Error cargando Google Sheets:', error);
-      setReviews([{ author_name: "Cadema Prop", rating: 5, text: "Excelente servicio inmobiliario." }]);
+      console.error('Error cargando testimonios:', error);
+      // Fallback: un testimonio por defecto en caso de error
+      setReviews([{ 
+        author_name: "Prueba", 
+        rating: 5, 
+        text: "Excelente servicio inmobiliario." 
+      }]);
     } finally {
       setLoading(false);
     }
-  }, [SHEETS_KEY, SPREADSHEET_ID]);
+  }, []);
 
   useEffect(() => {
     fetchSheetReviews();
   }, [fetchSheetReviews]);
 
+  // Lógica del auto-play
   const next = useCallback(() => {
     setCurrentIndex((prev) => (prev >= reviews.length - 1 ? 0 : prev + 1));
   }, [reviews.length]);
@@ -273,7 +269,7 @@ export function TestimoniosCarousel() {
     }
   }, [next, reviews.length]);
 
-  if (loading) return <div className="py-20 text-center">Cargando testimonios...</div>;
+  if (loading) return <div className="py-20 text-center text-gray-500">Cargando testimonios...</div>;
   if (reviews.length === 0) return null;
 
   return (
@@ -300,18 +296,24 @@ export function TestimoniosCarousel() {
           ))}
         </div>
       </div>
+      
+      {/* Indicadores */}
       <div className="flex justify-center gap-2 mt-6">
         {reviews.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentIndex(idx)}
-            className={`h-2 transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-red-600' : 'w-2 bg-gray-300'}`}
+            aria-label={`Ir al testimonio ${idx + 1}`}
+            className={`h-2 transition-all duration-300 rounded-full ${
+              idx === currentIndex ? 'w-8 bg-red-600' : 'w-2 bg-gray-300'
+            }`}
           />
         ))}
       </div>
     </div>
   );
 }
+
 // ============ CAROUSEL DE INSTAGRAM ============
 export function InstagramCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
