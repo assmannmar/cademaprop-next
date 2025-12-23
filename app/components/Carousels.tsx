@@ -241,11 +241,13 @@ export function TestimoniosCarousel() {
       const data = await response.json();
 
       if (data.values) {
-        const mappedReviews = data.values.map((row: any) => ({
-          author_name: row[0] || "Cliente",
-          rating: parseInt(row[1]) || 5,
-          text: row[2] || "",
-        }));
+        const mappedReviews = data.values
+          .filter((row: any[]) => row.length >= 3) // Solo filas con nombre, rating y texto
+          .map((row: any) => ({
+            author_name: row[0] || "Cliente",
+            rating: Math.min(Math.max(parseInt(row[1]) || 5, 1), 5), // Asegura rango 1-5
+            text: row[2] || "",
+          }));
         setReviews(mappedReviews);
       }
     } catch (error) {
