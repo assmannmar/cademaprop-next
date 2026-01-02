@@ -157,12 +157,7 @@ export default function IslasPage() {
           <p className="text-3xl md:text-4xl text-white/90 mb-8 drop-shadow-lg">
             {datosLocales.subtitulo}
           </p>
-          <a 
-            href="#descripcion" 
-            className="inline-block px-10 py-4 bg-white hover:bg-gray-100 text-gray-900 font-bold text-lg rounded-full shadow-2xl transition transform hover:scale-110"
-          >
-            Descubrí Campo Alto
-          </a>
+          
         </div>
 
         {/* Scroll indicator */}
