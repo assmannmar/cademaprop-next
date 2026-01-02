@@ -27,8 +27,8 @@ interface Development {
   custom_tags?: Array<{ name: string }>;
 }
 
-export default function CampoAltoPage() {
-  const EMPRENDIMIENTO_ID = 61960;
+export default function IslasPage() {
+  const EMPRENDIMIENTO_ID = 55491;
 
   const [development, setDevelopment] = useState<Development | null>(null);
   const [loading, setLoading] = useState(true);
