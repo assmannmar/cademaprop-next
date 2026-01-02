@@ -22,9 +22,9 @@ export default function VentuxForm() {
 
     // Crear el iframe con los datos exactos del código original
     const iframe = document.createElement('iframe');
-    iframe.src = "https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz";
+    iframe.src = "https://link.ventux.io/widget/form/M9ZdL9KPgNEykJWnmM3e";
     // Ajustado a height 619px según tu código original
-    iframe.style.cssText = "display:block;width:100%;height:619px;border:none;border-radius:3px";
+    iframe.style.cssText = "display:block;width:100%;height:610px;border:none;border-radius:3px";
     iframe.id = "inline-OWI77RP94NZkMNa4BIaz";
     
     // Configuración de Layout Inline
