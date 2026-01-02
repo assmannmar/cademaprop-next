@@ -121,7 +121,7 @@ export default function CampoAltoPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
       
-      {/* Navbar */}
+      {/* Navbar 
       <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm shadow-lg z-50 transition-all">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <a href="/" className="text-2xl font-bold text-white hover:text-red-400 transition">
@@ -135,6 +135,7 @@ export default function CampoAltoPage() {
           </a>
         </div>
       </nav>
+      */}
 
       {/* Hero Section */}
       <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
