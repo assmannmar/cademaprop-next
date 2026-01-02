@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import VentuxForm from "@/app/components/VentuxForm";
+import VentuxForm from "@/app/emprendimientos/campo-alto/Form-campo-alto";
 
 interface Development {
   id: number;
@@ -112,7 +112,7 @@ export default function CampoAltoPage() {
 
   // Datos combinados: TOKKO + LOCAL
   const nombre = development?.name || development?.publication_title || 'Campo Alto';
-  const ubicacion = development?.location?.full_location || development?.location?.name || 'Campana, Buenos Aires';
+  const ubicacion = development?.location?.full_location || development?.location?.name || 'Zárate, Buenos Aires';
   const descripcionTokko = development?.rich_description || development?.description || '';
   const fotos = development?.photos?.filter(p => !p.is_blueprint) || [];
   const planos = development?.photos?.filter(p => p.is_blueprint) || [];
