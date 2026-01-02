@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export default function WhatsAppButton() {
   // ========== CONFIGURACIÓN ==========
-  const WHATSAPP_NUMBER = "55493489368518"; 
+  const WHATSAPP_NUMBER = "5493489368518"; 
   const DEFAULT_MESSAGE = "Hola, quiero más información"; 
   // ===================================
 
@@ -50,13 +50,14 @@ export default function WhatsAppButton() {
         </span>
       </button>
 
-      {/* Animación de pulso (opcional - círculos que se expanden) */}
+      {/* Animación de pulso (opcional - círculos que se expanden) 
       <div className="fixed bottom-6 right-6 z-40 pointer-events-none">
         <div className="relative w-[60px] h-[60px]">
           <span className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-75"></span>
           <span className="absolute inset-0 bg-green-500 rounded-full animate-pulse"></span>
         </div>
-      </div>
+      </div> 
+      */}
     </>
   );
 }
