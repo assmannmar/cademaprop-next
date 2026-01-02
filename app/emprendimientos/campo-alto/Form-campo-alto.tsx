@@ -39,11 +39,11 @@ export default function VentuxForm() {
     iframe.setAttribute('data-activation-value', '');
     iframe.setAttribute('data-deactivation-type', 'neverDeactivate');
     iframe.setAttribute('data-deactivation-value', '');
-    iframe.setAttribute('data-form-name', 'Form Web Inmueble');
+    iframe.setAttribute('data-form-name', 'Form Landing - Campo Alto');
     iframe.setAttribute('data-height', '619');
     iframe.setAttribute('data-layout-iframe-id', 'inline-OWI77RP94NZkMNa4BIaz');
     iframe.setAttribute('data-form-id', 'OWI77RP94NZkMNa4BIaz');
-    iframe.title = "Form Web Inmueble";
+    iframe.title = "Form Landing - Campo Alto";
 
     // Guardar referencia para limpieza
     iframeRef.current = iframe;
