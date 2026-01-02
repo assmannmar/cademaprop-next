@@ -184,7 +184,7 @@ export default function IslasPage() {
 
       {/* Parallax Section con imagen de fondo */}
       {fotos.length > 1 && (
-        <section className="relative h-96 flex items-center justify-center overflow-hidden">
+        <section className="relative h-120 flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <img
               src={fotos[1].image}
