@@ -29,17 +29,17 @@ interface Development {
 }
 
 export default function CampoAltoPage() {
-  // ========== CONFIGURACIÓN: Cambia este ID por el de tu emprendimiento ==========
-  const EMPRENDIMIENTO_ID = 61960; // ← ID de Tokko para este emprendimiento
+  // ===============================================================================
+  const EMPRENDIMIENTO_ID = 61960; // ← ID de Tokko 
   // ===============================================================================
 
   const [development, setDevelopment] = useState<Development | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
 
-  // ========== DATOS LOCALES (lo que NO viene de Tokko) ==========
+  // ========== DATOS LOCALES  ==========
   const datosLocales = {
-    subtitulo: "Tu casa en el campo, cerca de todo",
+    subtitulo: "Tu lugar en Zárate",
     descripcionExtra: `Campo Alto es un emprendimiento único que combina la tranquilidad 
     del campo con la cercanía a todos los servicios. Ubicado estratégicamente, 
     ofrece lotes amplios con todos los servicios.`,
