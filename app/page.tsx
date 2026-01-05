@@ -25,6 +25,7 @@ interface Property {
   }>;
   custom_tags?: Array<{ name: string; group_name?: string }>;
   development?: { type?: { name: string } };
+  is_starred_on_web?: boolean; // Agregamos esta propiedad
 }
 
 interface Development {
@@ -58,20 +59,29 @@ export default function HomePage() {
       const propRes = await fetch('/api/properties');
       const propData = await propRes.json();
       
-      // Filtrar propiedades que tengan el custom_tag "Destacar En Landing"
-      const propiedadesDestacadas = propData.objects?.filter((prop: Property) => {
-        return prop.custom_tags?.some(tag => 
-          tag.name.toLowerCase().includes('destacar') && 
-          tag.name.toLowerCase().includes('landing')
-        );
+      // NUEVA LÓGICA: Filtrar primero por is_starred_on_web
+      const propiedadesStarred = propData.objects?.filter((prop: Property) => {
+        return prop.is_starred_on_web === true;
       }) || [];
 
-      // Si hay propiedades destacadas, usarlas. Si no, tomar las primeras 12
-      if (propiedadesDestacadas.length > 0) {
-        setDestacadas(propiedadesDestacadas.slice(0, 12));
+      // Si hay propiedades con is_starred_on_web, usarlas
+      if (propiedadesStarred.length > 0) {
+        setDestacadas(propiedadesStarred.slice(0, 12));
       } else {
-        // Fallback: tomar las primeras 12 si no hay destacadas
-        setDestacadas(propData.objects?.slice(0, 12) || []);
+        // Fallback 1: Buscar propiedades con custom_tag "Destacar En Landing"
+        const propiedadesDestacadas = propData.objects?.filter((prop: Property) => {
+          return prop.custom_tags?.some(tag => 
+            tag.name.toLowerCase().includes('destacar') && 
+            tag.name.toLowerCase().includes('landing')
+          );
+        }) || [];
+
+        if (propiedadesDestacadas.length > 0) {
+          setDestacadas(propiedadesDestacadas.slice(0, 12));
+        } else {
+          // Fallback 2: tomar las primeras 12 si no hay ninguna destacada
+          setDestacadas(propData.objects?.slice(0, 12) || []);
+        }
       }
     } catch (err) {
       console.error('Error cargando datos:', err);
@@ -154,12 +164,6 @@ export default function HomePage() {
           ) : (
             <p className="text-center text-gray-500">No hay propiedades disponibles</p>
           )}
-
-          {/*<div className="text-center mt-12">
-            <Link href="/propiedades" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition transform hover:scale-105">
-              Ver Todas las Propiedades
-            </Link>
-          </div>*/}
         </div>
       </section>
 
@@ -169,10 +173,10 @@ export default function HomePage() {
           <Image
             src="/industrial-banner.jpg"
             alt="Cadema Prop"
-            fill // Esto hace que ocupe todo el contenedor padre (que debe tener position: relative)
+            fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
-            priority={false} // true si es la imagen principal (Hero), false si está abajo
+            priority={false}
           />
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
