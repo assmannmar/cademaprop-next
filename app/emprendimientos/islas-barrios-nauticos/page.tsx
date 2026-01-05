@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import './islas-barrios-nauticos.css';
 
 interface Development {
   id: number;
@@ -524,65 +525,6 @@ export default function IslasPage() {
         </div>
       </footer>
 
-      <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fade-in 1s ease-out;
-        }
-
-        @keyframes bounce {
-          0%, 100% {
-            transform: translateY(0) translateX(-50%);
-          }
-          50% {
-            transform: translateY(-20px) translateX(-50%);
-          }
-        }
-
-        .animate-bounce {
-          animation: bounce 2s infinite;
-        }
-
-        /* Smooth scroll */
-        html {
-          scroll-behavior: smooth;
-        }
-
-        /* Backdrop blur support */
-        @supports (backdrop-filter: blur(10px)) {
-          .backdrop-blur-sm {
-            backdrop-filter: blur(10px);
-          }
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-          width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: #1f2937;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: #ef4444;
-          border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: #dc2626;
-        }
-      `}</style>
     </div>
   );
 }
