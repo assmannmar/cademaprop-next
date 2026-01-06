@@ -35,9 +35,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>© 2025 Cadema Prop. Todos los derechos reservados.</p>
-        </div>
+        
       </div>
     </footer>
   );
