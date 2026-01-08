@@ -5,7 +5,6 @@ import HeroCarousel from "./components/HeroCarousel";
 import VentuxForm from "@/app/components/VentuxForm";
 import Link from "next/link";
 import Image from "next/image";
-// Importar los carousels
 import { 
   EmprendimientosCarousel, 
   DestacadasCarousel, 
@@ -24,7 +23,7 @@ interface Property {
   }>;
   custom_tags?: Array<{ name: string; group_name?: string }>;
   development?: { type?: { name: string } };
-  is_starred_on_web?: boolean; // Agregamos esta propiedad
+  is_starred_on_web?: boolean;
 }
 
 interface Development {
@@ -47,27 +46,20 @@ export default function HomePage() {
 
   const fetchData = async () => {
     try {
-      // Fetch emprendimientos desde el nuevo endpoint
       const devRes = await fetch('/api/developments');
       const devData = await devRes.json();
-      
-      // Tomar los primeros 20 emprendimientos
       setEmprendimientos(devData.objects?.slice(0, 20) || []);
 
-      // Fetch propiedades para destacadas
       const propRes = await fetch('/api/properties');
       const propData = await propRes.json();
       
-      // NUEVA LÓGICA: Filtrar primero por is_starred_on_web
       const propiedadesStarred = propData.objects?.filter((prop: Property) => {
         return prop.is_starred_on_web === true;
       }) || [];
 
-      // Si hay propiedades con is_starred_on_web, usarlas
       if (propiedadesStarred.length > 0) {
         setDestacadas(propiedadesStarred.slice(0, 12));
       } else {
-        // Fallback 1: Buscar propiedades con custom_tag "Destacar En Landing"
         const propiedadesDestacadas = propData.objects?.filter((prop: Property) => {
           return prop.custom_tags?.some(tag => 
             tag.name.toLowerCase().includes('destacar') && 
@@ -78,7 +70,6 @@ export default function HomePage() {
         if (propiedadesDestacadas.length > 0) {
           setDestacadas(propiedadesDestacadas.slice(0, 12));
         } else {
-          // Fallback 2: tomar las primeras 12 si no hay ninguna destacada
           setDestacadas(propData.objects?.slice(0, 12) || []);
         }
       }
@@ -91,8 +82,8 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen flex flex-col">
-      {/* HERO SECTION */}
-      <section className="relative w-full h-[500px] md:h-[600px] z-0">
+      {/* HERO SECTION - PANTALLA COMPLETA */}
+      <section className="relative w-full h-screen z-0">
         <HeroCarousel />
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-20">
           <div className="text-center px-4">
@@ -102,7 +93,7 @@ export default function HomePage() {
             <p className="text-xl md:text-2xl text-white mb-8 drop-shadow-lg">
               Más de 25 años conectando personas con propiedades
             </p>
-            {/* Grid fijo de 2x2 en todos los tamaños */}
+            {/* Grid fijo de 2x2 */}
             <div className="grid grid-cols-2 gap-4 max-w-xl mx-auto">
               <Link href="/propiedades?operation=sale" className="px-6 py-4 bg-white hover:bg-red-600 hover:text-white shadow-xl rounded-lg border-2 border-white hover:border-red-600 transition-all text-center text-lg font-semibold transform hover:scale-105">
                 Comprar

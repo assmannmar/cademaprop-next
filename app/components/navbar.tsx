@@ -6,15 +6,19 @@ export default function Navbar() {
   const [visible, setVisible] = useState(true);
   const [lastY, setLastY] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       const currentY = window.scrollY;
 
+      // Cambiar el estado de "scrolled" cuando se baja
+      setScrolled(currentY > 50);
+
       // Si estoy bajando → oculto
       if (currentY > lastY && currentY > 50) {
         setVisible(false);
-        setMobileMenuOpen(false); // Cerrar menú mobile al hacer scroll
+        setMobileMenuOpen(false);
       }
       // Si subo → muestro
       else {
@@ -28,12 +32,10 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [lastY]);
 
-  // Cerrar menú cuando se hace click en un link
   const handleLinkClick = () => {
     setMobileMenuOpen(false);
   };
 
-  // Prevenir scroll del body cuando el menú está abierto
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -49,16 +51,18 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 w-full z-50 transition-transform duration-300 
+        className={`fixed top-0 w-full z-50 transition-all duration-300 
         ${visible ? "translate-y-0" : "-translate-y-full"} 
-        bg-white/70 backdrop-blur shadow-md`}
+        ${scrolled ? "bg-white/90 backdrop-blur-md shadow-md" : "bg-transparent"}`}
       >
         <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
 
           {/* LOGO */}
           <Link 
             href="/" 
-            className="text-xl sm:text-2xl font-bold text-blue-600"
+            className={`text-xl sm:text-2xl font-bold transition-colors ${
+              scrolled ? "text-blue-600" : "text-white drop-shadow-lg"
+            }`}
             onClick={handleLinkClick}
           >
             LOGO
@@ -66,17 +70,54 @@ export default function Navbar() {
 
           {/* LINKS DESKTOP */}
           <div className="hidden sm:flex space-x-6">
-            <Link href="/quienes-somos" className="nav-item">Quienes Somos</Link>
-            <Link href="/propiedades" className="nav-item">Propiedades</Link>
-            <Link href="/emprendimientos" className="nav-item">Emprendimientos</Link>
-            <Link href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" className="nav-item">Industria</Link>
-            <Link href="/contacto" className="nav-item">Contacto</Link>
+            <Link 
+              href="/quienes-somos" 
+              className={`nav-item transition-colors ${
+                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
+              }`}
+            >
+              Quienes Somos
+            </Link>
+            <Link 
+              href="/propiedades" 
+              className={`nav-item transition-colors ${
+                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
+              }`}
+            >
+              Propiedades
+            </Link>
+            <Link 
+              href="/emprendimientos" 
+              className={`nav-item transition-colors ${
+                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
+              }`}
+            >
+              Emprendimientos
+            </Link>
+            <Link 
+              href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" 
+              className={`nav-item transition-colors ${
+                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
+              }`}
+            >
+              Industria
+            </Link>
+            <Link 
+              href="/contacto" 
+              className={`nav-item transition-colors ${
+                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
+              }`}
+            >
+              Contacto
+            </Link>
           </div>
 
           {/* MENU MOBILE - HAMBURGER BUTTON */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="sm:hidden text-gray-700 text-2xl p-2"
+            className={`sm:hidden text-2xl p-2 transition-colors ${
+              scrolled ? "text-gray-700" : "text-white drop-shadow-lg"
+            }`}
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? '✕' : '☰'}

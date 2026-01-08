@@ -22,7 +22,7 @@ export default function HeroCarousel() {
   }, [images.length]);
 
   return (
-    <div className="relative w-full h-[550px] overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden">
       {images.map((img, i) => (
         <img
           key={i}
@@ -34,8 +34,8 @@ export default function HeroCarousel() {
         />
       ))}
 
-      {/* sombreado para que botones/textos se lean mejor */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
+      {/* Sombreado para que botones/textos se lean mejor */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20" />
     </div>
   );
 }
