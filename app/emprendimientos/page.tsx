@@ -164,7 +164,7 @@ export default function EmprendimientosPage() {
               return (
                 <div 
                   key={emp.id} 
-                  className="group flex flex-col md:flex-row bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 md:h-[400px]" 
+                  className="group flex flex-col md:flex-row bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 md:h-[400px]" 
                 >
                   {/* Lado Imagen: h-full asegura que ocupe toda la altura de la ficha */}
                   <div className="md:w-[45%] h-80 md:h-full relative overflow-hidden shrink-0">
