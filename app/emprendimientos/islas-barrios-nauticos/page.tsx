@@ -216,21 +216,28 @@ export default function IslasPage() {
         )}
 
       {/* Descripción detallada */}
-      <section className="py-20" style={{ backgroundColor: '#2F52A0' }}>
-        <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-5xl font-bold text-center mb-12" style={{ color: '#E4E4E4' }}>
-            Un Estilo de Vida Único
-          </h2>
-          
-          {descripcionTokko && (
-            <div 
-              className="text-lg leading-relaxed prose prose-lg max-w-none"
-              style={{ color: '#E4E4E4' }}
-              dangerouslySetInnerHTML={{ __html: descripcionTokko }}
-            />
-          )}
+        <section className="py-20 animate-fade-in" style={{ backgroundColor: '#2F52A0' }}>
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-12" style={{ color: '#E4E4E4' }}>
+            Islas Barrios Náuticos: Un Estilo de Vida Único
+            </h2>
+            
+            <div className="space-y-6 text-lg md:text-xl leading-relaxed" style={{ color: '#E4E4E4' }}>
+            <p>
+                Islas constituye un emprendimiento inmobiliario único ubicado en Islas del Ibicuy, Entre Ríos.
+            </p>
+            
+            <p>
+                Más de <span className="font-bold">300 hectáreas</span> situadas estratégicamente a pocos metros al bajar del puente Zárate-Brazo Largo, visible en una hermosa vista panorámica desde el mismo, y con acceso directo al río Paraná Guazú.
+            </p>
+            
+            <p>
+                Un desarrollo integral, un nuevo lugar de referencia en el Delta, concebido en un gran masterplan cuya primera etapa es el <span className="font-bold uppercase">Barrio ISLA VICTORIA</span>. Con 252 lotes cuidadosamente diseñados, con superficies que van desde los 450 m2 a los 1500 m2. Este rincón paradisíaco garantiza un entorno residencial exclusivo y sofisticado.
+            </p>
+            </div>
+
         </div>
-      </section>
+        </section>
 
       {/* Beneficios */}
       <section className="py-20" style={{ backgroundColor: '#E4E4E4' }}>
