@@ -84,5 +84,5 @@ body {
 
 /* Si quieres un color específico para TODOS cuando hay scroll */
 .nav-link-scrolled {
-  color: #1a365d !important; /* Un azul oscuro, por ejemplo */
+  color: white !important; /* Un azul oscuro, por ejemplo */
 }
