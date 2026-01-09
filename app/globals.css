@@ -59,3 +59,30 @@ body {
 .animate-slide-left {
   animation: slide-left 0.3s ease-out;
 }
+
+/* NAVBAR */
+/* Estilos para los links del menú */
+.nav-item {
+  /* Tamaño de la letra */
+  font-size: 1.1rem; /* Equivale a text-lg. Cámbialo a 1rem para normal */
+  
+  /* Grosor y tipografía */
+  font-weight: 500; 
+  font-family: 'Nexa', sans-serif; /* Aquí usas la fuente que instalamos antes */
+  
+  /* Espaciado entre letras (opcional) */
+  letter-spacing: 0.5px;
+  
+  transition: all 0.3s ease;
+}
+
+/* Si quieres un color específico para TODOS cuando no hay scroll */
+.nav-link-white {
+  color: white !important;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Si quieres un color específico para TODOS cuando hay scroll */
+.nav-link-scrolled {
+  color: #1a365d !important; /* Un azul oscuro, por ejemplo */
+}
