@@ -67,7 +67,7 @@ export default function Navbar() {
           >
             <img 
               src="/logos/logo.png"
-              className="mx-auto w-full max-w-[150px] md:max-w-[250px] h-auto drop-shadow-2xl mb-6"
+              className="mx-auto w-full max-w-[100px] md:max-w-[200px] h-auto drop-shadow-2xl mb-6"
               alt="Logo"
             />
           </Link>
