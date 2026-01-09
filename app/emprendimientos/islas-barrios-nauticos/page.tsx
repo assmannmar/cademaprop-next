@@ -242,66 +242,67 @@ export default function IslasPage() {
 
       {/* Sección de Beneficios (Un Paraíso Náutico) */}
         <section className="py-20 animate-fade-in" style={{ backgroundColor: '#E4E4E4' }}>
-        <div className="container mx-auto px-4">
-            <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
+        <div className="container mx-auto px-4 max-w-5xl">
+            <h2 className="text-4xl font-bold text-center mb-12" style={{ color: '#2F52A0' }}>
             Un Paraíso Náutico
             </h2>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            {/* Contenedor Flex con centrado automático */}
+            <div className="flex flex-wrap justify-center gap-8 md:gap-12">
             
             {/* Lotes con amarras */}
-            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105">
-                <div className="w-24 h-24 mb-6 flex items-center justify-center">
-                <img src="/landings/img/house.png" alt="Lotes" className="w-full h-full object-contain" />
+            <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
+                <div className="w-16 h-16 mb-4 flex items-center justify-center">
+                <img src="/img/house.png" alt="Lotes" className="w-full h-full object-contain" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Lotes con amarras propias
                 </h3>
-                <p className="text-lg text-gray-700">El río en el frente de tu casa.</p>
+                <p className="text-base text-gray-700">El río en el frente de tu casa.</p>
             </div>
 
             {/* Canales navegables */}
-            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105">
-                <div className="w-24 h-24 mb-6 flex items-center justify-center">
-                <img src="/landings/img/barco.png" alt="Barco" className="w-full h-full object-contain" />
+            <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
+                <div className="w-16 h-16 mb-4 flex items-center justify-center">
+                <img src="/img/barco.png" alt="Barco" className="w-full h-full object-contain" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Canales navegables
                 </h3>
-                <p className="text-lg text-gray-700">Con calados de 0,7 a 2,5 metros.</p>
+                <p className="text-base text-gray-700">Con calados de 0,7 a 2,5 metros.</p>
             </div>
 
             {/* Guardería Náutica */}
-            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105">
-                <div className="w-24 h-24 mb-6 flex items-center justify-center">
-                <img src="/landings/img/ancla.png" alt="Ancla" className="w-full h-full object-contain" />
+            <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
+                <div className="w-16 h-16 mb-4 flex items-center justify-center">
+                <img src="/img/ancla.png" alt="Ancla" className="w-full h-full object-contain" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Guardería Náutica
                 </h3>
-                <p className="text-lg text-gray-700">SUM, playa y bajada náutica</p>
+                <p className="text-base text-gray-700">SUM, playa y bajada náutica</p>
             </div>
 
             {/* Servicios subterráneos */}
-            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105">
-                <div className="w-24 h-24 mb-6 flex items-center justify-center">
-                <img src="/landings/img/energy.png" alt="Energía" className="w-full h-full object-contain" />
+            <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
+                <div className="w-16 h-16 mb-4 flex items-center justify-center">
+                <img src="/img/energy.png" alt="Energía" className="w-full h-full object-contain" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Servicios subterráneos
                 </h3>
-                <p className="text-lg text-gray-700">Cuidado paisajismo urbano y natural</p>
+                <p className="text-base text-gray-700">Cuidado paisajismo urbano y natural</p>
             </div>
 
             {/* Wakeboard & Paseos */}
-            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105 md:col-span-2 lg:col-span-1">
-                <div className="w-24 h-24 mb-6 flex items-center justify-center">
-                <img src="/landings/img/sea.png" alt="Mar" className="w-full h-full object-contain" />
+            <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
+                <div className="w-16 h-16 mb-4 flex items-center justify-center">
+                <img src="/img/sea.png" alt="Mar" className="w-full h-full object-contain" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Wakeboard & Paseos
                 </h3>
-                <p className="text-lg text-gray-700">Disfrutá el río en el Meeting Point.</p>
+                <p className="text-base text-gray-700">Disfrutá el río en el Meeting Point.</p>
             </div>
 
             </div>
