@@ -138,7 +138,7 @@ export default function IslasPage() {
               alt={nombre}
               className="w-full h-full object-cover opacity-40"
             />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9))' }}></div>
+            <div className="absolute inset-0" style={{background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5))'}}></div>
           </div>
         )}
         
