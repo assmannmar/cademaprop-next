@@ -77,11 +77,9 @@ export default function Navbar() {
           <div className="hidden sm:flex space-x-6">
             <Link 
               href="/quienes-somos" 
-              className={`nav-item transition-colors ${
-                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
-              }`}
+              className={`nav-item ${scrolled ? "nav-link-scrolled" : "nav-link-white"}`}
             >
-              Quienes Somos
+              QUIENES SOMOS
             </Link>
             <Link 
               href="/propiedades" 
