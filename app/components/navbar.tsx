@@ -66,8 +66,9 @@ export default function Navbar() {
             onClick={handleLinkClick}
           >
             <img 
-            src="/logos/logo.png"
-            className="mx-auto w-full max-w-2xl md:max-w-4xl h-auto drop-shadow-2xl mb-6"
+              src="/logos/logo.png"
+              className="mx-auto w-full max-w-[150px] md:max-w-[250px] h-auto drop-shadow-2xl mb-6"
+              alt="Logo"
             />
           </Link>
 
