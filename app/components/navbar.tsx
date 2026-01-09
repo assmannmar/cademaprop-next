@@ -11,175 +11,70 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       const currentY = window.scrollY;
-
-      // Cambiar el estado de "scrolled" cuando se baja
       setScrolled(currentY > 50);
-
-      // Si estoy bajando → oculto
       if (currentY > lastY && currentY > 50) {
         setVisible(false);
         setMobileMenuOpen(false);
-      }
-      // Si subo → muestro
-      else {
+      } else {
         setVisible(true);
       }
-
       setLastY(currentY);
     };
-
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [lastY]);
 
-  const handleLinkClick = () => {
-    setMobileMenuOpen(false);
-  };
-
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [mobileMenuOpen]);
+  const linkClass = `nav-item ${scrolled ? "nav-link-scrolled" : "nav-link-white"}`;
 
   return (
     <>
-      <nav
-        className={`fixed top-0 w-full z-50 transition-all duration-300 
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 
         ${visible ? "translate-y-0" : "-translate-y-full"} 
-        ${scrolled ? "bg-white/90 backdrop-blur-md shadow-md" : "bg-transparent"}`}
-      >
-        <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-
-          {/* LOGO */}
-          <Link 
-            href="/" 
-            className={`transition-colors ${
-              scrolled ? "text-blue-600" : "text-white drop-shadow-lg"
-            }`}
-            onClick={handleLinkClick}
-          >
+        ${scrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"}`}>
+        
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          
+          {/* LOGO A LA IZQUIERDA */}
+          <Link href="/" className="flex-shrink-0">
             <img 
-              src="/logos/logo.png"
-              /* Achicamos a max-w-[120px] y max-w-[180px] en PC, y ml-0 para pegar a la izquierda */
-              className="ml-0 mr-auto w-full max-w-[120px] md:max-w-[180px] h-auto drop-shadow-2xl"
-              alt="Logo"
+              src="/logos/logo.png" 
+              alt="Logo" 
+              className="h-auto w-full max-w-[140px] md:max-w-[180px]" 
             />
           </Link>
 
-          {/* LINKS DESKTOP */}
-          <div className="hidden sm:flex space-x-6">
-            <Link 
-              href="/quienes-somos" 
-              className={`nav-item ${scrolled ? "nav-link-scrolled" : "nav-link-white"}`}
-            >
-              QUIENES SOMOS
-            </Link>
-            <Link 
-              href="/propiedades" 
-              className={`nav-item transition-colors ${
-                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
-              }`}
-            >
-              Propiedades
-            </Link>
-            <Link 
-              href="/emprendimientos" 
-              className={`nav-item transition-colors ${
-                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
-              }`}
-            >
-              Emprendimientos
-            </Link>
-            <Link 
-              href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" 
-              className={`nav-item transition-colors ${
-                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
-              }`}
-            >
-              Industria
-            </Link>
-            <Link 
-              href="/contacto" 
-              className={`nav-item transition-colors ${
-                scrolled ? "text-gray-700 hover:text-red-600" : "text-white hover:text-red-400 drop-shadow-md"
-              }`}
-            >
-              Contacto
-            </Link>
+          {/* MENU DESKTOP A LA DERECHA */}
+          <div className="hidden md:flex items-center space-x-2">
+            <Link href="/quienes-somos" className={linkClass}>Quienes Somos</Link>
+            <Link href="/propiedades" className={linkClass}>Propiedades</Link>
+            <Link href="/emprendimientos" className={linkClass}>Emprendimientos</Link>
+            <Link href="/industria" className={linkClass}>Industria</Link>
+            <Link href="/contacto" className={linkClass}>Contacto</Link>
+            <Link href="/blog" className={linkClass}>Blog</Link>
+            
+            {/* Redes Sociales */}
+            <div className="flex items-center ml-4 space-x-4">
+              <a href="https://instagram.com/..." target="_blank" className={linkClass}>
+                <span className="text-xl">📸</span> {/* O usa FontAwesome si lo tienes */}
+              </a>
+              <a href="https://wa.me/..." target="_blank" className={linkClass}>
+                <span className="text-xl">💬</span>
+              </a>
+            </div>
           </div>
 
-          {/* MENU MOBILE - HAMBURGER BUTTON */}
-          <button
+          {/* BOTON HAMBURGUESA (Mobile) */}
+          <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`sm:hidden text-2xl p-2 transition-colors ${
-              scrolled ? "text-gray-700" : "text-white drop-shadow-lg"
-            }`}
-            aria-label="Toggle menu"
+            className={`md:hidden text-2xl ${scrolled ? "text-gray-800" : "text-white"}`}
           >
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
-
         </div>
       </nav>
 
-      {/* MENU MOBILE - DROPDOWN */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 sm:hidden">
-          {/* Overlay */}
-          <div
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-
-          {/* Menu Panel */}
-          <div className="absolute top-[60px] left-0 right-0 bg-white/95 backdrop-blur shadow-lg animate-slide-down">
-            <div className="flex flex-col">
-              <Link
-                href="/quienes-somos"
-                className="px-6 py-4 text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition border-b border-gray-200"
-                onClick={handleLinkClick}
-              >
-                Quienes Somos
-              </Link>
-              <Link
-                href="/propiedades"
-                className="px-6 py-4 text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition border-b border-gray-200"
-                onClick={handleLinkClick}
-              >
-                Propiedades
-              </Link>
-              <Link
-                href="/emprendimientos"
-                className="px-6 py-4 text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition border-b border-gray-200"
-                onClick={handleLinkClick}
-              >
-                Emprendimientos
-              </Link>
-              <Link
-                href="https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/"
-                className="px-6 py-4 text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition border-b border-gray-200"
-                onClick={handleLinkClick}
-              >
-                Industria
-              </Link>
-              <Link
-                href="/contacto"
-                className="px-6 py-4 text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition"
-                onClick={handleLinkClick}
-              >
-                Contacto
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* MOBILE MENU (Igual que antes pero usando las nuevas clases) */}
+      {/* ... (tu código de mobile menu aquí abajo) ... */}
     </>
   );
 }

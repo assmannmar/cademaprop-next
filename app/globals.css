@@ -61,28 +61,30 @@ body {
 }
 
 /* NAVBAR */
-/* Estilos para los links del menú */
 .nav-item {
-  /* Tamaño de la letra */
-  font-size: 1.1rem; /* Equivale a text-lg. Cámbialo a 1rem para normal */
-  
-  /* Grosor y tipografía */
-  font-weight: 500; 
-  font-family: 'Nexa', sans-serif; /* Aquí usas la fuente que instalamos antes */
-  
-  /* Espaciado entre letras (opcional) */
-  letter-spacing: 0.5px;
-  
+  font-family: 'Nexa', sans-serif; 
+  font-size: 16px;                
+  font-weight: 500;
+  text-transform: capitalize;      
   transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
 }
 
-/* Si quieres un color específico para TODOS cuando no hay scroll */
 .nav-link-white {
-  color: white !important;
-  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #ffffff !important;
+  text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
 }
 
-/* Si quieres un color específico para TODOS cuando hay scroll */
 .nav-link-scrolled {
-  color: white !important; /* Un azul oscuro, por ejemplo */
+  color: #333333 !important; 
+}
+
+.nav-item:hover {
+  opacity: 0.7;
+}
+
+.social-icon {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
 }
