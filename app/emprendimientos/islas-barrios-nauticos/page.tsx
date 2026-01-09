@@ -119,7 +119,7 @@ export default function IslasPage() {
     );
   }
 
-  const nombre = development?.name || development?.publication_title || 'Campo Alto';
+  const nombre = development?.name || development?.publication_title || 'Islas Barrios Náuticos';
   const ubicacion = development?.location?.full_location || development?.location?.name || 'Zárate, Buenos Aires';
   const descripcionTokko = development?.rich_description || development?.description || '';
   const fotos = development?.photos?.filter(p => !p.is_blueprint) || [];
@@ -142,19 +142,16 @@ export default function IslasPage() {
           </div>
         )}
         
-        <div className="absolute top-5 left-10 z-10">
+        {/* <div className="absolute top-5 left-10 z-10">
           <img src="/logo/header-islas.png" alt={nombre} style={{ width: '120px' }} />
-        </div>
+        </div> */}
         
         <div className="relative z-10 text-center px-4 animate-fade-in">
           <img 
-            src="/logo.png"
+            src="/logo/header-islas.png"
             alt={nombre}
             className="mx-auto w-full max-w-2xl md:max-w-4xl h-auto drop-shadow-2xl mb-6"
           />
-          <p className="text-3xl md:text-4xl mb-8 drop-shadow-lg" style={{ color: '#2F52A0' }}>
-            {datosLocales.subtitulo}
-          </p>
         </div>
 
         {/* Scroll indicator */}
