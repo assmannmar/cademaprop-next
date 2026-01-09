@@ -60,14 +60,15 @@ export default function Navbar() {
           {/* LOGO */}
           <Link 
             href="/" 
-            className={`text-xl sm:text-2xl font-bold transition-colors ${
+            className={`transition-colors ${
               scrolled ? "text-blue-600" : "text-white drop-shadow-lg"
             }`}
             onClick={handleLinkClick}
           >
             <img 
               src="/logos/logo.png"
-              className="ml-8 mr-auto w-full max-w-xs md:max-w-sm h-auto drop-shadow-2xl mb-6"
+              /* Achicamos a max-w-[120px] y max-w-[180px] en PC, y ml-0 para pegar a la izquierda */
+              className="ml-0 mr-auto w-full max-w-[120px] md:max-w-[180px] h-auto drop-shadow-2xl"
               alt="Logo"
             />
           </Link>
