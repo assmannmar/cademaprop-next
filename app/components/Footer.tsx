@@ -9,7 +9,7 @@ export default function Footer() {
         style={{
           backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('/logos/logo-circle-red.png')",
           backgroundAttachment: 'fixed',
-          backgroundSize: '30%',
+          backgroundSize: '50%',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
         }}
