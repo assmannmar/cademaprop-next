@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
+// ... (Interfaces se mantienen igual)
 interface Development {
   id: number;
   name?: string;
@@ -26,19 +27,10 @@ export default function EmprendimientosPage() {
 
   const fetchEmprendimientos = async () => {
     setLoading(true);
-    setError(null);
-
     try {
-      // Usar el mismo endpoint que el carousel del home
       const response = await fetch('/api/developments');
-      
-      if (!response.ok) {
-        throw new Error('Error al cargar emprendimientos');
-      }
-
+      if (!response.ok) throw new Error('Error al cargar emprendimientos');
       const data = await response.json();
-      
-      // Tomar los emprendimientos del endpoint (ya vienen filtrados)
       setEmprendimientos(data.objects || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
@@ -49,214 +41,140 @@ export default function EmprendimientosPage() {
 
   const filteredEmprendimientos = emprendimientos.filter(emp => {
     if (selectedFilter === 'all') return true;
-    
-    const location = emp.location?.name.toLowerCase() || '';
-    return location.includes(selectedFilter.toLowerCase());
+    return emp.location?.name === selectedFilter;
   });
 
-  // Extraer ubicaciones únicas para filtros
   const uniqueLocations = Array.from(
     new Set(emprendimientos.map(e => e.location?.name).filter(Boolean))
-  ).slice(0, 6);
+  );
 
   return (
-    <div className="min-h-screen bg-gray-50 -mt-[70px] pt-[70px]">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-red-600 to-red-800 text-white py-20">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-shadow-lg">
-              Emprendimientos Exclusivos
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8">
-              Descubrí proyectos únicos en las mejores ubicaciones de la zona
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-lg">
-                <p className="text-3xl font-bold">{emprendimientos.length}</p>
-                <p className="text-sm">Proyectos</p>
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-lg">
-                <p className="text-3xl font-bold">{uniqueLocations.length}+</p>
-                <p className="text-sm">Ubicaciones</p>
-              </div>
-            </div>
-          </div>
+    <div className="min-h-screen bg-slate-50 -mt-[70px] pt-[70px]">
+      {/* Hero Section Refinado */}
+      <section className="relative h-[400px] flex items-center bg-gray-900 overflow-hidden">
+        <div className="absolute inset-0 opacity-40">
+          <img 
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070" 
+            className="w-full h-full object-cover" 
+            alt="Background"
+          />
+        </div>
+        <div className="container mx-auto px-4 relative z-10 text-white">
+          <h1 className="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight text-white drop-shadow-md">
+            Proyectos <span className="text-red-500">Destacados</span>
+          </h1>
+          <p className="text-lg md:text-xl text-gray-200 max-w-xl">
+            Inversiones exclusivas y desarrollos de vanguardia seleccionados para vos.
+          </p>
         </div>
       </section>
 
       <div className="container mx-auto px-4 py-12">
         
-        {/* Filtros */}
-        {uniqueLocations.length > 0 && (
-          <div className="mb-8">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold mb-4 text-gray-900">Filtrar por ubicación</h2>
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => setSelectedFilter('all')}
-                  className={`px-6 py-2 rounded-full font-semibold transition ${
-                    selectedFilter === 'all'
-                      ? 'bg-red-600 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  Todos ({emprendimientos.length})
-                </button>
-                {uniqueLocations.map((location) => {
-                  const count = emprendimientos.filter(
-                    e => e.location?.name === location
-                  ).length;
-                  return (
-                    <button
-                      key={location}
-                      onClick={() => setSelectedFilter(location!)}
-                      className={`px-6 py-2 rounded-full font-semibold transition ${
-                        selectedFilter === location
-                          ? 'bg-red-600 text-white shadow-lg'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      {location} ({count})
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Estado de carga */}
-        {loading && (
-          <div className="text-center py-20">
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-red-600 mb-4"></div>
-            <p className="text-xl text-gray-600">Cargando emprendimientos...</p>
-          </div>
-        )}
-
-        {/* Error */}
-        {error && (
-          <div className="bg-red-50 border-2 border-red-200 rounded-lg p-6 text-center">
-            <svg className="w-16 h-16 mx-auto text-red-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-red-800 font-semibold text-lg">{error}</p>
-          </div>
-        )}
-
-        {/* Grid de Emprendimientos */}
-        {!loading && !error && filteredEmprendimientos.length > 0 ? (
-          <>
-            <div className="mb-6 flex justify-between items-center">
-              <p className="text-gray-600">
-                Mostrando <span className="font-bold text-gray-900">{filteredEmprendimientos.length}</span> emprendimientos
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1  gap-8">
-              {filteredEmprendimientos.map((emp) => {
-                const coverImage = emp.photos?.find(p => p.is_front_cover)?.image || emp.photos?.[0]?.image;
-                const hasWebUrl = emp.web_url && emp.web_url.trim() !== '';
-
-                return (
-                  <div key={emp.id} className="group">
-                    <div className="bg-white shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                      {/* Imagen */}
-                      <div className="relative h-72 bg-gray-200 overflow-hidden">
-                        {coverImage ? (
-                          <img
-                            src={coverImage}
-                            alt={emp.publication_title || emp.name}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                          />
-                        ) : (
-                          <div className="flex items-center justify-center h-full text-gray-400">
-                            <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                          </div>
-                        )}
-                        
-                        {/* Badge */}
-                        <div className="absolute top-4 left-4 bg-gradient-to-r from-red-600 to-red-700 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                          🏗️ Emprendimiento
-                        </div>
-
-                        {/* Fotos count */}
-                        {emp.photos && emp.photos.length > 0 && (
-                          <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-lg text-sm flex items-center gap-1">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-                            </svg>
-                            {emp.photos.length}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Contenido */}
-                      <div className="p-6">
-                        {/* Ubicación */}
-                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
-                          <svg className="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                          </svg>
-                          <span className="font-semibold">{emp.location?.name}</span>
-                        </div>
-
-                        {/* Título */}
-                        <h3 className="text-2xl font-bold mb-3 line-clamp-2 group-hover:text-red-600 transition-colors min-h-[3.5rem]">
-                          {emp.name || emp.publication_title || `Emprendimiento en ${emp.location?.name}`}
-                        </h3>
-
-                        {/* Descripción breve */}
-                        {emp.description && (
-                          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                            {emp.description}
-                          </p>
-                        )}
-
-                        {/* CTA - Condicional según tenga web_url */}
-                        {hasWebUrl ? (
-                          <a
-                            href={emp.web_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full mt-4 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 text-center"
-                          >
-                            Más Información
-                          </a>
-                        ) : (
-                          <Link
-                            href={`/propiedades/${emp.id}`}
-                            className="block w-full mt-4 px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 text-center"
-                          >
-                            Ver Detalles
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        ) : (
-          !loading && !error && (
-            <div className="text-center py-20">
-              <svg className="w-24 h-24 mx-auto text-gray-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-              <p className="text-2xl text-gray-600 mb-4">No hay emprendimientos disponibles en este momento</p>
-              <Link
-                href="/propiedades"
-                className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition"
+        {/* Filtros Estilo "Segmented Control" */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+          <div className="flex flex-wrap gap-2 p-1.5 bg-white rounded-2xl shadow-sm border border-gray-100">
+            <button
+              onClick={() => setSelectedFilter('all')}
+              className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                selectedFilter === 'all'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'text-gray-500 hover:bg-gray-50'
+              }`}
+            >
+              Todos
+            </button>
+            {uniqueLocations.map((location) => (
+              <button
+                key={location}
+                onClick={() => setSelectedFilter(location!)}
+                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                  selectedFilter === location
+                    ? 'bg-red-600 text-white shadow-md'
+                    : 'text-gray-500 hover:bg-gray-50'
+                }`}
               >
-                Ver Todas las Propiedades
-              </Link>
-            </div>
-          )
-        )}
+                {location}
+              </button>
+            ))}
+          </div>
+          <p className="text-gray-500 font-medium">
+            <span className="text-gray-900 font-bold">{filteredEmprendimientos.length}</span> resultados encontrados
+          </p>
+        </div>
+
+        {/* Grid de Emprendimientos - Formato Tarjeta Horizontal */}
+        <div className="flex flex-col gap-10">
+          {filteredEmprendimientos.map((emp) => {
+            const coverImage = emp.photos?.find(p => p.is_front_cover)?.image || emp.photos?.[0]?.image;
+            const hasWebUrl = emp.web_url && emp.web_url.trim() !== '';
+
+            return (
+              <div 
+                key={emp.id} 
+                className="group flex flex-col md:flex-row bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100"
+              >
+                {/* Imagen (40% de la tarjeta) */}
+                <div className="relative w-full md:w-[40%] h-72 md:h-auto overflow-hidden">
+                  <img
+                    src={coverImage || '/placeholder-building.jpg'}
+                    alt={emp.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute top-6 left-6">
+                    <span className="bg-white/90 backdrop-blur-md text-red-600 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-sm">
+                      Nuevo Proyecto
+                    </span>
+                  </div>
+                </div>
+
+                {/* Contenido (60% de la tarjeta) */}
+                <div className="flex-1 p-8 md:p-12 flex flex-col justify-center">
+                  <div className="flex items-center gap-2 text-red-600 mb-4">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="font-bold text-sm tracking-wide uppercase">{emp.location?.name}</span>
+                  </div>
+
+                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 group-hover:text-red-600 transition-colors">
+                    {emp.name || emp.publication_title}
+                  </h3>
+
+                  <p className="text-gray-500 text-lg leading-relaxed mb-8 line-clamp-3">
+                    {emp.description || "Un desarrollo exclusivo diseñado pensando en la comodidad, ubicación estratégica y calidad constructiva superior."}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-6">
+                    {hasWebUrl ? (
+                      <a
+                        href={emp.web_url}
+                        target="_blank"
+                        className="inline-flex items-center justify-center px-8 py-4 bg-gray-900 text-white font-bold rounded-2xl hover:bg-red-600 transition-all shadow-lg hover:shadow-red-200"
+                      >
+                        Visitar Sitio Web
+                        <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                      </a>
+                    ) : (
+                      <Link
+                        href={`/propiedades/${emp.id}`}
+                        className="inline-flex items-center justify-center px-8 py-4 bg-gray-900 text-white font-bold rounded-2xl hover:bg-red-600 transition-all shadow-lg hover:shadow-red-200"
+                      >
+                        Ver Ficha Técnica
+                        <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                      </Link>
+                    )}
+                    
+                    <span className="text-sm font-bold text-gray-400">
+                      ID: #{emp.id}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
