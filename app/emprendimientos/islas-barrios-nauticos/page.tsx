@@ -118,7 +118,7 @@ export default function IslasPage() {
   }
 
   const nombre = development?.name || development?.publication_title || 'Islas Barrios Náuticos';
-  const ubicacion = development?.location?.full_location || development?.location?.name || 'Zárate, Buenos Aires';
+  const ubicacion = development?.location?.full_location || development?.location?.name || 'Villa Paranacito, Entre Ríos';
   const descripcionTokko = development?.rich_description || development?.description || '';
   const fotos = development?.photos?.filter(p => !p.is_blueprint) || [];
   const videos = development?.videos || [];
