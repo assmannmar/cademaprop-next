@@ -1,73 +1,53 @@
 import { NextResponse } from "next/server";
 
-interface TokkoResponse {
-  meta: {
-    limit: number;
-    offset: number;
-    total_count: number;
-  };
-  objects: any[];
-}
-
 export async function GET() {
   const apiKey = process.env.TOKKO_API_KEY;
 
   if (!apiKey) {
     return NextResponse.json(
-      { error: "Falta la API KEY de Tokko. Verifique la configuración de Vercel." },
+      { error: "Falta la API KEY de Tokko." },
       { status: 401 }
     );
   }
 
   try {
-    const url = `https://api.tokkobroker.com/api/v1/development/?format=json&key=${apiKey}&limit=100&lang=es`;
+    // Agregamos order_by para que los más nuevos aparezcan primero
+    const url = `https://api.tokkobroker.com/api/v1/development/?format=json&key=${apiKey}&limit=100&lang=es&order_by=id&order=desc`;
 
-    const response = await fetch(url, {
-      cache: 'no-store' // No cachear para obtener datos actualizados
-    });
+    const response = await fetch(url, { cache: 'no-store' });
 
     if (!response.ok) {
-      let tokkoErrorBody = null;
-      
-      try {
-        tokkoErrorBody = await response.json();
-      } catch (e) {
-        // Si no pudo leer el JSON, significa que Tokko devolvió texto o un cuerpo vacío
-      }
-      
-      return NextResponse.json(
-        { 
-          error: "Tokko devolvió un error HTTP.", 
-          status_code: response.status,
-          tokko_details: tokkoErrorBody 
-        },
-        { status: response.status }
-      );
+      return NextResponse.json({ error: "Error en Tokko" }, { status: response.status });
     }
 
-    const data: TokkoResponse = await response.json();
+    const data = await response.json();
     
-    // Filtrar solo emprendimientos activos y con fotos
-    const activeDevelopments = data.objects.filter(dev => {
-      // Puedes agregar más filtros según necesites
-      const hasPhotos = dev.photos && dev.photos.length > 0;
-      const isActive = !dev.is_starred_on_web || dev.is_starred_on_web === true;
-      
-      return hasPhotos && isActive;
-    });
+    const processedDevelopments = data.objects
+      .filter((dev: any) => dev.photos && dev.photos.length > 0)
+      .map((dev: any) => {
+        // LÓGICA DE DIVISIÓN:
+        // Buscamos si entre sus tags o nombre existe la palabra "Industrial", "Parque", "Logístico"
+        // O si el type es específico de industria.
+        const tags = (dev.tags || []).map((t: any) => t.name.toLowerCase());
+        const name = (dev.name || "").toLowerCase();
+        
+        const isIndustrial = 
+          tags.some((t: string) => t.includes("industrial") || t.includes("logistico") || t.includes("deposito")) ||
+          name.includes("parque industrial") || 
+          name.includes("polo logístico");
+
+        return {
+          ...dev,
+          is_industrial: isIndustrial // Enviamos este booleano al frontend
+        };
+      });
 
     return NextResponse.json({
       ...data,
-      objects: activeDevelopments
+      objects: processedDevelopments
     });
     
   } catch (error) {
-    return NextResponse.json(
-      { 
-        error: "Error de red o timeout al llamar a Tokko Broker.", 
-        details: String(error) 
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Error de red" }, { status: 500 });
   }
 }
