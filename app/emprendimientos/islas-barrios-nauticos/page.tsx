@@ -173,7 +173,7 @@ export default function IslasPage() {
             "{datosLocales.descripcionExtra}"
           </blockquote>
           <footer className="text-xl font-semibold mr-10" style={{ color: '#000' }}>
-            — Tu nuevo hogar te espera
+            — creamos ISLAS, Barrios Náuticos
           </footer>
         </div>
       </section>
