@@ -191,9 +191,9 @@ export default function IslasPage() {
         >
           <div className="absolute inset-0" style={{ backgroundColor: 'rgba(47, 82, 160, 0.6)' }}></div>
           <div className="relative z-10 text-center">
-            <h2 className="text-5xl md:text-6xl font-bold mb-8 drop-shadow-2xl" style={{ color: '#E4E4E4' }}>
-              Vivir en armonía
-            </h2>
+            <button>
+                Descargar Brochure
+            </button>
           </div>
         </section>
       )}
