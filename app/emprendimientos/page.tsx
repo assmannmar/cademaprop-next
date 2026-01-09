@@ -82,7 +82,7 @@ export default function EmprendimientosPage() {
   return (
     <div className="min-h-screen bg-slate-50 -mt-[70px] pt-[70px]">
       
-      {/* Hero Section - Altura Ajustada */}
+      {/* Hero Section */}
       <section className="relative h-[400px] flex items-center bg-gray-900 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10">
@@ -105,7 +105,7 @@ export default function EmprendimientosPage() {
                 value={filterDivision}
                 onChange={(e) => setFilterDivision(e.target.value)}
               >
-                <option value="all">Residencial & Industrial</option>
+                <option value="all">Todas</option>
                 <option value="residencial">Solo Residencial</option>
                 <option value="industrial">Solo Industrial</option>
               </select>
