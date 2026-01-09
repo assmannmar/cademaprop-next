@@ -126,7 +126,7 @@ export default function IslasPage() {
   const videos = development?.videos || [];
 
   return (
-    <div style={{ fontFamily: "'Nexa', sans-serif", backgroundColor: '#E4E4E4' }}>
+    <div >
       
       {/* Navbar */}
       <nav 
