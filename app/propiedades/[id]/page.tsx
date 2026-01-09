@@ -396,10 +396,13 @@ export default function PropertyDetailPage() {
               {/* Descripción */}
               {description && (
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold mb-3">Descripción</h2>
+                  <h2 className="text-2xl font-bold mb-3 border-b pb-2">Descripción</h2>
                   <div 
-                    className="text-gray-700 whitespace-pre-line prose prose-sm max-w-none"
-                    dangerouslySetInnerHTML={{ __html: description }}
+                    className="text-gray-700 leading-relaxed"
+                    dangerouslySetInnerHTML={{ 
+                      // Si es rich_description lo pasa directo, si es texto plano respeta los saltos de línea
+                      __html: property.rich_description || description.replace(/\n/g, '<br />') 
+                    }}
                   />
                 </div>
               )}
