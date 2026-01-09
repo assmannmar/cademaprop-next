@@ -193,7 +193,7 @@ export default function IslasPage() {
             <div className="absolute inset-0" style={{ backgroundColor: 'rgba(47, 82, 160, 0.6)' }}></div>
             <div className="relative z-10 text-center">
             <a 
-                href="/brochure/brochure-islas.pdf" 
+                href="/landings/brochure/brochure-islas.pdf" 
                 download="Brochure-Islas-Barrios-Nauticos.pdf"
                 className="px-10 py-4 font-bold text-lg rounded-full shadow-2xl transition-all transform hover:scale-105 hover:bg-white hover:text-[#2F52A0] flex items-center gap-3"
                 style={{ 
@@ -240,54 +240,73 @@ export default function IslasPage() {
         </div>
         </section>
 
-      {/* Beneficios */}
-      <section className="py-20" style={{ backgroundColor: '#E4E4E4' }}>
+      {/* Sección de Beneficios (Un Paraíso Náutico) */}
+        <section className="py-20 animate-fade-in" style={{ backgroundColor: '#E4E4E4' }}>
         <div className="container mx-auto px-4">
-          <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
-            Un Lugar Para Disfrutar
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {datosLocales.caracteristicas.slice(0, 3).map((car, idx) => (
-              <div 
-                key={idx}
-                className="p-8 rounded-2xl transition-all transform hover:scale-105"
-                style={{ backgroundColor: 'transparent' }}
-              >
-                <div className="text-6xl mb-6 text-center transition-transform hover:scale-110">
-                  {car.icon}
+            <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
+            Un Paraíso Náutico
+            </h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            
+            {/* Lotes con amarras */}
+            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105">
+                <div className="w-24 h-24 mb-6 flex items-center justify-center">
+                <img src="/landings/img/house.png" alt="Lotes" className="w-full h-full object-contain" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-center" style={{ color: '#2F52A0' }}>
-                  {car.titulo}
+                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                Lotes con amarras propias
                 </h3>
-                <p className="text-center" style={{ color: '#000' }}>
-                  {car.descripcion}
-                </p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-8">
-            {datosLocales.caracteristicas.slice(3).map((car, idx) => (
-              <div 
-                key={idx + 3}
-                className="p-8 rounded-2xl transition-all transform hover:scale-105"
-                style={{ backgroundColor: 'transparent' }}
-              >
-                <div className="text-6xl mb-6 text-center transition-transform hover:scale-110">
-                  {car.icon}
+                <p className="text-lg text-gray-700">El río en el frente de tu casa.</p>
+            </div>
+
+            {/* Canales navegables */}
+            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105">
+                <div className="w-24 h-24 mb-6 flex items-center justify-center">
+                <img src="/landings/img/barco.png" alt="Barco" className="w-full h-full object-contain" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3 text-center" style={{ color: '#2F52A0' }}>
-                  {car.titulo}
+                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                Canales navegables
                 </h3>
-                <p className="text-center" style={{ color: '#000' }}>
-                  {car.descripcion}
-                </p>
-              </div>
-            ))}
-          </div>
+                <p className="text-lg text-gray-700">Con calados de 0,7 a 2,5 metros.</p>
+            </div>
+
+            {/* Guardería Náutica */}
+            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105">
+                <div className="w-24 h-24 mb-6 flex items-center justify-center">
+                <img src="/landings/img/ancla.png" alt="Ancla" className="w-full h-full object-contain" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                Guardería Náutica
+                </h3>
+                <p className="text-lg text-gray-700">SUM, playa y bajada náutica</p>
+            </div>
+
+            {/* Servicios subterráneos */}
+            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105">
+                <div className="w-24 h-24 mb-6 flex items-center justify-center">
+                <img src="/landings/img/energy.png" alt="Energía" className="w-full h-full object-contain" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                Servicios subterráneos
+                </h3>
+                <p className="text-lg text-gray-700">Cuidado paisajismo urbano y natural</p>
+            </div>
+
+            {/* Wakeboard & Paseos */}
+            <div className="flex flex-col items-center text-center p-6 transition-all hover:transform hover:scale-105 md:col-span-2 lg:col-span-1">
+                <div className="w-24 h-24 mb-6 flex items-center justify-center">
+                <img src="/landings/img/sea.png" alt="Mar" className="w-full h-full object-contain" />
+                </div>
+                <h3 className="text-2xl font-bold mb-3" style={{ color: '#2F52A0' }}>
+                Wakeboard & Paseos
+                </h3>
+                <p className="text-lg text-gray-700">Disfrutá el río en el Meeting Point.</p>
+            </div>
+
+            </div>
         </div>
-      </section>
+        </section>
 
       {/* Galería */}
       {fotos.length > 0 && (
