@@ -148,7 +148,7 @@ export default function IslasPage() {
         
         <div className="relative z-10 text-center px-4 animate-fade-in">
           <img 
-            src="./logo/header-islas.png"
+            src="/logos/header-islas.png"
             alt={nombre}
             className="mx-auto w-full max-w-2xl md:max-w-4xl h-auto drop-shadow-2xl mb-6"
           />
