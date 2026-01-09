@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import './islas-barrios-nauticos.css';
+import VentuxForm from "@/app/emprendimientos/islas-barrios-nauticos/Form-islas";
 
 interface Development {
   id: number;
@@ -442,78 +443,19 @@ export default function IslasPage() {
       )}
 
       {/* Formulario */}
-      <section id="contacto" className="py-20" style={{ backgroundColor: '#E4E4E4' }}>
-        <div className="container mx-auto px-4 max-w-2xl">
-          <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold mb-6" style={{ color: '#2F52A0' }}>
-              Consultanos
-            </h2>
-            <h3 className="text-3xl" style={{ color: '#2F52A0' }}>
-              Agendá una Visita
-            </h3>
-          </div>
-          
-          <div className="p-8 rounded-2xl shadow-2xl" style={{ backgroundColor: '#fff' }}>
-            <form className="space-y-6">
-              <div>
-                <label className="block text-sm font-semibold mb-2" style={{ color: '#2F52A0' }}>
-                  Nombre completo
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 rounded-lg transition"
-                  style={{ border: '1px solid #2F52A0' }}
-                  placeholder="Tu nombre"
-                />
+      <section className="py-16 bg-white">
+              <div className="container mx-auto px-4">
+                <div className="text-center mb-12">
+                  <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                    Solicitá más información
+                  </h2>
+                  <p className="text-xl text-gray-600">
+                    Completá el formulario y te contactaremos a la brevedad
+                  </p>
+                </div>
+                <VentuxForm />
               </div>
-              
-              <div>
-                <label className="block text-sm font-semibold mb-2" style={{ color: '#2F52A0' }}>
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="w-full px-4 py-3 rounded-lg transition"
-                  style={{ border: '1px solid #2F52A0' }}
-                  placeholder="tu@email.com"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-semibold mb-2" style={{ color: '#2F52A0' }}>
-                  Teléfono
-                </label>
-                <input
-                  type="tel"
-                  className="w-full px-4 py-3 rounded-lg transition"
-                  style={{ border: '1px solid #2F52A0' }}
-                  placeholder="+54 9 11 1234-5678"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-semibold mb-2" style={{ color: '#2F52A0' }}>
-                  Mensaje
-                </label>
-                <textarea
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-lg transition resize-none"
-                  style={{ border: '1px solid #2F52A0' }}
-                  placeholder="Contanos qué te interesa saber..."
-                />
-              </div>
-              
-              <button
-                type="submit"
-                className="w-full px-8 py-4 font-bold text-lg rounded-lg shadow-lg transition transform hover:scale-105"
-                style={{ backgroundColor: '#2F52A0', color: '#E4E4E4' }}
-              >
-                Enviar consulta
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+            </section>
 
       {/* Footer */}
       <footer className="bg-gray-950 py-12">
