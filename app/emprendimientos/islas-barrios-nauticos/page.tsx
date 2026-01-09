@@ -69,11 +69,11 @@ export default function IslasPage() {
 
     testimonios: [
       {
-        texto: "Campo Alto superó todas mis expectativas. La tranquilidad del lugar y la cercanía a la ciudad son perfectas.",
+        texto: "Desde que conocí Islas, supe que era el lugar ideal para desconectarme sin irme tan lejos. La naturaleza, los canales y la tranquilidad son inigualables.",
         autor: "María S., propietaria"
       },
       {
-        texto: "La mejor inversión que hicimos. Los chicos tienen espacio para jugar y nosotros la paz que buscábamos.",
+        texto: "La experiencia náutica es increíble, y tener la lancha en mi propia amarra es un lujo que jamás imaginé que podía permitirme.",
         autor: "Carlos R., propietario"
       }
     ],
@@ -365,7 +365,7 @@ export default function IslasPage() {
       <section className="py-20" style={{ backgroundColor: '#fff' }}>
         <div className="container mx-auto px-4 max-w-5xl">
           <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
-            +50 familias ya eligieron Campo Alto
+            +70 familias ya eligieron Islas
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
