@@ -24,7 +24,7 @@ export default function Footer() {
             <img 
               src="/logos/logo.png" 
               alt="Cadema Logo" 
-              className="max-w-[150px] h-auto"
+              className="max-w-[180px] h-auto"
             />
           </div>
 
