@@ -19,7 +19,6 @@ export interface FilterValues {
 }
 
 export default function PropertyFilters({ onFilterChange }: FilterProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<FilterValues>({
     division: '',
     location: '',
@@ -55,19 +54,27 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
     onFilterChange(resetFilters);
   };
 
-  const FilterContent = () => (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold mb-4">Filtros de Búsqueda</h2>
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-900">Filtros de Búsqueda</h2>
+        <button
+          onClick={handleReset}
+          className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-md transition text-sm"
+        >
+          Limpiar Filtros
+        </button>
+      </div>
       
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* División */}
         <div>
-          <label className="block text-sm font-semibold mb-2">División</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">División</label>
           <select
             name="division"
             value={filters.division}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Todas</option>
             <option value="ciudad">Ciudad</option>
@@ -78,25 +85,25 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
 
         {/* Ubicación */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Ubicación</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">Ubicación</label>
           <input
             type="text"
             name="location"
             value={filters.location}
             onChange={handleChange}
             placeholder="Barrio, zona..."
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           />
         </div>
 
         {/* Tipo de Operación */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Tipo de Operación</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">Tipo de Operación</label>
           <select
             name="operation_type"
             value={filters.operation_type}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Todas</option>
             <option value="sale">Venta</option>
@@ -107,12 +114,12 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
 
         {/* Tipo de Propiedad */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Tipo de Propiedad</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">Tipo de Propiedad</label>
           <select
             name="property_type"
             value={filters.property_type}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Todas</option>
             <option value="house">Casa</option>
@@ -124,12 +131,12 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
 
         {/* Cantidad de Dormitorios */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Dormitorios</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">Dormitorios</label>
           <select
             name="bedrooms"
             value={filters.bedrooms}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Cualquiera</option>
             <option value="1">1+</option>
@@ -141,12 +148,12 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
 
         {/* Cochera */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Cochera</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">Cochera</label>
           <select
             name="has_parking"
             value={filters.has_parking}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">No importa</option>
             <option value="yes">Sí</option>
@@ -156,12 +163,12 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
 
         {/* Pileta */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Pileta</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">Pileta</label>
           <select
             name="has_pool"
             value={filters.has_pool}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">No importa</option>
             <option value="yes">Sí</option>
@@ -171,12 +178,12 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
 
         {/* Apto Crédito */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Apto Crédito</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">Apto Crédito</label>
           <select
             name="credit_eligible"
             value={filters.credit_eligible}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">No importa</option>
             <option value="yes">Sí</option>
@@ -186,69 +193,17 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
 
         {/* Precio Máximo */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Precio Máximo</label>
+          <label className="block text-sm font-semibold mb-2 text-gray-700">Precio Máximo</label>
           <input
             type="number"
             name="max_price"
             value={filters.max_price}
             onChange={handleChange}
             placeholder="Ej: 500000"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           />
         </div>
-      </div>
-
-      {/* Botón Limpiar */}
-      <div className="flex justify-center mt-6">
-        <button
-          onClick={handleReset}
-          className="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-md transition"
-        >
-          Limpiar Filtros
-        </button>
       </div>
     </div>
-  );
-
-  return (
-    <>
-      {/* BOTÓN - Siempre visible */}
-      <div className="flex justify-center mb-6">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md flex items-center gap-2 transition"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
-          Filtros
-        </button>
-      </div>
-
-      {/* MODAL CON OVERLAY TRANSLÚCIDO */}
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex">
-          {/* Overlay translúcido - permite ver el contenido detrás */}
-          <div 
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-            onClick={() => setIsOpen(false)}
-          />
-          
-          {/* Sidebar desde la izquierda */}
-          <div className="relative w-80 bg-white dark:bg-gray-800 h-full overflow-y-auto p-6 shadow-2xl animate-slide-left">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Filtros</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-3xl text-gray-500 hover:text-gray-700"
-              >
-                ×
-              </button>
-            </div>
-            <FilterContent />
-          </div>
-        </div>
-      )}
-    </>
   );
 }
