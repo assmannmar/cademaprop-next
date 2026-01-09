@@ -179,24 +179,41 @@ export default function IslasPage() {
       </section>
 
       {/* Parallax Section */}
-      {fotos.length > 1 && (
+        {fotos.length > 1 && (
         <section 
-          className="relative h-96 flex items-center justify-center overflow-hidden"
-          style={{
+            className="relative h-96 flex items-center justify-center overflow-hidden"
+            style={{
             backgroundImage: `url(${fotos[1].image})`,
             backgroundAttachment: 'fixed',
             backgroundPosition: 'center',
             backgroundSize: 'cover'
-          }}
+            }}
         >
-          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(47, 82, 160, 0.6)' }}></div>
-          <div className="relative z-10 text-center">
-            <button>
+            <div className="absolute inset-0" style={{ backgroundColor: 'rgba(47, 82, 160, 0.6)' }}></div>
+            <div className="relative z-10 text-center">
+            <a 
+                href="/brochure/brochure-islas.pdf" 
+                download="Brochure-Islas-Barrios-Nauticos.pdf"
+                className="px-10 py-4 font-bold text-lg rounded-full shadow-2xl transition-all transform hover:scale-105 hover:bg-white hover:text-[#2F52A0] flex items-center gap-3"
+                style={{ 
+                backgroundColor: '#E4E4E4', 
+                color: '#2F52A0',
+                display: 'inline-flex'
+                }}
+            >
+                <svg 
+                className="w-6 h-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
                 Descargar Brochure
-            </button>
-          </div>
+            </a>
+            </div>
         </section>
-      )}
+        )}
 
       {/* Descripción detallada */}
       <section className="py-20" style={{ backgroundColor: '#2F52A0' }}>
