@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -122,22 +121,6 @@ export default function IslasPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
       
-      {/* Navbar 
-      <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm shadow-lg z-50 transition-all">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <a href="/" className="text-2xl font-bold text-white hover:text-red-400 transition">
-            {nombre}
-          </a>
-          <a 
-            href="#contacto" 
-            className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-full shadow-lg transition transform hover:scale-105"
-          >
-            Vení a Conocer
-          </a>
-        </div>
-      </nav>
-      */}
-
       {/* Hero Section */}
       <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         {fotos.length > 0 && (
@@ -152,9 +135,11 @@ export default function IslasPage() {
         )}
         
         <div className="relative z-10 text-center px-4 animate-fade-in">
-          <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 drop-shadow-2xl">
-            {nombre}
-          </h1>
+          <img 
+            src="/logo.png"
+            alt={nombre}
+            className="mx-auto w-full max-w-2xl md:max-w-4xl h-auto drop-shadow-2xl mb-6"
+          />
           <p className="text-3xl md:text-4xl text-white/90 mb-8 drop-shadow-lg">
             {datosLocales.subtitulo}
           </p>
