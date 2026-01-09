@@ -54,7 +54,7 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #E4E4E4;
+  background: black;
 }
 
 ::-webkit-scrollbar-thumb {
