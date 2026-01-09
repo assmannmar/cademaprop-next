@@ -38,7 +38,7 @@ export default function IslasPage() {
 
   const datosLocales = {
     subtitulo: "Tu lugar en Zárate",
-    descripcionExtra: `"Para quienes aman vivir en contacto con la naturaleza, para los que disfrutan de los deportes acuáticos y las tardes con amigos, para los que encuentran tranquilidad en el sonido de los pájaros, para los navegantes, soñadores despiertos, incansables buscadores de una vida mejor.`,
+    descripcionExtra: `Para quienes aman vivir en contacto con la naturaleza, para los que disfrutan de los deportes acuáticos y las tardes con amigos, para los que encuentran tranquilidad en el sonido de los pájaros, para los navegantes, soñadores despiertos, incansables buscadores de una vida mejor.`,
     
     caracteristicas: [
       { icon: "📏", titulo: "Lotes desde 500m²", descripcion: "Amplios espacios para tu proyecto" },
