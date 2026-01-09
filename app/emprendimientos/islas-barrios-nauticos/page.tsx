@@ -38,9 +38,7 @@ export default function IslasPage() {
 
   const datosLocales = {
     subtitulo: "Tu lugar en Zárate",
-    descripcionExtra: `Campo Alto es un emprendimiento único que combina la tranquilidad 
-    del campo con la cercanía a todos los servicios. Ubicado estratégicamente, 
-    ofrece lotes amplios con todos los servicios.`,
+    descripcionExtra: `"Para quienes aman vivir en contacto con la naturaleza, para los que disfrutan de los deportes acuáticos y las tardes con amigos, para los que encuentran tranquilidad en el sonido de los pájaros, para los navegantes, soñadores despiertos, incansables buscadores de una vida mejor.`,
     
     caracteristicas: [
       { icon: "📏", titulo: "Lotes desde 500m²", descripcion: "Amplios espacios para tu proyecto" },
