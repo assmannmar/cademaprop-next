@@ -199,7 +199,7 @@ export default function PropertyDetailPage() {
   const blueprints = property.photos?.filter(p => p.is_blueprint) || [];
 
   // Descripción con formato
-  const description = property.rich_description || property.description || '';
+  const description = property.rich_description || property.description || null;
 
   return (
     <div className="min-h-screen bg-gray-50 -mt-[70px] pt-[70px]">
