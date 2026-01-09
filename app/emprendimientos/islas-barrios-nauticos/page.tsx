@@ -128,24 +128,6 @@ export default function IslasPage() {
   return (
     <div style={{ fontFamily: "'Nexa', sans-serif", backgroundColor: '#E4E4E4' }}>
       
-      {/* Navbar */}
-      <nav 
-        className={`fixed top-0 w-full shadow-lg z-50 transition-all duration-500 ${showNavbar ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}
-        style={{ backgroundColor: '#2F52A0' }}
-      >
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="logo">
-            <img src="/logo.png" alt={nombre} style={{ width: '200px' }} />
-          </div>
-          <a 
-            href="#contacto" 
-            className="px-6 py-3 font-semibold rounded-lg shadow-lg transition transform hover:scale-105"
-            style={{ backgroundColor: '#2F52A0', color: '#E4E4E4', border: '2px solid #E4E4E4' }}
-          >
-            Vení a Conocer
-          </a>
-        </div>
-      </nav>
 
       {/* Hero Section */}
       <header className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -161,7 +143,7 @@ export default function IslasPage() {
         )}
         
         <div className="absolute top-5 left-10 z-10">
-          <img src="/logo.png" alt={nombre} style={{ width: '120px' }} />
+          <img src="/logo/header-islas.png" alt={nombre} style={{ width: '120px' }} />
         </div>
         
         <div className="relative z-10 text-center px-4 animate-fade-in">
