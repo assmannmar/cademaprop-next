@@ -20,7 +20,7 @@ export async function GET() {
   }
 
   try {
-    const url = `https://api.tokkobroker.com/api/v1/development/?format=json&key=${apiKey}&limit=100`;
+    const url = `https://api.tokkobroker.com/api/v1/development/?format=json&key=${apiKey}&limit=100&lang=es`;
 
     const response = await fetch(url, {
       cache: 'no-store' // No cachear para obtener datos actualizados
