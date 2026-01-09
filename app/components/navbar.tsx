@@ -54,10 +54,10 @@ export default function Navbar() {
             
             {/* Redes Sociales */}
             <div className="flex items-center ml-4 space-x-4">
-              <a href="https://instagram.com/..." target="_blank" className={linkClass}>
-                <span className="text-xl">📸</span> {/* O usa FontAwesome si lo tienes */}
+              <a href="https://www.instagram.com/cademabienesraices" target="_blank" className={linkClass}>
+                <span className="text-xl">📸</span> 
               </a>
-              <a href="https://wa.me/..." target="_blank" className={linkClass}>
+              <a href="https://wa.me/5493489517993" target="_blank" className={linkClass}>
                 <span className="text-xl">💬</span>
               </a>
             </div>
