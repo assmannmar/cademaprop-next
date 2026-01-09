@@ -253,7 +253,7 @@ export default function IslasPage() {
             {/* Lotes con amarras */}
             <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
                 <div className="w-16 h-16 mb-4 flex items-center justify-center">
-                <img src="/img/house.png" alt="Lotes" className="w-full h-full object-contain" />
+                <img src="/landings/img/house.png" alt="Lotes" className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Lotes con amarras propias
@@ -264,7 +264,7 @@ export default function IslasPage() {
             {/* Canales navegables */}
             <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
                 <div className="w-16 h-16 mb-4 flex items-center justify-center">
-                <img src="/img/barco.png" alt="Barco" className="w-full h-full object-contain" />
+                <img src="/landings/img/barco.png" alt="Barco" className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Canales navegables
@@ -275,7 +275,7 @@ export default function IslasPage() {
             {/* Guardería Náutica */}
             <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
                 <div className="w-16 h-16 mb-4 flex items-center justify-center">
-                <img src="/img/ancla.png" alt="Ancla" className="w-full h-full object-contain" />
+                <img src="/landings/img/ancla.png" alt="Ancla" className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Guardería Náutica
@@ -286,7 +286,7 @@ export default function IslasPage() {
             {/* Servicios subterráneos */}
             <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
                 <div className="w-16 h-16 mb-4 flex items-center justify-center">
-                <img src="/img/energy.png" alt="Energía" className="w-full h-full object-contain" />
+                <img src="/landings/img/energy.png" alt="Energía" className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Servicios subterráneos
@@ -297,7 +297,7 @@ export default function IslasPage() {
             {/* Wakeboard & Paseos */}
             <div className="flex flex-col items-center text-center w-64 p-4 transition-all hover:scale-105">
                 <div className="w-16 h-16 mb-4 flex items-center justify-center">
-                <img src="/img/sea.png" alt="Mar" className="w-full h-full object-contain" />
+                <img src="/landings/img/sea.png" alt="Mar" className="w-full h-full object-contain" />
                 </div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#2F52A0' }}>
                 Wakeboard & Paseos
