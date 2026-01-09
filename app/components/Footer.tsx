@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#44444E] pt-12 pb-6">
+    <footer className="relative overflow-hidden bg-black pt-12 pb-6">
       {/* Capa de fondo con logo y overlay */}
       <div 
         className="absolute inset-0 z-0 opacity-85"
@@ -11,7 +11,7 @@ export default function Footer() {
           backgroundAttachment: 'fixed',
           backgroundSize: '30%',
           backgroundPosition: 'center center',
-          backgroundRepeat: 'no-repeat'
+          backgroundRepeat: 'no-repeat',
         }}
       ></div>
 
