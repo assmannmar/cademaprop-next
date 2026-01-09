@@ -65,7 +65,10 @@ export default function Navbar() {
             }`}
             onClick={handleLinkClick}
           >
-            LOGO
+            <img 
+            src="/logos/logo.png"
+            className="mx-auto w-full max-w-2xl md:max-w-4xl h-auto drop-shadow-2xl mb-6"
+            />
           </Link>
 
           {/* LINKS DESKTOP */}
