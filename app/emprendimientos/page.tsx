@@ -64,7 +64,7 @@ export default function EmprendimientosPage() {
   return (
     <div className="min-h-screen bg-slate-50 -mt-[70px] pt-[70px]">
       {/* Hero Section */}
-      <section className="bg-gray-900 py-20 text-white">
+      <section className="bg-gray-900 h-[400px] md:h-[500px] flex items-center text-white">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-6xl font-black mb-4">Nuestros Proyectos</h1>
           <p className="text-gray-400 max-w-2xl mx-auto">Explora desarrollos exclusivos filtrando por tus necesidades específicas.</p>
