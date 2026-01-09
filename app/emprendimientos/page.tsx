@@ -83,7 +83,7 @@ export default function EmprendimientosPage() {
     <div className="min-h-screen bg-slate-50 -mt-[70px] pt-[70px]">
       
       {/* Hero Section */}
-      <section className="relative h-[400px] flex items-center bg-gray-900 text-white overflow-hidden">
+      <section className="relative h-[450px] flex items-center bg-gray-900 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-5xl md:text-6xl font-black mb-4">Nuestros <span className="text-red-600">Proyectos</span></h1>
