@@ -34,6 +34,7 @@ export default function IslasPage() {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeAccordion, setActiveAccordion] = useState<number | null>(null);
+  const [showNavbar, setShowNavbar] = useState(false);
 
   const datosLocales = {
     subtitulo: "Tu lugar en Zárate",
@@ -84,6 +85,13 @@ export default function IslasPage() {
 
   useEffect(() => {
     fetchDevelopment();
+    
+    const handleScroll = () => {
+      setShowNavbar(window.scrollY > 100);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const fetchDevelopment = async () => {
@@ -102,10 +110,10 @@ export default function IslasPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#E4E4E4' }}>
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-white"></div>
-          <p className="mt-4 text-xl text-white">Cargando...</p>
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4" style={{ borderColor: '#2F52A0' }}></div>
+          <p className="mt-4 text-xl" style={{ color: '#2F52A0' }}>Cargando...</p>
         </div>
       </div>
     );
@@ -115,14 +123,32 @@ export default function IslasPage() {
   const ubicacion = development?.location?.full_location || development?.location?.name || 'Zárate, Buenos Aires';
   const descripcionTokko = development?.rich_description || development?.description || '';
   const fotos = development?.photos?.filter(p => !p.is_blueprint) || [];
-  const planos = development?.photos?.filter(p => p.is_blueprint) || [];
   const videos = development?.videos || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+    <div style={{ fontFamily: "'Nexa', sans-serif", backgroundColor: '#E4E4E4' }}>
       
+      {/* Navbar */}
+      <nav 
+        className={`fixed top-0 w-full shadow-lg z-50 transition-all duration-500 ${showNavbar ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}
+        style={{ backgroundColor: '#2F52A0' }}
+      >
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="logo">
+            <img src="/logo.png" alt={nombre} style={{ width: '200px' }} />
+          </div>
+          <a 
+            href="#contacto" 
+            className="px-6 py-3 font-semibold rounded-lg shadow-lg transition transform hover:scale-105"
+            style={{ backgroundColor: '#2F52A0', color: '#E4E4E4', border: '2px solid #E4E4E4' }}
+          >
+            Vení a Conocer
+          </a>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <header className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <header className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {fotos.length > 0 && (
           <div className="absolute inset-0">
             <img
@@ -130,55 +156,65 @@ export default function IslasPage() {
               alt={nombre}
               className="w-full h-full object-cover opacity-40"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-900/50 to-gray-900"></div>
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(228, 228, 228, 0.7), rgba(228, 228, 228, 0.5), rgba(228, 228, 228, 0.9))' }}></div>
           </div>
         )}
         
+        <div className="absolute top-5 left-10 z-10">
+          <img src="/logo.png" alt={nombre} style={{ width: '120px' }} />
+        </div>
+        
         <div className="relative z-10 text-center px-4 animate-fade-in">
           <img 
-            src="/logo/header-islas.png"
+            src="/logo.png"
             alt={nombre}
             className="mx-auto w-full max-w-2xl md:max-w-4xl h-auto drop-shadow-2xl mb-6"
           />
-          
+          <p className="text-3xl md:text-4xl mb-8 drop-shadow-lg" style={{ color: '#2F52A0' }}>
+            {datosLocales.subtitulo}
+          </p>
         </div>
 
         {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-8 h-8" style={{ color: '#2F52A0' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </div>
       </header>
 
       {/* Quote Section */}
-      <section id="descripcion" className="py-20 bg-gradient-to-r from-gray-800 to-gray-900">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <blockquote className="text-center">
-            <p className="text-2xl md:text-3xl text-white/90 leading-relaxed italic mb-6">
-              "{datosLocales.descripcionExtra}"
-            </p>
-            <footer className="text-xl text-red-400 font-semibold">
-              — Tu nuevo hogar te espera
-            </footer>
+      <section className="py-20 px-4 flex justify-end" style={{ backgroundColor: '#E4E4E4' }}>
+        <div className="max-w-4xl w-full text-right">
+          <blockquote 
+            className="text-2xl md:text-3xl leading-relaxed italic mb-6 pl-5"
+            style={{ 
+              color: '#2F52A0',
+              borderLeft: '4px solid #2F52A0'
+            }}
+          >
+            "{datosLocales.descripcionExtra}"
           </blockquote>
+          <footer className="text-xl font-semibold mr-10" style={{ color: '#000' }}>
+            — Tu nuevo hogar te espera
+          </footer>
         </div>
       </section>
 
-      {/* Parallax Section con imagen de fondo */}
+      {/* Parallax Section */}
       {fotos.length > 1 && (
-        <section className="relative h-120 flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0">
-            <img
-              src={fotos[1].image}
-              alt="Campo Alto"
-              className="w-full h-full object-cover"
-              style={{ transform: 'translateZ(0)' }}
-            />
-            <div className="absolute inset-0 bg-gray-900/60"></div>
-          </div>
+        <section 
+          className="relative h-96 flex items-center justify-center overflow-hidden"
+          style={{
+            backgroundImage: `url(${fotos[1].image})`,
+            backgroundAttachment: 'fixed',
+            backgroundPosition: 'center',
+            backgroundSize: 'cover'
+          }}
+        >
+          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(47, 82, 160, 0.6)' }}></div>
           <div className="relative z-10 text-center">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 drop-shadow-2xl">
+            <h2 className="text-5xl md:text-6xl font-bold mb-8 drop-shadow-2xl" style={{ color: '#E4E4E4' }}>
               Vivir en armonía
             </h2>
           </div>
@@ -186,41 +222,63 @@ export default function IslasPage() {
       )}
 
       {/* Descripción detallada */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20" style={{ backgroundColor: '#2F52A0' }}>
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-5xl font-bold text-white text-center mb-12">
+          <h2 className="text-5xl font-bold text-center mb-12" style={{ color: '#E4E4E4' }}>
             Un Estilo de Vida Único
           </h2>
           
           {descripcionTokko && (
             <div 
-              className="text-lg text-gray-300 leading-relaxed prose prose-invert prose-lg max-w-none"
+              className="text-lg leading-relaxed prose prose-lg max-w-none"
+              style={{ color: '#E4E4E4' }}
               dangerouslySetInnerHTML={{ __html: descripcionTokko }}
             />
           )}
         </div>
       </section>
 
-      {/* Beneficios - Estilo Islas */}
-      <section className="py-20 bg-gradient-to-b from-gray-900 to-gray-800">
+      {/* Beneficios */}
+      <section className="py-20" style={{ backgroundColor: '#E4E4E4' }}>
         <div className="container mx-auto px-4">
-          <h2 className="text-5xl font-bold text-white text-center mb-16">
+          <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
             Un Lugar Para Disfrutar
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {datosLocales.caracteristicas.map((car, idx) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {datosLocales.caracteristicas.slice(0, 3).map((car, idx) => (
               <div 
                 key={idx}
-                className="group bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 hover:border-red-500 transition-all transform hover:scale-105 hover:shadow-2xl"
+                className="p-8 rounded-2xl transition-all transform hover:scale-105"
+                style={{ backgroundColor: 'transparent' }}
               >
-                <div className="text-6xl mb-6 text-center group-hover:scale-110 transition-transform">
+                <div className="text-6xl mb-6 text-center transition-transform hover:scale-110">
                   {car.icon}
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3 text-center">
+                <h3 className="text-2xl font-bold mb-3 text-center" style={{ color: '#2F52A0' }}>
                   {car.titulo}
                 </h3>
-                <p className="text-gray-300 text-center">
+                <p className="text-center" style={{ color: '#000' }}>
+                  {car.descripcion}
+                </p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-8">
+            {datosLocales.caracteristicas.slice(3).map((car, idx) => (
+              <div 
+                key={idx + 3}
+                className="p-8 rounded-2xl transition-all transform hover:scale-105"
+                style={{ backgroundColor: 'transparent' }}
+              >
+                <div className="text-6xl mb-6 text-center transition-transform hover:scale-110">
+                  {car.icon}
+                </div>
+                <h3 className="text-2xl font-bold mb-3 text-center" style={{ color: '#2F52A0' }}>
+                  {car.titulo}
+                </h3>
+                <p className="text-center" style={{ color: '#000' }}>
                   {car.descripcion}
                 </p>
               </div>
@@ -231,9 +289,12 @@ export default function IslasPage() {
 
       {/* Galería */}
       {fotos.length > 0 && (
-        <section className="py-20 bg-gray-900">
+        <section className="py-20" style={{ backgroundColor: '#fff' }}>
           <div className="container mx-auto px-4">
-            <div className={`grid ${fotos.length === 1 ? 'grid-cols-1' : fotos.length === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'} gap-4 max-w-7xl mx-auto`}>
+            <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
+              Galería
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
               {fotos.slice(0, 4).map((foto, idx) => (
                 <div 
                   key={idx}
@@ -243,13 +304,8 @@ export default function IslasPage() {
                   <img
                     src={foto.image}
                     alt={`${nombre} - ${idx + 1}`}
-                    className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-96 md:h-80 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <p className="text-sm font-semibold">Ver imagen completa</p>
-                    </div>
-                  </div>
                 </div>
               ))}
             </div>
@@ -257,10 +313,10 @@ export default function IslasPage() {
         </section>
       )}
 
-      {/* FAQ - Estilo Islas con accordion */}
-      <section className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
+      {/* FAQ */}
+      <section className="py-20" style={{ backgroundColor: '#E4E4E4' }}>
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-5xl font-bold text-white text-center mb-16">
+          <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
             Preguntas Frecuentes
           </h2>
           
@@ -268,17 +324,19 @@ export default function IslasPage() {
             {datosLocales.faqs.map((faq, idx) => (
               <div 
                 key={idx}
-                className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg overflow-hidden"
+                className="rounded-lg overflow-hidden"
+                style={{ backgroundColor: '#fff', borderBottom: '1px solid #ddd' }}
               >
                 <button
                   onClick={() => setActiveAccordion(activeAccordion === idx ? null : idx)}
-                  className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-700/30 transition"
+                  className="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-100 transition"
                 >
-                  <span className="text-xl font-semibold text-white pr-8">
+                  <span className="text-xl font-semibold pr-8" style={{ color: '#2F52A0' }}>
                     {faq.pregunta}
                   </span>
                   <svg 
-                    className={`w-6 h-6 text-red-400 flex-shrink-0 transition-transform ${activeAccordion === idx ? 'rotate-180' : ''}`}
+                    className={`w-6 h-6 flex-shrink-0 transition-transform ${activeAccordion === idx ? 'rotate-180' : ''}`}
+                    style={{ color: '#2F52A0' }}
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -292,7 +350,7 @@ export default function IslasPage() {
                     activeAccordion === idx ? 'max-h-96' : 'max-h-0'
                   }`}
                 >
-                  <div className="px-6 pb-5 text-gray-300 text-lg">
+                  <div className="px-6 pb-5 text-lg" style={{ color: '#333' }}>
                     {faq.respuesta}
                   </div>
                 </div>
@@ -302,10 +360,10 @@ export default function IslasPage() {
         </div>
       </section>
 
-      {/* Testimonios - Estilo Islas */}
-      <section className="py-20 bg-gray-900">
+      {/* Testimonios */}
+      <section className="py-20" style={{ backgroundColor: '#fff' }}>
         <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-5xl font-bold text-white text-center mb-16">
+          <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
             +50 familias ya eligieron Campo Alto
           </h2>
 
@@ -313,12 +371,13 @@ export default function IslasPage() {
             {datosLocales.testimonios.map((test, idx) => (
               <div 
                 key={idx}
-                className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 hover:border-red-500 transition-all"
+                className="p-8 rounded-lg shadow-md"
+                style={{ backgroundColor: '#fff', borderLeft: '5px solid #2F52A0' }}
               >
-                <blockquote className="text-xl text-gray-300 italic mb-4">
+                <blockquote className="text-xl italic mb-4" style={{ color: '#333' }}>
                   "{test.texto}"
                 </blockquote>
-                <cite className="text-red-400 font-semibold not-italic">
+                <cite className="font-semibold not-italic" style={{ color: '#777' }}>
                   {test.autor}
                 </cite>
               </div>
@@ -329,15 +388,15 @@ export default function IslasPage() {
 
       {/* Videos */}
       {videos.length > 0 && (
-        <section className="py-20 bg-gradient-to-b from-gray-900 to-gray-800">
+        <section className="py-20" style={{ backgroundColor: '#E4E4E4' }}>
           <div className="container mx-auto px-4">
-            <h2 className="text-5xl font-bold text-white text-center mb-16">
+            <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
               Recorrido Virtual
             </h2>
             
             <div className="max-w-5xl mx-auto space-y-8">
               {videos.map((video, idx) => (
-                <div key={idx} className="aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-gray-700">
+                <div key={idx} className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
                   <iframe
                     src={video.player_url}
                     className="w-full h-full"
@@ -353,14 +412,14 @@ export default function IslasPage() {
 
       {/* Mapa */}
       {development?.geo_lat && development?.geo_long && (
-        <section className="py-20 bg-gray-900">
+        <section className="py-20" style={{ backgroundColor: '#fff' }}>
           <div className="container mx-auto px-4">
-            <h2 className="text-5xl font-bold text-white text-center mb-16">
+            <h2 className="text-5xl font-bold text-center mb-16" style={{ color: '#2F52A0' }}>
               Ubicación
             </h2>
 
             <div className="max-w-5xl mx-auto">
-              <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl border-2 border-gray-700">
+              <div className="aspect-video rounded-2xl overflow-hidden shadow-2xl">
                 <iframe
                   width="100%"
                   height="100%"
@@ -370,7 +429,7 @@ export default function IslasPage() {
                   allowFullScreen
                 />
               </div>
-              <p className="text-center text-gray-300 mt-8 text-xl flex items-center justify-center gap-2">
+              <p className="text-center mt-8 text-xl flex items-center justify-center gap-2" style={{ color: '#2F52A0' }}>
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                 </svg>
@@ -381,68 +440,72 @@ export default function IslasPage() {
         </section>
       )}
 
-      {/* Formulario - Integrado */}
-      <section id="contacto" className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
-        <div className="container mx-auto px-4 max-w-4xl">
+      {/* Formulario */}
+      <section id="contacto" className="py-20" style={{ backgroundColor: '#E4E4E4' }}>
+        <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-white mb-6">
+            <h2 className="text-5xl font-bold mb-6" style={{ color: '#2F52A0' }}>
               Consultanos
             </h2>
-            <h3 className="text-3xl text-gray-300">
+            <h3 className="text-3xl" style={{ color: '#2F52A0' }}>
               Agendá una Visita
             </h3>
           </div>
           
-          <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 shadow-2xl">
+          <div className="p-8 rounded-2xl shadow-2xl" style={{ backgroundColor: '#fff' }}>
             <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">
-                    Nombre completo
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition"
-                    placeholder="Tu nombre"
-                  />
-                </div>
-                <div>
-                  <label className="block text-white text-sm font-semibold mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition"
-                    placeholder="tu@email.com"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2" style={{ color: '#2F52A0' }}>
+                  Nombre completo
+                </label>
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 rounded-lg transition"
+                  style={{ border: '1px solid #2F52A0' }}
+                  placeholder="Tu nombre"
+                />
               </div>
               
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">
+                <label className="block text-sm font-semibold mb-2" style={{ color: '#2F52A0' }}>
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 rounded-lg transition"
+                  style={{ border: '1px solid #2F52A0' }}
+                  placeholder="tu@email.com"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-semibold mb-2" style={{ color: '#2F52A0' }}>
                   Teléfono
                 </label>
                 <input
                   type="tel"
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition"
+                  className="w-full px-4 py-3 rounded-lg transition"
+                  style={{ border: '1px solid #2F52A0' }}
                   placeholder="+54 9 11 1234-5678"
                 />
               </div>
               
               <div>
-                <label className="block text-white text-sm font-semibold mb-2">
+                <label className="block text-sm font-semibold mb-2" style={{ color: '#2F52A0' }}>
                   Mensaje
                 </label>
                 <textarea
                   rows={4}
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition resize-none"
+                  className="w-full px-4 py-3 rounded-lg transition resize-none"
+                  style={{ border: '1px solid #2F52A0' }}
                   placeholder="Contanos qué te interesa saber..."
                 />
               </div>
               
               <button
                 type="submit"
-                className="w-full px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-lg shadow-lg transition transform hover:scale-105"
+                className="w-full px-8 py-4 font-bold text-lg rounded-lg shadow-lg transition transform hover:scale-105"
+                style={{ backgroundColor: '#2F52A0', color: '#E4E4E4' }}
               >
                 Enviar consulta
               </button>
