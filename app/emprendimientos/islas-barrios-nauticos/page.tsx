@@ -140,9 +140,6 @@ export default function IslasPage() {
             alt={nombre}
             className="mx-auto w-full max-w-2xl md:max-w-4xl h-auto drop-shadow-2xl mb-6"
           />
-          <p className="text-3xl md:text-4xl text-white/90 mb-8 drop-shadow-lg">
-            {datosLocales.subtitulo}
-          </p>
           
         </div>
 
