@@ -15,6 +15,7 @@ const TIPOLOGIAS_MAP: Record<string, string> = {
   "store": "Depósito",
   "commercial_property": "Local Comercial",
   "industrial condo": "Nave Industrial",
+  "Private Neighborhood": "Barrio Cerrado",
 };
 
 const translateType = (type: string | undefined) => {
