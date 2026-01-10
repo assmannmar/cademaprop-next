@@ -25,12 +25,18 @@ export async function GET() {
     const processedDevelopments = data.objects
     .filter((dev: any) => dev.photos && dev.photos.length > 0)
     .map((dev: any) => {
-      // Buscamos dentro de los objetos de tags si existe el ID 5050
-      const isIndustrial = dev.tags?.some((t: any) => t.id === 5050);
+      // 1. Buscamos el tag 5050 en 'custom_tags' que es donde aparece en tu JSON
+      const isIndustrial = dev.custom_tags?.some((t: any) => t.id === 5050);
+
+      // 2. Opcional: Identificar residenciales (en tu JSON, el ID 5049 es "Ciudad")
+      const isResidential = dev.custom_tags?.some((t: any) => t.id === 5049);
 
       return {
         ...dev,
-        is_industrial: isIndustrial // Si tiene el tag 5050 será true, sino false
+        is_industrial: isIndustrial,
+        is_residential: isResidential,
+        // Agregamos una categoría simple para usar en el frontend
+        category: isIndustrial ? 'industrial' : 'residential'
       };
     });
 
