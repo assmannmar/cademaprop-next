@@ -77,7 +77,9 @@ export default function EmprendimientosPage() {
 
   // 3. Listas Únicas para los Selects
   const uniqueLocations = Array.from(new Set(emprendimientos.map(e => e.location?.name).filter(Boolean)));
-  const uniqueTypes = Array.from(new Set(emprendimientos.map(e => e.type?.name).filter(Boolean)));
+  const uniqueTypes = useMemo(() => {
+  return Array.from(new Set(emprendimientos.map(e => e.type?.name).filter(Boolean)));
+}, [emprendimientos]);
 
   return (
     <div className="min-h-screen bg-slate-50 -mt-[70px] pt-[70px]">
