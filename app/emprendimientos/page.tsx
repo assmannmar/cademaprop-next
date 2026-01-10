@@ -12,7 +12,8 @@ const TIPOLOGIAS_MAP: Record<string, string> = {
   "industrial": "Parque Industrial",
   "private neighborhood": "Barrio Cerrado",
   "local": "Local Comercial",
-  "office": "Oficina"
+  "office": "Oficina",
+  "industrial condo": "Condominio Industrial",
 };
 
 const ESTADOS_MAP: Record<number, string> = {
