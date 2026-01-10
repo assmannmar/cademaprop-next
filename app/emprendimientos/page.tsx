@@ -104,7 +104,7 @@ export default function EmprendimientosPage() {
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">División</label>
               <select 
-                className="w-full p-3 bg-gray-50 rounded-xl border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-red-500 font-bold text-gray-700 outline-none"
+                className="w-full p-3 bg-gray-50 rounded-xl border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-red-500 font-bold text-black-700 outline-none"
                 value={filterDivision}
                 onChange={(e) => setFilterDivision(e.target.value)}
               >
@@ -151,7 +151,7 @@ export default function EmprendimientosPage() {
                 : "Consulte fecha";
 
               return (
-                <div key={emp.id} className="group flex flex-col md:flex-row bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 min-h-[420px]">
+                <div key={emp.id} className="group flex flex-col md:flex-row bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100 h-auto md:h-[450px]">
                   
                   {/* FOTO DE PORTADA Y TIPOLOGÍA */}
                   <div className="md:w-[40%] h-72 md:h-auto relative overflow-hidden shrink-0">
