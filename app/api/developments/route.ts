@@ -23,24 +23,16 @@ export async function GET() {
     const data = await response.json();
     
     const processedDevelopments = data.objects
-      .filter((dev: any) => dev.photos && dev.photos.length > 0)
-      .map((dev: any) => {
-        // LÓGICA DE DIVISIÓN:
-        // Buscamos si entre sus tags o nombre existe la palabra "Industrial", "Parque", "Logístico"
-        // O si el type es específico de industria.
-        const tags = (dev.tags || []).map((t: any) => t.name.toLowerCase());
-        const name = (dev.name || "").toLowerCase();
-        
-        const isIndustrial = 
-          tags.some((t: string) => t.includes("industrial") || t.includes("logistico") || t.includes("deposito")) ||
-          name.includes("parque industrial") || 
-          name.includes("polo logístico");
+    .filter((dev: any) => dev.photos && dev.photos.length > 0)
+    .map((dev: any) => {
+      // Buscamos dentro de los objetos de tags si existe el ID 5050
+      const isIndustrial = dev.tags?.some((t: any) => t.id === 5050);
 
-        return {
-          ...dev,
-          is_industrial: isIndustrial // Enviamos este booleano al frontend
-        };
-      });
+      return {
+        ...dev,
+        is_industrial: isIndustrial // Si tiene el tag 5050 será true, sino false
+      };
+    });
 
     return NextResponse.json({
       ...data,
