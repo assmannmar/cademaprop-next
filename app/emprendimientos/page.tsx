@@ -108,8 +108,8 @@ export default function EmprendimientosPage() {
                 onChange={(e) => setFilterDivision(e.target.value)}
               >
                 <option value="all">Todas</option>
-                <option value="residencial">Solo Residencial</option>
-                <option value="industrial">Solo Industrial</option>
+                <option value="residencial">Residencial</option>
+                <option value="industrial">Industrial</option>
               </select>
             </div>
 
