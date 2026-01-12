@@ -54,6 +54,8 @@ export default function Navbar() {
             <Link href="/industria" className={linkClass}>Industria</Link>
             <Link href="/contacto" className={linkClass}>Contacto</Link>
             <Link href="/blog" className={linkClass}>Blog</Link>
+            <Link href="/simulador" className={linkClass}>Simulador</Link>
+            <Link href="/sinor" className={linkClass}>SINOR</Link>
             
             <div className="flex items-center ml-4 space-x-4">
               <a href="https://www.instagram.com/cademabienesraices" target="_blank" className={linkClass}>
@@ -88,6 +90,8 @@ export default function Navbar() {
           <Link href="/industria" onClick={() => setMobileMenuOpen(false)}>Industria</Link>
           <Link href="/contacto" onClick={() => setMobileMenuOpen(false)}>Contacto</Link>
           <Link href="/blog" onClick={() => setMobileMenuOpen(false)}>Blog</Link>
+          <Link href="/simulador" onClick={() => setMobileMenuOpen(false)}>Simulador</Link>
+          <Link href="/sinor" onClick={() => setMobileMenuOpen(false)}>SINOR</Link>
           
           <div className="flex space-x-8 pt-6">
             <a href="https://www.instagram.com/cademabienesraices" target="_blank" className="text-3xl text-pink-600">📸</a>
