@@ -46,11 +46,11 @@ export default function Navbar() {
     { name: "Quienes Somos", href: "/quienes-somos" },
     { name: "Propiedades", href: "/propiedades" },
     { name: "Emprendimientos", href: "/emprendimientos" },
-    { name: "Industria", href: "/industria" },
+    { name: "Industria", href: "https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" },
     { name: "Contacto", href: "/contacto" },
     { name: "Blog", href: "/blog" },
     { name: "Simulador", href: "/simulador" },
-    { name: "SINOR", href: "/sinor" },
+    { name: "SINOR", href: "https://sinor.com.ar/" },
   ];
 
   const linkClass = `nav-item px-3 py-2 transition-colors duration-200 font-semibold ${
