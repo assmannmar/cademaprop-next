@@ -63,7 +63,7 @@ export default function Navbar() {
   ];
 
   const linkClass = `nav-item px-3 py-2 transition-colors duration-200 font-semibold ${
-    scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
+    scrolled ? "text-gray-800 hover:text-white-600" : "text-white hover:text-gray-300"
   }`;
 
   return (
