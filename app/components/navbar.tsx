@@ -106,18 +106,21 @@ export default function Navbar() {
       <div className={`fixed inset-0 z-40 bg-white flex flex-col transition-transform duration-500 ease-in-out lg:hidden ${
         mobileMenuOpen ? "translate-x-0" : "translate-x-full"
       }`}>
-        <div className="flex flex-col items-center justify-center h-full space-y-8 text-xl font-semibold text-gray-800">
+        {/* Agregamos pt-24 para que los links empiecen debajo del logo */}
+        <div className="flex flex-col items-center justify-start h-full pt-24 overflow-y-auto space-y-6 text-xl font-semibold text-gray-800">
           {navLinks.map((link) => (
             <Link 
               key={link.href} 
               href={link.href} 
               onClick={() => setMobileMenuOpen(false)}
-              className="hover:text-blue-600 transition-colors"
+              className="w-full text-center py-2 hover:bg-gray-50 transition-colors"
             >
               {link.name}
             </Link>
           ))}
-          <div className="flex space-x-10 pt-10">
+          
+          {/* Redes sociales al final */}
+          <div className="flex space-x-10 pt-6 pb-10">
             <a href="#" className="text-4xl text-pink-600">📸</a>
             <a href="#" className="text-4xl text-green-500">💬</a>
           </div>
