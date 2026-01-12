@@ -71,9 +71,7 @@ export default function Navbar() {
             <img 
               src="/logos/logo.png" 
               alt="Logo" 
-              className={`h-auto w-full max-w-[140px] md:max-w-[180px] transition-all duration-300 ${
-                !scrolled && "brightness-0 invert" // Optional: makes dark logo white on transparent
-              }`} 
+              className={`h-auto w-full max-w-[140px] md:max-w-[180px] transition-all duration-300 `} 
             />
           </Link>
 
