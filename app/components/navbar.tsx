@@ -53,7 +53,7 @@ export default function Navbar() {
     { name: "SINOR", href: "/sinor" },
   ];
 
-  const linkClass = `nav-item px-3 py-2 transition-colors duration-200 ${
+  const linkClass = `nav-item px-3 py-2 transition-colors duration-200 font-semibold ${
     scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
   }`;
 
@@ -64,10 +64,9 @@ export default function Navbar() {
           ${visible ? "translate-y-0" : "-translate-y-full"} 
           ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-2" : "bg-transparent py-5"}`}
       >
-        {/* Usamos justify-between para separar los extremos */}
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           
-          {/* LOGO - Se mantiene a la izquierda */}
+          {/* LOGO */}
           <Link href="/" className="flex-shrink-0">
             <img 
               src="/logos/logo.png" 
@@ -76,25 +75,28 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* MENU DESKTOP - Empujado a la derecha con ml-auto */}
-          <div className="hidden lg:flex items-center space-x-1 ml-auto">
+          {/* MENU DESKTOP - Todo unificado a la derecha */}
+          <div className="hidden lg:flex items-center ml-auto">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className={linkClass}>
                 {link.name}
               </Link>
             ))}
             
-            {/* Redes sociales con un margen extra a la izquierda para separar */}
-            <div className="flex items-center ml-6 space-x-4 border-l pl-6 border-gray-300/50">
-              <a href="https://instagram.com/..." target="_blank" className={linkClass}>📸</a>
-              <a href="https://wa.me/..." target="_blank" className={linkClass}>💬</a>
+            {/* Redes sociales integradas sin bordes ni separaciones extras */}
+            <div className="flex items-center">
+              <a href="https://instagram.com/..." target="_blank" className={linkClass}>
+                📸
+              </a>
+              <a href="https://wa.me/..." target="_blank" className={linkClass}>
+                💬
+              </a>
             </div>
           </div>
 
-          {/* BOTÓN MÓVIL (Hamburguesa) */}
+          {/* HAMBURGER */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
             className={`lg:hidden text-3xl z-50 ${
               mobileMenuOpen || scrolled ? "text-gray-800" : "text-white"
             }`}
