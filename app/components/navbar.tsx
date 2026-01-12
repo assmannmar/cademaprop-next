@@ -66,16 +66,17 @@ export default function Navbar() {
     scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
   }`;
 
-  return (
+return (
     <>
       <nav 
         className={`fixed top-0 w-full z-50 transition-all duration-500 transform
           ${visible ? "translate-y-0" : "-translate-y-full"} 
           ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-2" : "bg-transparent py-5"}`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        {/* Cambiamos justify-between por una estructura más sólida */}
+        <div className="max-w-7xl mx-auto px-6 flex items-center">
           
-          {/* LOGO */}
+          {/* LOGO - Se mantiene a la izquierda */}
           <Link href="/" className="flex-shrink-0">
             <img 
               src="/logos/logo.png" 
@@ -84,29 +85,27 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* MENU DESKTOP - Todo unificado a la derecha */}
-          <div className="hidden lg:flex items-center ml-auto">
+          {/* MENU DESKTOP - Agrupamos TODO aquí */}
+          <div className="hidden lg:flex items-center ml-auto space-x-1">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className={linkClass}>
                 {link.name}
               </Link>
             ))}
             
-            {/* Redes sociales integradas sin bordes ni separaciones extras */}
-            <div className="flex items-center space-x-2 ml-2">
-              <a href="https://instagram.com/cademabienesraices" target="_blank" className={linkClass} aria-label="Instagram">
-                <InstagramIcon />
-              </a>
-              <a href="https://wa.me/5493489517993" target="_blank" className={linkClass} aria-label="WhatsApp">
-                <WhatsAppIcon />
-              </a>
-            </div>
+            {/* Redes sociales como parte del mismo grupo de space-x */}
+            <a href="https://instagram.com/cademabienesraices" target="_blank" className={linkClass} aria-label="Instagram">
+              <InstagramIcon />
+            </a>
+            <a href="https://wa.me/5493489517993" target="_blank" className={linkClass} aria-label="WhatsApp">
+              <WhatsAppIcon />
+            </a>
           </div>
 
-          {/* HAMBURGER */}
+          {/* HAMBURGER - Solo aparece en móvil */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`lg:hidden text-3xl z-50 ${
+            className={`lg:hidden ml-auto text-3xl z-50 ${
               mobileMenuOpen || scrolled ? "text-gray-800" : "text-white"
             }`}
           >
