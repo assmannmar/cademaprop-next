@@ -93,12 +93,12 @@ export default function Navbar() {
             ))}
             
             {/* Redes sociales integradas sin bordes ni separaciones extras */}
-            <div className="flex items-center">
-              <a href="https://instagram.com/..." target="_blank" className={linkClass}>
-                📸
+            <div className="flex items-center space-x-2 ml-2">
+              <a href="https://instagram.com/cademabienesraices" target="_blank" className={linkClass} aria-label="Instagram">
+                <InstagramIcon />
               </a>
-              <a href="https://wa.me/..." target="_blank" className={linkClass}>
-                💬
+              <a href="https://wa.me/5493489517993" target="_blank" className={linkClass} aria-label="WhatsApp">
+                <WhatsAppIcon />
               </a>
             </div>
           </div>
