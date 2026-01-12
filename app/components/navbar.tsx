@@ -64,32 +64,34 @@ export default function Navbar() {
           ${visible ? "translate-y-0" : "-translate-y-full"} 
           ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-2" : "bg-transparent py-5"}`}
       >
+        {/* Usamos justify-between para separar los extremos */}
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           
-          {/* LOGO */}
+          {/* LOGO - Se mantiene a la izquierda */}
           <Link href="/" className="flex-shrink-0">
             <img 
               src="/logos/logo.png" 
               alt="Logo" 
-              className={`h-auto w-full max-w-[140px] md:max-w-[180px] transition-all duration-300 `} 
+              className="h-auto w-full max-w-[140px] md:max-w-[180px] transition-all duration-300" 
             />
           </Link>
 
-          {/* MENU DESKTOP */}
-          <div className="hidden lg:flex items-center space-x-1">
+          {/* MENU DESKTOP - Empujado a la derecha con ml-auto */}
+          <div className="hidden lg:flex items-center space-x-1 ml-auto">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className={linkClass}>
                 {link.name}
               </Link>
             ))}
             
-            <div className="flex items-center ml-4 space-x-4">
+            {/* Redes sociales con un margen extra a la izquierda para separar */}
+            <div className="flex items-center ml-6 space-x-4 border-l pl-6 border-gray-300/50">
               <a href="https://instagram.com/..." target="_blank" className={linkClass}>📸</a>
               <a href="https://wa.me/..." target="_blank" className={linkClass}>💬</a>
             </div>
           </div>
 
-          {/* HAMBURGER */}
+          {/* BOTÓN MÓVIL (Hamburguesa) */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
@@ -102,27 +104,24 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* MOBILE MENU OVERLAY */}
+      {/* MOBILE MENU OVERLAY (Se mantiene igual con el pt-24 que agregamos antes) */}
       <div className={`fixed inset-0 z-40 bg-white flex flex-col transition-transform duration-500 ease-in-out lg:hidden ${
         mobileMenuOpen ? "translate-x-0" : "translate-x-full"
       }`}>
-        {/* Agregamos pt-24 para que los links empiecen debajo del logo */}
-        <div className="flex flex-col items-center justify-start h-full pt-24 overflow-y-auto space-y-6 text-xl font-semibold text-gray-800">
+        <div className="flex flex-col items-center justify-start h-full pt-24 space-y-6 text-xl font-semibold text-gray-800 overflow-y-auto">
           {navLinks.map((link) => (
             <Link 
               key={link.href} 
               href={link.href} 
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2 hover:bg-gray-50 transition-colors"
+              className="w-full text-center py-2"
             >
               {link.name}
             </Link>
           ))}
-          
-          {/* Redes sociales al final */}
           <div className="flex space-x-10 pt-6 pb-10">
-            <a href="#" className="text-4xl text-pink-600">📸</a>
-            <a href="#" className="text-4xl text-green-500">💬</a>
+            <a href="#" className="text-4xl">📸</a>
+            <a href="#" className="text-4xl">💬</a>
           </div>
         </div>
       </div>
