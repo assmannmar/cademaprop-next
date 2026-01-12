@@ -74,7 +74,7 @@ return (
           ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-2" : "bg-transparent py-5"}`}
       >
         {/* Cambiamos justify-between por una estructura más sólida */}
-        <div className="max-w-7xl mx-auto px-6 flex items-center">
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           
           {/* LOGO - Se mantiene a la izquierda */}
           <Link href="/" className="flex-shrink-0">
