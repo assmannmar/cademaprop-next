@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 
 const InversionSimulador = () => {
@@ -8,168 +9,201 @@ const InversionSimulador = () => {
   const [inputs, setInputs] = useState({ entrega: '', cuota: '' });
   const [showResultMsg, setShowResultMsg] = useState(false);
 
-  // Carga de datos inicial desde Google Sheets
   useEffect(() => {
     const requestURL = 'https://sheets.googleapis.com/v4/spreadsheets/1JccKm0EWTyvkknmrX_mrtw77u4n70m2mxq6utESUqh0/values/Proyectos!A:H?key=AIzaSyDXojymTF-wu2xKAauPgMvLu76lVydaCUM';
     
     fetch(requestURL)
-      .then(response => response.json())
+      .then(res => res.json())
       .then(data => {
-        if (data && data.values) {
-          const filas = data.values.slice(1);
-          const mappedBarrios = filas.map(fila => {
-            let imagenRaw = fila[6] || '';
-            let imagenFinal = imagenRaw;
-            const match = imagenRaw.match(/\/file\/d\/([^/]+)\//);
-            if (match) {
-              imagenFinal = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
-            }
-            return {
-              nombre: fila[0] || 'Sin nombre',
-              tipo: fila[1] || '',
-              superficie: parseInt(fila[2]) || 0,
-              entrega_minima: parseFloat(fila[3]) || 0,
-              cuota_mensual_estim: parseFloat(fila[4]) || 0,
-              cuotas_maximas: parseInt(fila[5]) || 0,
-              imagen: imagenFinal,
-              link: fila[7] || '#'
-            };
-          });
-          setBarrios(mappedBarrios);
+        if (data?.values) {
+          const mapped = data.values.slice(1).map(fila => ({
+            nombre: fila[0] || 'Sin nombre',
+            tipo: fila[1] || '',
+            superficie: parseInt(fila[2]) || 0,
+            entrega_minima: parseFloat(fila[3]) || 0,
+            cuota_mensual_estim: parseFloat(fila[4]) || 0,
+            cuotas_maximas: parseInt(fila[5]) || 0,
+            imagen: fila[6]?.includes('/file/d/') 
+              ? `https://drive.google.com/thumbnail?id=${fila[6].match(/\/file\/d\/([^/]+)\//)[1]}&sz=w1000` 
+              : fila[6],
+            link: fila[7] || '#'
+          }));
+          setBarrios(mapped);
         }
-      })
-      .catch(err => console.error("Error cargando datos:", err));
+      });
   }, []);
 
-  // Formateador de miles
-  const formatMiles = (num) => {
-    if (!num) return '';
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  };
+  const formatMiles = (num) => num ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") : '';
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    // Solo números
     const rawValue = value.replace(/\D/g, '');
     setInputs(prev => ({ ...prev, [id]: formatMiles(rawValue) }));
   };
 
   const handleSimular = (e) => {
     e.preventDefault();
-    const entregaNum = parseFloat(inputs.entrega.replace(/\./g, '')) || 0;
-    const cuotaNum = parseFloat(inputs.cuota.replace(/\./g, '')) || 0;
+    const eNum = parseFloat(inputs.entrega.replace(/\./g, '')) || 0;
+    const cNum = parseFloat(inputs.cuota.replace(/\./g, '')) || 0;
 
-    const res = barrios.filter(b => b.entrega_minima <= entregaNum && b.cuota_mensual_estim <= cuotaNum);
-    const casi = barrios.filter(b => 
-      b.entrega_minima <= entregaNum * 1.3 && 
-      b.cuota_mensual_estim <= cuotaNum * 1.3 && 
-      !res.includes(b)
+    const exactos = barrios.filter(b => b.entrega_minima <= eNum && b.cuota_mensual_estim <= cNum);
+    const cercanos = barrios.filter(b => 
+      b.entrega_minima <= eNum * 1.3 && b.cuota_mensual_estim <= cNum * 1.3 && !exactos.includes(b)
     );
 
-    setResultados(res);
-    setCasiResultados(casi);
+    setResultados(exactos);
+    setCasiResultados(cercanos);
     setShowResultMsg(true);
   };
 
-  const CardProyecto = ({ b }) => (
-    <div className="col-md-6 mb-4 animate-up">
-      <div className="card shadow-sm h-100">
-        <img src={b.imagen} className="card-img-top" alt={b.nombre} style={{ height: '200px', objectFit: 'cover' }} />
-        <div className="card-body d-flex flex-column">
-          <h5 className="card-title font-weight-bold">{b.nombre}</h5>
-          <p className="card-text mb-1">{b.tipo}</p>
-          <p className="card-text mb-1">
-            {b.nombre === "Paseo Gavazzi" ? "1, 2, 3 y 4 ambientes" : `Superficie: ${formatMiles(b.superficie)} m²`}
-          </p>
-          <p className="card-text mb-1 text-danger font-weight-bold">Anticipo: U$S {formatMiles(b.entrega_minima)}</p>
-          <p className="card-text">Hasta {b.cuotas_maximas} cuotas de U$S {formatMiles(b.cuota_mensual_estim)}</p>
-          <a href={b.link} className="btn btn-primary mt-auto w-100" target="_blank" rel="noreferrer" style={{ backgroundColor: '#c20c25', border: 'none' }}>
-            MÁS INFORMACIÓN
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
-    <main className="py-5" style={{ backgroundColor: '#f9f9f9', fontFamily: 'sans-serif' }}>
-      <div className="container" style={{ maxWidth: '900px' }}>
-        <h1 className="text-center mb-4 font-weight-bold">SIMULA TU INVERSIÓN</h1>
-        <p className="text-center">Ingresá el monto que dispones para la entrega inicial y la cuota mensual que te resulte más cómoda.</p>
+    <div className="page-container">
+      <section className="simulador-wrapper">
+        <h1 className="title">SIMULÁ TU INVERSIÓN</h1>
+        <p className="subtitle">Ingresá el monto inicial y la cuota mensual ideal para vos.</p>
 
-        <form onSubmit={handleSimular} className="card p-4 shadow-sm mb-5 border-0" style={{ borderRadius: '1rem' }}>
-          <div className="mb-3">
-            <label className="form-label">¿Con qué monto contás? (USD):</label>
-            <div className="input-group">
-              <span className="input-group-text">US$</span>
-              <input 
-                type="text" 
-                id="entrega"
-                className="form-control" 
-                value={inputs.entrega} 
-                onChange={handleInputChange} 
-                required 
-              />
+        <form className="simulador-form" onSubmit={handleSimular}>
+          <div className="input-group">
+            <label>Monto disponible (USD)</label>
+            <div className="input-field">
+              <span>U$S</span>
+              <input type="text" id="entrega" value={inputs.entrega} onChange={handleInputChange} placeholder="0" required />
             </div>
           </div>
-          <div className="mb-3">
-            <label className="form-label">¿Qué monto podés pagar por mes? (USD):</label>
-            <div className="input-group">
-              <span className="input-group-text">US$</span>
-              <input 
-                type="text" 
-                id="cuota"
-                className="form-control" 
-                value={inputs.cuota} 
-                onChange={handleInputChange} 
-                required 
-              />
+
+          <div className="input-group">
+            <label>Cuota mensual (USD)</label>
+            <div className="input-field">
+              <span>U$S</span>
+              <input type="text" id="cuota" value={inputs.cuota} onChange={handleInputChange} placeholder="0" required />
             </div>
           </div>
-          <button type="submit" className="btn btn-primary w-100 font-weight-bold" style={{ backgroundColor: '#c20c25', border: 'none', padding: '12px' }}>
-            BUSCÁ TU PROYECTO
-          </button>
+
+          <button type="submit" className="btn-submit">BUSCAR PROYECTO</button>
         </form>
 
-        <section id="resultados">
+        <div className="results-container">
           {showResultMsg && resultados.length === 0 && casiResultados.length === 0 && (
-            <div className="alert alert-warning text-center">No se encontraron proyectos que coincidan con tu presupuesto.</div>
+            <p className="no-results">No encontramos proyectos con esos montos, intentá con valores un poco más altos.</p>
           )}
 
-          {resultados.length > 0 && (
-            <>
-              <h4 className="mb-3">Proyectos que se ajustan a vos</h4>
-              <div className="row">
-                {resultados.map((b, i) => <CardProyecto key={i} b={b} />)}
-              </div>
-            </>
-          )}
+          {resultados.length > 0 && <h2 className="section-title">Ideal para tu presupuesto</h2>}
+          <div className="grid">
+            {resultados.map((b, i) => <Card b={b} key={i} format={formatMiles} />)}
+          </div>
 
-          {casiResultados.length > 0 && (
-            <>
-              <h4 className="mt-5 mb-3">Proyectos muy cerca de tu presupuesto</h4>
-              <div className="row">
-                {casiResultados.map((b, i) => <CardProyecto key={i} b={b} />)}
-              </div>
-            </>
-          )}
-        </section>
+          {casiResultados.length > 0 && <h2 className="section-title mt-40">Opciones cercanas</h2>}
+          <div className="grid">
+            {casiResultados.map((b, i) => <Card b={b} key={i} format={formatMiles} />)}
+          </div>
+        </div>
+      </section>
 
-        <h2 className="text-center mt-5 mb-4">Conocé todos nuestros proyectos</h2>
-        {/* Aquí iría el componente Carousel si decides usar una librería como Swiper o react-bootstrap */}
-      </div>
-      
       <style jsx>{`
-        .animate-up {
-          animation: fadeInUp 0.8s ease forwards;
+        .page-container {
+          padding-top: 100px; /* EVITA LA SUPERPOSICIÓN CON EL NAVBAR */
+          min-height: 100vh;
+          background-color: #f8f9fa;
+          font-family: sans-serif;
+          color: #333;
         }
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+        .simulador-wrapper {
+          max-width: 900px;
+          margin: 0 auto;
+          padding: 20px;
         }
+        .title { text-align: center; font-size: 2rem; font-weight: 800; margin-bottom: 10px; color: #111; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        
+        .simulador-form {
+          background: #fff;
+          padding: 30px;
+          border-radius: 15px;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+        .input-field {
+          display: flex;
+          align-items: center;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 0 15px;
+        }
+        .input-field span { color: #999; font-weight: bold; }
+        .input-field input {
+          border: none;
+          padding: 12px;
+          width: 100%;
+          outline: none;
+          font-size: 1rem;
+        }
+        .btn-submit {
+          background: #c20c25;
+          color: white;
+          border: none;
+          padding: 15px;
+          border-radius: 8px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background 0.3s;
+        }
+        .btn-submit:hover { background: #8e0a1c; }
+
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+          margin-top: 20px;
+        }
+        .section-title { font-size: 1.4rem; margin-top: 40px; border-left: 4px solid #c20c25; padding-left: 15px; }
+        .mt-40 { margin-top: 40px; }
+        .no-results { text-align: center; padding: 40px; color: #666; }
       `}</style>
-    </main>
+    </div>
   );
 };
+
+const Card = ({ b, format }) => (
+  <div className="card">
+    <div className="img-wrapper">
+      <img src={b.imagen} alt={b.nombre} />
+    </div>
+    <div className="card-content">
+      <h3>{b.nombre}</h3>
+      <p className="type">{b.tipo}</p>
+      <div className="details">
+        <p><strong>Anticipo:</strong> U$S {format(b.entrega_minima)}</p>
+        <p><strong>Cuotas:</strong> {b.cuotas_maximas} x U$S {format(b.cuota_mensual_estim)}</p>
+      </div>
+      <a href={b.link} target="_blank" className="btn-info">MÁS INFORMACIÓN</a>
+    </div>
+    <style jsx>{`
+      .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; }
+      .card:hover { transform: translateY(-5px); }
+      .img-wrapper { height: 180px; overflow: hidden; }
+      .img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+      .card-content { padding: 20px; }
+      .card-content h3 { margin: 0 0 5px 0; font-size: 1.2rem; }
+      .type { color: #888; font-size: 0.85rem; margin-bottom: 15px; }
+      .details p { margin: 5px 0; font-size: 0.95rem; }
+      .btn-info {
+        display: block;
+        text-align: center;
+        background: #f0f0f0;
+        color: #333;
+        text-decoration: none;
+        padding: 10px;
+        margin-top: 15px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+      .btn-info:hover { background: #e0e0e0; }
+    `}</style>
+  </div>
+);
 
 export default InversionSimulador;
