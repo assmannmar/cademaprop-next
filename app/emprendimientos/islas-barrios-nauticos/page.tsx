@@ -335,6 +335,7 @@ export default function IslasPage() {
         </section>
       )}
 
+
       {/* FAQ */}
       <section className="py-20" style={{ backgroundColor: '#E4E4E4' }}>
         <div className="container mx-auto px-4 max-w-4xl">
