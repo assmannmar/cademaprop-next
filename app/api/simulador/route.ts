@@ -43,6 +43,9 @@ export async function GET() {
     );
   }
 
+  console.log("=== INICIANDO API /simulador ===");
+
+
   try {
     const resultados: any[] = [];
 
@@ -69,11 +72,14 @@ export async function GET() {
     }
 
     return NextResponse.json(resultados);
+
   } catch (error: any) {
-    console.error("Error crítico simulador:", error.message);
-    return NextResponse.json(
-      { error: "Error al obtener lotes" },
-      { status: 500 }
-    );
-  }
+  console.error("🔥 Error crítico simulador:");
+  console.error(error);
+  return NextResponse.json(
+    { error: error.message || "Error desconocido" },
+    { status: 500 }
+  );
+}
+
 }
