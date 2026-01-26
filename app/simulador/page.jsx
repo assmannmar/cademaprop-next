@@ -18,7 +18,7 @@ export default function SimuladorPage() {
     const data = await res.json();
     setResultado(data);
   }
-
+ 
   return (
     <div>
       <h1>Simulador de inversión</h1>
