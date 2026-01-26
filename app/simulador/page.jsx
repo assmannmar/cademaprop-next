@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function SimuladorPage() {
   const [anticipo, setAnticipo] = useState("");
   const [cuota, setCuota] = useState("");
-  const [resultado, setResultado] = useState<any>(null);
+  // const [resultado, setResultado] = useState<any>(null);
 
   async function calcular() {
     const res = await fetch("/api/simulador/calcular", {
