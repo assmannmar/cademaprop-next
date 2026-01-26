@@ -21,7 +21,7 @@ const BARRIOS = [
   },
   {
     nombre: "Campo Alto",
-    spreadsheetId: "d/1qnhqiMYouJMeK16xzlTIkwJ8pfWo_NwA6jWRsBqyVho",
+    spreadsheetId: "1qnhqiMYouJMeK16xzlTIkwJ8pfWo_NwA6jWRsBqyVho",
     range: "Lotes!A2:G",
     map: (row: any[]) => ({
       barrio: "Campo Alto",
