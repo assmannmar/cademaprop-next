@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 import { calcularOpciones } from "@/app/simulador/logica/simulador";
 
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    mensaje: "Este endpoint funciona. Usar POST con anticipo y cuota."
+  });
+}
+
 export async function POST(req: Request) {
   try {
     const { anticipo, cuota } = await req.json();
