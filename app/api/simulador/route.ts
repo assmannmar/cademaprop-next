@@ -27,7 +27,7 @@ const BARRIOS = [
       barrio: "Campo Alto",
       lote: row[0],
       anticipo: Number(row[5]),
-      cuota: Number(row[2]),
+      cuota: Number(row[7]),
       cuotas: row[8],
       precioTotal: Number(row[4]),
       disponible: row[2] === "Disponible",
