@@ -5,16 +5,16 @@ const SHEETS_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 const BARRIOS = [
   {
     nombre: "La Amelia",
-    spreadsheetId: "17LCtSRckLw_AZYobyxPDwlz6Oa7kAljkcjL1pZWH-eI",
-    range: "Lista Lotes!A2:G",
+    spreadsheetId: "1gaYsEH9MhRWlILxguwP7CAzN6ISAyee6qm86ue2NFys",
+    range: "Lotes!A2:H",
     map: (row: any[]) => ({
       barrio: "La Amelia",
       lote: row[0],
-      anticipo: Number(row[2]),
-      cuota: Number(row[3]),
-      cuotas: Number(row[4]),
-      precioTotal: Number(row[5]),
-      disponible: row[6] === "SI",
+      anticipo: Number(row[5]),
+      cuota: Number(row[7]),
+      cuotas: Number(row[6]),
+      precioTotal: Number(row[3]),
+      disponible: row[2] === "Disponible",
     }),
   },
   {
