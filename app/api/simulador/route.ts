@@ -8,7 +8,7 @@ const BARRIOS = [
   {
     nombre: "La Amelia",
     spreadsheetId: "17LCtSRckLw_AZYobyxPDwlz6Oa7kAljkcjL1pZWH-eI",
-    range: "Lista!A2:G",
+    range: "Lista Lotes!A2:G",
     map: (row: any[]) => ({
       barrio: "La Amelia",
       lote: row[0],
@@ -22,7 +22,7 @@ const BARRIOS = [
   {
     nombre: "Campo Alto",
     spreadsheetId: "1nUcfMnbRsanlV_lKujAHr1yrFIdT5nIx1_bvqEqgkWE",
-    range: "Lotes!A2:F",
+    range: "Lista Lotes!A2:F",
     map: (row: any[]) => ({
       barrio: "Campo Alto",
       lote: row[1],
