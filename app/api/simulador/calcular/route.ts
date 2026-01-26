@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getLotes } from "@/app/simulador/logica/getLotes";
 import { calcularOpciones } from "@/app/simulador/logica/simulador";
 
 export async function POST(req: Request) {
@@ -11,14 +12,19 @@ export async function POST(req: Request) {
     );
   }
 
-  const response = await fetch(`${process.env.BASE_URL}/api/simulador`);
-  const lotes = await response.json();
+  try {
+    const lotes = await getLotes();
+    const opciones = calcularOpciones(lotes, anticipo, cuota);
 
-  const opciones = calcularOpciones(lotes, anticipo, cuota);
-
-  return NextResponse.json({
-    totalOpciones: opciones.length,
-    mejorOpcion: opciones[0] || null,
-    opciones
-  });
+    return NextResponse.json({
+      totalOpciones: opciones.length,
+      mejorOpcion: opciones[0] || null,
+      opciones,
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error.message },
+      { status: 500 }
+    );
+  }
 }
