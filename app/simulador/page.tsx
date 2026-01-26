@@ -9,6 +9,19 @@ type Opcion = {
   cuota: number;
 };
 
+function agruparPorBarrio(opciones: any[]) {
+  const mapa: Record<string, any> = {};
+
+  opciones.forEach((op) => {
+    if (!mapa[op.barrio] || op.anticipo < mapa[op.barrio].anticipo) {
+      mapa[op.barrio] = op;
+    }
+  });
+
+  return Object.values(mapa);
+}
+
+
 export default function SimuladorPage() {
   const [anticipo, setAnticipo] = useState("");
   const [cuota, setCuota] = useState("");
@@ -85,18 +98,26 @@ export default function SimuladorPage() {
         )}
 
         {/* Resultado */}
-        {resultado?.mejorOpcion && (
-          <div className="mt-8 p-4 border rounded bg-gray-50">
-            <h2 className="text-xl font-semibold mb-2">
-              Mejor opción para vos
+        {resultado?.opciones?.length > 0 && (
+          <div className="mt-8 space-y-4">
+            <h2 className="text-xl font-semibold">
+              Opciones disponibles para vos
             </h2>
 
-            <p><strong>Barrio:</strong> {resultado.mejorOpcion.barrio}</p>
-            <p><strong>Lote:</strong> {resultado.mejorOpcion.lote}</p>
-            <p><strong>Anticipo:</strong> USD {resultado.mejorOpcion.anticipo}</p>
-            <p><strong>Cuota:</strong> USD {resultado.mejorOpcion.cuota}</p>
+            {agruparPorBarrio(resultado.opciones).map((opcion: any, index) => (
+              <div
+                key={index}
+                className="p-4 border rounded bg-gray-50"
+              >
+                <p><strong>Barrio:</strong> {opcion.barrio}</p>
+                <p><strong>Lote:</strong> {opcion.lote}</p>
+                <p><strong>Anticipo:</strong> USD {opcion.anticipo}</p>
+                <p><strong>Cuota:</strong> USD {opcion.cuota}</p>
+              </div>
+            ))}
           </div>
         )}
+
 
         {resultado && resultado.totalOpciones === 0 && (
           <p className="mt-6">
