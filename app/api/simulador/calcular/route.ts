@@ -1,19 +1,20 @@
 import { NextResponse } from "next/server";
-import { getLotes } from "@/app/simulador/logica/getLotes";
 import { calcularOpciones } from "@/app/simulador/logica/simulador";
 
 export async function POST(req: Request) {
-  const { anticipo, cuota } = await req.json();
-
-  if (!anticipo || !cuota) {
-    return NextResponse.json(
-      { error: "Datos incompletos" },
-      { status: 400 }
-    );
-  }
-
   try {
-    const lotes = await getLotes();
+    const { anticipo, cuota } = await req.json();
+
+    if (!anticipo || !cuota) {
+      return NextResponse.json(
+        { error: "Datos incompletos" },
+        { status: 400 }
+      );
+    }
+
+    const response = await fetch(new URL("/api/simulador", req.url));
+    const lotes = await response.json();
+
     const opciones = calcularOpciones(lotes, anticipo, cuota);
 
     return NextResponse.json({
@@ -22,8 +23,9 @@ export async function POST(req: Request) {
       opciones,
     });
   } catch (error: any) {
+    console.error("🔥 ERROR CALCULAR:", error);
     return NextResponse.json(
-      { error: error.message },
+      { error: "Error interno" },
       { status: 500 }
     );
   }
