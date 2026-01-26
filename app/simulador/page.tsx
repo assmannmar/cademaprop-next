@@ -21,6 +21,12 @@ function agruparPorBarrio(opciones: any[]) {
   return Object.values(mapa);
 }
 
+const LANDINGS: Record<string, string> = {
+  "Campo Alto": "/emprendimientos/campo-alto",
+  "La Amelia": "/emprendimientos/amelia",
+  "Islas Barrios Náuticos": "/emprendimientos/islas-barrios-nauticos",
+};
+
 
 export default function SimuladorPage() {
   const [anticipo, setAnticipo] = useState("");
@@ -113,10 +119,20 @@ export default function SimuladorPage() {
                 <p><strong>Lote:</strong> {opcion.lote}</p>
                 <p><strong>Anticipo:</strong> USD {opcion.anticipo}</p>
                 <p><strong>Cuota:</strong> USD {opcion.cuota}</p>
+
+                {LANDINGS[opcion.barrio] && (
+                  <a
+                    href={LANDINGS[opcion.barrio]}
+                    className="inline-block mt-3 text-center w-full border border-black py-2 rounded hover:bg-black hover:text-white transition"
+                  >
+                    Más información
+                  </a>
+                )}
               </div>
             ))}
           </div>
         )}
+
 
 
         {resultado && resultado.totalOpciones === 0 && (

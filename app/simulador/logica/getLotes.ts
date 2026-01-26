@@ -31,6 +31,20 @@ const BARRIOS = [
       disponible: row[2] === "Disponible",
     }),
   },
+  {
+    nombre: "Islas Barrios Náuticos",
+    spreadsheetId: "1Xc4pAyHtWe7hQSZ5pZOwE4YRJQiiyzM60QFPfZkYL2U",
+    range: "Lotes!A2:I",
+    map: (row: any[]) => ({
+      barrio: "Islas Barrios Náuticos",
+      lote: row[0],
+      anticipo: Number(row[6]),
+      cuota: Number(row[8]),
+      cuotas: Number(row[7]),
+      precioTotal: Number(row[5]),
+      disponible: row[4] === "Disponible",
+    }),
+  },
 ];
 
 export async function getLotes() {
