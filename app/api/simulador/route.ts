@@ -22,13 +22,13 @@ const BARRIOS = [
   {
     nombre: "Campo Alto",
     spreadsheetId: "1qnhqiMYouJMeK16xzlTIkwJ8pfWo_NwA6jWRsBqyVho",
-    range: "Lotes!A2:G",
+    range: "Lotes!A2:H",
     map: (row: any[]) => ({
       barrio: "Campo Alto",
       lote: row[0],
       anticipo: Number(row[5]),
       cuota: Number(row[2]),
-      cuotas: row[6],
+      cuotas: row[8],
       precioTotal: Number(row[4]),
       disponible: row[2] === "Disponible",
     }),
