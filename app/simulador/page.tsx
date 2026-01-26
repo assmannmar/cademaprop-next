@@ -4,7 +4,6 @@ import { useState } from "react";
 
 type Opcion = {
   barrio: string;
-  lote: string;
   anticipo: number;
   cuota: number;
 };
@@ -116,7 +115,6 @@ export default function SimuladorPage() {
                 className="p-4 border rounded bg-gray-50"
               >
                 <p><strong>Barrio:</strong> {opcion.barrio}</p>
-                <p><strong>Lote:</strong> {opcion.lote}</p>
                 <p><strong>Anticipo:</strong> USD {opcion.anticipo}</p>
                 <p><strong>Cuota:</strong> USD {opcion.cuota}</p>
 
