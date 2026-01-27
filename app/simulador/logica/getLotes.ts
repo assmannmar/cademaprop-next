@@ -45,6 +45,34 @@ const BARRIOS = [
       disponible: row[4] === "Disponible",
     }),
   },
+  {
+    nombre: "Justina",
+    spreadsheetId: "18g1iz4jS9bGbtjXFuQcfw4A7zhofoSTR_I5EOu_Ak2s",
+    range: "Lotes!A2:G",
+    map: (row: any[]) => ({
+      barrio: "Justina",
+      lote: row[0],
+      anticipo: Number(row[4]),
+      cuota: Number(row[6]),
+      cuotas: Number(row[5]),
+      precioTotal: Number(row[3]),
+      disponible: row[2] === "Disponible",
+    }),
+  },
+  {
+    nombre: "Puerta del Sol",
+    spreadsheetId: "1bAJe3Y-ANtpnvLZFmcDLqeV2a1akpaA8n2ZuetGLoks",
+    range: "Lotes!A2:I",
+    map: (row: any[]) => ({
+      barrio: "Puerta del Sol",
+      lote: row[0],
+      anticipo: Number(row[5]),
+      cuota: Number(row[7]),
+      cuotas: Number(row[6]),
+      precioTotal: Number(row[4]),
+      disponible: row[2] === "Disponible",
+    }),
+  },
 ];
 
 export async function getLotes() {

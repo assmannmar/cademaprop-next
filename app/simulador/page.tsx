@@ -24,6 +24,9 @@ const LANDINGS: Record<string, string> = {
   "Campo Alto": "/emprendimientos/campo-alto",
   "La Amelia": "/emprendimientos/amelia",
   "Islas Barrios Náuticos": "/emprendimientos/islas-barrios-nauticos",
+  "Justina": "/emprendimientos/justina",
+  "Paseo Gavazzi": "/emprendimientos/paseo-gavazzi",
+  "Puerta del Sol": "/emprendimientos/puerta-del-sol",
 };
 
 
