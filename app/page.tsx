@@ -47,13 +47,16 @@ export default function HomePage() {
 
   const fetchData = async () => {
     try {
+      // carga emprendimientos desde la API
       const devRes = await fetch('/api/developments');
       const devData = await devRes.json();
       setEmprendimientos(devData.objects?.slice(0, 20) || []);
 
+      // carga propiedades desde la API
       const propRes = await fetch('/api/properties');
       const propData = await propRes.json();
       
+      // toma las propiedades destacadas, marcadas en tokko como destacar en la web
       const propiedadesStarred = propData.objects?.filter((prop: Property) => {
         return prop.is_starred_on_web === true;
       }) || [];
@@ -71,6 +74,7 @@ export default function HomePage() {
         if (propiedadesDestacadas.length > 0) {
           setDestacadas(propiedadesDestacadas.slice(0, 12));
         } else {
+          // si no hay propiedades marcadas como destacadas, toma las primeras 12
           setDestacadas(propData.objects?.slice(0, 12) || []);
         }
       }
@@ -163,7 +167,7 @@ export default function HomePage() {
         <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden relative">
           <Image
             src="/industrial-banner.jpg"
-            alt="Cadema Prop"
+            alt="Cadema Industrial"
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
