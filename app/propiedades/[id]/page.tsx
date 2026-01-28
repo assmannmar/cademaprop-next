@@ -83,6 +83,21 @@ export default function PropertyDetailPage() {
     }
   }, [id]);
 
+  // Cargar script de Ventux para el formulario
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://link.ventux.io/js/form_embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Limpiar el script al desmontar el componente
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
+
   const fetchProperty = async () => {
     setLoading(true);
     setError(null);
@@ -171,7 +186,7 @@ export default function PropertyDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center -mt-[70px] pt-[70px]">
+      <div className="min-h-screen flex items-center justify-center -mt-[70px] pt-[100px]">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
           <p className="mt-4 text-lg text-gray-600">Cargando propiedad...</p>
@@ -182,7 +197,7 @@ export default function PropertyDetailPage() {
 
   if (error || !property) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 -mt-[70px] pt-[70px]">
+      <div className="min-h-screen flex items-center justify-center px-4 -mt-[70px] pt-[100px]">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">Propiedad no encontrada</h1>
           <p className="text-gray-600 mb-6">{error}</p>
@@ -216,7 +231,7 @@ export default function PropertyDetailPage() {
   const description = property.rich_description || property.description || null;
 
   return (
-    <div className="min-h-screen bg-gray-50 -mt-[70px] pt-[70px]">
+    <div className="min-h-screen bg-gray-50 -mt-[70px] pt-[100px]">
       <div className="container mx-auto px-4 py-8">
         
         {/* Breadcrumb */}
@@ -535,38 +550,34 @@ export default function PropertyDetailPage() {
                 )}
               </div>
 
-              {/* Formulario de Contacto */}
+              {/* Formulario de Contacto - Iframe */}
               <div className="mb-6">
                 <h3 className="text-xl font-bold mb-4">Contactar</h3>
-                <form className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Nombre"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
+                <div className="w-full">
+                  <iframe
+                    src="https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz"
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      height: '619px',
+                      border: 'none',
+                      borderRadius: '3px'
+                    }}
+                    id="inline-contact-form"
+                    data-layout='{"id":"INLINE"}'
+                    data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name="Form Web Inmueble"
+                    data-height="619"
+                    data-layout-iframe-id="inline-contact-form"
+                    data-form-id="OWI77RP94NZkMNa4BIaz"
+                    title="Form Web Inmueble"
                   />
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Teléfono"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
-                  />
-                  <textarea
-                    placeholder="Mensaje"
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-600"
-                    defaultValue={`Hola, estoy interesado en la propiedad #${property.id}`}
-                  />
-                  <button
-                    type="submit"
-                    className="w-full px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-md transition"
-                  >
-                    Enviar Consulta
-                  </button>
-                </form>
+                </div>
               </div>
 
               {/* Info Sucursal */}
