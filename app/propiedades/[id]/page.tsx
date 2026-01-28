@@ -207,7 +207,7 @@ export default function PropertyDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center -mt-[70px] pt-[100px]">
+      <div className="min-h-screen flex items-center justify-center  pt-[100px]">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
           <p className="mt-4 text-lg text-gray-600">Cargando propiedad...</p>
@@ -218,7 +218,7 @@ export default function PropertyDetailPage() {
 
   if (error || !property) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 -mt-[70px] pt-[100px]">
+      <div className="min-h-screen flex items-center justify-center px-4  pt-[100px]">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">Propiedad no encontrada</h1>
           <p className="text-gray-600 mb-6">{error}</p>
