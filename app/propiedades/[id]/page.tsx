@@ -98,6 +98,27 @@ export default function PropertyDetailPage() {
     };
   }, []);
 
+  // Manejar teclas del teclado para navegación en pantalla completa
+  useEffect(() => {
+    if (!isFullscreen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        prevImage();
+      } else if (e.key === 'ArrowRight') {
+        nextImage();
+      } else if (e.key === 'Escape') {
+        setIsFullscreen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFullscreen, selectedImage]); // Dependencias para que las funciones siempre tengan el estado actualizado
+
   const fetchProperty = async () => {
     setLoading(true);
     setError(null);
@@ -231,7 +252,7 @@ export default function PropertyDetailPage() {
   const description = property.rich_description || property.description || null;
 
   return (
-    <div className="min-h-screen bg-gray-50  pt-[100px]">
+    <div className="min-h-screen bg-gray-50 -mt-[70px] pt-[100px]">
       <div className="container mx-auto px-4 py-8">
         
         {/* Breadcrumb */}
