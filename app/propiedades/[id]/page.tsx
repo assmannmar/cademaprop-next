@@ -576,7 +576,7 @@ export default function PropertyDetailPage() {
                 <h3 className="text-xl font-bold mb-4">Contactar</h3>
                 <div className="w-full">
                   <iframe
-                    src="https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz"
+                    src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?property_id=${property.id}`}
                     style={{
                       display: 'block',
                       width: '100%',
@@ -592,11 +592,11 @@ export default function PropertyDetailPage() {
                     data-activation-value=""
                     data-deactivation-type="neverDeactivate"
                     data-deactivation-value=""
-                    data-form-name="{property.id}"
+                    data-form-name={`Propiedad ${property.id}`}
                     data-height="619"
                     data-layout-iframe-id="inline-contact-form"
                     data-form-id="OWI77RP94NZkMNa4BIaz"
-                    title= "{property.id}"
+                    title={`Consulta Propiedad ${property.id}`}
                   />
                 </div>
               </div>
