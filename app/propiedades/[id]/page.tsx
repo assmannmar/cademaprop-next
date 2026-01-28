@@ -440,12 +440,12 @@ export default function PropertyDetailPage() {
                     </span>
                   </div>
                 )}
-                {property.expenses && property.expenses > 0 && (
+                {/* {property.expenses && property.expenses > 0 && (
                   <div className="flex justify-between border-b border-gray-200 py-2">
                     <span className="font-semibold text-gray-700">Expensas:</span>
                     <span className="text-gray-600">${property.expenses.toLocaleString('es-AR')}</span>
                   </div>
-                )}
+                )} */}
               </div>
 
               {/* Descripción */}
