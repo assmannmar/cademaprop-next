@@ -592,11 +592,11 @@ export default function PropertyDetailPage() {
                     data-activation-value=""
                     data-deactivation-type="neverDeactivate"
                     data-deactivation-value=""
-                    data-form-name="Form Web Inmueble"
+                    data-form-name="{property.id}"
                     data-height="619"
                     data-layout-iframe-id="inline-contact-form"
                     data-form-id="OWI77RP94NZkMNa4BIaz"
-                    title="Form Web Inmueble"
+                    title= "{property.id}"
                   />
                 </div>
               </div>
