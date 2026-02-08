@@ -52,7 +52,7 @@ export default function Navbar() {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { name: "Quienes Somos", href: "/quienes-somos" },
+    { name: "Nosotros", href: "/quienes-somos" },
     { name: "Propiedades", href: "/propiedades" },
     { name: "Emprendimientos", href: "/emprendimientos" },
     { name: "Industria", href: "https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" },
