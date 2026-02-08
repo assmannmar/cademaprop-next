@@ -69,7 +69,7 @@ export default function Navbar() {
 return (
     <>
       <nav 
-        className={`fixed top-0 w-full z-50 transition-all duration-500 transform
+        className={`fixed top-0 w-full z-50 transition-all duration-500 transform text-white 
           ${visible ? "translate-y-0" : "-translate-y-full"} 
           ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-2" : "bg-transparent py-5"}`}
       >
