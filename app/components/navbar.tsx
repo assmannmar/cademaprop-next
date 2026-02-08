@@ -62,8 +62,8 @@ export default function Navbar() {
     { name: "SINOR", href: "https://sinor.com.ar/" },
   ];
 
-  const linkClass = `nav-item px-3 py-2 transition-colors duration-200 font-bold text-white ${
-    scrolled ? "text-white-800 hover:text-blue-600" : "text-white hover:text-gray-300"
+  const linkClass = `nav-item px-3 py-2 transition-colors duration-200 font-bold ${
+    scrolled ? "text-white hover:text-blue-600" : "text-white hover:text-gray-300"
   }`;
 
 return (
