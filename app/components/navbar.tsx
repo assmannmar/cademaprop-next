@@ -88,9 +88,7 @@ return (
           {/* MENU DESKTOP - Agrupamos TODO aquí */}
           <div className="hidden lg:flex items-center ml-auto space-x-1">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className={`nav-item px-3 py-2 transition-colors duration-200 font-black ${
-    scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
-  }`}>
+              <Link key={link.href} href={link.href} className={linkClass}>
                 {link.name}
               </Link>
             ))}
