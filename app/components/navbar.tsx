@@ -62,14 +62,14 @@ export default function Navbar() {
     { name: "SINOR", href: "https://sinor.com.ar/" },
   ];
 
-  const linkClass = `nav-item px-3 py-2 transition-colors duration-200 font-black ${
+  const linkClass = `nav-item px-3 py-2 transition-colors duration-200 font-bold ${
     scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
   }`;
 
 return (
     <>
       <nav 
-        className={`fixed top-0 w-full z-50 transition-all duration-500 transform text-white 
+        className={`fixed top-0 w-full z-50 transition-all duration-500 transform
           ${visible ? "translate-y-0" : "-translate-y-full"} 
           ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-2" : "bg-transparent py-5"}`}
       >
