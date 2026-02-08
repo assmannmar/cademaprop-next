@@ -26,41 +26,7 @@ body {
 }
 
 
-/* Animación para el modal de filtros móvil */
-@keyframes slide-up {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-.animate-slide-up {
-  animation: slide-up 0.3s ease-out;
-}
-
-@keyframes slide-left {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-.animate-slide-left {
-  animation: slide-left 0.3s ease-out;
-}
-
 /* NAVBAR */
-
-
-
-.nav-item:hover {
-  @apply text-red-600;
-}
-
 .nav-item {
   font-family: 'Nexa', sans-serif; 
   font-size: 16px;                
@@ -88,3 +54,40 @@ body {
   display: flex;
   align-items: center;
 }
+
+/* .nav-item {
+  @apply text-gray-700 transition;
+} */
+
+.nav-item:hover {
+  @apply text-red-600;
+}
+
+
+/* Animación para el modal de filtros móvil */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+@keyframes slide-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-left {
+  animation: slide-left 0.3s ease-out;
+}
+
