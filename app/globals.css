@@ -30,7 +30,7 @@ body {
 .nav-item {
   font-family: 'Nexa', sans-serif; 
   font-size: 16px;                
-  font-weight: 500;
+  @apply font-bold;
   text-transform: capitalize;      
   transition: all 0.3s ease;
   padding: 0.5rem 1rem;
@@ -46,6 +46,7 @@ body {
 }
 
 .nav-item:hover {
+  @apply text-red-600;
   opacity: 0.7;
 }
 
@@ -59,9 +60,7 @@ body {
   @apply text-gray-700 transition;
 } */
 
-.nav-item:hover {
-  @apply text-red-600;
-}
+
 
 
 /* Animación para el modal de filtros móvil */
