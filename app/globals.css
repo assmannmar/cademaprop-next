@@ -25,13 +25,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.nav-item {
-  @apply text-gray-700 transition;
-}
-
-.nav-item:hover {
-  @apply text-red-600;
-}
 
 /* Animación para el modal de filtros móvil */
 @keyframes slide-up {
@@ -61,6 +54,13 @@ body {
 }
 
 /* NAVBAR */
+
+
+
+.nav-item:hover {
+  @apply text-red-600;
+}
+
 .nav-item {
   font-family: 'Nexa', sans-serif; 
   font-size: 16px;                
