@@ -10,7 +10,7 @@ interface PropertyHeaderProps {
   currency: string;
   tags?: Array<{ name: string }>;
   custom_tags?: Array<{ name: string; group_name?: string }>;
-  credit_eligible?: string; // "Eligible" | "Not specified"
+  credit_eligible?: string; // Added field
 }
 
 export default function PropertyHeader({
@@ -23,11 +23,16 @@ export default function PropertyHeader({
   fullLocation,
   price,
   currency,
-  credit_eligible,
+  tags,
+  custom_tags,
+  credit_eligible, // Added parameter
 }: PropertyHeaderProps) {
-
-  // ✅ Usa el campo credit_eligible directamente del JSON de Tokko
-  const isCreditEligible = credit_eligible === 'Eligible';
+  
+  // FIXED: Verificar si es apto crédito (campo "Eligible" de Tokko o tags)
+  const isCreditEligible = 
+    credit_eligible === 'Eligible' ||
+    tags?.some(tag => tag.name.toLowerCase().includes('credit')) ||
+    custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 mb-6">

@@ -44,8 +44,11 @@ export default function PropertyInfo({
     return trans[o] || o;
   };
 
+  // FIXED: Updated to handle "Eligible" value from Tokko
   const translateCredit = (c: string) => {
-    return c === 'Yes' ? 'Sí' : c === 'No' ? 'No' : 'No especificado';
+    if (c === 'Eligible' || c === 'Yes') return 'Sí';
+    if (c === 'No') return 'No';
+    return 'No especificado';
   };
 
   return (
@@ -151,7 +154,7 @@ export default function PropertyInfo({
         {credit_eligible && (
           <div className="flex justify-between items-center py-3 border-b border-gray-100">
             <span className="text-gray-700 font-medium">Apto Crédito</span>
-            <span className={`font-semibold ${credit_eligible === 'Yes' ? 'text-green-600' : 'text-gray-900'}`}>
+            <span className={`font-semibold ${credit_eligible === 'Eligible' ? 'text-green-600' : 'text-gray-900'}`}>
               {translateCredit(credit_eligible)}
             </span>
           </div>
