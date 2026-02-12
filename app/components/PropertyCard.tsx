@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import { generatePropertyUrl } from '@/utils/urlHelpers';
 
 interface PropertyCardProps {
   id: number;
@@ -126,8 +126,11 @@ export default function PropertyCard(property: PropertyCardProps) {
   const photoCount = photos?.length || 0;
   const videoCount = videos?.length || 0;
 
+  // Generar URL SEO-friendly
+  const propertyUrl = generatePropertyUrl(property);
+
   return (
-    <Link href={`/propiedades/${id}`}>
+    <Link href={propertyUrl}>
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-[1.02] transform cursor-pointer h-full flex flex-col">
         
         {/* IMAGEN DE PORTADA */}

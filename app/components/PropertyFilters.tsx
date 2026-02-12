@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface FilterProps {
   onFilterChange: (filters: FilterValues) => void;
+  onSearch: () => void;
+  initialFilters?: FilterValues;
 }
 
 export interface FilterValues {
@@ -18,8 +20,8 @@ export interface FilterValues {
   max_price: string;
 }
 
-export default function PropertyFilters({ onFilterChange }: FilterProps) {
-  const [filters, setFilters] = useState<FilterValues>({
+export default function PropertyFilters({ onFilterChange, onSearch, initialFilters }: FilterProps) {
+  const [filters, setFilters] = useState<FilterValues>(initialFilters || {
     division: '',
     location: '',
     operation_type: '',
@@ -30,6 +32,13 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
     credit_eligible: '',
     max_price: '',
   });
+
+  // Sincronizar con initialFilters cuando cambian (desde URL)
+  useEffect(() => {
+    if (initialFilters) {
+      setFilters(initialFilters);
+    }
+  }, [initialFilters]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,13 +61,20 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
     };
     setFilters(resetFilters);
     onFilterChange(resetFilters);
+    onSearch();
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSearch();
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-6 mb-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Filtros de Búsqueda</h2>
         <button
+          type="button"
           onClick={handleReset}
           className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-md transition text-sm"
         >
@@ -66,7 +82,7 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
         </button>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         {/* División */}
         <div>
           <label className="block text-sm font-semibold mb-2 text-gray-700">División</label>
@@ -204,6 +220,16 @@ export default function PropertyFilters({ onFilterChange }: FilterProps) {
           />
         </div>
       </div>
-    </div>
+
+      {/* Botón Buscar */}
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-md transition text-lg shadow-lg"
+        >
+          Buscar Propiedades
+        </button>
+      </div>
+    </form>
   );
 }

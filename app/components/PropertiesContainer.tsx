@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import PropertyFilters from '@/app/components/PropertyFilters';
 import PropertyCard from '@/app/components/PropertyCard';
 import type { FilterValues } from '@/app/components/PropertyFilters';
+import { buildSearchUrl } from '@/utils/urlHelpers';
 
 interface Property {
   id: number;
@@ -51,16 +53,47 @@ interface ApiResponse {
 type SortOption = 'recent_desc' | 'recent_asc' | 'price_desc' | 'price_asc' | 'surface_desc' | 'surface_asc' | 'roofed_desc' | 'roofed_asc';
 
 export default function PropertiesContainer() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   const [properties, setProperties] = useState<Property[]>([]);
   const [displayedProperties, setDisplayedProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>('recent_desc');
+  
+  // Filtros pendientes (no aplicados hasta hacer click en Buscar)
+  const [pendingFilters, setPendingFilters] = useState<FilterValues>({
+    division: '',
+    location: '',
+    operation_type: '',
+    property_type: '',
+    bedrooms: '',
+    has_parking: '',
+    has_pool: '',
+    credit_eligible: '',
+    max_price: '',
+  });
 
+  // Cargar filtros desde URL al iniciar
   useEffect(() => {
-    fetchProperties();
+    const initialFilters: FilterValues = {
+      division: searchParams.get('division') || '',
+      location: searchParams.get('ubicacion') || '',
+      operation_type: searchParams.get('operacion') || '',
+      property_type: searchParams.get('tipo') || '',
+      bedrooms: searchParams.get('dormitorios') || '',
+      has_parking: searchParams.get('cochera') || '',
+      has_pool: searchParams.get('pileta') || '',
+      credit_eligible: searchParams.get('credito') || '',
+      max_price: searchParams.get('precio-max') || '',
+    };
+    
+    setPendingFilters(initialFilters);
+    fetchProperties(initialFilters);
   }, []);
 
+  // El ordenamiento se aplica automáticamente cuando cambian las propiedades
   useEffect(() => {
     sortProperties(sortBy);
   }, [properties, sortBy]);
@@ -212,8 +245,30 @@ export default function PropertiesContainer() {
     setDisplayedProperties(sorted);
   };
 
+  // Manejar cambios en los filtros (solo actualiza el estado local)
   const handleFilterChange = (newFilters: FilterValues) => {
-    fetchProperties(newFilters);
+    setPendingFilters(newFilters);
+  };
+
+  // Aplicar filtros y actualizar URL
+  const handleSearch = () => {
+    // Actualizar URL
+    const newUrl = buildSearchUrl({
+      division: pendingFilters.division,
+      location: pendingFilters.location,
+      operation_type: pendingFilters.operation_type,
+      property_type: pendingFilters.property_type,
+      bedrooms: pendingFilters.bedrooms,
+      has_parking: pendingFilters.has_parking,
+      has_pool: pendingFilters.has_pool,
+      credit_eligible: pendingFilters.credit_eligible,
+      max_price: pendingFilters.max_price,
+    });
+    
+    router.push(newUrl);
+    
+    // Aplicar filtros
+    fetchProperties(pendingFilters);
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -228,7 +283,11 @@ export default function PropertiesContainer() {
       </p>
 
       {/* Filtros */}
-      <PropertyFilters onFilterChange={handleFilterChange} />
+      <PropertyFilters 
+        onFilterChange={handleFilterChange} 
+        onSearch={handleSearch}
+        initialFilters={pendingFilters}
+      />
 
       {/* Barra de ordenamiento y resultados */}
       {!loading && properties.length > 0 && (
