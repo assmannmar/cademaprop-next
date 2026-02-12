@@ -282,9 +282,9 @@ export default function PropertiesContainer() {
         Encuentra tu propiedad ideal entre nuestras opciones
       </p>
 
-      {/* Filtros */}
+      {/* Filtros - FIXED: Added all required props */}
       <PropertyFilters 
-        onFilterChange={handleFilterChange} 
+        onFilterChange={handleFilterChange}
         onSearch={handleSearch}
         initialFilters={pendingFilters}
       />

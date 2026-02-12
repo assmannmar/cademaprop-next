@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { generatePropertyUrl } from '@/utils/urlHelpers';
 
 interface PropertyCardProps {
   id: number;
@@ -33,6 +32,7 @@ interface PropertyCardProps {
   videos?: Array<any>;
   tags?: Array<{ name: string }>;
   custom_tags?: Array<{ name: string }>;
+  credit_eligible?: string; // "Eligible" | "Not specified"
 }
 
 export default function PropertyCard(property: PropertyCardProps) {
@@ -55,25 +55,18 @@ export default function PropertyCard(property: PropertyCardProps) {
     videos,
     tags,
     custom_tags,
+    credit_eligible,
   } = property;
 
-  // Dirección a mostrar (ficticia tiene prioridad)
   const displayAddress = fake_address || address || 'Consultar ubicación';
   const locationName = location?.name || '';
-
-  // Total de dormitorios/ambientes
   const totalRooms = (room_amount || 0) + (suite_amount || 0);
-
-  // Tipo de propiedad
   const propertyType = propertyTypeObj?.name || 'Propiedad';
-
-  // Obtener operación y precio
   const mainOperation = operations?.[0];
   const operationType = mainOperation?.operation_type || '';
   const price = mainOperation?.prices?.[0]?.price;
   const currency = mainOperation?.prices?.[0]?.currency || 'USD';
 
-  // Traducir tipo de operación
   const translateOperationType = (type: string) => {
     const translations: Record<string, string> = {
       'Sale': 'Venta',
@@ -86,7 +79,6 @@ export default function PropertyCard(property: PropertyCardProps) {
     return translations[type] || type;
   };
 
-  // Traducir tipo de propiedad
   const translatePropertyType = (type: string) => {
     const translations: Record<string, string> = {
       'House': 'Casa',
@@ -114,23 +106,16 @@ export default function PropertyCard(property: PropertyCardProps) {
   const operationTypeSpanish = translateOperationType(operationType);
   const propertyTypeSpanish = translatePropertyType(propertyType);
 
-  // Obtener imagen de portada
   const coverImage = photos?.find(p => p.is_front_cover)?.image || photos?.[0]?.image;
 
-  // Verificar si es apto crédito
-  const isCreditEligible = 
-    tags?.some(tag => tag.name.toLowerCase().includes('credit')) ||
-    custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
+  // ✅ Usa el campo credit_eligible directamente del JSON de Tokko
+  const isCreditEligible = credit_eligible === 'Eligible';
 
-  // Contar fotos y videos
   const photoCount = photos?.length || 0;
   const videoCount = videos?.length || 0;
 
-  // Generar URL SEO-friendly
-  const propertyUrl = generatePropertyUrl(property);
-
   return (
-    <Link href={propertyUrl}>
+    <Link href={`/propiedades/${id}`}>
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-[1.02] transform cursor-pointer h-full flex flex-col">
         
         {/* IMAGEN DE PORTADA */}
@@ -149,7 +134,7 @@ export default function PropertyCard(property: PropertyCardProps) {
             </div>
           )}
           
-          {/* Badge de Apto Crédito */}
+          {/* Badge Apto Crédito */}
           {isCreditEligible && (
             <div className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow-lg">
               Apto Crédito
@@ -185,12 +170,12 @@ export default function PropertyCard(property: PropertyCardProps) {
             </span>
           </div>
 
-          {/* TÍTULO DE PUBLICACIÓN */}
+          {/* TÍTULO */}
           <h3 className="text-lg font-bold mb-2 line-clamp-2 h-14">
             {publication_title || `${propertyTypeSpanish} en ${locationName}`}
           </h3>
           
-          {/* DIRECCIÓN Y UBICACIÓN */}
+          {/* DIRECCIÓN */}
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-start gap-1">
             <span className="text-base">📍</span>
             <span className="line-clamp-1">
