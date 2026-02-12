@@ -202,8 +202,8 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">No importa</option>
-            <option value="yes">Sí</option>
-            <option value="no">No</option>
+            <option value="Eligible">Sí</option>
+            <option value="Not specified">No</option>
           </select>
         </div>
 
