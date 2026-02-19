@@ -1,3 +1,7 @@
+// Condulta una sheet diferente por barrio
+// como cada sheet tiene las col en posiciones diferentes, cada una tiene su propio map() para normalizar los datos a un formato común
+// solo devuelve lotes donde la columna de estado es "Disponible"
+
 import { NextResponse } from "next/server";
 
 const SHEETS_KEY = process.env.GOOGLE_SHEETS_API_KEY;
