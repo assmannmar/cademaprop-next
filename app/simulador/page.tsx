@@ -1,3 +1,6 @@
+// El usuario ingresa dos valores: anticipo disponible y cuota mensual máxima. 
+// Al hacer click en "Simular", se hace un POST a /api/simulador/calcular con esos datos en el body como JSON.
+// Los resultados se agrupan con agruparPorBarrio(), que por cada barrio solo muestra la opción más barata (menor anticipo), evitando mostrar múltiples lotes del mismo barrio.
 "use client";
 
 import { useState } from "react";
@@ -106,6 +109,7 @@ export default function SimuladorPage() {
         )}
 
         {/* Resultado */}
+        {/*  */}
         {resultado?.opciones?.length > 0 && (
           <div className="mt-8 space-y-4">
             <h2 className="text-xl font-semibold">
@@ -113,6 +117,9 @@ export default function SimuladorPage() {
             </h2>
 
             {agruparPorBarrio(resultado.opciones).map((opcion: any, index) => (
+
+              
+
               <div
                 key={index}
                 className="p-4 border rounded bg-gray-50"
