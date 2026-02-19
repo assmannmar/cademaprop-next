@@ -1,6 +1,13 @@
 // El usuario ingresa dos valores: anticipo disponible y cuota mensual máxima. 
 // Al hacer click en "Simular", se hace un POST a /api/simulador/calcular con esos datos en el body como JSON.
 // Los resultados se agrupan con agruparPorBarrio(), que por cada barrio solo muestra la opción más barata (menor anticipo), evitando mostrar múltiples lotes del mismo barrio.
+
+// la api recibe el POST, luego hace un fetch interno a su propio endpoint /api/simulador para obtener todos los lotes disponibles, y los pasa a la función calcularOpciones().
+
+// la fuente de datos es app/simulador/logica/getLotes.ts
+
+// la logica de filtrado está en app/simulador/logica/simulador.ts
+// filtra lotes donde el anticipo del lote sea <= al anticipo del usuario y la cuota sea <= a la cuota máxima, y luego ordena por anticipo ascendente.
 "use client";
 
 import { useState } from "react";
@@ -109,7 +116,6 @@ export default function SimuladorPage() {
         )}
 
         {/* Resultado */}
-        {/*  */}
         {resultado?.opciones?.length > 0 && (
           <div className="mt-8 space-y-4">
             <h2 className="text-xl font-semibold">
