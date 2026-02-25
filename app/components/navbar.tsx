@@ -206,24 +206,70 @@ return (
         </div>
       </nav>
 
-      {/* MOBILE MENU OVERLAY (Se mantiene igual con el pt-24 que agregamos antes) */}
+      {/* MOBILE MENU OVERLAY */}
       <div className={`fixed inset-0 z-40 bg-white flex flex-col transition-transform duration-500 ease-in-out lg:hidden ${
         mobileMenuOpen ? "translate-x-0" : "translate-x-full"
       }`}>
-        <div className="flex flex-col items-center justify-start h-full pt-24 space-y-6 text-xl font-semibold text-gray-800 overflow-y-auto">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.href} 
-              href={link.href} 
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2"
-            >
-              {link.name}
-            </Link>
-          ))}
-          <div className="flex space-x-8 pt-8 border-t w-1/2 justify-center border-gray-100">
-            <a href="#" className="text-pink-600 scale-150"><InstagramIcon /></a>
-            <a href="#" className="text-green-500 scale-150"><WhatsAppIcon /></a>
+        <div className="flex flex-col items-center justify-start h-full pt-24 pb-10 space-y-2 text-xl font-semibold text-gray-800 overflow-y-auto px-6">
+          {navLinks.map((link) => {
+            const hasSubmenu = link.submenu && link.submenu.length > 0;
+            const isSubmenuOpen = openMobileSubmenu === link.name;
+
+            return (
+              <div key={link.name} className="w-full flex flex-col items-center">
+                {hasSubmenu ? (
+                  <>
+                    {/* Botón que abre el submenú en móvil */}
+                    <button
+                      onClick={() => setOpenMobileSubmenu(isSubmenuOpen ? null : link.name)}
+                      className="w-full text-center py-4 flex items-center justify-center gap-2 border-b border-gray-50"
+                    >
+                      {link.name}
+                      <svg 
+                        className={`w-5 h-5 transition-transform duration-300 ${isSubmenuOpen ? 'rotate-180' : ''}`} 
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    {/* Contenedor del Submenú Móvil */}
+                    <div className={`w-full bg-gray-50 overflow-hidden transition-all duration-300 ${
+                      isSubmenuOpen ? 'max-h-64 opacity-100 py-2' : 'max-h-0 opacity-0'
+                    }`}>
+                      {link.submenu?.map((sublink) => (
+                        <Link
+                          key={sublink.name}
+                          href={sublink.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block w-full text-center py-3 text-lg text-gray-600 hover:text-red-600"
+                        >
+                          {sublink.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Link 
+                    href={link.href} 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full text-center py-4 border-b border-gray-50"
+                  >
+                    {link.name}
+                  </Link>
+                )}
+              </div>
+            );
+          })}
+
+          {/* Redes Sociales en Móvil */}
+          <div className="flex space-x-12 pt-10 mt-4 border-t w-full justify-center border-gray-100">
+            <a href="https://instagram.com/cademabienesraices" target="_blank" className="text-pink-600 transform scale-150">
+              <InstagramIcon />
+            </a>
+            <a href="https://wa.me/5493489517993" target="_blank" className="text-green-500 transform scale-150">
+              <WhatsAppIcon />
+            </a>
           </div>
         </div>
       </div>
