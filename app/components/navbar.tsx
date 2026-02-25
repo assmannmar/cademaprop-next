@@ -129,13 +129,52 @@ return (
             />
           </Link>
 
-          {/* MENU DESKTOP - Agrupamos TODO aquí */}
+          {/* MENU DESKTOP */}
           <div className="hidden lg:flex items-center ml-auto space-x-1">
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className={linkClass}>
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const hasSubmenu = link.submenu && link.submenu.length > 0;
+              
+              return (
+                <div key={link.name} className="relative">
+                  {hasSubmenu ? (
+                    <>
+                      <button
+                        onClick={(e) => handleDesktopMenuClick(e, link.name, hasSubmenu)}
+                        className={`${linkClass} flex items-center cursor-pointer`}
+                      >
+                        {link.name}
+                        <span className={`transition-transform duration-200 ${openSubmenu === link.name ? 'rotate-180' : ''}`}>
+                          <ChevronDownIcon />
+                        </span>
+                      </button>
+                      
+                      {/* Submenu Desktop */}
+                      {openSubmenu === link.name && (
+                        <div 
+                          className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fade-in z-50"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {link.submenu?.map((sublink) => (
+                            <Link
+                              key={sublink.name}
+                              href={sublink.href}
+                              className="block px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-600 transition-colors font-semibold"
+                              onClick={() => setOpenSubmenu(null)}
+                            >
+                              {sublink.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link href={link.href} className={linkClass}>
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
             
             {/* Redes sociales como parte del mismo grupo de space-x */}
             <a href="https://instagram.com/cademabienesraices" target="_blank" className={linkClass} aria-label="Instagram">
