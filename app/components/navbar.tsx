@@ -144,7 +144,7 @@ return (
                       >
                         {link.name}
                         <span className={`transition-transform duration-200 ${openSubmenu === link.name ? 'rotate-180' : ''}`}>
-                          <ChevronDownIcon />
+                          {/* <ChevronDownIcon /> */}
                         </span>
                       </button>
                       
