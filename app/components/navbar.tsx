@@ -94,6 +94,22 @@ export default function Navbar() {
     scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
   }`;
 
+  const handleDesktopMenuClick = (e: React.MouseEvent, linkName: string, hasSubmenu: boolean) => {
+    if (hasSubmenu) {
+      e.preventDefault();
+      e.stopPropagation();
+      setOpenSubmenu(openSubmenu === linkName ? null : linkName);
+    }
+  };
+
+  const handleMobileMenuClick = (linkName: string, hasSubmenu: boolean) => {
+    if (hasSubmenu) {
+      setOpenMobileSubmenu(openMobileSubmenu === linkName ? null : linkName);
+    } else {
+      setMobileMenuOpen(false);
+    }
+  };
+
 return (
     <>
       <nav 
