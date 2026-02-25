@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 
@@ -48,23 +48,22 @@ interface Development {
   is_industrial?: boolean;
 }
 
-// --- 3. COMPONENTE PRINCIPAL ---
+// --- 3. COMPONENTE DE CONTENIDO (Con la lógica de búsqueda) ---
 
-export default function EmprendimientosPage() {
+function EmprendimientosContent() {
   const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Hooks de Navegación
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Estados de Filtros (Hidratados desde la URL al cargar)
+  // Estados de Filtros (Hidratados desde la URL)
   const [filterLoc, setFilterLoc] = useState(searchParams.get('loc') || 'all');
   const [filterType, setFilterType] = useState(searchParams.get('type') || 'all');
   const [filterDivision, setFilterDivision] = useState(searchParams.get('div') || 'all');
 
-  // Sincronización con la URL
+  // Función para actualizar URL
   const updateUrl = (newFilters: { loc?: string; type?: string; div?: string }) => {
     const params = new URLSearchParams(searchParams.toString());
     
@@ -81,21 +80,9 @@ export default function EmprendimientosPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  // Handlers de cambio
-  const handleLocChange = (val: string) => {
-    setFilterLoc(val);
-    updateUrl({ loc: val });
-  };
-
-  const handleTypeChange = (val: string) => {
-    setFilterType(val);
-    updateUrl({ type: val });
-  };
-
-  const handleDivChange = (val: string) => {
-    setFilterDivision(val);
-    updateUrl({ div: val });
-  };
+  const handleLocChange = (val: string) => { setFilterLoc(val); updateUrl({ loc: val }); };
+  const handleTypeChange = (val: string) => { setFilterType(val); updateUrl({ type: val }); };
+  const handleDivChange = (val: string) => { setFilterDivision(val); updateUrl({ div: val }); };
 
   const clearFilters = () => {
     setFilterLoc('all');
@@ -104,7 +91,6 @@ export default function EmprendimientosPage() {
     router.push(pathname, { scroll: false });
   };
 
-  // Fetch de datos
   useEffect(() => {
     const fetchEmprendimientos = async () => {
       try {
@@ -120,7 +106,6 @@ export default function EmprendimientosPage() {
     fetchEmprendimientos();
   }, []);
 
-  // Lógica de Filtrado
   const filteredItems = useMemo(() => {
     return emprendimientos.filter(emp => {
       const matchLoc = filterLoc === 'all' || emp.location?.name === filterLoc;
@@ -149,12 +134,9 @@ export default function EmprendimientosPage() {
       </section>
 
       <div className="container mx-auto px-4 py-12">
-        
         {/* Barra de Filtros */}
         <div className="bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 -mt-20 relative z-20 mb-16">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            
-            {/* División */}
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">División</label>
               <select 
@@ -168,7 +150,6 @@ export default function EmprendimientosPage() {
               </select>
             </div>
 
-            {/* Ubicación */}
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Ubicación</label>
               <select 
@@ -181,7 +162,6 @@ export default function EmprendimientosPage() {
               </select>
             </div>
 
-            {/* Tipología */}
             <div className="flex flex-col gap-2">
               <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Tipología</label>
               <select 
@@ -194,7 +174,6 @@ export default function EmprendimientosPage() {
               </select>
             </div>
 
-            {/* Botón / Contador */}
             <div className="flex items-end gap-2">
               <div className="flex-1 bg-red-600 text-white p-3 rounded-xl text-center shadow-lg">
                 <span className="text-xl font-black block leading-none">{filteredItems.length}</span>
@@ -204,7 +183,6 @@ export default function EmprendimientosPage() {
                 <button 
                   onClick={clearFilters}
                   className="p-3 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-xl transition-colors"
-                  title="Limpiar filtros"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
@@ -216,7 +194,7 @@ export default function EmprendimientosPage() {
         {/* Listado de Tarjetas */}
         <div className="flex flex-col gap-10">
           {loading ? (
-            <div className="text-center py-20 animate-pulse text-gray-400 font-bold">CARGANDO EMPRENDIMIENTOS...</div>
+            <div className="text-center py-20 animate-pulse text-gray-400 font-bold uppercase tracking-widest">Cargando Emprendimientos...</div>
           ) : (
             filteredItems.map((emp) => {
               const coverImage = emp.photos?.find(p => p.is_front_cover)?.image || emp.photos?.[0]?.image;
@@ -226,8 +204,6 @@ export default function EmprendimientosPage() {
 
               return (
                 <div key={emp.id} className="group flex flex-col md:flex-row bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100 h-auto md:h-[450px]">
-                  
-                  {/* Foto */}
                   <div className="md:w-[40%] h-72 md:h-auto relative overflow-hidden shrink-0">
                     <img src={coverImage || "/placeholder.jpg"} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt={emp.name} />
                     <div className="absolute top-6 left-6">
@@ -237,21 +213,18 @@ export default function EmprendimientosPage() {
                     </div>
                   </div>
 
-                  {/* Info */}
                   <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-between">
                     <div>
                       <div className="flex items-center gap-2 text-red-600 mb-3 font-bold text-xs uppercase tracking-widest">
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" /></svg>
                         {emp.location?.name}
                       </div>
-
                       <div className="mb-6">
                         <p className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">{emp.name}</p>
                         <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight group-hover:text-red-600 transition-colors">
                           {emp.publication_title || emp.name}
                         </h2>
                       </div>
-
                       <div className="grid grid-cols-2 gap-4 mb-6">
                         <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
                           <p className="text-[9px] uppercase font-black text-gray-400 mb-1">Estado</p>
@@ -263,25 +236,16 @@ export default function EmprendimientosPage() {
                         </div>
                       </div>
                     </div>
-
                     <div className="pt-6 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
                       {emp.web_url ? (
-                        <Link 
-                          href={emp.web_url}
-                          target="_blank"
-                          className="px-8 py-4 bg-gray-900 text-white font-black rounded-xl hover:bg-red-600 transition-all shadow-lg text-xs uppercase tracking-widest"
-                        >
+                        <Link href={emp.web_url} target="_blank" className="px-8 py-4 bg-gray-900 text-white font-black rounded-xl hover:bg-red-600 transition-all shadow-lg text-xs uppercase tracking-widest">
                           Visitar Web del Proyecto
                         </Link>
                       ) : (
-                        <Link 
-                          href={`/emprendimientos/${emp.id}`}
-                          className="px-8 py-4 bg-gray-200 text-gray-700 font-black rounded-xl hover:bg-gray-300 transition-all text-xs uppercase tracking-widest"
-                        >
+                        <Link href={`/emprendimientos/${emp.id}`} className="px-8 py-4 bg-gray-200 text-gray-700 font-black rounded-xl hover:bg-gray-300 transition-all text-xs uppercase tracking-widest">
                           Ver Detalles
                         </Link>
                       )}
-                      
                       <div className="flex flex-col items-end">
                         <span className="text-[9px] font-black text-gray-300 uppercase">Referencia</span>
                         <span className="text-sm font-bold text-gray-400 italic">ID {emp.id}</span>
@@ -295,5 +259,19 @@ export default function EmprendimientosPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// --- 4. EXPORTACIÓN CON SUSPENSE (Para evitar error de Vercel) ---
+
+export default function EmprendimientosPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-gray-400 font-bold animate-pulse uppercase tracking-widest">Cargando...</div>
+      </div>
+    }>
+      <EmprendimientosContent />
+    </Suspense>
   );
 }
