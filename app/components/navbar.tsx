@@ -88,8 +88,8 @@ export default function Navbar() {
       href: "/emprendimientos",
       submenu:
       [
-        { name: "Residencial", href: "/emprendimientos"},
-        { name: "Industrial", href: "/emprendimientos"},
+        { name: "Residencial", href: "?div=residencial"},
+        { name: "Industrial", href: "?div=industrial"},
         { name: "Simulador", href: "/simulador"},
       ]
     },
