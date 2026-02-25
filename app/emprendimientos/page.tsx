@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 
 // 1. Diccionarios de Traducción
 const TIPOLOGIAS_MAP: Record<string, string> = {
@@ -48,10 +49,40 @@ export default function EmprendimientosPage() {
   const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   // Estados de Filtros
   const [filterLoc, setFilterLoc] = useState('all');
   const [filterType, setFilterType] = useState('all');
   const [filterDivision, setFilterDivision] = useState('all');
+
+  const updateUrl = (newFilters: { loc?: string; type?: string; div?: string }) => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    // Si el valor es 'all', lo borramos de la URL para que quede limpia
+    if (newFilters.loc) newFilters.loc === 'all' ? params.delete('loc') : params.set('loc', newFilters.loc);
+    if (newFilters.type) newFilters.type === 'all' ? params.delete('type') : params.set('type', newFilters.type);
+    if (newFilters.div) newFilters.div === 'all' ? params.delete('div') : params.set('div', newFilters.div);
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const handleLocChange = (val: string) => {
+    setFilterLoc(val);
+    updateUrl({ loc: val });
+  };
+
+  const handleTypeChange = (val: string) => {
+    setFilterType(val);
+    updateUrl({ type: val });
+  };
+
+  const handleDivChange = (val: string) => {
+    setFilterDivision(val);
+    updateUrl({ div: val });
+  };
 
   useEffect(() => {
     const fetchEmprendimientos = async () => {
