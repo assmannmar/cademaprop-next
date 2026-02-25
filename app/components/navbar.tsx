@@ -80,7 +80,7 @@ export default function Navbar() {
       [
         { name: "Casas", href: "/propiedades?tipo=house" },
         { name: "Departamentos", href: "/propiedades?tipo=apartment" },
-        { name: "Simulador", href: "/simulador" },
+        { name: "Simulador", href: "/simulador"},
       ] 
     },
     { 
