@@ -107,13 +107,13 @@ export default function QuienesSomosPage() {
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Nuestra Historia</h2>
               <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
                 <p>
-                  Fundada en 1998, Cadema Prop nació con la visión de transformar la experiencia inmobiliaria en Argentina. Lo que comenzó como una pequeña oficina en Campana, hoy se ha convertido en una de las inmobiliarias más reconocidas de la región.
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non vero veritatis rem sequi error nihil. Sed officiis doloribus eum dolor deleniti reiciendis numquam voluptatem, ad exercitationem, dicta molestias, temporibus laborum!
                 </p>
                 <p>
-                  A lo largo de estos más de 25 años, hemos acompañado a miles de familias en uno de los momentos más importantes de sus vidas: encontrar su hogar. Nuestro compromiso con la excelencia y el servicio personalizado nos ha permitido crecer y consolidarnos en el mercado.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic dolores, debitis nesciunt sapiente accusamus repudiandae eos! Nobis, laboriosam? Iure accusantium aut vel molestias sunt quasi, fugit quidem atque. Provident, culpa!
                 </p>
                 <p>
-                  Hoy, contamos con un equipo de profesionales altamente capacitados, tecnología de punta y una cartera diversificada que incluye propiedades residenciales, comerciales e industriales.
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorum nemo, iste, repellat cumque hic autem aut laboriosam illo veritatis ab neque explicabo assumenda fugit repellendus reiciendis molestias dolore iusto labore?
                 </p>
               </div>
             </div>
