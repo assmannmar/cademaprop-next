@@ -84,7 +84,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         {/* División */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-semibold mb-2 text-gray-700">División</label>
           <select
             name="division"
@@ -97,7 +97,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             <option value="barrio">Barrio</option>
             <option value="country">Country</option>
           </select>
-        </div>
+        </div> */}
 
         {/* Ubicación */}
         <div>
