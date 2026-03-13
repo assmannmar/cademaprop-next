@@ -271,18 +271,41 @@ return (
                     
                     {/* Contenedor del Submenú Móvil */}
                     <div className={`w-full bg-gray-50 overflow-hidden transition-all duration-300 ${
-                      isSubmenuOpen ? 'max-h-64 opacity-100 py-2' : 'max-h-0 opacity-0'
+                      isSubmenuOpen ? 'max-h-[1000px] opacity-100 py-2' : 'max-h-0 opacity-0'
                     }`}>
-                      {link.submenu?.map((sublink) => (
-                        <Link
-                          key={sublink.name}
-                          href={sublink.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="block w-full text-center py-3 text-lg text-gray-600 hover:text-red-600"
-                        >
-                          {sublink.name}
-                        </Link>
-                      ))}
+                      {link.submenu?.map((sublink) => {
+                        const hasSubSubmenu = sublink.items && sublink.items.length > 0;
+                        
+                        return (
+                          <div key={sublink.name} className="w-full">
+                            {hasSubSubmenu ? (
+                              <div className="flex flex-col">
+                                <span className="block w-full text-center py-2 text-sm font-bold text-gray-400 uppercase tracking-widest">
+                                  {sublink.name}
+                                </span>
+                                {sublink.items?.map((item) => (
+                                  <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="block w-full text-center py-3 text-lg text-gray-600 hover:text-red-600 border-b border-gray-100/50"
+                                  >
+                                    {item.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            ) : (
+                              <Link
+                                href={sublink.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="block w-full text-center py-3 text-lg text-gray-600 hover:text-red-600"
+                              >
+                                {sublink.name}
+                              </Link>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </>
                 ) : (
