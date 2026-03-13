@@ -141,9 +141,9 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             <option value="apartment">Departamento</option>
             <option value="land">Terreno</option>
             <option value="comercial">Comercial</option>
-            <option value="comercial">Oficina</option>
-            <option value="comercial">Campo</option>
-            <option value="comercial">Nave Industrial</option>
+            <option value="Office">Oficina</option>
+            <option value="Countryside">Campo</option>
+            <option value="Industrial Ship">Nave Industrial</option>
             <option value="Terreno industrial">Terreno Industrial</option>
           </select>
         </div>
