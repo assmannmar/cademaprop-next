@@ -78,8 +78,15 @@ export default function Navbar() {
       href: "/propiedades",
       submenu : 
       [
-        { name: "Casas", href: "/propiedades?tipo=house" },
-        { name: "Departamentos", href: "/propiedades?tipo=apartment" },
+        { 
+          name: "Residenciales",
+          href: "/propiedades",
+          items: [
+            { name: "Casas", href: "/propiedades?tipo=house" },
+            { name: "Departamentos", href: "/propiedades?tipo=apartment" },
+            { name: "Terrenos", href: "/propiedades?tipo=land" },
+          ] 
+        },
         { name: "Simulador", href: "/simulador"},
       ] 
     },
