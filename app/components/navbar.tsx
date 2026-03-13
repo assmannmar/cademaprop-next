@@ -170,16 +170,45 @@ return (
                           className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fade-in z-50"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          {link.submenu?.map((sublink) => (
-                            <Link
-                              key={sublink.name}
-                              href={sublink.href}
-                              className="block px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-600 transition-colors font-semibold"
-                              onClick={() => setOpenSubmenu(null)}
-                            >
-                              {sublink.name}
-                            </Link>
-                          ))}
+                          {link.submenu?.map((sublink) => {
+                            const hasSubSubmenu = sublink.items && sublink.items.length > 0;
+
+                            return (
+                              <div key={sublink.name} className="relative group/sub">
+                                {hasSubSubmenu ? (
+                                  <>
+                                    {/* Elemento que dispara el sub-sub-menú */}
+                                    <div className="flex items-center justify-between px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-600 cursor-pointer font-semibold transition-colors">
+                                      {sublink.name}
+                                      <span className="text-[10px]">▶</span>
+                                    </div>
+
+                                    {/* EL SUB-SUB-MENÚ (Aparece al hacer hover en group/sub) */}
+                                    <div className="absolute left-full top-0 ml-0 w-48 bg-white shadow-xl border border-gray-100 py-2 hidden group-hover/sub:block animate-fade-in">
+                                      {sublink.items?.map((item) => (
+                                        <Link
+                                          key={item.name}
+                                          href={item.href}
+                                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 font-medium"
+                                          onClick={() => setOpenSubmenu(null)}
+                                        >
+                                          {item.name}
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <Link
+                                    href={sublink.href}
+                                    className="block px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-600 transition-colors font-semibold"
+                                    onClick={() => setOpenSubmenu(null)}
+                                  >
+                                    {sublink.name}
+                                  </Link>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       )}
                     </>
