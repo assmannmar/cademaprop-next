@@ -30,8 +30,7 @@
 @font-face {
   font-family: 'Montserrat';
   src: url('/fonts/montserrat.ttf') format('truetype'); 
-  font-size: 1 rem;
-  font-weight: 600;
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
@@ -46,9 +45,9 @@ body {
 /* NAVBAR */
 .nav-item {
   font-family: 'Montserrat', sans-serif; 
-  font-size: 16px;                
-  font-weight:bold;
-  text-transform: capitalize;      
+  font-size: 1 rem;                
+  font-weight:600;
+  text-transform: uppercase;      
   transition: all 0.3s ease;
   padding: 0.5rem 1rem;
 }
