@@ -72,9 +72,9 @@ export default function Navbar() {
   }, [openSubmenu]);
 
   const navLinks = [
-    { name: "Nosotros", href: "/quienes-somos" },
+    { name: "NOSOTROS", href: "/quienes-somos" },
     { 
-      name: "Propiedades",
+      name: "PROPIEDADES",
       href: "/propiedades",
       submenu : 
       [
@@ -91,7 +91,7 @@ export default function Navbar() {
       ] 
     },
     { 
-      name: "Emprendimientos", 
+      name: "EMPRENDIMIENTOS", 
       href: "/emprendimientos",
       submenu:
       [
@@ -100,9 +100,9 @@ export default function Navbar() {
         { name: "Simulador", href: "/simulador"},
       ]
     },
-    { name: "Industria", href: "https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" },
-    { name: "Contacto", href: "/contacto" },
-    { name: "Blog", href: "/blog" },
+    { name: "INDUSTRIA", href: "https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" },
+    { name: "CONTACTO", href: "/contacto" },
+    { name: "BLOG", href: "/blog" },
     { name: "SINOR", href: "https://sinor.com.ar/" },
   ];
 
