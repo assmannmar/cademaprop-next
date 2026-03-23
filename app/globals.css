@@ -206,15 +206,6 @@ body {
   border-color: var(--color-primary);
 }
 
-.portada-botones a span {
-  position: relative;
-  z-index: 2;
-  transition: color 0.3s ease;
-}
-
-.portada-botones a:hover span {
-  color: white;
-}
 
 /* BOTONES ARRIBA (sobre imagen) */
 .portada-botones.top a {
