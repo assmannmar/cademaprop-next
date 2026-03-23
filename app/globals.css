@@ -260,6 +260,13 @@ body {
   border-color: var(--color-primary);
 }
 
+.portada-botones.top a:active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  transform: scale(0.96);
+}
+
 /* =========================
    PARTE INFERIOR
 ========================= */
@@ -274,6 +281,19 @@ body {
 .portada-botones.bottom a {
   background: white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.portada-botones.bottom a:hover {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.portada-botones.bottom a:active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  transform: scale(0.96);
 }
 
 /* =========================
