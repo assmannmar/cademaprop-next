@@ -226,7 +226,7 @@ body {
   font-size: 1.2rem;
   height: 100%;
   transition: transform 0.2s ease;
-  background: rgba(73, 60, 60, 0.3);
+  background: rgba(75, 67, 67, 0.3);
 }
 
 /* =========================
@@ -234,7 +234,7 @@ body {
 ========================= */
 
 .portada-botones.top .btn-split {
-  background: rgba(255, 219, 219, 0.2);
+  background: rgba(252, 227, 227, 0.2);
   backdrop-filter: blur(8px);
   color: white;
 }
@@ -244,7 +244,7 @@ body {
 ========================= */
 
 .portada-botones.bottom .btn-split {
-  background: #e4d6d6;
+  background: #e6dede;
   color: #2c2727;
 }
 
