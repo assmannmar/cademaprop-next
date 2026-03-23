@@ -167,7 +167,7 @@ body {
 /* BOTONES */
 
 /* =========================
-   CONTENEDOR BOTONES
+   CONTENEDOR
 ========================= */
 
 .portada-botones {
@@ -179,13 +179,13 @@ body {
 }
 
 /* =========================
-   BOTÓN BASE (SPLIT)
+   BOTÓN SPLIT
 ========================= */
 
 .btn-split {
   display: grid;
   grid-template-columns: 1fr 60px;
-  align-items: center;
+  align-items: stretch; /* 🔥 clave para igual altura */
 
   text-decoration: none;
   border-radius: 4px;
@@ -195,7 +195,11 @@ body {
   font-weight: 500;
   letter-spacing: 0.08em;
 
-  transition: all 0.25s ease;
+  transition: 
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
 
   -webkit-tap-highlight-color: transparent;
 
@@ -206,10 +210,12 @@ body {
 }
 
 /* =========================
-   PARTES INTERNAS
+   CONTENIDO
 ========================= */
 
 .btn-text {
+  display: flex;
+  align-items: center;
   padding: 1rem 1.5rem;
 }
 
@@ -218,65 +224,38 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
+  height: 100%;
   transition: transform 0.2s ease;
 }
 
 /* =========================
-   ANIMACIÓN ESCALONADA
-========================= */
-
-.portada-botones a:nth-child(1) { animation-delay: 0.2s; }
-.portada-botones a:nth-child(2) { animation-delay: 0.3s; }
-.portada-botones a:nth-child(3) { animation-delay: 0.4s; }
-.portada-botones a:nth-child(4) { animation-delay: 0.5s; }
-
-/* =========================
-   ESTILO SOBRE IMAGEN
+   VARIANTE SOBRE IMAGEN
 ========================= */
 
 .portada-botones.top .btn-split {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.2);
   backdrop-filter: blur(8px);
   color: white;
 }
 
-.portada-botones.top .btn-text {
-  background: rgba(255,255,255,0.10);
-}
-
-.portada-botones.top .btn-arrow {
-  background: rgba(255,255,255,0.20);
-}
-
 /* =========================
-   ESTILO SOBRE FONDO BLANCO
+   VARIANTE ABAJO
 ========================= */
 
 .portada-botones.bottom .btn-split {
-  background: #f2f2f2;
+  background: #eaeaea;
   color: #333;
 }
 
-.portada-botones.bottom .btn-text {
-  background: #e6e6e6;
-}
-
-.portada-botones.bottom .btn-arrow {
-  background: #dddddd;
-}
-
 /* =========================
-   HOVER (DESKTOP)
+   HOVER
 ========================= */
 
 .btn-split:hover {
-  transform: translateY(-2px);
-}
-
-.btn-split:hover .btn-text,
-.btn-split:hover .btn-arrow {
   background: var(--color-primary);
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 .btn-split:hover .btn-arrow {
@@ -288,14 +267,19 @@ body {
 ========================= */
 
 .btn-split:active {
+  background: var(--color-primary);
+  color: white;
   transform: scale(0.96);
 }
 
-.btn-split:active .btn-text,
-.btn-split:active .btn-arrow {
-  background: var(--color-primary);
-  color: white;
-}
+/* =========================
+   ANIMACIÓN ESCALONADA
+========================= */
+
+.portada-botones a:nth-child(1) { animation-delay: 0.2s; }
+.portada-botones a:nth-child(2) { animation-delay: 0.3s; }
+.portada-botones a:nth-child(3) { animation-delay: 0.4s; }
+.portada-botones a:nth-child(4) { animation-delay: 0.5s; }
 
 /* =========================
    CONTENEDOR INFERIOR
@@ -309,7 +293,7 @@ body {
 }
 
 /* =========================
-   ANIMACIÓN
+   KEYFRAME
 ========================= */
 
 @keyframes fadeUp {
