@@ -124,7 +124,7 @@ export default function HomePage() {
       </section>
 
       <section className="py-16 text-center mx-auto bg-white">
-          <h2 className='titulo-portada'>Más de 60 años acompañándote en cada etapa</h2>
+          <h1 className='titulo-portada'>Más de 60 años acompañándote en cada etapa</h1>
       </section>
 
       {/* EMPRENDIMIENTOS - CAROUSEL */}
