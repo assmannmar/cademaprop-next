@@ -235,7 +235,7 @@ body {
 
 .portada-botones.top .btn-split {
   background: rgba(252, 227, 227, 0.2);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(16px);
   color: white;
 }
 
