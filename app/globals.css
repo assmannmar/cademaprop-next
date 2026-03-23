@@ -175,33 +175,27 @@ body {
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 520px;
 }
 
 /* =========================
-   BOTONES BASE
+   BOTÓN BASE (SPLIT)
 ========================= */
 
-.portada-botones a {
-  display: block;
-  padding: 1rem 1.8rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  text-align: center;
-  border-radius: 6px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid #ddd;
-  color: var(--color-text);
-  background: white;
+.btn-split {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+  align-items: center;
 
-  /* interacción */
-  transition: 
-    background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.1s ease,
-    box-shadow 0.2s ease;
+  text-decoration: none;
+  border-radius: 4px;
+  overflow: hidden;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+
+  transition: all 0.25s ease;
 
   -webkit-tap-highlight-color: transparent;
 
@@ -209,6 +203,22 @@ body {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeUp 0.6s ease forwards;
+}
+
+/* =========================
+   PARTES INTERNAS
+========================= */
+
+.btn-text {
+  padding: 1rem 1.5rem;
+}
+
+.btn-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
 }
 
 /* =========================
@@ -221,54 +231,74 @@ body {
 .portada-botones a:nth-child(4) { animation-delay: 0.5s; }
 
 /* =========================
-   HOVER DESKTOP
+   ESTILO SOBRE IMAGEN
 ========================= */
 
-.portada-botones a:hover {
-  background-color: var(--color-primary);
+.portada-botones.top .btn-split {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
   color: white;
-  border-color: var(--color-primary);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.portada-botones.top .btn-text {
+  background: rgba(255,255,255,0.10);
+}
+
+.portada-botones.top .btn-arrow {
+  background: rgba(255,255,255,0.20);
 }
 
 /* =========================
-   TOUCH MOBILE
+   ESTILO SOBRE FONDO BLANCO
 ========================= */
 
-.portada-botones a:active {
-  background-color: var(--color-primary);
+.portada-botones.bottom .btn-split {
+  background: #f2f2f2;
+  color: #333;
+}
+
+.portada-botones.bottom .btn-text {
+  background: #e6e6e6;
+}
+
+.portada-botones.bottom .btn-arrow {
+  background: #dddddd;
+}
+
+/* =========================
+   HOVER (DESKTOP)
+========================= */
+
+.btn-split:hover {
+  transform: translateY(-2px);
+}
+
+.btn-split:hover .btn-text,
+.btn-split:hover .btn-arrow {
+  background: var(--color-primary);
   color: white;
-  border-color: var(--color-primary);
+}
+
+.btn-split:hover .btn-arrow {
+  transform: translateX(5px);
+}
+
+/* =========================
+   TOUCH (MOBILE)
+========================= */
+
+.btn-split:active {
   transform: scale(0.96);
 }
 
-/* =========================
-   BOTONES SOBRE IMAGEN
-========================= */
-
-.portada-botones.top a {
-  background: rgba(255,255,255,0.9);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,0.6);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-}
-
-/* asegurar hover también arriba */
-.portada-botones.top a:hover {
-  background-color: var(--color-primary);
+.btn-split:active .btn-text,
+.btn-split:active .btn-arrow {
+  background: var(--color-primary);
   color: white;
-  border-color: var(--color-primary);
-}
-
-.portada-botones.top a:active {
-  background-color: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
-  transform: scale(0.96);
 }
 
 /* =========================
-   PARTE INFERIOR
+   CONTENEDOR INFERIOR
 ========================= */
 
 .portada-bottom {
@@ -278,26 +308,8 @@ body {
   justify-content: center;
 }
 
-.portada-botones.bottom a {
-  background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.portada-botones.bottom a:hover {
-  background-color: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
-}
-
-.portada-botones.bottom a:active {
-  background-color: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
-  transform: scale(0.96);
-}
-
 /* =========================
-   KEYFRAMES
+   ANIMACIÓN
 ========================= */
 
 @keyframes fadeUp {
