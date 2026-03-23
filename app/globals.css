@@ -165,6 +165,11 @@ body {
 }
 
 /* BOTONES */
+
+/* =========================
+   CONTENEDOR BOTONES
+========================= */
+
 .portada-botones {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -173,6 +178,10 @@ body {
   max-width: 500px;
 }
 
+/* =========================
+   BOTONES BASE
+========================= */
+
 .portada-botones a {
   display: block;
   padding: 1rem 1.8rem;
@@ -180,41 +189,81 @@ body {
   font-weight: 600;
   text-align: center;
   border-radius: 6px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   border: 1px solid #ddd;
   color: var(--color-text);
   background: white;
+
+  /* interacción */
   transition: 
-    background-color 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.15s ease;
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+
   -webkit-tap-highlight-color: transparent;
+
+  /* animación entrada */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s ease forwards;
 }
 
-.portada-botones a:active {
-  background-color: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
-  transform: scale(0.97);
-}
+/* =========================
+   ANIMACIÓN ESCALONADA
+========================= */
+
+.portada-botones a:nth-child(1) { animation-delay: 0.2s; }
+.portada-botones a:nth-child(2) { animation-delay: 0.3s; }
+.portada-botones a:nth-child(3) { animation-delay: 0.4s; }
+.portada-botones a:nth-child(4) { animation-delay: 0.5s; }
+
+/* =========================
+   HOVER DESKTOP
+========================= */
 
 .portada-botones a:hover {
   background-color: var(--color-primary);
   color: white;
   border-color: var(--color-primary);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
+/* =========================
+   TOUCH MOBILE
+========================= */
 
-/* BOTONES ARRIBA (sobre imagen) */
+.portada-botones a:active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  transform: scale(0.96);
+}
+
+/* =========================
+   BOTONES SOBRE IMAGEN
+========================= */
+
 .portada-botones.top a {
   background: rgba(255,255,255,0.9);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
-/* PARTE INFERIOR */
+/* asegurar hover también arriba */
+.portada-botones.top a:hover {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* =========================
+   PARTE INFERIOR
+========================= */
+
 .portada-bottom {
   background: white;
   padding: 2rem 1rem 3rem;
@@ -222,10 +271,25 @@ body {
   justify-content: center;
 }
 
-/* BOTONES ABAJO */
 .portada-botones.bottom a {
   background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
+
+/* =========================
+   KEYFRAMES
+========================= */
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
 
 
 /* CAROUSEL */
