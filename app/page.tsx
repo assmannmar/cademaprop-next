@@ -86,34 +86,30 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col">
-      {/* HERO SECTION - PANTALLA COMPLETA */}
-      <section className="relative w-full h-screen z-0">
+    <main className="page">
+      {/* PORTADA */}
+      <section className="portada">
         <HeroCarousel />
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-20">
-          <div className="text-center px-4">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-2xl">
-              Encontrá tu hogar ideal
-            </h1>
-            <p className="text-xl md:text-2xl text-white mb-8 drop-shadow-lg">
-              Más de 25 años conectando personas con propiedades
-            </p>
-            {/* Grid fijo de 2x2 */}
-            <div className="grid grid-cols-2 gap-4 max-w-xl mx-auto">
-              <Link href="/propiedades?operation=sale" className="px-6 py-4 bg-white hover:bg-red-600 hover:text-white shadow-xl rounded-lg border-2 border-white hover:border-red-600 transition-all text-center text-lg font-semibold transform hover:scale-105">
-                Comprar
-              </Link>
-              <Link href="/propiedades?operation=rental" className="px-6 py-4 bg-white hover:bg-red-600 hover:text-white shadow-xl rounded-lg border-2 border-white hover:border-red-600 transition-all text-center text-lg font-semibold transform hover:scale-105">
-                Vender
-              </Link>
-              <Link href="/propiedades" className="px-6 py-4 bg-white hover:bg-red-600 hover:text-white shadow-xl rounded-lg border-2 border-white hover:border-red-600 transition-all text-center text-lg font-semibold transform hover:scale-105">
-                Residencial
-              </Link>
-              <Link href="https://cademaprop.com.ar/parque-industrial/" className="px-6 py-4 bg-white hover:bg-red-600 hover:text-white shadow-xl rounded-lg border-2 border-white hover:border-red-600 transition-all text-center text-lg font-semibold transform hover:scale-105">
-                Industrial
-              </Link>
-            </div>
+
+        <div className="portada-overlay">
+          {/* LOGO */}
+          <img src="/logo.png" alt="Cadema" className="portada-logo" />
+
+          {/* BOTONES SUPERIORES */}
+          <div className="portada-botones top">
+            <Link href="/propiedades?operation=sale">Comprar</Link>
+            <Link href="/propiedades?operation=rental">Vender</Link>
           </div>
+        </div>
+      </section>
+
+      {/* SECCIÓN INFERIOR DE LA PORTADA */}
+      <section className="portada-bottom">
+        <div className="portada-botones bottom">
+          <Link href="/propiedades">Residencial</Link>
+          <Link href="https://cademaprop.com.ar/parque-industrial/">
+            Industrial
+          </Link>
         </div>
       </section>
 

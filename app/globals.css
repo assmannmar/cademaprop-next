@@ -122,3 +122,91 @@ body {
   animation: slide-left 0.3s ease-out;
 }
 
+
+
+
+/* INDEX */
+
+/* CONTENEDOR GENERAL */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* PORTADA (CARRUSEL 75%) */
+.portada {
+  position: relative;
+  height: 75vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* OVERLAY */
+.portada-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 1rem 2rem;
+  z-index: 20;
+}
+
+/* LOGO CENTRADO */
+.portada-logo {
+  max-width: 260px;
+  height: auto;
+  margin: auto;
+}
+
+/* BOTONES */
+.portada-botones {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* BOTONES ARRIBA (sobre imagen) */
+.portada-botones.top a {
+  padding: 1rem;
+  background: white;
+  border: 2px solid white;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.portada-botones.top a:hover {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+}
+
+/* PARTE INFERIOR */
+.portada-bottom {
+  background: white;
+  padding: 2rem 1rem 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* BOTONES ABAJO */
+.portada-botones.bottom a {
+  padding: 1rem;
+  background: white;
+  border: 2px solid #dc2626;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.portada-botones.bottom a:hover {
+  background: #dc2626;
+  color: white;
+}
