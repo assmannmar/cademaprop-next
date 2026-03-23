@@ -164,10 +164,10 @@
 }
 
 .emprendimientos-card__titulo {
-  font-size: 2rem;
-  line-height: 0.95;
+  font-size: 1.5rem;
+  line-height: 1;
   font-weight: 700;
-  margin: 0;
+  margin: 1rem 0;
 }
 
 .emprendimientos-card.is-active {
