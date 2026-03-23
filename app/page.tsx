@@ -121,6 +121,9 @@ export default function HomePage() {
             <span className="btn-arrow">→</span>
           </Link>
         </div>
+        <div>
+          <h2 className='titulo-portada'>Más de 60 años acompañándote en cada etapa</h2>
+        </div>
       </section>
 
       {/* EMPRENDIMIENTOS - CAROUSEL */}

@@ -68,6 +68,7 @@ body {
   text-transform: uppercase;      
   transition: all 0.3s ease;
   padding: 0.5rem 1rem;
+  letter-spacing: 0.08em;
 }
 
 .nav-link-white {
@@ -338,4 +339,11 @@ body {
     rgba(0, 0, 0, 0.4),
     rgba(0, 0, 0, 0.2)
   );
+}
+
+
+/* TITULO PORTADA */
+
+.titulo-portada{
+  letter-spacing: 0.08em;
 }
