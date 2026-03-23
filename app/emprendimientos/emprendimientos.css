@@ -5,7 +5,7 @@
 ========================= */
 .emprendimientos-hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 80vh;
   overflow: hidden;
   color: #fff;
   background: #111;
@@ -17,7 +17,7 @@
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transform: scale(1.03);
+  transform: scale(1);
   transition:
     opacity 0.8s ease,
     transform 1.2s ease;
@@ -43,7 +43,7 @@
   max-width: 1440px;
   margin: 0 auto;
   min-height: 100vh;
-  padding: 9rem 4rem 3rem;
+  padding: 9rem 4rem 8rem;
   display: flex;
   align-items: center;
 }
@@ -103,7 +103,7 @@
 .emprendimientos-hero__rail-wrap {
   position: absolute;
   right: 0;
-  bottom: 4rem;
+  bottom: 6rem;
   width: min(60vw, 900px);
   z-index: 3;
   overflow: hidden;
@@ -164,7 +164,7 @@
 }
 
 .emprendimientos-card__titulo {
-  font-size: 1rem;
+  font-size: 2rem;
   line-height: 0.95;
   font-weight: 700;
   margin: 0;
@@ -232,7 +232,7 @@
 ========================= */
 @media (max-width: 1024px) {
   .emprendimientos-hero__content {
-    padding: 8rem 2rem 2rem;
+    padding: 8rem 2rem 8rem;
     align-items: flex-end;
   }
 
@@ -252,15 +252,15 @@
 
 @media (max-width: 768px) {
   .emprendimientos-hero {
-    min-height: 92vh;
+    min-height: 80vh;
   }
 
   .emprendimientos-hero__content {
-    padding: 7rem 1rem 2rem;
+    padding: 7rem 1rem 8rem;
   }
 
   .emprendimientos-hero__titulo {
-    font-size: clamp(2.5rem, 12vw, 4rem);
+    font-size: clamp(2rem, 4vw, 2rem);
   }
 
   .emprendimientos-hero__texto {
@@ -278,7 +278,7 @@
   }
 
   .emprendimientos-card__titulo {
-    font-size: 1.55rem;
+    font-size: 1rem;
   }
 
   .emprendimientos-hero__arrow {
