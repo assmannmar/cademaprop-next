@@ -187,7 +187,7 @@ function EmprendimientosContent() {
         return {
           id: emp.id,
           zona: emp.location?.name || "Ubicación",
-          titulo: emp.publication_title || emp.name || "Emprendimiento",
+          titulo: emp.name || emp.publication_title || "Emprendimiento",
           texto:
             description.slice(0, 220) ||
             "Descubrí este emprendimiento y conocé más detalles de su propuesta, ubicación y características.",
@@ -537,7 +537,7 @@ function EmprendimientosContent() {
                           {emp.name}
                         </p>
                         <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight group-hover:text-red-600 transition-colors">
-                          {emp.publication_title || emp.name}
+                          { emp.name || emp.publication_title }
                         </h2>
                       </div>
 

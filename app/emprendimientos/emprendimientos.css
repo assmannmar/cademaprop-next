@@ -60,7 +60,7 @@
 }
 
 .emprendimientos-hero__titulo {
-  font-size: clamp(3rem, 7vw, 5.8rem);
+  font-size: clamp(3rem, 4vw, 5rem);
   line-height: 0.95;
   font-weight: 700;
   margin: 0 0 1.5rem;
@@ -164,7 +164,7 @@
 }
 
 .emprendimientos-card__titulo {
-  font-size: 2rem;
+  font-size: 1rem;
   line-height: 0.95;
   font-weight: 700;
   margin: 0;
