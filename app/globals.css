@@ -63,7 +63,7 @@ body {
 /* NAVBAR */
 .nav-item {
   font-family: 'Montserrat', sans-serif; 
-  font-size: 0.95rem;                
+  font-size: 0.85rem;                
   font-weight:600;
   text-transform: uppercase;      
   transition: all 0.3s ease;
