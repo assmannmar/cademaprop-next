@@ -97,8 +97,8 @@ export default function HomePage() {
 
           {/* BOTONES SUPERIORES */}
           <div className="portada-botones top">
-            <Link href="/propiedades?operation=sale" className="btn"><span>Comprar</span></Link>
-            <Link href="/propiedades?operation=rental" className="btn"><span>Vender</span></Link>
+            <Link href="/propiedades?operation=sale" className="btn">Comprar</Link>
+            <Link href="/propiedades?operation=rental" className="btn">Vender</Link>
           </div>
         </div>
       </section>
@@ -106,8 +106,8 @@ export default function HomePage() {
       {/* SECCIÓN INFERIOR DE LA PORTADA */}
       <section className="portada-bottom">
         <div className="portada-botones bottom">
-          <Link href="/propiedades" className="btn"><span>Residencial</span></Link>
-          <Link href="https://cademaprop.com.ar/parque-industrial/" className="btn"><span>Industrias</span></Link>
+          <Link href="/propiedades" className="btn">Residencial</Link>
+          <Link href="https://cademaprop.com.ar/parque-industrial/" className="btn">Industrias</Link>
         </div>
       </section>
 
