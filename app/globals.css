@@ -140,7 +140,7 @@ body {
 /* PORTADA (CARRUSEL 75%) */
 .portada {
   position: relative;
-  height: 75vh;
+  height: 70vh;
   width: 100%;
   overflow: hidden;
 }
