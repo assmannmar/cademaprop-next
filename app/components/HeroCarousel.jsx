@@ -22,20 +22,18 @@ export default function HeroCarousel() {
   }, [images.length]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="carousel">
       {images.map((img, i) => (
         <img
           key={i}
           src={img}
           alt="Imagen"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-            i === index ? "opacity-100" : "opacity-0"
-          }`}
+          className={`slide ${i === index ? "active" : ""}`}
         />
       ))}
 
       {/* Sombreado para que botones/textos se lean mejor */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20" />
+      <div className="carousel-overlay" />
     </div>
   );
 }
