@@ -167,58 +167,97 @@ body {
 /* BOTONES */
 
 /* =========================
-   CONTENEDOR BOTONES
+   BOTÓN LIMPIO
 ========================= */
 
-.portada-botones {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  width: 100%;
-  max-width: 520px;
-}
-
-/* =========================
-   BOTÓN BASE (SPLIT)
-========================= */
-
-.btn-split {
-  display: grid;
-  grid-template-columns: 1fr 60px;
+.btn-clean {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
 
-  text-decoration: none;
-  border-radius: 4px;
-  overflow: hidden;
-
+  padding: 1rem 1.8rem;
   font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
 
-  transition: all 0.25s ease;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+
+  background: white;
+  color: var(--color-text);
+
+  text-decoration: none;
+
+  transition: 
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
 
   -webkit-tap-highlight-color: transparent;
 
-  /* animación entrada */
+  /* entrada */
   opacity: 0;
   transform: translateY(20px);
   animation: fadeUp 0.6s ease forwards;
 }
 
 /* =========================
-   PARTES INTERNAS
+   FLECHA
 ========================= */
 
-.btn-text {
-  padding: 1rem 1.5rem;
+.btn-clean .arrow {
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
 }
 
-.btn-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  transition: transform 0.2s ease;
+/* =========================
+   HOVER
+========================= */
+
+.btn-clean:hover {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.btn-clean:hover .arrow {
+  transform: translateX(5px);
+}
+
+/* =========================
+   TOUCH
+========================= */
+
+.btn-clean:active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  transform: scale(0.96);
+}
+
+/* =========================
+   VARIANTE SOBRE IMAGEN
+========================= */
+
+.portada-botones.top .btn-clean {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: white;
+}
+
+/* =========================
+   VARIANTE ABAJO
+========================= */
+
+.portada-botones.bottom .btn-clean {
+  background: #f2f2f2;
+  color: #333;
 }
 
 /* =========================
@@ -231,85 +270,7 @@ body {
 .portada-botones a:nth-child(4) { animation-delay: 0.5s; }
 
 /* =========================
-   ESTILO SOBRE IMAGEN
-========================= */
-
-.portada-botones.top .btn-split {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(8px);
-  color: white;
-}
-
-.portada-botones.top .btn-text {
-  background: rgba(255,255,255,0.10);
-}
-
-.portada-botones.top .btn-arrow {
-  background: rgba(255,255,255,0.20);
-}
-
-/* =========================
-   ESTILO SOBRE FONDO BLANCO
-========================= */
-
-.portada-botones.bottom .btn-split {
-  background: #f2f2f2;
-  color: #333;
-}
-
-.portada-botones.bottom .btn-text {
-  background: #e6e6e6;
-}
-
-.portada-botones.bottom .btn-arrow {
-  background: #dddddd;
-}
-
-/* =========================
-   HOVER (DESKTOP)
-========================= */
-
-.btn-split:hover {
-  transform: translateY(-2px);
-}
-
-.btn-split:hover .btn-text,
-.btn-split:hover .btn-arrow {
-  background: var(--color-primary);
-  color: white;
-}
-
-.btn-split:hover .btn-arrow {
-  transform: translateX(5px);
-}
-
-/* =========================
-   TOUCH (MOBILE)
-========================= */
-
-.btn-split:active {
-  transform: scale(0.96);
-}
-
-.btn-split:active .btn-text,
-.btn-split:active .btn-arrow {
-  background: var(--color-primary);
-  color: white;
-}
-
-/* =========================
-   CONTENEDOR INFERIOR
-========================= */
-
-.portada-bottom {
-  background: white;
-  padding: 2rem 1rem 3rem;
-  display: flex;
-  justify-content: center;
-}
-
-/* =========================
-   ANIMACIÓN
+   KEYFRAME
 ========================= */
 
 @keyframes fadeUp {
