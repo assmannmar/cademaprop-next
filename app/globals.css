@@ -172,24 +172,53 @@ body {
 }
 
 .portada-botones a {
+  position: relative;
+  padding: 1rem 1.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: all 0.35s ease;
   backdrop-filter: blur(6px);
+  z-index: 1;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
+
+.portada-botones a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #dc2626;
+  transform: translateY(100%);
+  transition: transform 0.35s ease;
+  z-index: 0;
+}
+
+.portada-botones a:hover {
+  color: white;
+  border-color: #dc2626;
+}
+
+.portada-botones a:hover::after {
+  transform: translateY(0);
+}
+
+.portada-botones a span {
+  position: relative;
+  z-index: 2;
+}
+
 
 /* BOTONES ARRIBA (sobre imagen) */
 .portada-botones.top a {
-  padding: 1rem;
-  background: white;
-  border: 2px solid white;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.portada-botones.top a:hover {
-  background: #c60c23;
-  color: white;
-  border-color: #c60c23;
+  background: rgba(255, 255, 255, 0.9);
+  color: #111;
+  border: 1px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
 /* PARTE INFERIOR */
@@ -202,19 +231,11 @@ body {
 
 /* BOTONES ABAJO */
 .portada-botones.bottom a {
-  padding: 1rem;
   background: white;
-  border: 2px solid #c60c23;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  color: #111;
+  border: 1px solid #ddd;
 }
 
-.portada-botones.bottom a:hover {
-  background: #c60c23;
-  color: white;
-}
 
 /* CAROUSEL */
 .carousel {
