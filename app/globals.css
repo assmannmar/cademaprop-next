@@ -191,7 +191,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: #dc2626;
+  background: #c60c23; /* tu rojo */
   transform: translateY(100%);
   transition: transform 0.35s ease;
   z-index: 0;
@@ -199,7 +199,7 @@ body {
 
 .portada-botones a:hover {
   color: white;
-  border-color: #dc2626;
+  border-color: #c60c23;
 }
 
 .portada-botones a:hover::after {
@@ -209,8 +209,12 @@ body {
 .portada-botones a span {
   position: relative;
   z-index: 2;
+  transition: color 0.3s ease;
 }
 
+.portada-botones a:hover span {
+  color: white;
+}
 
 /* BOTONES ARRIBA (sobre imagen) */
 .portada-botones.top a {

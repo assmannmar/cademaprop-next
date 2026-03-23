@@ -107,7 +107,7 @@ export default function HomePage() {
       <section className="portada-bottom">
         <div className="portada-botones bottom">
           <Link href="/propiedades"><span>Residencial</span></Link>
-          <Link href="https://cademaprop.com.ar/parque-industrial/"><span>Industrial</span></Link>
+          <Link href="https://cademaprop.com.ar/parque-industrial/"><span>Industrias</span></Link>
         </div>
       </section>
 
