@@ -239,7 +239,7 @@
   }
 
   .emprendimientos-hero__info {
-    margin-bottom: 30vh;
+    margin-bottom: 25vh;
   }
 
   .emprendimientos-hero__rail-wrap {
@@ -265,12 +265,22 @@
     padding: 7rem 1rem 8rem;
   }
 
+  .emprendimientos-hero__zona {
+    font-size: 0.8rem;
+  }
+
   .emprendimientos-hero__titulo {
-    font-size: clamp(2rem, 4vw, 2rem);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .emprendimientos-hero__texto {
-    font-size: 0.96rem;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .emprendimientos-hero__btn {
+    padding: 0.9rem 1rem;
   }
 
   .emprendimientos-hero__rail-wrap {
