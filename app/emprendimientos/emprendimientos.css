@@ -64,6 +64,7 @@
   line-height: 0.95;
   font-weight: 700;
   margin: 0 0 1.5rem;
+  text-transform: uppercase;
 }
 
 .emprendimientos-hero__texto {
@@ -164,10 +165,11 @@
 }
 
 .emprendimientos-card__titulo {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 1;
   font-weight: 700;
-  margin: 1rem 0;
+  margin: 2rem 0;
+  text-transform: uppercase;
 }
 
 .emprendimientos-card.is-active {
