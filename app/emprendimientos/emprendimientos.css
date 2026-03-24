@@ -5,7 +5,7 @@
 ========================= */
 .emprendimientos-hero {
   position: relative;
-  min-height: 80vh;
+  height: 100vh;
   overflow: hidden;
   color: #fff;
   background: #111;
@@ -291,12 +291,13 @@
 
   .emprendimientos-card {
     flex: 0 0 155px;
-    height: 200px;
+    height: 180px;
     border-radius: 22px;
   }
 
   .emprendimientos-card__titulo {
     font-size: 1rem;
+    margin: 1rem 0;
   }
 
   .emprendimientos-hero__arrow {
