@@ -238,6 +238,10 @@
     align-items: flex-end;
   }
 
+  .emprendimientos-hero__info {
+    margin-bottom: 30vh;
+  }
+
   .emprendimientos-hero__rail-wrap {
     width: 100%;
     right: auto;
