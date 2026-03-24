@@ -5,7 +5,7 @@
 ========================= */
 .emprendimientos-hero {
   position: relative;
-  height: 100vh;
+  height: 90vh;
   overflow: hidden;
   color: #fff;
   background: #111;
@@ -42,7 +42,7 @@
   z-index: 3;
   max-width: 1440px;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 90vh;
   padding: 9rem 4rem 8rem;
   display: flex;
   align-items: center;
