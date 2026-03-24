@@ -270,6 +270,10 @@
     font-size: 0.8rem;
   }
 
+   .emprendimientos-hero__info {
+    margin-bottom: 35vh;
+  }
+
   .emprendimientos-hero__titulo {
     font-size: 1.5rem;
     margin-bottom: 1rem;
