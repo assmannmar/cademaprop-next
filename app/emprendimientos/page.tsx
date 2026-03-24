@@ -334,7 +334,7 @@ function EmprendimientosContent() {
 
               <h1 className="emprendimientos-hero__titulo">{activeHeroItem.titulo}</h1>
 
-              <p className="emprendimientos-hero__texto">{activeHeroItem.texto}</p>
+              <p className="emprendimientos-hero__texto">{activeHeroItem.texto}...</p>
 
               {activeHeroItem.isExternal ? (
                 <Link
