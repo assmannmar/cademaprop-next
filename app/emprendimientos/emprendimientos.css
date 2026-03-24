@@ -258,12 +258,12 @@
 
 @media (max-width: 768px) {
   .emprendimientos-hero {
-    height: 80vh;
+    height: 90vh;
   }
 
   .emprendimientos-hero__content {
     padding: 7rem 1rem 8rem;
-    height: 80vh;
+    height: 90vh;
   }
 
   .emprendimientos-hero__zona {
