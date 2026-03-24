@@ -263,6 +263,7 @@
 
   .emprendimientos-hero__content {
     padding: 7rem 1rem 8rem;
+    min-height: 80vh;
   }
 
   .emprendimientos-hero__zona {
