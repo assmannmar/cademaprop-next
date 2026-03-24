@@ -276,8 +276,7 @@
   }
 
   .emprendimientos-hero__texto {
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
+    display: none;
   }
 
   .emprendimientos-hero__btn {
