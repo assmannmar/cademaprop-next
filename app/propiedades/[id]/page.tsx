@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import FullScreenLoader from '@/app/components/loader';
 
 interface Property {
   id: number;
@@ -252,6 +253,8 @@ export default function PropertyDetailPage() {
   const description = property.rich_description || property.description || null;
 
   return (
+    <>
+    {loading && <FullScreenLoader />}
     <div className="min-h-screen bg-gray-50 -mt-[70px] pt-[100px]">
       <div className="container mx-auto px-4 py-8">
         
@@ -682,5 +685,6 @@ export default function PropertyDetailPage() {
         </div>
       )}
     </div>
+    </>
   );
 }
