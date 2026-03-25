@@ -7,7 +7,10 @@
 // la fuente de datos es app/simulador/logica/getLotes.ts
 
 // la logica de filtrado está en app/simulador/logica/simulador.ts
-// filtra lotes donde el anticipo del lote sea <= al anticipo del usuario y la cuota sea <= a la cuota máxima, y luego ordena por anticipo ascendente.
+// filtra lotes donde el anticipo del lote sea <= al anticipo del usuario y la cuota sea <= a la cuota máxima, y luego ordena por anticipo ascendente
+
+import FullScreenLoader from "../components/loader";
+
 "use client";
 
 import { useState } from "react";
@@ -76,7 +79,9 @@ export default function SimuladorPage() {
   }
 
   return (
-    <main className="min-h-screen px-6 py-16">
+    <>
+    {loading && <FullScreenLoader />}
+    <main className="min-h-screen px-6 py-16 -mt-[70px]">
       <section className="max-w-xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">
           Simulador de inversión
@@ -156,5 +161,6 @@ export default function SimuladorPage() {
         )}
       </section>
     </main>
+    </>
   );
 }
