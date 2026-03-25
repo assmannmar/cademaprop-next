@@ -311,292 +311,294 @@ function EmprendimientosContent() {
   }, [activeIndex, heroItems.length]);
 
   return (
-    <div className="min-h-screen bg-slate-50 -mt-[70px] pt-[70px]">
-      {!!activeHeroItem && (
-        <section className="emprendimientos-hero" id="emprendimientosHero">
-          <div
-            className={`emprendimientos-hero__bg ${showingLayer === "a" ? "active" : ""}`}
-            style={{ backgroundImage: `url("${bgA}")` }}
-          />
-          <div
-            className={`emprendimientos-hero__bg ${showingLayer === "b" ? "active" : ""}`}
-            style={{ backgroundImage: `url("${bgB}")` }}
-          />
-          <div className="emprendimientos-hero__overlay" />
-
-          <div className="emprendimientos-hero__content">
+    <div className={`transition-opacity duration-700 ${loading ? 'opacity-0' : 'opacity-100'}`}>
+      <div className="min-h-screen bg-slate-50 -mt-[70px] pt-[70px]">
+        {!!activeHeroItem && (
+          <section className="emprendimientos-hero" id="emprendimientosHero">
             <div
-              className={`emprendimientos-hero__info ${
-                isAnimatingText ? "hero-copy-anim" : ""
-              }`}
-            >
-              <div className="emprendimientos-hero__zona">{activeHeroItem.zona}</div>
+              className={`emprendimientos-hero__bg ${showingLayer === "a" ? "active" : ""}`}
+              style={{ backgroundImage: `url("${bgA}")` }}
+            />
+            <div
+              className={`emprendimientos-hero__bg ${showingLayer === "b" ? "active" : ""}`}
+              style={{ backgroundImage: `url("${bgB}")` }}
+            />
+            <div className="emprendimientos-hero__overlay" />
 
-              <h1 className="emprendimientos-hero__titulo">{activeHeroItem.titulo}</h1>
-
-              <p className="emprendimientos-hero__texto">{activeHeroItem.texto}...</p>
-
-              {activeHeroItem.isExternal ? (
-                <Link
-                  className="emprendimientos-hero__btn"
-                  href={activeHeroItem.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Ir a la ficha
-                </Link>
-              ) : (
-                <Link className="emprendimientos-hero__btn" href={activeHeroItem.link}>
-                  Ir a la ficha
-                </Link>
-              )}
-            </div>
-          </div>
-
-          <div className="emprendimientos-hero__rail-wrap" ref={wrapRef}>
-            <div className="emprendimientos-hero__rail" ref={railRef}>
-              {heroItems.map((item, index) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={`emprendimientos-card ${
-                    index === activeIndex ? "is-active" : ""
-                  }`}
-                  onClick={() => {
-                    goTo(index);
-                    resetAutoplay();
-                  }}
-                  aria-label={`Ver emprendimiento ${item.titulo}`}
-                >
-                  <img src={item.imagen} alt={item.titulo} />
-                  <div className="emprendimientos-card__info">
-                    <div className="emprendimientos-card__lugar">{item.zona}</div>
-                    <h3 className="emprendimientos-card__titulo">{item.titulo}</h3>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="emprendimientos-hero__controls">
-            <button
-              type="button"
-              className="emprendimientos-hero__arrow"
-              onClick={goPrev}
-              aria-label="Anterior"
-            >
-              ‹
-            </button>
-            <button
-              type="button"
-              className="emprendimientos-hero__arrow"
-              onClick={goNext}
-              aria-label="Siguiente"
-            >
-              ›
-            </button>
-          </div>
-        </section>
-      )}
-
-      <div className="container mx-auto px-4 py-12">
-        <div className="bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 -mt-20 relative z-20 mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
-                División
-              </label>
-              <select
-                className="w-full p-3 bg-gray-50 rounded-xl border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-red-500 font-bold text-gray-700 outline-none"
-                value={filterDivision}
-                onChange={(e) => handleDivChange(e.target.value)}
+            <div className="emprendimientos-hero__content">
+              <div
+                className={`emprendimientos-hero__info ${
+                  isAnimatingText ? "hero-copy-anim" : ""
+                }`}
               >
-                <option value="all">Todas</option>
-                <option value="residencial">Residencial</option>
-                <option value="industrial">Industrial</option>
-              </select>
+                <div className="emprendimientos-hero__zona">{activeHeroItem.zona}</div>
+
+                <h1 className="emprendimientos-hero__titulo">{activeHeroItem.titulo}</h1>
+
+                <p className="emprendimientos-hero__texto">{activeHeroItem.texto}...</p>
+
+                {activeHeroItem.isExternal ? (
+                  <Link
+                    className="emprendimientos-hero__btn"
+                    href={activeHeroItem.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ir a la ficha
+                  </Link>
+                ) : (
+                  <Link className="emprendimientos-hero__btn" href={activeHeroItem.link}>
+                    Ir a la ficha
+                  </Link>
+                )}
+              </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
-                Ubicación
-              </label>
-              <select
-                className="w-full p-3 bg-gray-50 rounded-xl border-none ring-1 ring-gray-200 font-bold outline-none focus:ring-2 focus:ring-red-500 text-gray-700"
-                value={filterLoc}
-                onChange={(e) => handleLocChange(e.target.value)}
-              >
-                <option value="all">Todas</option>
-                {uniqueLocations.map((loc) => (
-                  <option key={loc} value={loc!}>
-                    {loc}
-                  </option>
+            <div className="emprendimientos-hero__rail-wrap" ref={wrapRef}>
+              <div className="emprendimientos-hero__rail" ref={railRef}>
+                {heroItems.map((item, index) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`emprendimientos-card ${
+                      index === activeIndex ? "is-active" : ""
+                    }`}
+                    onClick={() => {
+                      goTo(index);
+                      resetAutoplay();
+                    }}
+                    aria-label={`Ver emprendimiento ${item.titulo}`}
+                  >
+                    <img src={item.imagen} alt={item.titulo} />
+                    <div className="emprendimientos-card__info">
+                      <div className="emprendimientos-card__lugar">{item.zona}</div>
+                      <h3 className="emprendimientos-card__titulo">{item.titulo}</h3>
+                    </div>
+                  </button>
                 ))}
-              </select>
+              </div>
             </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
-                Tipología
-              </label>
-              <select
-                className="w-full p-3 bg-gray-50 rounded-xl border-none ring-1 ring-gray-200 font-bold outline-none focus:ring-2 focus:ring-red-500 text-gray-700"
-                value={filterType}
-                onChange={(e) => handleTypeChange(e.target.value)}
+            <div className="emprendimientos-hero__controls">
+              <button
+                type="button"
+                className="emprendimientos-hero__arrow"
+                onClick={goPrev}
+                aria-label="Anterior"
               >
-                <option value="all">Todas</option>
-                {uniqueTypes.map((type) => (
-                  <option key={type} value={type!}>
-                    {translateType(type)}
-                  </option>
-                ))}
-              </select>
+                ‹
+              </button>
+              <button
+                type="button"
+                className="emprendimientos-hero__arrow"
+                onClick={goNext}
+                aria-label="Siguiente"
+              >
+                ›
+              </button>
             </div>
+          </section>
+        )}
 
-            <div className="flex items-end gap-2">
-              <div className="flex-1 bg-red-600 text-white p-3 rounded-xl text-center shadow-lg">
-                <span className="text-xl font-black block leading-none">{filteredItems.length}</span>
-                <span className="text-[9px] uppercase font-bold tracking-tighter">
-                  Resultados
-                </span>
+        <div className="container mx-auto px-4 py-12">
+          <div className="bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 -mt-20 relative z-20 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
+                  División
+                </label>
+                <select
+                  className="w-full p-3 bg-gray-50 rounded-xl border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-red-500 font-bold text-gray-700 outline-none"
+                  value={filterDivision}
+                  onChange={(e) => handleDivChange(e.target.value)}
+                >
+                  <option value="all">Todas</option>
+                  <option value="residencial">Residencial</option>
+                  <option value="industrial">Industrial</option>
+                </select>
               </div>
 
-              {(filterLoc !== "all" ||
-                filterType !== "all" ||
-                filterDivision !== "all") && (
-                <button
-                  onClick={clearFilters}
-                  className="p-3 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-xl transition-colors"
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
+                  Ubicación
+                </label>
+                <select
+                  className="w-full p-3 bg-gray-50 rounded-xl border-none ring-1 ring-gray-200 font-bold outline-none focus:ring-2 focus:ring-red-500 text-gray-700"
+                  value={filterLoc}
+                  onChange={(e) => handleLocChange(e.target.value)}
                 >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                  <option value="all">Todas</option>
+                  {uniqueLocations.map((loc) => (
+                    <option key={loc} value={loc!}>
+                      {loc}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
+                  Tipología
+                </label>
+                <select
+                  className="w-full p-3 bg-gray-50 rounded-xl border-none ring-1 ring-gray-200 font-bold outline-none focus:ring-2 focus:ring-red-500 text-gray-700"
+                  value={filterType}
+                  onChange={(e) => handleTypeChange(e.target.value)}
+                >
+                  <option value="all">Todas</option>
+                  {uniqueTypes.map((type) => (
+                    <option key={type} value={type!}>
+                      {translateType(type)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex items-end gap-2">
+                <div className="flex-1 bg-red-600 text-white p-3 rounded-xl text-center shadow-lg">
+                  <span className="text-xl font-black block leading-none">{filteredItems.length}</span>
+                  <span className="text-[9px] uppercase font-bold tracking-tighter">
+                    Resultados
+                  </span>
+                </div>
+
+                {(filterLoc !== "all" ||
+                  filterType !== "all" ||
+                  filterDivision !== "all") && (
+                  <button
+                    onClick={clearFilters}
+                    className="p-3 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-xl transition-colors"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              )}
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex flex-col gap-10">
-          {loading ? (
-            <div className="text-center py-20 animate-pulse text-gray-400 font-bold uppercase tracking-widest">
-              Cargando Emprendimientos...
-            </div>
-          ) : (
-            filteredItems.map((emp) => {
-              const coverImage =
-                emp.photos?.find((p) => p.is_front_cover)?.image ||
-                emp.photos?.[0]?.image;
+          <div className="flex flex-col gap-10">
+            {loading ? (
+              <div className="text-center py-20 animate-pulse text-gray-400 font-bold uppercase tracking-widest">
+                Cargando Emprendimientos...
+              </div>
+            ) : (
+              filteredItems.map((emp) => {
+                const coverImage =
+                  emp.photos?.find((p) => p.is_front_cover)?.image ||
+                  emp.photos?.[0]?.image;
 
-              const deliveryDate = emp.construction_date
-                ? new Date(emp.construction_date).toLocaleDateString("es-AR", {
-                    month: "long",
-                    year: "numeric",
-                  })
-                : "Consulte fecha";
+                const deliveryDate = emp.construction_date
+                  ? new Date(emp.construction_date).toLocaleDateString("es-AR", {
+                      month: "long",
+                      year: "numeric",
+                    })
+                  : "Consulte fecha";
 
-              return (
-                <div
-                  key={emp.id}
-                  className="group flex flex-col md:flex-row bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100 h-auto md:h-[450px]"
-                >
-                  <div className="md:w-[40%] h-72 md:h-auto relative overflow-hidden shrink-0">
-                    <img
-                      src={coverImage || "/placeholder.jpg"}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      alt={emp.name || "Emprendimiento"}
-                    />
-                    <div className="absolute top-6 left-6">
-                      <span className="bg-white/95 backdrop-blur px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest text-gray-900 shadow-xl">
-                        {translateType(emp.type?.name)}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-center gap-2 text-red-600 mb-3 font-bold text-xs uppercase tracking-widest">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
-                        </svg>
-                        {emp.location?.name}
-                      </div>
-
-                      <div className="mb-6">
-                        <p className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
-                          {emp.name}
-                        </p>
-                        <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight group-hover:text-red-600 transition-colors">
-                          { emp.name || emp.publication_title }
-                        </h2>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4 mb-6">
-                        <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                          <p className="text-[9px] uppercase font-black text-gray-400 mb-1">
-                            Estado
-                          </p>
-                          <p className="font-bold text-gray-700 text-sm">
-                            {emp.construction_status
-                              ? ESTADOS_MAP[emp.construction_status]
-                              : "A estrenar"}
-                          </p>
-                        </div>
-
-                        <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                          <p className="text-[9px] uppercase font-black text-gray-400 mb-1">
-                            Entrega
-                          </p>
-                          <p className="font-bold text-gray-700 text-sm capitalize">
-                            {deliveryDate}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="pt-6 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
-                      {emp.web_url ? (
-                        <Link
-                          href={emp.web_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-8 py-4 bg-gray-900 text-white font-black rounded-xl hover:bg-red-600 transition-all shadow-lg text-xs uppercase tracking-widest"
-                        >
-                          Visitar Web del Proyecto
-                        </Link>
-                      ) : (
-                        <Link
-                          href={`/emprendimientos/${emp.id}`}
-                          className="px-8 py-4 bg-gray-200 text-gray-700 font-black rounded-xl hover:bg-gray-300 transition-all text-xs uppercase tracking-widest"
-                        >
-                          Ver Detalles
-                        </Link>
-                      )}
-
-                      <div className="flex flex-col items-end">
-                        <span className="text-[9px] font-black text-gray-300 uppercase">
-                          Referencia
-                        </span>
-                        <span className="text-sm font-bold text-gray-400 italic">
-                          ID {emp.id}
+                return (
+                  <div
+                    key={emp.id}
+                    className="group flex flex-col md:flex-row bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-100 h-auto md:h-[450px]"
+                  >
+                    <div className="md:w-[40%] h-72 md:h-auto relative overflow-hidden shrink-0">
+                      <img
+                        src={coverImage || "/placeholder.jpg"}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        alt={emp.name || "Emprendimiento"}
+                      />
+                      <div className="absolute top-6 left-6">
+                        <span className="bg-white/95 backdrop-blur px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest text-gray-900 shadow-xl">
+                          {translateType(emp.type?.name)}
                         </span>
                       </div>
                     </div>
+
+                    <div className="md:w-[60%] p-8 md:p-12 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center gap-2 text-red-600 mb-3 font-bold text-xs uppercase tracking-widest">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" />
+                          </svg>
+                          {emp.location?.name}
+                        </div>
+
+                        <div className="mb-6">
+                          <p className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
+                            {emp.name}
+                          </p>
+                          <h2 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight group-hover:text-red-600 transition-colors">
+                            { emp.name || emp.publication_title }
+                          </h2>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4 mb-6">
+                          <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                            <p className="text-[9px] uppercase font-black text-gray-400 mb-1">
+                              Estado
+                            </p>
+                            <p className="font-bold text-gray-700 text-sm">
+                              {emp.construction_status
+                                ? ESTADOS_MAP[emp.construction_status]
+                                : "A estrenar"}
+                            </p>
+                          </div>
+
+                          <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                            <p className="text-[9px] uppercase font-black text-gray-400 mb-1">
+                              Entrega
+                            </p>
+                            <p className="font-bold text-gray-700 text-sm capitalize">
+                              {deliveryDate}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="pt-6 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+                        {emp.web_url ? (
+                          <Link
+                            href={emp.web_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-8 py-4 bg-gray-900 text-white font-black rounded-xl hover:bg-red-600 transition-all shadow-lg text-xs uppercase tracking-widest"
+                          >
+                            Visitar Web del Proyecto
+                          </Link>
+                        ) : (
+                          <Link
+                            href={`/emprendimientos/${emp.id}`}
+                            className="px-8 py-4 bg-gray-200 text-gray-700 font-black rounded-xl hover:bg-gray-300 transition-all text-xs uppercase tracking-widest"
+                          >
+                            Ver Detalles
+                          </Link>
+                        )}
+
+                        <div className="flex flex-col items-end">
+                          <span className="text-[9px] font-black text-gray-300 uppercase">
+                            Referencia
+                          </span>
+                          <span className="text-sm font-bold text-gray-400 italic">
+                            ID {emp.id}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              );
-            })
-          )}
+                );
+              })
+            )}
+          </div>
         </div>
       </div>
     </div>
