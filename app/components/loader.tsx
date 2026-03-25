@@ -1,5 +1,3 @@
-// app/components/loader.tsx
-
 export default function FullScreenLoader() { // <--- El "export default" es CLAVE
   return (
     <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-slate-50">
