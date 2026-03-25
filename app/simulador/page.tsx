@@ -9,10 +9,9 @@
 // la logica de filtrado está en app/simulador/logica/simulador.ts
 // filtra lotes donde el anticipo del lote sea <= al anticipo del usuario y la cuota sea <= a la cuota máxima, y luego ordena por anticipo ascendente
 
-import FullScreenLoader from '@/app/components/loader';
-
 "use client";
 
+import FullScreenLoader from '@/app/components/loader';
 import { useState } from "react";
 
 type Opcion = {
