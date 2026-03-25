@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, Suspense, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import "./emprendimientos.css";
-
+import FullScreenLoader from "../components/loader";
 // --- 1. DICCIONARIOS Y TRADUCCIONES ---
 
 const TIPOLOGIAS_MAP: Record<string, string> = {
@@ -311,6 +311,9 @@ function EmprendimientosContent() {
   }, [activeIndex, heroItems.length]);
 
   return (
+    <>
+    {loading && <FullScreenLoader />}
+    
     <div className={`transition-opacity duration-700 ${loading ? 'opacity-0' : 'opacity-100'}`}>
       <div className="min-h-screen bg-slate-50 -mt-[70px] pt-[70px]">
         {!!activeHeroItem && (
@@ -602,6 +605,7 @@ function EmprendimientosContent() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
