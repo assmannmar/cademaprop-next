@@ -80,7 +80,7 @@ export default function SimuladorPage() {
   return (
     <>
     {loading && <FullScreenLoader />}
-    <main className="min-h-screen px-6 py-16 -mt-[70px] pt-[70px]">
+    <main className="min-h-screen px-6 py-16">
       <section className="max-w-xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">
           Simulador de inversión
