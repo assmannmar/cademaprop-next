@@ -11,6 +11,7 @@ import {
   DestacadasCarousel, 
   TestimoniosCarousel 
 } from './components/Carousels';
+import FullScreenLoader from './components/loader';
 
 interface Property {
   id: number;
@@ -86,6 +87,8 @@ export default function HomePage() {
   };
 
   return (
+    <>
+    {loading && <FullScreenLoader />}
     <main className="page">
       {/* PORTADA */}
       <section className="portada">
@@ -336,5 +339,6 @@ export default function HomePage() {
         </div>
       </section>
     </main>
+    </>
   );
 }
