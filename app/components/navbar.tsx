@@ -94,7 +94,7 @@ export default function Navbar() {
             {name: "Nave Industrial", href: "/propiedades?tipo=Industrial+Ship"},
             {name: "Terreno Industrial", href: "/propiedades?tipo=Terreno+industrial"},
           ]
-        }
+        },
         { name: "Simulador", href: "/simulador"},
       ] 
     },
