@@ -24,7 +24,7 @@ const LANDINGS: Record<string, string> = {
   "Puerta del Sol": "/emprendimientos/puerta-del-sol",
 };
 
-const WA_NUMERO = "549XXXXXXXXXX"; // reemplazá con el número real
+const WA_NUMERO = "5493489368518"; 
 
 const WA_MENSAJES: Record<string, (op: any) => string> = {
   "Campo Alto": (op) =>
