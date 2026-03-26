@@ -84,9 +84,9 @@ export default function PropertyDetailPage() {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: 'smooth'
+        behavior: 'instant'
       });
-    }, 10);
+    }, 800);
 
     return () => clearTimeout(timer);
   }, []);
@@ -604,6 +604,7 @@ export default function PropertyDetailPage() {
                 <div className="w-full">
                   <iframe
                     src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?property_id=${property.id}`}
+                    loading="lazy"
                     style={{
                       display: 'block',
                       width: '100%',
