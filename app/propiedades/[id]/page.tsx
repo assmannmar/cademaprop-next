@@ -199,6 +199,7 @@ export default function PropertyDetailPage() {
 
   const translateCreditEligible = (credit: string) => {
     const translations: Record<string, string> = {
+      'Eligible': 'Sí',
       'Yes': 'Sí',
       'No': 'No',
       'Not specified': 'No especificado',
