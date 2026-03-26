@@ -33,6 +33,25 @@ const translateType = (type: string | undefined) => {
   return TIPOLOGIAS_MAP[type.toLowerCase()] || type;
 };
 
+// Shuffle para mostrar los emprendimientos destacados en un orden diferente cada vez, pero siempre el mismo para cada usuario gracias a la semilla fija por sesión
+
+const sessionSeed = Math.floor(Math.random() * 1_000_000);
+
+function seededShuffle<T>(arr: T[], seed: number): T[] {
+  const copy = [...arr];
+  let s = seed;
+  const rand = () => {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 4294967296;
+  };
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+
 const stripHtml = (html?: string) => {
   if (!html) return "";
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
@@ -152,16 +171,17 @@ function EmprendimientosContent() {
   }, []);
 
   const filteredItems = useMemo(() => {
-    return emprendimientos.filter((emp) => {
+    const filtered = emprendimientos.filter((emp) => {
       const matchLoc = filterLoc === "all" || emp.location?.name === filterLoc;
       const matchType = filterType === "all" || emp.type?.name === filterType;
-
       let matchDiv = true;
       if (filterDivision === "industrial") matchDiv = emp.is_industrial === true;
       if (filterDivision === "residencial") matchDiv = emp.is_industrial !== true;
-
       return matchLoc && matchType && matchDiv;
     });
+    const filterHash = [...`${filterLoc}-${filterType}-${filterDivision}`]
+      .reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    return seededShuffle(filtered, sessionSeed + filterHash);
   }, [emprendimientos, filterLoc, filterType, filterDivision]);
 
   const uniqueLocations = Array.from(
@@ -173,10 +193,10 @@ function EmprendimientosContent() {
   );
 
   const heroItems = useMemo<HeroItem[]>(() => {
-    return emprendimientos
-      .filter((emp) => emp.photos?.length)
-      .slice(0, 10)
-      .map((emp) => {
+    const withPhotos = emprendimientos.filter((emp) => emp.photos?.length);
+    const shuffled = seededShuffle(withPhotos, sessionSeed);
+    const count = Math.max(6, Math.min(10, shuffled.length));
+    return shuffled.slice(0, count).map((emp) => {
         const coverImage =
           emp.photos?.find((p) => p.is_front_cover)?.image ||
           emp.photos?.[0]?.image ||
