@@ -41,6 +41,16 @@ const LANDINGS: Record<string, string> = {
   "Puerta del Sol": "/emprendimientos/puerta-del-sol",
 };
 
+const WA_NUMERO = "5493489368518";
+
+const WA_MENSAJES = {
+  "Campo Alto": "Hola! Estoy interesado en recibir más información sobre el barrio Campo Alto.",
+  "La Amelia": "Hola! Estoy interesado en recibir más información sobre el barrio La Amelia.",
+  "Islas Barrios Náuticos": "Hola! Estoy interesado en recibir más información sobre el barrio Islas Barrios Náuticos.",
+  "Justina": "Hola! Estoy interesado en recibir más información sobre el barrio Justina.",
+  "Paseo Gavazzi": "Hola! Estoy interesado en recibir más información sobre el barrio Paseo Gavazzi.",
+  "Puerta del Sol": "Hola! Estoy interesado en recibir más información sobre el barrio Puerta del Sol.",
+};
 
 export default function SimuladorPage() {
   const [anticipo, setAnticipo] = useState("");
