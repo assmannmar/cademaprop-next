@@ -79,6 +79,7 @@ export default function PropertyDetailPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0); 
     const timer = setTimeout(() => {
       window.scrollTo({
         top: 0,
