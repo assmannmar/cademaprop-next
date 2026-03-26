@@ -249,6 +249,12 @@ export default function PropertyDetailPage() {
   const photos = property.photos?.filter(p => !p.is_blueprint) || [];
   const blueprints = property.photos?.filter(p => p.is_blueprint) || [];
 
+  // check apto credito
+  const isCreditEligible = 
+    property.credit_eligible === 'Eligible' ||
+    property.tags?.some(tag => tag.name.toLowerCase().includes('credit')) ||
+    property.custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
+
   // Descripción con formato
   const description = property.rich_description || property.description || null;
 
@@ -560,6 +566,12 @@ export default function PropertyDetailPage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-lg p-6 sticky top-24">
               
+              {isCreditEligible && (
+                <div className="inline-block bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-md mb-2">
+                  Apto Crédito
+                </div>
+              )}
+
               {/* Precio */}
               <div className="mb-6 pb-6 border-b border-gray-200">
                 {price && price > 0 ? (
