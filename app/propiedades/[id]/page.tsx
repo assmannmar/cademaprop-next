@@ -83,7 +83,7 @@ export default function PropertyDetailPage() {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: 'instant', // 'smooth' si quieres que se vea el deslizamiento
+        behavior: 'smooth'
       });
     }, 10);
 
