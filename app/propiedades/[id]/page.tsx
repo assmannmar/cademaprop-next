@@ -79,6 +79,18 @@ export default function PropertyDetailPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'instant', // 'smooth' si quieres que se vea el deslizamiento
+      });
+    }, 10);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     if (id) {
       fetchProperty();
     }
