@@ -87,6 +87,14 @@ export default function Navbar() {
             { name: "Terrenos", href: "/propiedades?tipo=land" },
           ] 
         },
+        {
+          name: "Industriales",
+          href: "#",
+          items: [
+            {name: "Nave Industrial", href: "/propiedades?tipo=Industrial+Ship"},
+            {name: "Terreno Industrial", href: "/propiedades?tipo=Terreno+industrial"},
+          ]
+        }
         { name: "Simulador", href: "/simulador"},
       ] 
     },
