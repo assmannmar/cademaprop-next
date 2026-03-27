@@ -611,38 +611,33 @@ export default function PropertyDetailPage() {
                 )}
               </div>
 
-              {/* Formulario de Contacto - Iframe */}
+              {/* Formulario de Contacto */}
               <div className="mb-6">
                 <h3 className="text-xl font-bold mb-4">Contactar</h3>
-                <div className="w-full">
-                  <iframe
-                    // Agregamos el parámetro de la URL completa al src
-                    src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?source=${encodeURIComponent(currentUrl)}`}
-                    style={{
-                      width: '100%',
-                      height: '600px', // Cambiamos de 100% a un valor fijo para asegurar visibilidad
-                      border: 'none',
-                      borderRadius: '3px',
-                      display: 'block', // Cambiamos 'none' por 'block' para forzar que se vea
-                    }}
+                <div className="w-full min-h-[600px]">
+                  {/* Usamos un DIV, no un IFRAME. El script de Ventux inyectará el contenido aquí */}
+                  <div
                     id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz"
+                    className="ventux-container"
                     data-layout='{"id":"POLITE_SLIDE_IN","minimizedTitle":"","isLeftAligned":false,"isRightAligned":true,"allowMinimize":false}'
                     data-trigger-type="alwaysShow"
-                    data-trigger-value=""
                     data-activation-type="alwaysActivated"
-                    data-activation-value=""
-                    data-deactivation-type="neverDeactivate"
-                    data-deactivation-value=""
                     data-form-name={`Propiedad ${property.fake_address || property.id}`}
-                    data-layout-iframe-id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz"
                     data-form-id="OWI77RP94NZkMNa4BIaz"
-                    title={`Consulta: ${property.fake_address}`}
-                  />
+                    // Pasamos la URL actual mediante un atributo de datos si el script lo soporta, 
+                    // o dejamos que el script lo detecte.
+                    data-source={currentUrl} 
+                  ></div>
+                  
+                  {/* Carga del script específica para este componente */}
                   <Script 
                     src="https://link.ventux.io/js/form_embed.js" 
-                    strategy="afterInteractive" 
+                    strategy="afterInteractive"
+                    onLoad={() => {
+                      // @ts-ignore
+                      if (window.initVentux) window.initVentux(); 
+                    }}
                   />
-                  
                 </div>
               </div>
 
