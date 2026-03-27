@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import FullScreenLoader from '@/app/components/loader';
+import Script from 'next/script';
 
 interface Property {
   id: number;
@@ -72,11 +73,18 @@ export default function PropertyDetailPage() {
   const params = useParams();
   const id = params?.id;
   
+  const [currentUrl, setCurrentUrl] = useState('');
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCurrentUrl(window.location.href); 
+    }
+  }, [id]);
 
   useEffect(() => {
     window.scrollTo(0, 0); 
@@ -269,6 +277,10 @@ export default function PropertyDetailPage() {
 
   // Descripción con formato
   const description = property.rich_description || property.description || null;
+
+  const VentuxFormSlideIn = () => {
+  // Obtenemos la URL actual para enviarla al campo 'source' que creaste
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   return (
     <>
@@ -603,21 +615,33 @@ export default function PropertyDetailPage() {
                 <h3 className="text-xl font-bold mb-4">Contactar</h3>
                 <div className="w-full">
                   <iframe
-                    src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?url_propiedad=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
-                    loading="lazy"
+                    // Agregamos el parámetro de la URL completa al src
+                    src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?source=${encodeURIComponent(currentUrl)}`}
                     style={{
-                      display: 'block',
+                      display: 'none', 
                       width: '100%',
-                      height: '619px',
+                      height: '100%',
                       border: 'none',
                       borderRadius: '3px'
                     }}
-                    id="inline-contact-form"
-                    data-layout='{"id":"INLINE"}'
+                    id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz"
+                    data-layout='{"id":"POLITE_SLIDE_IN","minimizedTitle":"","isLeftAligned":false,"isRightAligned":true,"allowMinimize":false}'
                     data-trigger-type="alwaysShow"
-                    data-form-name={`Propiedad ${property.fake_address}`}
-                    title={`Consulta Propiedad ${property.fake_address}`}
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name={`Propiedad ${property.fake_address || property.id}`}
+                    data-layout-iframe-id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz"
+                    data-form-id="OWI77RP94NZkMNa4BIaz"
+                    title={`Consulta: ${property.fake_address}`}
                   />
+                  <Script 
+                    src="https://link.ventux.io/js/form_embed.js" 
+                    strategy="afterInteractive" 
+                  />
+                  
                 </div>
               </div>
 
@@ -704,4 +728,6 @@ export default function PropertyDetailPage() {
     </div>
     </>
   );
+}
+
 }
