@@ -278,10 +278,10 @@ export default function PropertyDetailPage() {
   // Descripción con formato
   const description = property.rich_description || property.description || null;
 
-  const VentuxFormSlideIn = () => {
-  // Obtenemos la URL actual para enviarla al campo 'source' que creaste
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
-  }
+  // const VentuxFormSlideIn = () => {
+  // // Obtenemos la URL actual para enviarla al campo 'source' que creaste
+  // const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+  // }
 
   return (
     <>
@@ -619,11 +619,11 @@ export default function PropertyDetailPage() {
                     // Agregamos el parámetro de la URL completa al src
                     src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?source=${encodeURIComponent(currentUrl)}`}
                     style={{
-                      display: 'none', 
                       width: '100%',
-                      height: '100%',
+                      height: '600px', // Cambiamos de 100% a un valor fijo para asegurar visibilidad
                       border: 'none',
-                      borderRadius: '3px'
+                      borderRadius: '3px',
+                      display: 'block', // Cambiamos 'none' por 'block' para forzar que se vea
                     }}
                     id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz"
                     data-layout='{"id":"POLITE_SLIDE_IN","minimizedTitle":"","isLeftAligned":false,"isRightAligned":true,"allowMinimize":false}'
