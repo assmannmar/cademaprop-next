@@ -625,7 +625,6 @@ export default function PropertyDetailPage() {
                     data-form-name={`Propiedad ${property.fake_address}`}
                     title={`Consulta Propiedad ${property.fake_address}`}
                   />
-                  <script src="https://link.ventux.io/js/form_embed.js"></script>
                 </div>
               </div>
 
