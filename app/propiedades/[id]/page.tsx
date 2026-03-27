@@ -286,7 +286,7 @@ export default function PropertyDetailPage() {
   return (
     <>
     {loading && <FullScreenLoader />}
-    <div className="min-h-screen bg-gray-50 pt-[120px] pb-12">
+    <div className="min-h-screen bg-gray-50 pt-[100px] pb-12">
       <div className="container mx-auto px-4 py-8">
         
         {/* Breadcrumb */}
