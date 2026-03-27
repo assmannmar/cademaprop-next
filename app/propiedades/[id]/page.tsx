@@ -603,7 +603,7 @@ export default function PropertyDetailPage() {
                 <h3 className="text-xl font-bold mb-4">Contactar</h3>
                 <div className="w-full">
                   <iframe
-                    src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?property_id=${property.id}`}
+                    src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?property_id=${property.id}&source_url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                     loading="lazy"
                     style={{
                       display: 'block',
@@ -622,8 +622,8 @@ export default function PropertyDetailPage() {
                     data-deactivation-value=""
                     data-height="619"
                     data-layout-iframe-id="inline-contact-form"
-                    data-form-name={`Propiedad ${property.id}`}
-                    title={`Consulta Propiedad ${property.id}`}
+                    data-form-name={`Propiedad ${property.fake_address}`}
+                    title={`Consulta Propiedad ${property.fake_address}`}
                   />
                   <script src="https://link.ventux.io/js/form_embed.js"></script>
                 </div>
