@@ -33,7 +33,7 @@ interface PropertyCardProps {
   videos?: Array<any>;
   tags?: Array<{ name: string }>;
   custom_tags?: Array<{ name: string }>;
-  credit_eligible?: string; // Added this to the interface
+  credit_eligible?: string; 
 }
 
 export default function PropertyCard(property: PropertyCardProps) {
@@ -56,7 +56,7 @@ export default function PropertyCard(property: PropertyCardProps) {
     videos,
     tags,
     custom_tags,
-    credit_eligible, // Destructure the new field
+    credit_eligible, 
   } = property;
 
   // Dirección a mostrar (ficticia tiene prioridad)
