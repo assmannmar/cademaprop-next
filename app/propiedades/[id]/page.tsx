@@ -603,7 +603,7 @@ export default function PropertyDetailPage() {
                 <h3 className="text-xl font-bold mb-4">Contactar</h3>
                 <div className="w-full">
                   <iframe
-                    src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?property_id=${property.id}&source_url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                    src={`https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz?property_id=${property.id}&source=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}&utm_source=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                     loading="lazy"
                     style={{
                       display: 'block',
