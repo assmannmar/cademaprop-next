@@ -281,6 +281,7 @@ export default function PropertyDetailPage() {
   const VentuxFormSlideIn = () => {
   // Obtenemos la URL actual para enviarla al campo 'source' que creaste
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+  }
 
   return (
     <>
@@ -728,6 +729,4 @@ export default function PropertyDetailPage() {
     </div>
     </>
   );
-}
-
 }
