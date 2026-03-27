@@ -620,10 +620,9 @@ export default function PropertyDetailPage() {
                     data-activation-value=""
                     data-deactivation-type="neverDeactivate"
                     data-deactivation-value=""
-                    data-form-name={`Propiedad ${property.id}`}
                     data-height="619"
                     data-layout-iframe-id="inline-contact-form"
-                    data-form-id="OWI77RP94NZkMNa4BIaz"
+                    data-form-name={`Propiedad ${property.id}`}
                     title={`Consulta Propiedad ${property.id}`}
                   />
                   <script src="https://link.ventux.io/js/form_embed.js"></script>
