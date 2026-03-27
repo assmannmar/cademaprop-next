@@ -626,6 +626,7 @@ export default function PropertyDetailPage() {
                     data-form-id="OWI77RP94NZkMNa4BIaz"
                     title={`Consulta Propiedad ${property.id}`}
                   />
+                  <script src="https://link.ventux.io/js/form_embed.js"></script>
                 </div>
               </div>
 
