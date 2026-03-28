@@ -132,6 +132,7 @@
 .property-hero__content {
   max-width: 920px;
   color: var(--property-white);
+  margin: 5vw;
 }
 
 .property-hero__badges {
