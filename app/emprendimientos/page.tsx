@@ -372,7 +372,8 @@ function EmprendimientosContent() {
                   </Link>
                 ) : (
                   <Link className="emprendimientos-hero__btn" href={activeHeroItem.link}>
-                    Ir a la ficha
+                    <span className="hero__btn-text">Ir a la ficha</span>
+                    <span className="hero__btn-arrow">→</span>
                   </Link>
                 )}
               </div>
