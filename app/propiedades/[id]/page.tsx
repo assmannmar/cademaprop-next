@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Script from 'next/script';
+import './propiedad.css';
 
 interface Property {
   id: number;
@@ -104,7 +105,7 @@ export default function PropertyDetailPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isFullscreen, property, selectedImage]);
+  }, [isFullscreen, selectedImage, property]);
 
   const fetchProperty = async () => {
     setLoading(true);
@@ -176,7 +177,7 @@ export default function PropertyDetailPage() {
   };
 
   const formatCurrency = (currency?: string) => {
-    if (!currency) return 'USD';
+    if (!currency) return 'U$S';
     if (currency.toUpperCase() === 'USD') return 'U$S';
     return currency;
   };
@@ -191,22 +192,6 @@ export default function PropertyDetailPage() {
     });
   };
 
-  const nextImage = () => {
-    if (!property?.photos) return;
-    const normalPhotos = property.photos.filter((p) => !p.is_blueprint);
-    if (normalPhotos.length <= 1) return;
-
-    setSelectedImage((prev) => (prev === normalPhotos.length - 1 ? 0 : prev + 1));
-  };
-
-  const prevImage = () => {
-    if (!property?.photos) return;
-    const normalPhotos = property.photos.filter((p) => !p.is_blueprint);
-    if (normalPhotos.length <= 1) return;
-
-    setSelectedImage((prev) => (prev === 0 ? normalPhotos.length - 1 : prev - 1));
-  };
-
   const photos = useMemo(
     () => property?.photos?.filter((p) => !p.is_blueprint) || [],
     [property]
@@ -216,6 +201,16 @@ export default function PropertyDetailPage() {
     () => property?.photos?.filter((p) => p.is_blueprint) || [],
     [property]
   );
+
+  const nextImage = () => {
+    if (photos.length <= 1) return;
+    setSelectedImage((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevImage = () => {
+    if (photos.length <= 1) return;
+    setSelectedImage((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
+  };
 
   useEffect(() => {
     if (photos.length <= 1 || autoplayPaused || isFullscreen) return;
@@ -229,28 +224,21 @@ export default function PropertyDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center pt-[100px] bg-white">
-        <div className="text-center">
-          <div className="inline-block h-12 w-12 animate-spin rounded-full border-b-2 border-red-600" />
-          <p className="mt-4 text-lg text-gray-600">Cargando propiedad...</p>
-        </div>
+      <div className="property-page-loading">
+        <div className="property-page-loading__spinner" />
+        <p>Cargando propiedad...</p>
       </div>
     );
   }
 
   if (error || !property) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 pt-[100px] bg-white">
-        <div className="text-center">
-          <h1 className="mb-4 text-4xl font-bold text-gray-800">Propiedad no encontrada</h1>
-          <p className="mb-6 text-gray-600">{error}</p>
-          <Link
-            href="/propiedades"
-            className="inline-flex rounded-full bg-red-600 px-6 py-3 font-semibold text-white transition hover:bg-red-700"
-          >
-            Volver a Propiedades
-          </Link>
-        </div>
+      <div className="property-page-error">
+        <h1>Propiedad no encontrada</h1>
+        <p>{error}</p>
+        <Link href="/propiedades" className="property-page-error__button">
+          Volver a Propiedades
+        </Link>
       </div>
     );
   }
@@ -260,6 +248,7 @@ export default function PropertyDetailPage() {
   const price = webPrice?.price || mainOperation?.prices?.[0]?.price;
   const currency = webPrice?.currency || mainOperation?.prices?.[0]?.currency || 'USD';
   const operationType = translateOperationType(mainOperation?.operation_type || '');
+
   const propertyType = translatePropertyType(
     property.development?.type?.name || property.type?.name || 'Propiedad'
   );
@@ -280,14 +269,14 @@ export default function PropertyDetailPage() {
     `${propertyType} en ${operationType}${property.location?.name ? ` - ${property.location.name}` : ''}`;
 
   const specs = [
-    totalRooms > 0 ? { label: 'Ambientes', value: totalRooms } : null,
+    totalRooms > 0 ? { label: 'Amb', value: totalRooms } : null,
     property.bathroom_amount ? { label: 'Baños', value: property.bathroom_amount } : null,
     property.parking_lot_amount && property.parking_lot_amount > 0
       ? { label: 'Cochera', value: property.parking_lot_amount }
       : null,
     property.surface ? { label: 'Terreno', value: `${formatNumber(property.surface)} m²` } : null,
     property.roofed_surface
-      ? { label: 'Sup. cubierta', value: `${formatNumber(property.roofed_surface)} m²` }
+      ? { label: 'Cubiertos', value: `${formatNumber(property.roofed_surface)} m²` }
       : null,
     property.age !== undefined && property.age !== null
       ? { label: 'Antigüedad', value: `${property.age} años` }
@@ -328,113 +317,92 @@ export default function PropertyDetailPage() {
 
   return (
     <>
-      <div className="bg-[#f5f3ef] text-[#1f1f1f]">
-        <section className="relative isolate min-h-[75vh] overflow-hidden">
+      <div className="property-page">
+        <section className="property-hero">
           {heroImage && (
             <img
               src={heroImage}
               alt={title}
-              className="absolute inset-0 h-full w-full object-cover"
+              className="property-hero__bg"
             />
           )}
 
-          <div className="absolute inset-0 bg-black/45" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/35" />
+          <div className="property-hero__overlay" />
+          <div className="property-hero__gradient" />
 
-          <div className="relative z-10 flex min-h-[75vh] items-end">
-            <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-32 sm:px-6 lg:px-8 lg:pb-14">
-              <div className="max-w-4xl text-white">
-                <div className="mb-4 flex flex-wrap gap-2">
-                  <span className="rounded-full border border-white/25 bg-white/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] backdrop-blur-sm">
-                    {propertyType} en {operationType}
+          <div className="property-hero__inner container-property">
+            <div className="property-hero__content">
+              <div className="property-hero__badges">
+                <span className="property-badge">
+                  {propertyType} en {operationType}
+                </span>
+
+                {isCreditEligible && (
+                  <span className="property-badge property-badge--credit">
+                    Apto crédito
                   </span>
+                )}
+              </div>
 
-                  {isCreditEligible && (
-                    <span className="rounded-full border border-white/25 bg-emerald-500/85 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] backdrop-blur-sm">
-                      Apto crédito
-                    </span>
+              <h1 className="property-hero__title">{title}</h1>
+
+              <div className="property-hero__location">
+                <span className="property-hero__location-icon">⌖</span>
+                <span>{displayAddress}</span>
+              </div>
+
+              {specs.length > 0 && (
+                <div className="property-hero__specs">
+                  {specs.map((item) => (
+                    <div className="property-hero__spec" key={item.label}>
+                      <span className="property-hero__spec-value">{item.value}</span>
+                      <span className="property-hero__spec-label">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="property-hero__bottom">
+                <div className="property-price-card">
+                  <span className="property-price-card__label">Precio</span>
+                  {price && price > 0 ? (
+                    <strong className="property-price-card__value">
+                      {formatCurrency(currency)} {formatNumber(price)}
+                    </strong>
+                  ) : (
+                    <strong className="property-price-card__value">
+                      Consultar precio
+                    </strong>
                   )}
                 </div>
 
-                <h1 className="text-4xl font-bold leading-none sm:text-5xl lg:text-7xl">
-                  {title}
-                </h1>
-
-                <div className="mt-4 flex items-start gap-2 text-base text-white/90 sm:text-xl">
-                  <span className="mt-1">📍</span>
-                  <span>{displayAddress}</span>
-                </div>
-
-                {specs.length > 0 && (
-                  <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-white/95 sm:text-lg">
-                    {specs.map((item) => (
-                      <div key={item.label} className="flex items-center gap-2">
-                        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-                        <span>
-                          <strong className="font-semibold">{item.value}</strong> {item.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-8 flex flex-wrap items-end justify-between gap-4">
-                  <div>
-                    {price && price > 0 ? (
-                      <>
-                        <p className="mb-1 text-sm uppercase tracking-[0.16em] text-white/75">
-                          Precio
-                        </p>
-                        <p className="text-3xl font-bold sm:text-4xl lg:text-5xl">
-                          {formatCurrency(currency)} {formatNumber(price)}
-                        </p>
-                      </>
-                    ) : (
-                      <p className="text-2xl font-bold sm:text-3xl">Consultar precio</p>
-                    )}
-                  </div>
-
-                  <a
-                    href="#consulta"
-                    className="inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1f1f1f] transition hover:scale-[1.02] hover:bg-white/90"
-                  >
-                    Consultar por esta propiedad
-                  </a>
-                </div>
+                <a href="#consulta" className="property-hero__cta">
+                  Consultar propiedad
+                </a>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="mx-auto -mt-8 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section className="property-gallery-wrap container-property">
           <div
-            className="rounded-[28px] bg-white p-4 shadow-[0_20px_60px_rgba(0,0,0,0.08)] sm:p-5"
+            className="property-gallery"
             onMouseEnter={() => setAutoplayPaused(true)}
             onMouseLeave={() => setAutoplayPaused(false)}
           >
-            <div className="mb-4 flex items-center justify-between gap-4">
+            <div className="property-gallery__header">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
-                  Galería
-                </p>
-                <h2 className="mt-1 text-xl font-bold sm:text-2xl">Recorré la propiedad</h2>
+                <span className="property-section-kicker">Galería</span>
+                <h2 className="property-section-title">Recorré la propiedad</h2>
               </div>
 
               {photos.length > 1 && (
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={prevImage}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-700 transition hover:bg-gray-100"
-                    aria-label="Imagen anterior"
-                  >
-                    ←
+                <div className="property-gallery__nav">
+                  <button onClick={prevImage} aria-label="Imagen anterior">
+                    ‹
                   </button>
-                  <button
-                    onClick={nextImage}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-700 transition hover:bg-gray-100"
-                    aria-label="Imagen siguiente"
-                  >
-                    →
+                  <button onClick={nextImage} aria-label="Imagen siguiente">
+                    ›
                   </button>
                 </div>
               )}
@@ -444,37 +412,30 @@ export default function PropertyDetailPage() {
               <>
                 <button
                   type="button"
+                  className="property-gallery__main"
                   onClick={() => setIsFullscreen(true)}
-                  className="group relative block h-[260px] w-full overflow-hidden rounded-[24px] bg-gray-200 sm:h-[360px] lg:h-[520px]"
                 >
                   <img
                     src={photos[selectedImage]?.image}
                     alt={photos[selectedImage]?.description || title}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
                   />
-                  <div className="absolute bottom-4 right-4 rounded-full bg-black/70 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+                  <span className="property-gallery__counter">
                     {selectedImage + 1} / {photos.length}
-                  </div>
+                  </span>
                 </button>
 
                 {photos.length > 1 && (
-                  <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
+                  <div className="property-gallery__thumbs">
                     {photos.map((photo, idx) => (
                       <button
                         key={idx}
                         type="button"
-                        onClick={() => setSelectedImage(idx)}
-                        className={`relative h-20 w-28 flex-shrink-0 overflow-hidden rounded-2xl border transition sm:h-24 sm:w-36 ${
-                          selectedImage === idx
-                            ? 'border-red-600 ring-2 ring-red-200'
-                            : 'border-transparent opacity-75 hover:opacity-100'
+                        className={`property-gallery__thumb ${
+                          selectedImage === idx ? 'is-active' : ''
                         }`}
+                        onClick={() => setSelectedImage(idx)}
                       >
-                        <img
-                          src={photo.image}
-                          alt={`Miniatura ${idx + 1}`}
-                          className="h-full w-full object-cover"
-                        />
+                        <img src={photo.image} alt={`Miniatura ${idx + 1}`} />
                       </button>
                     ))}
                   </div>
@@ -484,32 +445,23 @@ export default function PropertyDetailPage() {
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_390px]">
-            <div className="space-y-8">
-              <div className="rounded-[28px] bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.05)] sm:p-8">
-                <div className="mb-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
-                    Propiedad
-                  </p>
-                  <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-gray-500">
-                    <Link href="/" className="hover:text-red-600">
-                      Inicio
-                    </Link>
-                    <span>/</span>
-                    <Link href="/propiedades" className="hover:text-red-600">
-                      Propiedades
-                    </Link>
-                    <span>/</span>
-                    <span className="font-medium text-gray-800">#{property.id}</span>
-                  </div>
+        <section className="property-main container-property">
+          <div className="property-main__grid">
+            <div className="property-main__content">
+              <div className="property-card">
+                <div className="property-breadcrumb">
+                  <Link href="/">Inicio</Link>
+                  <span>/</span>
+                  <Link href="/propiedades">Propiedades</Link>
+                  <span>/</span>
+                  <span>#{property.id}</span>
                 </div>
 
                 {description && (
-                  <div className="mb-8">
-                    <h2 className="mb-4 text-2xl font-bold sm:text-3xl">Descripción</h2>
+                  <div className="property-block">
+                    <h2 className="property-block__title">Descripción</h2>
                     <div
-                      className="prose prose-gray max-w-none leading-relaxed"
+                      className="property-description"
                       dangerouslySetInnerHTML={{
                         __html: property.rich_description || description.replace(/\n/g, '<br />'),
                       }}
@@ -517,121 +469,108 @@ export default function PropertyDetailPage() {
                   </div>
                 )}
 
-                <div className="rounded-[24px] border border-gray-200 p-5 sm:p-6">
-                  <h3 className="mb-5 text-xl font-bold sm:text-2xl">Características</h3>
+                <div className="property-features-box">
+                  <h3 className="property-block__subtitle">Características</h3>
 
-                  <div className="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+                  <div className="property-features-grid">
                     {detailRows.map((item) => (
-                      <div
-                        key={item.label}
-                        className="flex items-start justify-between gap-4 border-b border-gray-100 py-2"
-                      >
-                        <span className="text-sm font-medium text-gray-500">{item.label}</span>
-                        <span className="text-right text-sm font-semibold text-gray-900">
-                          {item.value}
-                        </span>
+                      <div className="property-feature-row" key={item.label}>
+                        <span className="property-feature-row__label">{item.label}</span>
+                        <span className="property-feature-row__value">{item.value}</span>
                       </div>
                     ))}
                   </div>
 
                   {property.tags && property.tags.length > 0 && (
-                    <div className="mt-6">
-                      <h4 className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-gray-500">
-                        Amenities / destacados
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {property.tags.map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="rounded-full bg-[#f4f1ec] px-3 py-1.5 text-sm text-gray-700"
-                          >
-                            {tag.name}
-                          </span>
-                        ))}
-                      </div>
+                    <div className="property-tags">
+                      {property.tags.map((tag, idx) => (
+                        <span key={idx} className="property-tag">
+                          {tag.name}
+                        </span>
+                      ))}
                     </div>
                   )}
                 </div>
               </div>
 
               {property.geo_lat && property.geo_long && (
-                <div className="rounded-[28px] bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.05)] sm:p-8">
-                  <h2 className="mb-5 text-2xl font-bold sm:text-3xl">Ubicación</h2>
-                  <div className="overflow-hidden rounded-[24px] border border-gray-200">
-                    <iframe
-                      width="100%"
-                      height="420"
-                      frameBorder="0"
-                      style={{ border: 0 }}
-                      src={`https://www.google.com/maps?q=${property.geo_lat},${property.geo_long}&z=15&output=embed`}
-                      allowFullScreen
-                    />
+                <div className="property-card">
+                  <div className="property-block">
+                    <h2 className="property-block__title">Ubicación</h2>
+                    <div className="property-map">
+                      <iframe
+                        width="100%"
+                        height="420"
+                        frameBorder="0"
+                        style={{ border: 0 }}
+                        src={`https://www.google.com/maps?q=${property.geo_lat},${property.geo_long}&z=15&output=embed`}
+                        allowFullScreen
+                      />
+                    </div>
                   </div>
                 </div>
               )}
 
               {blueprints.length > 0 && (
-                <div className="rounded-[28px] bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.05)] sm:p-8">
-                  <h2 className="mb-5 text-2xl font-bold sm:text-3xl">Planos</h2>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    {blueprints.map((blueprint, idx) => (
-                      <img
-                        key={idx}
-                        src={blueprint.image}
-                        alt={`Plano ${idx + 1}`}
-                        className="w-full rounded-[20px] border border-gray-200"
-                      />
-                    ))}
+                <div className="property-card">
+                  <div className="property-block">
+                    <h2 className="property-block__title">Planos</h2>
+                    <div className="property-blueprints">
+                      {blueprints.map((blueprint, idx) => (
+                        <img
+                          key={idx}
+                          src={blueprint.image}
+                          alt={`Plano ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
 
               {property.videos && property.videos.length > 0 && (
-                <div className="rounded-[28px] bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.05)] sm:p-8">
-                  <h2 className="mb-5 text-2xl font-bold sm:text-3xl">Videos</h2>
-                  <div className="space-y-4">
-                    {property.videos.map((video, idx) => (
-                      <iframe
-                        key={idx}
-                        src={video.player_url}
-                        className="h-72 w-full rounded-[20px]"
-                        allowFullScreen
-                        title={video.title || `Video ${idx + 1}`}
-                      />
-                    ))}
+                <div className="property-card">
+                  <div className="property-block">
+                    <h2 className="property-block__title">Videos</h2>
+                    <div className="property-videos">
+                      {property.videos.map((video, idx) => (
+                        <iframe
+                          key={idx}
+                          src={video.player_url}
+                          className="property-video-frame"
+                          allowFullScreen
+                          title={video.title || `Video ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
             </div>
 
-            <aside className="lg:pt-2">
-              <div
-                id="consulta"
-                className="rounded-[28px] bg-white p-6 shadow-[0_18px_48px_rgba(0,0,0,0.08)] lg:sticky lg:top-24"
-              >
+            <aside className="property-main__sidebar">
+              <div className="property-contact-card" id="consulta">
                 {isCreditEligible && (
-                  <div className="mb-4 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">
+                  <div className="property-contact-card__badge">
                     Apto crédito
                   </div>
                 )}
 
-                <div className="mb-6 border-b border-gray-200 pb-6">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
-                    Precio
-                  </p>
+                <div className="property-contact-card__price">
+                  <span>Precio</span>
                   {price && price > 0 ? (
-                    <p className="text-3xl font-bold leading-none text-[#8f3f2d] sm:text-4xl">
+                    <strong>
                       {formatCurrency(currency)} {formatNumber(price)}
-                    </p>
+                    </strong>
                   ) : (
-                    <p className="text-2xl font-bold text-gray-700">Consultar precio</p>
+                    <strong>Consultar precio</strong>
                   )}
                 </div>
 
-                <div className="mb-6">
-                  <h3 className="mb-4 text-2xl font-bold">Dejanos tu consulta</h3>
+                <div className="property-contact-card__form">
+                  <h3>Dejanos tu consulta</h3>
 
-                  <div className="min-h-[560px] w-full">
+                  <div className="property-contact-card__form-embed">
                     <div
                       id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz"
                       className="ventux-container"
@@ -646,12 +585,11 @@ export default function PropertyDetailPage() {
                 </div>
 
                 {property.branch && (
-                  <div className="border-t border-gray-200 pt-6 text-sm text-gray-600">
-                    <h4 className="mb-3 text-base font-bold text-gray-900">{property.branch.name}</h4>
-
-                    {property.branch.address && <p className="mb-2">📍 {property.branch.address}</p>}
+                  <div className="property-contact-card__branch">
+                    <h4>{property.branch.name}</h4>
+                    {property.branch.address && <p>📍 {property.branch.address}</p>}
                     {property.branch.phone && (
-                      <p className="mb-2">
+                      <p>
                         📞 {property.branch.phone_area ? `(${property.branch.phone_area}) ` : ''}
                         {property.branch.phone}
                       </p>
@@ -666,57 +604,51 @@ export default function PropertyDetailPage() {
 
         {isFullscreen && photos.length > 0 && (
           <div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95"
+            className="property-lightbox"
             onClick={() => setIsFullscreen(false)}
           >
             <button
+              className="property-lightbox__close"
               onClick={() => setIsFullscreen(false)}
-              className="absolute right-4 top-4 z-10 text-white transition hover:text-red-400"
               aria-label="Cerrar"
             >
-              <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              ×
             </button>
 
             <img
               src={photos[selectedImage]?.image}
               alt={photos[selectedImage]?.description || title}
-              className="max-h-[92vh] max-w-[94vw] object-contain"
+              className="property-lightbox__image"
               onClick={(e) => e.stopPropagation()}
             />
 
             {photos.length > 1 && (
               <>
                 <button
+                  className="property-lightbox__nav property-lightbox__nav--prev"
                   onClick={(e) => {
                     e.stopPropagation();
                     prevImage();
                   }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/20 p-4 text-white transition hover:bg-white/30"
                   aria-label="Imagen anterior"
                 >
-                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
-                  </svg>
+                  ‹
                 </button>
 
                 <button
+                  className="property-lightbox__nav property-lightbox__nav--next"
                   onClick={(e) => {
                     e.stopPropagation();
                     nextImage();
                   }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/20 p-4 text-white transition hover:bg-white/30"
                   aria-label="Imagen siguiente"
                 >
-                  <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-                  </svg>
+                  ›
                 </button>
               </>
             )}
 
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/80 px-5 py-2 text-sm font-medium text-white">
+            <div className="property-lightbox__counter">
               {selectedImage + 1} / {photos.length}
             </div>
           </div>
