@@ -251,7 +251,14 @@ body {
   transform: translateX(5px);
 }
 
-.btn-split:hover {
+.portada-botones.top .btn-split:hover {
+  background: #c60c23;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.portada-botones.bottom .btn-split:hover {
   background: #c60c23;
   color: white;
   transform: translateY(-2px);
