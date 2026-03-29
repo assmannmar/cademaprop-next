@@ -146,6 +146,7 @@ html {
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: 32px;
   align-items: end;
+  margin: 0 4vw;
 }
 
 .property-hero__info {
@@ -268,7 +269,7 @@ html {
 }
 
 .property-price-card__value {
-  font-size: clamp(2rem, 2.5vw, 3rem);
+  font-size: clamp(1.5rem, 2vw, 2rem);
   line-height: 1;
   font-weight: 800;
   color: #fff;
