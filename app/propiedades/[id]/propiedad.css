@@ -329,7 +329,7 @@ html {
 
 .property-section-title {
   margin: 6px 0 0;
-  font-size: clamp(1.4rem, 2vw, 2rem);
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
   line-height: 1.05;
   font-weight: 800;
   color: var(--property-text);
