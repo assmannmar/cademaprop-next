@@ -136,7 +136,8 @@ html {
 }
 
 .property-hero__content {
-  max-width: 920px;
+  min-width: 90%;
+  max-width: 1000px;
   color: var(--property-white);
   margin: 4vw auto;
 }
