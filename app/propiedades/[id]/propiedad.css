@@ -12,7 +12,7 @@
   --property-radius-md: 20px;
   --property-red: #c60c23;
   --property-red-dark: #9e1225;
-  --property-price-bg: rgba(198, 12, 35, 0.8);
+  --property-price-bg: rgba(198, 12, 35, 0.5);
   --property-price-border: rgba(255, 255, 255, 0.16);
   --property-white: #ffffff;
 }
@@ -232,7 +232,7 @@
   gap: 6px;
   padding: 18px 22px;
   border-radius: 4px;
-  background: var(--property-price-bg);
+  background-color: var(--property-price-bg);
   border: 1px solid var(--property-price-border);
   box-shadow: var(--property-shadow-soft);
   backdrop-filter: blur(10px);
