@@ -669,7 +669,7 @@ html {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--property-red);
+  color: var(--property-text-soft);
   font-weight: 700;
 }
 
@@ -678,7 +678,7 @@ html {
   font-size: clamp(2rem, 3vw, 3rem);
   line-height: 0.95;
   font-weight: 800;
-  color: #7c3d2b;
+  color: var(--property-red-dark);
 }
 
 .property-contact-card__form h3 {
