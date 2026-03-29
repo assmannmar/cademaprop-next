@@ -287,7 +287,7 @@ html {
 .property-gallery {
   background: var(--property-surface);
   border-radius: var(--property-radius-xl);
-  padding: 20px;
+  padding: 30px;
   box-shadow: var(--property-shadow);
 }
 
