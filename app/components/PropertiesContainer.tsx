@@ -324,80 +324,99 @@ export default function PropertiesContainer() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-4">Propiedades Disponibles</h1>
-      <p className="text-gray-600 dark:text-gray-400 mb-8">
-        Encuentra tu propiedad ideal entre nuestras opciones
-      </p>
-
-      {/* Filtros - FIXED: Added all required props */}
-      <PropertyFilters 
-        onFilterChange={handleFilterChange}
-        onSearch={handleSearch}
-        initialFilters={pendingFilters}
-      />
-
-      {/* Barra de ordenamiento y resultados */}
-      {!loading && properties.length > 0 && (
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <p className="text-gray-600 dark:text-gray-400">
-            Mostrando <span className="font-semibold">{displayedProperties.length}</span> propiedades
-          </p>
-          
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-              Ordenar por:
-            </label>
-            <select
-              value={sortBy}
-              onChange={handleSortChange}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
-            >
-              <option value="recent_desc">Más recientes primero</option>
-              <option value="recent_asc">Más antiguos primero</option>
-              <option value="price_desc">Precio: mayor a menor</option>
-              <option value="price_asc">Precio: menor a mayor</option>
-              <option value="surface_desc">Sup. terreno: mayor a menor</option>
-              <option value="surface_asc">Sup. terreno: menor a mayor</option>
-              <option value="roofed_desc">Sup. cubierta: mayor a menor</option>
-              <option value="roofed_asc">Sup. cubierta: menor a mayor</option>
-            </select>
-          </div>
-        </div>
-      )}
-
-      {/* Estado de carga */}
-      {loading && (
-        <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">Cargando propiedades...</p>
-        </div>
-      )}
-
-      {/* Mensaje de error */}
-      {error && (
-        <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-lg mb-6">
-          <p className="font-semibold">Error al cargar propiedades</p>
-          <p>{error}</p>
-        </div>
-      )}
-
-      {/* Grid de propiedades */}
-      {!loading && displayedProperties.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {displayedProperties.map((property) => (
-            <PropertyCard key={property.id} {...property} />
-          ))}
-        </div>
-      ) : (
-        !loading && (
-          <div className="text-center py-12">
-            <p className="text-xl text-gray-500 dark:text-gray-400">
-              No se encontraron propiedades con los filtros seleccionados.
+    <div className="w-full">
+      {/* PORTADA */}
+      <section
+        className="relative min-h-[60vh] flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/images/propiedades-portada.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl">
+            <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+              Propiedades Disponibles
+            </h1>
+            <p className="text-white/90 text-lg md:text-xl max-w-2xl">
+              Encuentra tu propiedad ideal entre nuestras opciones
             </p>
           </div>
-        )
-      )}
+        </div>
+      </section>
+
+      {/* CONTENIDO */}
+      <section className="container mx-auto px-4 py-10">
+        <PropertyFilters
+          onFilterChange={handleFilterChange}
+          onSearch={handleSearch}
+          initialFilters={pendingFilters}
+        />
+
+        {!loading && properties.length > 0 && (
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 mt-8">
+            <p className="text-gray-600 dark:text-gray-400">
+              Mostrando <span className="font-semibold">{displayedProperties.length}</span>{' '}
+              propiedades
+            </p>
+
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                Ordenar por:
+              </label>
+              <select
+                value={sortBy}
+                onChange={handleSortChange}
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              >
+                <option value="recent_desc">Más recientes primero</option>
+                <option value="recent_asc">Más antiguos primero</option>
+                <option value="price_desc">Precio: mayor a menor</option>
+                <option value="price_asc">Precio: menor a mayor</option>
+                <option value="surface_desc">Sup. terreno: mayor a menor</option>
+                <option value="surface_asc">Sup. terreno: menor a mayor</option>
+                <option value="roofed_desc">Sup. cubierta: mayor a menor</option>
+                <option value="roofed_asc">Sup. cubierta: menor a mayor</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {loading && (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+              Cargando propiedades...
+            </p>
+          </div>
+        )}
+
+        {error && (
+          <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-lg mb-6">
+            <p className="font-semibold">Error al cargar propiedades</p>
+            <p>{error}</p>
+          </div>
+        )}
+
+        {!loading && displayedProperties.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {displayedProperties.map((property) => (
+              <PropertyCard key={property.id} {...property} />
+            ))}
+          </div>
+        ) : (
+          !loading && (
+            <div className="text-center py-12">
+              <p className="text-xl text-gray-500 dark:text-gray-400">
+                No se encontraron propiedades con los filtros seleccionados.
+              </p>
+            </div>
+          )
+        )}
+      </section>
     </div>
   );
 }
