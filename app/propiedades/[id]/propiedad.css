@@ -17,6 +17,10 @@
   --property-white: #ffffff;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .property-page {
   background: var(--property-bg);
   color: var(--property-text);

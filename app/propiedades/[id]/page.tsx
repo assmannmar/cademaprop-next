@@ -348,7 +348,7 @@ export default function PropertyDetailPage() {
 
               <div className="property-hero__location">
                 <span className="property-hero__location-icon">📍</span>
-                <span>{displayAddress}</span>
+                <a href='#mapa'>{displayAddress}</a>
               </div>
 
               {specs.length > 0 && (
@@ -494,7 +494,7 @@ export default function PropertyDetailPage() {
               </div>
 
               {property.geo_lat && property.geo_long && (
-                <div className="property-card">
+                <div className="property-card" id='mapa'>
                   <div className="property-block">
                     <h2 className="property-block__title">Ubicación</h2>
                     <div className="property-map">
