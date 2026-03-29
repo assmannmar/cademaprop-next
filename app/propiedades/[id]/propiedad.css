@@ -10,9 +10,9 @@
   --property-radius-xl: 34px;
   --property-radius-lg: 26px;
   --property-radius-md: 20px;
-  --property-red: #c5162e;
+  --property-red: #c60c23;
   --property-red-dark: #9e1225;
-  --property-price-bg: rgba(120, 55, 34, 0.86);
+  --property-price-bg: rgba(198, 12, 35, 0.8);
   --property-price-border: rgba(255, 255, 255, 0.16);
   --property-white: #ffffff;
 }
@@ -196,7 +196,7 @@
 .property-hero__spec {
   min-width: 110px;
   padding: 14px 16px;
-  border-radius: 20px;
+  border-radius: 4px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.11);
   backdrop-filter: blur(12px);
@@ -231,7 +231,7 @@
   flex-direction: column;
   gap: 6px;
   padding: 18px 22px;
-  border-radius: 24px;
+  border-radius: 4px;
   background: var(--property-price-bg);
   border: 1px solid var(--property-price-border);
   box-shadow: var(--property-shadow-soft);
