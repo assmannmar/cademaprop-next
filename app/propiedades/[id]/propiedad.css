@@ -251,7 +251,7 @@ html {
 }
 
 .property-price-card__value {
-  font-size: 3rem;
+  font-size: clamp(2rem, 2.5vw, 3rem)
   line-height: 1;
   font-weight: 800;
   color: #fff;
