@@ -330,7 +330,7 @@ export default function PropertiesContainer() {
         className="relative min-h-[60vh] flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/images/propiedades-portada.jpg')",
+            "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('public/carousel/2.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
