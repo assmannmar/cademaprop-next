@@ -248,23 +248,46 @@ html {
 }
 
 .property-price-card {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
-  padding: 18px 22px;
-  border-radius: 4px;
-  background-color: var(--property-price-bg);
-  border: 1px solid var(--property-price-border);
-  box-shadow: var(--property-shadow-soft);
-  backdrop-filter: blur(10px);
+  padding: 12px 0 16px;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+
+  position: relative;
+
+    animation: priceLineIn 0.8s ease forwards;
+
+}
+
+@keyframes priceLineIn {
+  to {
+    width: 100%;
+  }
+}
+
+/* Línea inferior (el "subrayado") */
+.property-price-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--property-red);
+  transition: width 0.6s ease;
 }
 
 .property-price-card__label {
   font-size: 0.78rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 700;
 }
 
