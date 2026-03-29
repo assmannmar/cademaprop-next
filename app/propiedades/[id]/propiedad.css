@@ -131,12 +131,14 @@ html {
   width: 100%;
   padding-top: 140px;
   padding-bottom: 44px;
+  display: flex;
+  justify-content: center;
 }
 
 .property-hero__content {
   max-width: 920px;
   color: var(--property-white);
-  margin: 4vw;
+  margin: 4vw auto;
 }
 
 .property-hero__main {
