@@ -463,7 +463,7 @@ export default function PropertyDetailPage() {
 
                 {description && (
                   <div className="property-block">
-                    {/* <h2 className="property-block__title">Descripción</h2> */}
+                    <h2 className="property-block__title">Descripción</h2>
                     <div
                       className="property-description"
                       dangerouslySetInnerHTML={{
