@@ -669,7 +669,7 @@ html {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--property-text-soft);
+  color: var(--property-red);
   font-weight: 700;
 }
 
