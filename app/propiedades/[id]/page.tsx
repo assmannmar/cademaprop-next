@@ -347,7 +347,7 @@ export default function PropertyDetailPage() {
               <h1 className="property-hero__title">{title}</h1>
 
               <div className="property-hero__location">
-                <span className="property-hero__location-icon">𖤣</span>
+                <span className="property-hero__location-icon">📍</span>
                 <span>{displayAddress}</span>
               </div>
 
