@@ -332,53 +332,57 @@ export default function PropertyDetailPage() {
 
           <div className="property-hero__inner container-property">
             <div className="property-hero__content">
-              <div className="property-hero__badges">
-                <span className="property-badge">
-                  {propertyType} en {operationType}
-                </span>
+              <div className="property-hero__main">
+                <div className="property-hero__info">
+                  <div className="property-hero__badges">
+                    <span className="property-badge">
+                      {propertyType} en {operationType}
+                    </span>
 
-                {isCreditEligible && (
-                  <span className="property-badge property-badge--credit">
-                    Apto crédito
-                  </span>
-                )}
-              </div>
+                    {isCreditEligible && (
+                      <span className="property-badge property-badge--credit">
+                        Apto crédito
+                      </span>
+                    )}
+                  </div>
 
-              <h1 className="property-hero__title">{title}</h1>
+                  <h1 className="property-hero__title">{title}</h1>
 
-              <div className="property-hero__location">
-                <span className="property-hero__location-icon">📍</span>
-                <a href='#mapa'>{displayAddress}</a>
-              </div>
+                  <div className="property-hero__location">
+                    <span className="property-hero__location-icon">⌖</span>
+                    <span>{displayAddress}</span>
+                  </div>
 
-              {specs.length > 0 && (
-                <div className="property-hero__specs">
-                  {specs.map((item) => (
-                    <div className="property-hero__spec" key={item.label}>
-                      <span className="property-hero__spec-value">{item.value}</span>
-                      <span className="property-hero__spec-label">{item.label}</span>
+                  {specs.length > 0 && (
+                    <div className="property-hero__specs">
+                      {specs.map((item) => (
+                        <div className="property-hero__spec" key={item.label}>
+                          <span className="property-hero__spec-value">{item.value}</span>
+                          <span className="property-hero__spec-label">{item.label}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="property-hero__bottom">
-                <div className="property-price-card">
-                  <span className="property-price-card__label">Precio</span>
-                  {price && price > 0 ? (
-                    <strong className="property-price-card__value">
-                      {formatCurrency(currency)} {formatNumber(price)}
-                    </strong>
-                  ) : (
-                    <strong className="property-price-card__value">
-                      Consultar precio
-                    </strong>
                   )}
                 </div>
 
-                <a href="#consulta" className="property-hero__cta">
-                  Consultar propiedad
-                </a>
+                <div className="property-hero__bottom">
+                  <div className="property-price-card">
+                    <span className="property-price-card__label">Precio</span>
+                    {price && price > 0 ? (
+                      <strong className="property-price-card__value">
+                        {formatCurrency(currency)} {formatNumber(price)}
+                      </strong>
+                    ) : (
+                      <strong className="property-price-card__value">
+                        Consultar precio
+                      </strong>
+                    )}
+                  </div>
+
+                  <a href="#consulta" className="property-hero__cta">
+                    Consultar propiedad
+                  </a>
+                </div>
               </div>
             </div>
           </div>
