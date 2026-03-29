@@ -327,21 +327,22 @@ export default function PropertiesContainer() {
     <div className="w-full">
       {/* PORTADA */}
       <section
-        className="relative min-h-[60vh] flex items-center justify-center overflow-hidden"
+        className="relative w-full min-h-[60vh] md:min-h-[68vh] flex items-end"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('./public/carousel/2.jpg')",
+            "linear-gradient(to top, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.28) 35%, rgba(0,0,0,0.12) 100%), url('/public/carousel/2.jpg')",
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl">
-            <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
-              Propiedades Disponibles
+        <div className="w-full px-6 md:px-10 lg:px-16 pb-10 md:pb-14 lg:pb-16 relative z-10">
+          <div className="max-w-4xl">
+            <h1 className="text-white uppercase font-extrabold tracking-[0.08em] text-4xl md:text-6xl lg:text-7xl leading-none">
+              Propiedades
             </h1>
-            <p className="text-white/90 text-lg md:text-xl max-w-2xl">
+
+            <p className="mt-4 text-white/90 text-sm md:text-lg lg:text-xl max-w-2xl">
               Encuentra tu propiedad ideal entre nuestras opciones
             </p>
           </div>
