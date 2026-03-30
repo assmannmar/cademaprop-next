@@ -689,9 +689,9 @@ html {
   color: var(--property-text);
 }
 
-/* .property-contact-card__form-embed {
+.property-contact-card__form-embed {
   min-height: 619px;
-} */
+}
 
 .property-contact-card__branch {
   margin-top: 24px;
