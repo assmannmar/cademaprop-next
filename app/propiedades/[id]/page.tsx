@@ -594,15 +594,22 @@ export default function PropertyDetailPage() {
                   <h3>Dejanos tu consulta</h3>
 
                   <div className="property-contact-card__form-embed">
-                    <div
-                      id="polite-slide-in-right-OWI77RP94NZkMNa4BIaz"
-                      className="ventux-container"
-                      data-layout='{"id":"POLITE_SLIDE_IN","minimizedTitle":"","isLeftAligned":false,"isRightAligned":true,"allowMinimize":false}'
+                    <iframe
+                      src="https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz"
+                      style={{ width: '100%', height: '100%', border: 'none', borderRadius: '3px' }}
+                      id="inline-OWI77RP94NZkMNa4BIaz"
+                      data-layout='{"id":"INLINE"}'
                       data-trigger-type="alwaysShow"
+                      data-trigger-value=""
                       data-activation-type="alwaysActivated"
-                      data-form-name={`Propiedad ${property.fake_address || property.id}`}
+                      data-activation-value=""
+                      data-deactivation-type="neverDeactivate"
+                      data-deactivation-value=""
+                      data-form-name="Form Web Inmueble"
+                      data-height="619"
+                      data-layout-iframe-id="inline-OWI77RP94NZkMNa4BIaz"
                       data-form-id="OWI77RP94NZkMNa4BIaz"
-                      data-source={currentUrl}
+                      title="Form Web Inmueble"
                     />
                   </div>
                 </div>
@@ -677,14 +684,7 @@ export default function PropertyDetailPage() {
           </div>
         )}
 
-        <Script
-          src="https://link.ventux.io/js/form_embed.js"
-          strategy="afterInteractive"
-          onLoad={() => {
-            // @ts-ignore
-            if (window.initVentux) window.initVentux();
-          }}
-        />
+        
       </div>
     </>
   );
