@@ -596,7 +596,7 @@ export default function PropertyDetailPage() {
                   <div className="property-contact-card__form-embed">
                     <iframe
                       src="https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz"
-                      style={{ width: '100%', height: '100%', border: 'none', borderRadius: '3px' }}
+                      style={{ width: '100%', height: '619px', border: 'none', borderRadius: '3px' }}
                       id="inline-OWI77RP94NZkMNa4BIaz"
                       data-layout='{"id":"INLINE"}'
                       data-trigger-type="alwaysShow"

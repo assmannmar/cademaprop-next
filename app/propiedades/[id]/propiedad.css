@@ -691,6 +691,8 @@ html {
 
 .property-contact-card__form-embed {
   min-height: 619px;
+  height: auto;
+  overflow: visible;
 }
 
 .property-contact-card__branch {
