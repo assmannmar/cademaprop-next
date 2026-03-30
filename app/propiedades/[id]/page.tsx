@@ -83,8 +83,9 @@ export default function PropertyDetailPage() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      history.scrollRestoration = 'manual'; 
       setCurrentUrl(window.location.href);
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [id]);
 
@@ -150,6 +151,24 @@ export default function PropertyDetailPage() {
       'Industrial Ship': 'Nave Industrial',
     };
     return translations[type] || type;
+  };
+
+  const translateTag = (tag: string) => {
+    const translations: Record<string, string> = {
+      'Water':               'Agua',
+      'Sewage':              'Cloacas',
+      'Natural Gas':         'Gas Natural',
+      'Internet':            'Internet',
+      'Electricity':         'Electricidad',
+      'Pavement':            'Pavimento',
+      'Backyard':            'Jardín',
+      'Barbecue area':       'Parrilla',
+      'Pool':                'Pileta',
+      'Drinking Water':      'Agua Potable',
+      'Balcony terrace':     'Balcón / Terraza',
+      'Public lighting':     'Alumbrado Público',
+    };
+    return translations[tag] || tag;
   };
 
   const translateOrientation = (orientation: string) => {
@@ -489,7 +508,7 @@ export default function PropertyDetailPage() {
                     <div className="property-tags">
                       {property.tags.map((tag, idx) => (
                         <span key={idx} className="property-tag">
-                          {tag.name}
+                          {translateTag(tag.name)}
                         </span>
                       ))}
                     </div>
