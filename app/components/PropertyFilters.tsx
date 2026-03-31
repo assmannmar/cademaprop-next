@@ -90,7 +90,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             name="division"
             value={filters.division}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Todas</option>
             <option value="ciudad">Ciudad</option>
@@ -108,7 +108,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             value={filters.location}
             onChange={handleChange}
             placeholder="Barrio, zona..."
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           />
         </div>
 
@@ -119,7 +119,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             name="operation_type"
             value={filters.operation_type}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Todas</option>
             <option value="sale">Venta</option>
@@ -134,7 +134,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             name="property_type"
             value={filters.property_type}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Todas</option>
             <option value="house">Casa</option>
@@ -155,7 +155,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             name="bedrooms"
             value={filters.bedrooms}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Cualquiera</option>
             <option value="1">1+</option>
@@ -172,7 +172,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             name="has_parking"
             value={filters.has_parking}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">No importa</option>
             <option value="yes">Sí</option>
@@ -187,7 +187,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             name="has_pool"
             value={filters.has_pool}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">No importa</option>
             <option value="yes">Sí</option>
@@ -202,7 +202,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             name="credit_eligible"
             value={filters.credit_eligible}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">No importa</option>
             <option value="Eligible">Sí</option>
@@ -219,7 +219,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             value={filters.max_price}
             onChange={handleChange}
             placeholder="Ej: 500000"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           />
         </div>
       </div>
