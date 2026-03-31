@@ -134,7 +134,7 @@ export default function PropertyCard(property: PropertyCardProps) {
 
   return (
     <Link href={propertyUrl}>
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-[1.02] transform cursor-pointer h-full flex flex-col">
+      <div className="bg-white border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-[1.02] transform cursor-pointer h-full flex flex-col">
         
         {/* IMAGEN DE PORTADA */}
         <div className="relative w-full h-48 bg-gray-200 dark:bg-gray-700 flex-shrink-0">
