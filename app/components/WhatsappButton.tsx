@@ -1,7 +1,7 @@
 "use client";
 
 export default function WhatsAppButton() {
-  const WHATSAPP_NUMBER = "5491112345678";
+  const WHATSAPP_NUMBER = "5493489368518";
   const DEFAULT_MESSAGE = "Hola, quiero más información";
 
   const handleClick = () => {
