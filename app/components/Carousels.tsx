@@ -125,6 +125,9 @@ interface DestacadasCarouselProps {
 export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(4);
+  const shuffledData = useMemo(() => {
+    return seededShuffle(propiedades, SESSION_SEED);
+  }, [propiedades]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -170,7 +173,7 @@ export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
         >
-          {propiedades.map((prop) => {
+          {shuffledData.map((prop) => {
             const price = prop.operations?.[0]?.prices?.[0];
 
             return (
