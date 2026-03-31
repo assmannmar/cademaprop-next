@@ -244,7 +244,7 @@ return (
             <a href="https://instagram.com/cademabienesraices" target="_blank" className={linkClass} aria-label="Instagram">
               <InstagramIcon />
             </a>
-            <a href="https://wa.me/5493489517993" target="_blank" className={linkClass} aria-label="WhatsApp">
+            <a href="https://wa.me/5493489368518" target="_blank" className={linkClass} aria-label="WhatsApp">
               <WhatsAppIcon />
             </a>
           </div>
@@ -345,7 +345,7 @@ return (
             <a href="https://instagram.com/cademabienesraices" target="_blank" className="text-pink-600 transform scale-150">
               <InstagramIcon />
             </a>
-            <a href="https://wa.me/5493489517993" target="_blank" className="text-green-500 transform scale-150">
+            <a href="https://wa.me/5493489368518" target="_blank" className="text-green-500 transform scale-150">
               <WhatsAppIcon />
             </a>
           </div>
