@@ -79,26 +79,22 @@ Sitio web institucional y de gestión de propiedades para **Cadema Bienes Raíce
 
 ## Variables de Entorno
 
-Crear un archivo `.env.local` en la raíz del proyecto con las siguientes variables:
+Las claves están almacenadas directamente en **Vercel** y no se versionan en el repositorio.  
+Para consultarlas o modificarlas: **Vercel Dashboard → Project → Settings → Environment Variables**.
+
+| Variable | Descripción |
+|---|---|
+| `TOKKO_API_KEY` | Clave de la API de Tokko Broker |
+| `GOOGLE_SHEETS_API_KEY` | Clave de Google Cloud para leer Sheets |
+| `INSTAGRAM_ACCESS_TOKEN` | Token de Instagram Basic Display API |
+
+> **Para desarrollo local:** crear un archivo `.env.local` en la raíz (no se sube al repo, está en `.gitignore`) y copiar los valores desde el panel de Vercel.
 
 ```env
-# Tokko Broker — CRM de propiedades
-TOKKO_API_KEY=tu_api_key_de_tokko
-
-# Google Sheets — Reseñas y lotes del simulador
-GOOGLE_SHEETS_API_KEY=tu_api_key_de_google
-
-# Instagram Basic Display API
-INSTAGRAM_ACCESS_TOKEN=tu_access_token_de_instagram
+TOKKO_API_KEY=...
+GOOGLE_SHEETS_API_KEY=...
+INSTAGRAM_ACCESS_TOKEN=...
 ```
-
-### Cómo obtener cada clave
-
-- **TOKKO_API_KEY**: Solicitarla en el panel de Tokko Broker → Configuración → API.
-- **GOOGLE_SHEETS_API_KEY**: Crear una clave en [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials. Activar la API de Google Sheets.
-- **INSTAGRAM_ACCESS_TOKEN**: Crear una app en [Meta for Developers](https://developers.facebook.com), usar Instagram Basic Display API, y obtener un long-lived token. **⚠️ Los tokens vencen cada 60 días** (ver sección de mantenimiento).
-
-En Vercel, estas variables se configuran en: **Project Settings → Environment Variables**.
 
 ---
 
@@ -277,3 +273,4 @@ La API de propiedades tiene un límite de 300 en la query actual. Si el catálog
 ### Imágenes del Hero
 
 Las imágenes del carrusel de portada se sirven desde `/public/carousel/` (archivos `1.jpg`, `2.jpg`, `3.jpg`). Para cambiarlas, reemplazar los archivos manteniendo los mismos nombres.
+
