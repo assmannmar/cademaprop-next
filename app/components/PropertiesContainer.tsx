@@ -184,38 +184,19 @@ export default function PropertiesContainer() {
           }
 
           // Filtro por apto crédito
-          if (filterValues.credit_eligible === 'Eligible') {   // ✅ era 'yes'
-            const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
-            const hasTag = prop.tags?.some(tag => tag.name.toLowerCase().includes('credit'));
-            const hasCustomTag = prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
-            if (!hasPropertyField && !hasTag && !hasCustomTag) return false;
+          const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
+          const hasTag = prop.tags?.some(tag => tag.name.toLowerCase().includes('credit'));
+          const hasCustomTag = prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
+
+          const isCreditEligible = hasPropertyField || hasTag || hasCustomTag;
+
+          if (filterValues.credit_eligible === 'Eligible' && !isCreditEligible) {
+            return false;
           }
 
-          if (filterValues.credit_eligible === 'Not specified') {   // ✅ era 'no'
-            const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
-            const hasTag = prop.tags?.some(tag => tag.name.toLowerCase().includes('credit'));
-            const hasCustomTag = prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
-            if (hasPropertyField || hasTag || hasCustomTag) return false;
+          if (filterValues.credit_eligible === 'Not specified' && isCreditEligible) {
+            return false;
           }
-          
-          // if (filterValues.credit_eligible === 'no') {
-          //   // Buscar propiedades que NO son aptas para crédito
-          //   const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
-            
-          //   const hasTag = prop.tags?.some(tag => 
-          //     tag.name.toLowerCase().includes('credit') || 
-          //     tag.name.toLowerCase().includes('crédito')
-          //   );
-            
-          //   const hasCustomTag = prop.custom_tags?.some(tag => 
-          //     tag.name.toLowerCase().includes('crédito') ||
-          //     tag.name.toLowerCase().includes('credit')
-          //   );
-            
-          //   if (hasPropertyField || hasTag || hasCustomTag) {
-          //     return false;
-          //   }
-          // }
 
           // Filtro por precio máximo
           if (filterValues.max_price) {
