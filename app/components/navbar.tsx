@@ -80,7 +80,7 @@ export default function Navbar() {
       [
         { 
           name: "Residenciales",
-          href: "#",
+          href: "/residenciales",
           items: [
             { name: "Casas", href: "/propiedades?tipo=house" },
             { name: "Departamentos", href: "/propiedades?tipo=apartment" },
@@ -89,7 +89,7 @@ export default function Navbar() {
         },
         {
           name: "Industriales",
-          href: "#",
+          href: "/propiedades?tipo=Industrial",
           items: [
             {name: "Nave Industrial", href: "/propiedades?tipo=Industrial+Ship"},
             {name: "Terreno Industrial", href: "/propiedades?tipo=Terreno+industrial"},
@@ -186,13 +186,17 @@ return (
                               <div key={sublink.name} className="relative group/sub">
                                 {hasSubSubmenu ? (
                                   <>
-                                    {/* Elemento que dispara el sub-sub-menú */}
-                                    <div className="flex items-center justify-between px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-600 cursor-pointer font-semibold transition-colors">
+                                    {/* Cambiado de <div> a <Link> para que el click navegue */}
+                                    <Link
+                                      href={sublink.href}  // href: "/propiedades" o "/emprendimientos"
+                                      className="flex items-center justify-between px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-600 cursor-pointer font-semibold transition-colors"
+                                      onClick={() => setOpenSubmenu(null)}
+                                    >
                                       {sublink.name}
                                       <span className="text-[10px]">▶</span>
-                                    </div>
+                                    </Link>
 
-                                    {/* EL SUB-SUB-MENÚ (Aparece al hacer hover en group/sub) */}
+                                    {/* Sub-sub-menú: se mantiene igual con hover */}
                                     <div className="absolute left-full top-0 ml-0 w-48 bg-white shadow-xl border border-gray-100 py-2 hidden group-hover/sub:block animate-fade-in">
                                       {sublink.items?.map((item) => (
                                         <Link
