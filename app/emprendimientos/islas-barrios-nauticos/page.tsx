@@ -477,13 +477,13 @@ export default function IslasPage() {
           </div>
 
           <a
-            href="/landings/plano/index.html"
+            href="/landings/plano-interactivo/islas/estadolotes.html"
             target="_blank"
             rel="noopener noreferrer"
             className="group block relative overflow-hidden rounded-3xl shadow-2xl"
           >
             <img
-              src="/landings/img/plano-islas-preview.jpg"
+              src="/landings/plano-interactivo/islas/islas-masterplan.jpg"
               alt="Plano interactivo de Islas Barrios Náuticos"
               className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
             />
