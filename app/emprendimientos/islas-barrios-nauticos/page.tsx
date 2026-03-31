@@ -463,6 +463,45 @@ export default function IslasPage() {
         </section>
       )}
 
+      {/* Plano interactivo */}
+      <section className="py-24" style={{ backgroundColor: '#E4E4E4' }}>
+        <div className="container mx-auto px-4 max-w-6xl">
+          
+          <div className="text-center mb-14">
+            <h2 className="text-5xl font-bold mb-4" style={{ color: '#2F52A0' }}>
+              Explorá el Plano Interactivo
+            </h2>
+            <p className="text-xl max-w-3xl mx-auto" style={{ color: '#555' }}>
+              Descubrí la distribución del barrio, visualizá los lotes y conocé mejor cada sector del proyecto.
+            </p>
+          </div>
+
+          <a
+            href="/landings/plano/index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block relative overflow-hidden rounded-3xl shadow-2xl"
+          >
+            <img
+              src="/landings/img/plano-islas-preview.jpg"
+              alt="Plano interactivo de Islas Barrios Náuticos"
+              className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+              <div
+                className="px-8 py-4 rounded-full text-lg md:text-xl font-bold shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"
+                style={{ backgroundColor: '#E4E4E4', color: '#2F52A0' }}
+              >
+                Ingresar al plano interactivo
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
       {/* Formulario */}
       <section className="py-16 bg-white">
               <div className="container mx-auto px-4">
