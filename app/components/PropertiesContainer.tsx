@@ -184,9 +184,14 @@ export default function PropertiesContainer() {
           }
 
           // Filtro por apto crédito
-          const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
-          const hasTag = prop.tags?.some(tag => tag.name.toLowerCase().includes('credit'));
-          const hasCustomTag = prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
+          const normalize = (text: string) =>
+            text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+          
+          const creditField = (prop as any).credit_eligible;
+
+          const hasPropertyField = creditField === 'Eligible';
+          const hasTag = prop.tags?.some(tag => normalize(tag.name).includes('credit'));
+          const hasCustomTag = prop.custom_tags?.some(tag => normalize(tag.name).includes('credito'));
 
           const isCreditEligible = hasPropertyField || hasTag || hasCustomTag;
 
