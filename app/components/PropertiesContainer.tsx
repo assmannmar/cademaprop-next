@@ -184,25 +184,18 @@ export default function PropertiesContainer() {
           }
 
           // Filtro por apto crédito
-          if (filterValues.credit_eligible) {
-            const rawValue = (prop as any).credit_eligible; // "Eligible", "Not specified", etc.
-            
-            // 1. Determinar si la propiedad es apta (Boolean)
-            const isEligible = 
-              rawValue === 'Eligible' || 
-              prop.tags?.some(tag => tag.name.toLowerCase().includes('apto crédito')) ||
-              prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('apto crédito'));
+          if (filterValues.credit_eligible === 'Eligible') {   // ✅ era 'yes'
+            const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
+            const hasTag = prop.tags?.some(tag => tag.name.toLowerCase().includes('credit'));
+            const hasCustomTag = prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
+            if (!hasPropertyField && !hasTag && !hasCustomTag) return false;
+          }
 
-            // 2. Aplicar la lógica del filtro
-            if (filterValues.credit_eligible === 'yes') {
-              if (!isEligible) return false; // Si busco SI y no lo es, fuera.
-            }
-            
-            if (filterValues.credit_eligible === 'no') {
-              // Si busco NO, pero la propiedad es Eligible o tiene tags de crédito, la quitamos.
-              // Importante: "Not specified" entraría aquí como NO apto.
-              if (isEligible) return false; 
-            }
+          if (filterValues.credit_eligible === 'Not specified') {   // ✅ era 'no'
+            const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
+            const hasTag = prop.tags?.some(tag => tag.name.toLowerCase().includes('credit'));
+            const hasCustomTag = prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('crédito'));
+            if (hasPropertyField || hasTag || hasCustomTag) return false;
           }
           
           // if (filterValues.credit_eligible === 'no') {
