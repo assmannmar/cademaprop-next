@@ -195,10 +195,12 @@ export default function PropertiesContainer() {
 
           const isCreditEligible = hasPropertyField || hasTag || hasCustomTag;
 
+          // SI = solo apto crédito
           if (filterValues.credit_eligible === 'Eligible' && !isCreditEligible) {
             return false;
           }
 
+          // NO = no apto crédito + no especificado
           if (filterValues.credit_eligible === 'Not eligible' && isCreditEligible) {
             return false;
           }
