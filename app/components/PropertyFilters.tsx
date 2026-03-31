@@ -204,7 +204,7 @@ export default function PropertyFilters({ onFilterChange, onSearch, initialFilte
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
-            <option value="Not specified">No importa</option>
+            <option value="">No importa</option>
             <option value="Eligible">Sí</option>
             <option value="Not eligible">No</option>
           </select>
