@@ -16,8 +16,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cadema Prop",
+  title: "Cadema Bienes Raíces",
   description: "Inmobiliaria",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
