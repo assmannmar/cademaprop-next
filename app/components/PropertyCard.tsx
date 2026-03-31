@@ -134,10 +134,10 @@ export default function PropertyCard(property: PropertyCardProps) {
 
   return (
     <Link href={propertyUrl}>
-      <div className="bg-white border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-[1.02] transform cursor-pointer h-full flex flex-col">
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-[1.02] transform cursor-pointer h-full flex flex-col">
         
         {/* IMAGEN DE PORTADA */}
-        <div className="relative w-full h-48 bg-gray-200 dark:bg-gray-700 flex-shrink-0">
+        <div className="relative w-full h-48 bg-gray-200 flex-shrink-0">
           {coverImage ? (
             <img
               src={coverImage}
@@ -183,7 +183,7 @@ export default function PropertyCard(property: PropertyCardProps) {
         <div className="p-4 flex flex-col flex-grow">
           {/* TIPOLOGÍA Y OPERACIÓN */}
           <div className="mb-2">
-            <span className="text-sm font-semibold text-red-600 dark:text-red-400">
+            <span className="text-sm font-semibold text-red-600">
               {propertyTypeSpanish} en {operationTypeSpanish}
             </span>
           </div>
@@ -194,7 +194,7 @@ export default function PropertyCard(property: PropertyCardProps) {
           </h3>
           
           {/* DIRECCIÓN Y UBICACIÓN */}
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-start gap-1">
+          <p className="text-sm text-gray-600 mb-3 flex items-start gap-1">
             <span className="text-base">📍</span>
             <span className="line-clamp-1">
               {displayAddress}
@@ -205,7 +205,7 @@ export default function PropertyCard(property: PropertyCardProps) {
           {/* CARACTERÍSTICAS */}
           <div className="grid grid-cols-3 gap-2 mb-3 text-sm">
             {totalRooms > 0 && (
-              <div className="flex items-center gap-1 text-gray-700 dark:text-gray-300">
+              <div className="flex items-center gap-1 text-gray-700">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                 </svg>
@@ -213,7 +213,7 @@ export default function PropertyCard(property: PropertyCardProps) {
               </div>
             )}
             {bathroom_amount && bathroom_amount > 0 && (
-              <div className="flex items-center gap-1 text-gray-700 dark:text-gray-300">
+              <div className="flex items-center gap-1 text-gray-700">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
                 </svg>
@@ -221,7 +221,7 @@ export default function PropertyCard(property: PropertyCardProps) {
               </div>
             )}
             {parking_lot_amount && parking_lot_amount > 0 && (
-              <div className="flex items-center gap-1 text-gray-700 dark:text-gray-300">
+              <div className="flex items-center gap-1 text-gray-700">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                   <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
@@ -232,7 +232,7 @@ export default function PropertyCard(property: PropertyCardProps) {
           </div>
 
           {/* SUPERFICIES */}
-          <div className="flex flex-wrap gap-3 mb-3 text-xs text-gray-600 dark:text-gray-400">
+          <div className="flex flex-wrap gap-3 mb-3 text-xs text-gray-600">
             {(total_surface || surface) && (total_surface || surface)! > 0 && (
               <div>
                 <span className="font-semibold">Terreno:</span> {total_surface || surface}m²
@@ -247,11 +247,11 @@ export default function PropertyCard(property: PropertyCardProps) {
 
           {/* PRECIO */}
           {price && price > 0 ? (
-            <p className="text-2xl font-bold text-red-600 dark:text-red-400 mb-3 mt-auto">
+            <p className="text-2xl font-bold text-red-600 mb-3 mt-auto">
               {currency} ${price.toLocaleString('es-AR')}
             </p>
           ) : (
-            <p className="text-lg text-gray-500 dark:text-gray-400 mb-3 mt-auto">
+            <p className="text-lg text-gray-500 mb-3 mt-auto">
               Consultar precio
             </p>
           )}
