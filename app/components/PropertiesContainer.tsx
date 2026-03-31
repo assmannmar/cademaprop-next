@@ -194,7 +194,7 @@ export default function PropertiesContainer() {
             return false;
           }
 
-          if (filterValues.credit_eligible === 'Not specified' && isCreditEligible) {
+          if (filterValues.credit_eligible === 'Not eligible' && isCreditEligible) {
             return false;
           }
 
