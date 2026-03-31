@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 
 // ============ CAROUSEL DE EMPRENDIMIENTOS ============
@@ -15,9 +15,34 @@ interface EmprendimientoCarouselProps {
   }>;
 }
 
+// Shuffle para mostrar los emprendimientos destacados en un orden diferente cada vez, pero siempre el mismo para cada usuario gracias a la semilla fija por sesión
+
+const SESSION_SEED = typeof window !== 'undefined' 
+  ? Math.floor(Math.random() * 1_000_000) 
+  : 123456; // Semilla default para el servidor
+
+function seededShuffle<T>(arr: T[], seed: number): T[] {
+  const copy = [...arr];
+  let s = seed;
+  const rand = () => {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 4294967296;
+  };
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(4);
+
+  // Mezclar los datos de forma persistente durante la sesión
+  const shuffledData = useMemo(() => {
+    return seededShuffle(emprendimientos, SESSION_SEED);
+  }, [emprendimientos]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -48,13 +73,14 @@ export function EmprendimientosCarousel({ emprendimientos }: EmprendimientoCarou
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
         >
-          {emprendimientos.map((emp) => {
+          {shuffledData.map((emp) => {
             const hasWebUrl = emp.web_url && emp.web_url.trim() !== '';
             const linkProps = hasWebUrl 
               ? { href: emp.web_url, target: "_blank", rel: "noopener noreferrer" }
               : { href: `/propiedades/${emp.id}` };
 
             return (
+              
               <div key={emp.id} className="flex-shrink-0 px-3" style={{ width: `${100 / itemsPerView}%` }}>
                 <a {...linkProps} className="block group">
                   <div className="relative aspect-[3/4] overflow-hidden shadow-xl hover:shadow-2xl transition-all transform hover:scale-105">
