@@ -119,11 +119,18 @@ export default function Navbar() {
     scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
   }`;
 
-  const handleDesktopMenuClick = (e: React.MouseEvent, linkName: string, hasSubmenu: boolean) => {
+  const handleDesktopMenuClick = (e: React.MouseEvent, link: typeof navLinks[0], hasSubmenu: boolean) => {
     if (hasSubmenu) {
-      e.preventDefault();
-      e.stopPropagation();
-      setOpenSubmenu(openSubmenu === linkName ? null : linkName);
+      if (openSubmenu === link.name) {
+        // Segundo click: ya está abierto → navegar
+        setOpenSubmenu(null);
+        // La navegación ocurre naturalmente porque no hacemos preventDefault
+      } else {
+        // Primer click: abrir submenú
+        e.preventDefault();
+        e.stopPropagation();
+        setOpenSubmenu(link.name);
+      }
     }
   };
 
@@ -163,15 +170,14 @@ return (
                 <div key={link.name} className="relative">
                   {hasSubmenu ? (
                     <>
-                      <button
-                        onClick={(e) => handleDesktopMenuClick(e, link.name, hasSubmenu)}
+                      <Link
+                        href={link.href}
+                        onClick={(e) => handleDesktopMenuClick(e, link, !!hasSubmenu)}
                         className={`${linkClass} flex items-center cursor-pointer`}
                       >
                         {link.name}
-                        <span className={`transition-transform duration-200 ${openSubmenu === link.name ? 'rotate-180' : ''}`}>
-                          {/* <ChevronDownIcon /> */}
-                        </span>
-                      </button>
+                        <span className={`transition-transform duration-200 ${openSubmenu === link.name ? 'rotate-180' : ''}`} />
+                      </Link>
                       
                       {/* Submenu Desktop */}
                       {openSubmenu === link.name && (
