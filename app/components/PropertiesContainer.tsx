@@ -184,58 +184,45 @@ export default function PropertiesContainer() {
           }
 
           // Filtro por apto crédito
-          if (filterValues.credit_eligible === 'yes') {
-            // Verificar en el campo credit_eligible de la propiedad (viene como "Eligible" desde Tokko)
-            const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
+          if (filterValues.credit_eligible) {
+            const rawValue = (prop as any).credit_eligible; // "Eligible", "Not specified", etc.
             
-            // Verificar en tags
-            const hasTag = prop.tags?.some(tag => 
-              tag.name.toLowerCase().includes('credit') || 
-              tag.name.toLowerCase().includes('crédito')
-            );
-            
-            // Verificar en custom_tags
-            const hasCustomTag = prop.custom_tags?.some(tag => 
-              tag.name.toLowerCase().includes('crédito') ||
-              tag.name.toLowerCase().includes('credit')
-            );
-            
-            const isEligible = hasPropertyField || hasTag || hasCustomTag;
-            
-            // Debug log
-            if (isEligible) {
-              console.log(`✅ Propiedad ${prop.id} es apto crédito:`, {
-                credit_eligible: (prop as any).credit_eligible,
-                hasPropertyField,
-                hasTag,
-                hasCustomTag,
-                title: prop.publication_title
-              });
+            // 1. Determinar si la propiedad es apta (Boolean)
+            const isEligible = 
+              rawValue === 'Eligible' || 
+              prop.tags?.some(tag => tag.name.toLowerCase().includes('apto crédito')) ||
+              prop.custom_tags?.some(tag => tag.name.toLowerCase().includes('apto crédito'));
+
+            // 2. Aplicar la lógica del filtro
+            if (filterValues.credit_eligible === 'yes') {
+              if (!isEligible) return false; // Si busco SI y no lo es, fuera.
             }
             
-            if (!isEligible) {
-              return false;
+            if (filterValues.credit_eligible === 'no') {
+              // Si busco NO, pero la propiedad es Eligible o tiene tags de crédito, la quitamos.
+              // Importante: "Not specified" entraría aquí como NO apto.
+              if (isEligible) return false; 
             }
           }
           
-          if (filterValues.credit_eligible === 'no') {
-            // Buscar propiedades que NO son aptas para crédito
-            const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
+          // if (filterValues.credit_eligible === 'no') {
+          //   // Buscar propiedades que NO son aptas para crédito
+          //   const hasPropertyField = (prop as any).credit_eligible === 'Eligible';
             
-            const hasTag = prop.tags?.some(tag => 
-              tag.name.toLowerCase().includes('credit') || 
-              tag.name.toLowerCase().includes('crédito')
-            );
+          //   const hasTag = prop.tags?.some(tag => 
+          //     tag.name.toLowerCase().includes('credit') || 
+          //     tag.name.toLowerCase().includes('crédito')
+          //   );
             
-            const hasCustomTag = prop.custom_tags?.some(tag => 
-              tag.name.toLowerCase().includes('crédito') ||
-              tag.name.toLowerCase().includes('credit')
-            );
+          //   const hasCustomTag = prop.custom_tags?.some(tag => 
+          //     tag.name.toLowerCase().includes('crédito') ||
+          //     tag.name.toLowerCase().includes('credit')
+          //   );
             
-            if (hasPropertyField || hasTag || hasCustomTag) {
-              return false;
-            }
-          }
+          //   if (hasPropertyField || hasTag || hasCustomTag) {
+          //     return false;
+          //   }
+          // }
 
           // Filtro por precio máximo
           if (filterValues.max_price) {
