@@ -311,7 +311,7 @@ export default function PropertiesContainer() {
             </h1>
 
             <p className="mt-4 text-white/90 text-sm md:text-lg lg:text-xl max-w-2xl">
-              Encuentra tu propiedad ideal entre nuestras opciones
+              Encontrá tu propiedad ideal entre nuestras opciones
             </p>
           </div>
         </div>
