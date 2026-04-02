@@ -298,7 +298,7 @@ export default function PropertiesContainer() {
         className="relative w-full min-h-[60vh] md:min-h-[68vh] flex items-end"
         style={{
           backgroundImage:
-            "linear-gradient(to top, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.28) 35%, rgba(0,0,0,0.12) 100%), url('../public/carousel/2.jpg')",
+            "linear-gradient(to top, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.28) 35%, rgba(0,0,0,0.12) 100%), url('public/carousel/2.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
