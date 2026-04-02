@@ -15,7 +15,7 @@ function LoadingFallback() {
 
 export default function PropertiesPage() {
   return (
-    <main className="pt-20 min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50">
       <Suspense fallback={<LoadingFallback />}>
         <PropertiesContainer />
       </Suspense>
