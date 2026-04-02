@@ -354,6 +354,10 @@ body {
 }
 
 
+@media (max-width: 768px) {
 
+.portada-logo {
+  max-width: 150px;
+}
 
-
+}
