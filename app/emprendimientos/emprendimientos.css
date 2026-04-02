@@ -151,7 +151,7 @@
 .emprendimientos-hero__rail-wrap {
   position: absolute;
   right: -5rem;
-  bottom: 7rem;
+  bottom: 8rem;
   width: min(60vw, 900px);
   z-index: 3;
   overflow: hidden;
