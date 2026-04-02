@@ -314,11 +314,8 @@ function EmprendimientosContent() {
       const activeCard = cards[activeIndex];
       if (!activeCard) return;
 
-      const wrapWidth = wrap.offsetWidth;
-      const cardLeft = activeCard.offsetLeft;
-      const cardWidth = activeCard.offsetWidth;
-
-      const targetX = cardLeft - wrapWidth / 2 + cardWidth / 2;
+      // Alinea la card activa al inicio visible del contenedor
+      const targetX = activeCard.offsetLeft;
       rail.style.transform = `translate3d(${-targetX}px, 0, 0)`;
     };
 
