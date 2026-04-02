@@ -45,7 +45,7 @@
   min-height: 90vh;
   padding: 9rem 4rem 8rem;
   display: flex;
-  align-items: center;
+  align-items: end;
 }
 
 .emprendimientos-hero__info {
@@ -150,7 +150,7 @@
 .emprendimientos-hero__rail-wrap {
   position: absolute;
   right: 0;
-  bottom: 6rem;
+  bottom: 7rem;
   width: min(60vw, 900px);
   z-index: 3;
   overflow: hidden;
@@ -230,11 +230,11 @@
 .emprendimientos-hero__controls {
   position: absolute;
   left: 50%;
-  bottom: 2rem;
+  bottom: 2.5rem;
   transform: translateX(-50%);
   z-index: 4;
   display: flex;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .emprendimientos-hero__arrow {
