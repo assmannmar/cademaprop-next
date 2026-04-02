@@ -97,7 +97,7 @@ export default function HomePage() {
 
         <div className="portada-overlay">
           {/* LOGO */}
-          <img src="/logos/logo.png" alt="Cadema" className="portada-logo" />
+          <img src="/logos/logo-portada.png" alt="Cadema" className="portada-logo" />
 
           {/* BOTONES SUPERIORES */}
           <div className="portada-botones top">
