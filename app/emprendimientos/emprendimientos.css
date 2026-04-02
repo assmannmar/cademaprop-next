@@ -365,6 +365,10 @@
     margin: 1rem 0;
   }
 
+  .emprendimientos-card__lugar {
+    display: none;
+  }
+
   .emprendimientos-hero__arrow {
     width: 56px;
     height: 56px;
