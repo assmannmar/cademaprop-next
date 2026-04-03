@@ -111,46 +111,92 @@ export default function PropertyCard(property: any) {
 
   return (
     <Link href={propertyUrl} className="group block">
-      <article className="h-full">
+      <article
+        className="
+          h-full 
+          bg-white 
+          rounded-[20px] 
+          overflow-hidden 
+          border border-[#ececec]
+          shadow-[0_4px_18px_rgba(0,0,0,0.04)]
+          transition-all duration-300 ease-out
+          group-hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)]
+          group-hover:scale-[1.015]
+        "
+      >
         {/* FOTO */}
-        <div className="relative overflow-hidden rounded-[20px]">
-          <div className="aspect-[1.25/1]">
+        <div className="relative">
+          <div className="aspect-[1.25/1] w-full">
             <img
               src={coverImage}
               alt={publication_title}
-              className="w-full h-full object-cover transition duration-700 group-hover:scale-[1.04]"
+              className="w-full h-full object-cover"
             />
           </div>
 
-          {/* VER FICHA */}
+          {/* BOTÓN VER FICHA */}
           <div className="absolute top-4 right-4">
-            <span className="bg-white text-[#c60c23] text-xs font-semibold px-5 py-2 rounded-full shadow-sm uppercase tracking-wide">
+            <span className="
+              bg-white 
+              text-[#c60c23] 
+              text-xs 
+              font-semibold 
+              px-5 py-2 
+              rounded-full 
+              shadow-sm 
+              uppercase 
+              tracking-wide
+            ">
               Ver ficha
             </span>
           </div>
 
-          {/* CINTA */}
+          {/* CINTA APTO CRÉDITO */}
           {isCreditEligible && (
-            <div className="absolute left-[-60px] top-[24px] w-[200px] -rotate-45 bg-[#c60c23] text-white text-xs font-semibold py-2 text-center shadow-md">
+            <div className="
+              absolute 
+              left-[-60px] 
+              top-[24px] 
+              w-[200px] 
+              -rotate-45 
+              bg-[#c60c23] 
+              text-white 
+              text-xs 
+              font-semibold 
+              py-2 
+              text-center 
+              shadow-md
+            ">
               Apto Crédito
             </div>
           )}
         </div>
 
-        {/* INFO */}
-        <div className="pt-4 px-1">
+        {/* CONTENIDO */}
+        <div className="px-5 pt-4 pb-5">
+          {/* TITULO + PRECIO */}
           <div className="flex justify-between items-start gap-4 mb-2">
-            <h3 className="text-[clamp(1.4rem,1.6vw,1.9rem)] font-bold leading-tight">
+            <h3 className="
+              text-[clamp(1.3rem,1.5vw,1.8rem)] 
+              font-bold 
+              leading-tight 
+              text-black
+            ">
               {propertyTypeSpanish} en Venta
             </h3>
 
-            <div className="text-[clamp(1.2rem,1.4vw,1.7rem)] font-bold whitespace-nowrap">
+            <div className="
+              text-[clamp(1.2rem,1.4vw,1.6rem)] 
+              font-bold 
+              whitespace-nowrap 
+              text-black
+            ">
               {formattedPrice}
             </div>
           </div>
 
-          {/* UBICACION */}
-          <div className="flex gap-2 text-[15px] text-gray-600 mb-4">
+          {/* UBICACIÓN */}
+          <div className="flex gap-2 text-[14.5px] text-[#5a5a5a] mb-4">
             <span>📍</span>
             <p className="line-clamp-2">
               {displayAddress}
@@ -164,7 +210,15 @@ export default function PropertyCard(property: any) {
               {badges.map((b, i) => (
                 <span
                   key={i}
-                  className="flex items-center gap-2 bg-[#f5f5f5] border border-gray-200 px-3 py-2 rounded-full text-sm text-gray-700"
+                  className="
+                    flex items-center gap-2 
+                    bg-[#f6f6f6] 
+                    border border-[#e5e5e5] 
+                    px-3 py-2 
+                    rounded-full 
+                    text-sm 
+                    text-[#4b5563]
+                  "
                 >
                   {b.icon}
                   {b.label}
