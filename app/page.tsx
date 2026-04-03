@@ -184,21 +184,31 @@ export default function HomePage() {
       </section>
 
       {/* BANNER INMUEBLES INDUSTRIALES */}
-      <section className="relative h-96 bg-gray-900">
-        <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden relative">
+      <section className="relative h-130 bg-gray-900">
+        {/* IMAGEN */}
+        <div className="absolute inset-0 rounded-xl overflow-hidden">
           <Image
             src="/industrial-banner.jpg"
             alt="Cadema Industrial"
             fill
             className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority={false}
+            sizes="100vw"
           />
         </div>
-        <div className="absolute inset-0 flex items-center justify-center">
+
+        {/* OVERLAY OSCURO */}
+        <div className="absolute inset-0 bg-black/50"></div>
+
+        {/* CONTENIDO */}
+        <div className="relative z-10 flex items-center justify-center h-full">
           <div className="text-center text-white px-4">
-            <h2 className="text-5xl font-bold mb-4 drop-shadow-lg">Inmuebles Industriales</h2>
-            <p className="text-2xl mb-8 drop-shadow-lg">Galpones, naves y terrenos para tu empresa</p>
+            <h2 className="text-5xl font-bold mb-4 drop-shadow-lg">
+              Inmuebles Industriales
+            </h2>
+            <p className="text-2xl mb-8 drop-shadow-lg">
+              Galpones, naves y terrenos para tu empresa
+            </p>
+
             <div className="flex justify-center">
               <Link
                 href="https://cademaprop.com.ar/parque-industrial/"
@@ -210,6 +220,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
       </section>
 
       {/* QUIÉNES SOMOS */}
