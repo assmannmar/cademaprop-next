@@ -214,7 +214,7 @@ export default function HomePage() {
                 href="https://cademaprop.com.ar/parque-industrial/"
                 className="btn-split btn-split-top btn-split-wide"
               >
-                <span className="btn-text">Explorar Inmuebles Industriales</span>
+                <span className="btn-text">Explorar Opciones Industriales</span>
                 <span className="btn-arrow">→</span>
               </Link>
             </div>
