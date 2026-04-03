@@ -351,7 +351,7 @@ export default function PropertyCard(property: any) {
                 min-w-0
                 flex-1
                 truncate
-                text-[15px] md:text-[15px] xl:text-[15px]
+                text-[1.5rem] md:text-[1.5rem] xl:text-[1.5rem]
                 font-bold
                 leading-none
                 tracking-tight
