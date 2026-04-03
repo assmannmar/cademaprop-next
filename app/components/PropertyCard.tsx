@@ -61,6 +61,23 @@ export default function PropertyCard(property: any) {
     return translations[normalized] || type;
   };
 
+
+  const operationType = operations?.[0]?.operation_type || "";
+
+  const translateOperationType = (type: string) => {
+    const normalized = type?.toLowerCase();
+
+    const translations: Record<string, string> = {
+      sale: "Venta",
+      rental: "Alquiler",
+      "temporary rental": "Alquiler Temporal",
+    };
+
+    return translations[normalized] || type;
+  };
+
+  const operationTypeSpanish = translateOperationType(operationType);
+
   const propertyTypeSpanish = translatePropertyType(propertyType);
 
   const operation = operations?.[0];
