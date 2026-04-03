@@ -345,22 +345,33 @@ export default function PropertyCard(property: any) {
         {/* CONTENIDO */}
         <div className="px-5 pt-4 pb-5">
           {/* TITULO + PRECIO */}
-          <div className="flex justify-between items-start gap-4 mb-2">
-            <h3 className="
-              text-base md:text-lg xl:text-[1.1rem] 
-              font-bold 
-              leading-tight 
-              text-black
-            ">
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <h3
+              className="
+                min-w-0
+                flex-1
+                truncate
+                text-[15px] md:text-[15px] xl:text-[15px]
+                font-bold
+                leading-none
+                tracking-tight
+                text-black
+              "
+            >
               {propertyTypeSpanish} en {operationTypeSpanish}
             </h3>
 
-            <div className="
-              text-[clamp(1.2rem,1.4vw,1.6rem)] 
-              font-bold 
-              whitespace-nowrap 
-              text-black
-            ">
+            <div
+              className="
+                shrink-0
+                whitespace-nowrap
+                text-[15px] md:text-[15px] xl:text-[15px]
+                font-bold
+                leading-none
+                tracking-tight
+                text-black
+              "
+            >
               {formattedPrice}
             </div>
           </div>
