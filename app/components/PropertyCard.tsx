@@ -216,7 +216,7 @@ export default function PropertyCard(property: any) {
 
   if (landSurface > 0) {
     badges.push({
-      label: `${landSurface} m2 Terreno`,
+      label: `Terreno ${landSurface} m2`,
       icon: (
         <svg
           className="w-4 h-4"
@@ -246,7 +246,7 @@ export default function PropertyCard(property: any) {
 
   if (coveredSurface > 0) {
     badges.push({
-      label: `${coveredSurface} m2 Cubierto`,
+      label: `Cubierto ${coveredSurface} m2`,
       icon: (
         <svg
           className="w-4 h-4"
@@ -380,12 +380,12 @@ export default function PropertyCard(property: any) {
                 <span
                   key={b.label}
                   className="
-                    inline-flex items-center gap-2
+                    inline-flex items-center gap-1.5
                     rounded-full
                     border border-[#e7e7e7]
                     bg-[#f7f7f7]
-                    px-3 py-2
-                    text-sm font-medium text-[#4b5563]
+                    px-2 py-1
+                    text-xs font-medium text-[#4b5563]
                   "
                 >
                   <span className="text-[#6b7280]">{b.icon}</span>
