@@ -135,7 +135,7 @@ export default function HomePage() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Emprendimientos</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Emprendimientos</h2>
             <p className="text-xl text-gray-600">Proyectos exclusivos en las mejores ubicaciones</p>
           </div>
 
@@ -162,7 +162,7 @@ export default function HomePage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Propiedades Destacadas</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Propiedades Destacadas</h2>
           </div>
 
           {loading ? (
@@ -202,10 +202,10 @@ export default function HomePage() {
         {/* CONTENIDO */}
         <div className="relative z-10 flex items-center justify-center h-full">
           <div className="text-center text-white px-4">
-            <h2 className="text-5xl font-bold mb-4 drop-shadow-lg">
+            <h2 className="text-4xl font-bold mb-4 drop-shadow-lg tracking-wide">
               Inmuebles Industriales
             </h2>
-            <p className="text-2xl mb-8 drop-shadow-lg">
+            <p className="text-xl mb-8 drop-shadow-lg">
               Galpones, naves y terrenos para tu empresa
             </p>
 
@@ -228,7 +228,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Quiénes Somos</h2>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6 tracking-wide">Quiénes Somos</h2>
               <p className="text-lg text-gray-700 mb-4 leading-relaxed">
                 Con más de 25 años de experiencia en el mercado inmobiliario, Cadema Prop se ha consolidado como una de las inmobiliarias más confiables de la región.
               </p>
@@ -257,7 +257,7 @@ export default function HomePage() {
       <section className="py-16 bg-red-600 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Cadema en Números</h2>
+            <h2 className="text-4xl font-bold mb-4 tracking-wide">Cadema en Números</h2>
             <p className="text-xl">Nuestra trayectoria nos respalda</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -285,7 +285,7 @@ export default function HomePage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Testimonios</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Testimonios</h2>
             <p className="text-xl text-gray-600">Lo que dicen nuestros clientes</p>
           </div>
           <TestimoniosCarousel />
@@ -296,7 +296,7 @@ export default function HomePage() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Blog</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Blog</h2>
             <p className="text-xl text-gray-600">Últimas novedades y consejos</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -321,7 +321,7 @@ export default function HomePage() {
       <section className="py-8 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Síguenos en Instagram</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Seguinos en Instagram</h2>
             <p className="text-xl text-gray-600">@cademabienesraices</p>
           </div>
           <InstagramCarousel />
@@ -342,7 +342,7 @@ export default function HomePage() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Formulario de Contacto</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Formulario de Contacto</h2>
             <p className="text-xl text-gray-600">Estamos para ayudarte</p>
           </div>
           <VentuxForm />
