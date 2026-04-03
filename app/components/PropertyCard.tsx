@@ -347,7 +347,7 @@ export default function PropertyCard(property: any) {
           {/* TITULO + PRECIO */}
           <div className="flex justify-between items-start gap-4 mb-2">
             <h3 className="
-              text-[clamp(1.2rem,1.4vw,1.6rem)] 
+              text-base md:text-lg xl:text-[1.1rem] 
               font-bold 
               leading-tight 
               text-black
