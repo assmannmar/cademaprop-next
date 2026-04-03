@@ -345,7 +345,7 @@ export default function PropertyCard(property: any) {
         {/* CONTENIDO */}
         <div className="px-5 pt-4 pb-5">
           {/* TITULO + PRECIO */}
-          <div className="mb-2 flex items-center justify-between gap-3">
+          <div className="mb-2 flex items-start justify-between gap-3">
             <h3
               className="
                 min-w-0
