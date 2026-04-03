@@ -186,7 +186,7 @@ export default function HomePage() {
       {/* BANNER INMUEBLES INDUSTRIALES */}
       <section className="relative h-130 bg-gray-900">
         {/* IMAGEN */}
-        <div className="absolute inset-0 rounded-xl overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
           <Image
             src="/industrial-banner.jpg"
             alt="Cadema Industrial"
