@@ -350,8 +350,7 @@ export default function PropertyCard(property: any) {
               className="
                 min-w-0
                 flex-1
-                truncate
-                text-[1.5rem] md:text-[1.5rem] xl:text-[1.5rem]
+                text-[1.2rem] md:text-[1.2rem] xl:text-[1.2rem]
                 font-bold
                 leading-none
                 tracking-tight
@@ -365,7 +364,7 @@ export default function PropertyCard(property: any) {
               className="
                 shrink-0
                 whitespace-nowrap
-                text-[15px] md:text-[15px] xl:text-[15px]
+                text-[1.2rem] md:text-[1.2rem] xl:text-[1.2rem]
                 font-bold
                 leading-none
                 tracking-tight
