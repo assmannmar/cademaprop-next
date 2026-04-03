@@ -217,7 +217,7 @@ export default function PropertyCard(property: any) {
 
   if (landSurface > 0) {
     badges.push({
-      label: `Terreno ${landSurface} m2`,
+      label: `Terreno ${Math.round(landSurface).toLocaleString("es-AR")} m2`,
       icon: (
         <svg
           className="w-4 h-4"
@@ -247,7 +247,7 @@ export default function PropertyCard(property: any) {
 
   if (coveredSurface > 0) {
     badges.push({
-      label: `Cubierto ${coveredSurface} m2`,
+      label: `Cubierto ${Math.round(coveredSurface).toLocaleString("es-AR")} m2`,
       icon: (
         <svg
           className="w-4 h-4"
