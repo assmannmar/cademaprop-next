@@ -30,15 +30,35 @@ export default function PropertyCard(property: any) {
   const propertyType = type?.name || "Propiedad";
 
   const translatePropertyType = (type: string) => {
-    const map: any = {
-      House: "Casa",
-      Apartment: "Departamento",
-      Land: "Terreno",
+    if (!type) return "Propiedad";
+
+    const normalized = type.toLowerCase();
+
+    const translations: Record<string, string> = {
       house: "Casa",
       apartment: "Departamento",
       land: "Terreno",
+      commercial: "Local Comercial",
+      office: "Oficina",
+      building: "Edificio",
+      ph: "PH",
+
+      "weekend house": "Casa de fin de semana",
+      "country house": "Casa quinta",
+      storage: "Depósito",
+      warehouse: "Depósito",
+      "industrial ship": "Nave industrial",
+      "industrial warehouse": "Depósito industrial",
+      farm: "Campo",
+      ranch: "Campo",
+      lot: "Terreno",
+      parcel: "Terreno",
+      condo: "Departamento",
+      loft: "Loft",
+      studio: "Monoambiente",
     };
-    return map[type] || type;
+
+    return translations[normalized] || type;
   };
 
   const propertyTypeSpanish = translatePropertyType(propertyType);
@@ -66,48 +86,57 @@ export default function PropertyCard(property: any) {
 
   const propertyUrl = generatePropertyUrl(property);
 
+  const landSurface = total_surface || surface || 0;
+  const coveredSurface = roofed_surface || 0;
+
   const badges = [
     totalRooms > 0 && {
-      label: `${totalRooms}`,
+      label: `${totalRooms} ${totalRooms === 1 ? "Ambiente" : "Ambientes"}`,
       icon: (
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2v-4h6v4h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
         </svg>
       ),
     },
-    bathroom_amount && {
-      label: `${bathroom_amount}`,
+
+    bathroom_amount > 0 && {
+      label: `${bathroom_amount} ${bathroom_amount === 1 ? "Baño" : "Baños"}`,
       icon: (
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
           <path d="M6 2a1 1 0 00-1 1v6a5 5 0 0010 0V3a1 1 0 00-1-1H6zM4 10a6 6 0 0012 0H4z" />
         </svg>
       ),
     },
-    parking_lot_amount && {
-      label: `${parking_lot_amount}`,
+
+    parking_lot_amount > 0 && {
+      label: `${parking_lot_amount} ${
+        parking_lot_amount === 1 ? "Cochera" : "Cocheras"
+      }`,
       icon: (
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
           <path d="M5 11h10l1 4H4l1-4zm1-6h8l1 4H5l1-4z" />
         </svg>
       ),
     },
-    (total_surface || surface) && {
-      label: `${total_surface || surface} m²`,
+
+    landSurface > 0 && {
+      label: `${landSurface} m2 Terreno`,
       icon: (
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
           <path d="M3 3h14v14H3V3z" />
         </svg>
       ),
     },
-    roofed_surface && {
-      label: `${roofed_surface} m²`,
+
+    coveredSurface > 0 && {
+      label: `${coveredSurface} m2 Cubierto`,
       icon: (
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
           <path d="M4 4h12v12H4V4z" />
         </svg>
       ),
     },
-  ].filter(Boolean) as any[];
+  ].filter(Boolean);
 
   return (
     <Link href={propertyUrl} className="group block">
@@ -177,12 +206,12 @@ export default function PropertyCard(property: any) {
           {/* TITULO + PRECIO */}
           <div className="flex justify-between items-start gap-4 mb-2">
             <h3 className="
-              text-[clamp(1.3rem,1.5vw,1.8rem)] 
+              text-[clamp(1.2rem,1.4vw,1.6rem)] 
               font-bold 
               leading-tight 
               text-black
             ">
-              {propertyTypeSpanish} en Venta
+              {propertyTypeSpanish} en {operationTypeSpanish}
             </h3>
 
             <div className="
