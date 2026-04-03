@@ -149,9 +149,10 @@ export default function HomePage() {
             <p className="text-center text-gray-500">No hay emprendimientos disponibles</p>
           )}
 
-          <div className="text-center mt-12">
-            <Link href="/emprendimientos" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition transform hover:scale-105">
-              Ver Todos los Emprendimientos
+          <div className="flex justify-center mt-12">
+            <Link href="/emprendimientos" className="btn-split btn-split-bottom btn-split-wide">
+              <span className="btn-text">Ver Todos los Emprendimientos</span>
+              <span className="btn-arrow">→</span>
             </Link>
           </div>
         </div>
@@ -174,10 +175,11 @@ export default function HomePage() {
             <p className="text-center text-gray-500">No hay propiedades disponibles</p>
           )}
         </div>
-        <div className="text-center mt-12">
-            <Link href="/propiedades" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition transform hover:scale-105">
-              Ver Todas las Propiedades
-            </Link>
+        <div className="flex justify-center mt-12">
+          <Link href="/propiedades" className="btn-split btn-split-bottom btn-split-wide">
+            <span className="btn-text">Ver Todas las Propiedades</span>
+            <span className="btn-arrow">→</span>
+          </Link>
         </div>
       </section>
 
@@ -199,9 +201,10 @@ export default function HomePage() {
             <p className="text-2xl mb-8 drop-shadow-lg">Galpones, naves y terrenos para tu empresa</p>
             <Link
               href="https://cademaprop.com.ar/parque-industrial/"
-              className="inline-block px-10 py-4 bg-red-600 hover:bg-red-700 text-white font-bold shadow-xl transition transform hover:scale-105 text-lg"
+              className="btn-split btn-split-top btn-split-wide"
             >
-              Explorar Sector Industrial
+              <span className="btn-text">Explorar Inmuebles Industriales</span>
+              <span className="btn-arrow">→</span>
             </Link>
           </div>
         </div>

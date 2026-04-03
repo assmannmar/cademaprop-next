@@ -266,6 +266,43 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
+
+/* =========================
+   VARIANTES REUTILIZABLES
+========================= */
+
+.btn-split-top {
+  background: rgba(250, 239, 239, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: white;
+}
+
+.btn-split-bottom {
+  background: #e2dddd;
+  color: #302c2c;
+}
+
+.btn-split-wide {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Hover reutilizable */
+.btn-split-top:hover {
+  background: #c60c23;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.btn-split-bottom:hover {
+  background: #c60c23;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
 /* =========================
    TOUCH (MOBILE)
 ========================= */
