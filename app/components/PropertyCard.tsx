@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import { generatePropertyUrl } from "@/utils/urlHelpers";
 
@@ -106,54 +107,176 @@ export default function PropertyCard(property: any) {
   const landSurface = total_surface || surface || 0;
   const coveredSurface = roofed_surface || 0;
 
-  const badges = [
-    totalRooms > 0 && {
+  type Badge = {
+    label: string;
+    icon: React.ReactNode;
+  };
+
+  const badges: Badge[] = [];
+
+  if (totalRooms > 0) {
+    badges.push({
       label: `${totalRooms} ${totalRooms === 1 ? "Ambiente" : "Ambientes"}`,
       icon: (
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2v-4h6v4h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M3.75 9.75L12 3l8.25 6.75V20.25a.75.75 0 01-.75.75h-15a.75.75 0 01-.75-.75V9.75z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M9 21v-6.75A1.25 1.25 0 0110.25 13h3.5A1.25 1.25 0 0115 14.25V21"
+          />
         </svg>
       ),
-    },
+    });
+  }
 
-    bathroom_amount > 0 && {
+  if ((bathroom_amount || 0) > 0) {
+    badges.push({
       label: `${bathroom_amount} ${bathroom_amount === 1 ? "Baño" : "Baños"}`,
       icon: (
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M6 2a1 1 0 00-1 1v6a5 5 0 0010 0V3a1 1 0 00-1-1H6zM4 10a6 6 0 0012 0H4z" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M7 4.75h10"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M8.25 4.75v5.5a3.75 3.75 0 007.5 0v-5.5"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M5 13.25h14"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M7.5 13.25v3.25A3.5 3.5 0 0011 20h2a3.5 3.5 0 003.5-3.5v-3.25"
+          />
         </svg>
       ),
-    },
+    });
+  }
 
-    parking_lot_amount > 0 && {
+  if ((parking_lot_amount || 0) > 0) {
+    badges.push({
       label: `${parking_lot_amount} ${
         parking_lot_amount === 1 ? "Cochera" : "Cocheras"
       }`,
       icon: (
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M5 11h10l1 4H4l1-4zm1-6h8l1 4H5l1-4z" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M5.5 16.5h13l-1.2-5.1A2 2 0 0015.35 9H8.65a2 2 0 00-1.95 2.4L5.5 16.5z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M7 16.5v1.25A1.25 1.25 0 008.25 19h.5A1.25 1.25 0 0010 17.75V16.5m4 0v1.25A1.25 1.25 0 0015.25 19h.5A1.25 1.25 0 0017 17.75V16.5"
+          />
+          <circle cx="8.5" cy="13.25" r="0.9" fill="currentColor" stroke="none" />
+          <circle cx="15.5" cy="13.25" r="0.9" fill="currentColor" stroke="none" />
         </svg>
       ),
-    },
+    });
+  }
 
-    landSurface > 0 && {
+  if (landSurface > 0) {
+    badges.push({
       label: `${landSurface} m2 Terreno`,
       icon: (
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M3 3h14v14H3V3z" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <rect
+            x="4.5"
+            y="4.5"
+            width="15"
+            height="15"
+            rx="1.5"
+            strokeWidth={1.9}
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M9 4.5v15M15 4.5v15M4.5 9h15M4.5 15h15"
+          />
         </svg>
       ),
-    },
+    });
+  }
 
-    coveredSurface > 0 && {
+  if (coveredSurface > 0) {
+    badges.push({
       label: `${coveredSurface} m2 Cubierto`,
       icon: (
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M4 4h12v12H4V4z" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M4 10.25L12 4l8 6.25"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M6.25 9.75v8.75h11.5V9.75"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.9}
+            d="M9.5 18.5v-4.25A1.25 1.25 0 0110.75 13h2.5a1.25 1.25 0 011.25 1.25v4.25"
+          />
         </svg>
       ),
-    },
-  ].filter(Boolean);
+    });
+  }
 
   return (
     <Link href={propertyUrl} className="group block">
@@ -253,21 +376,20 @@ export default function PropertyCard(property: any) {
           {/* BADGES */}
           {badges.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {badges.map((b, i) => (
+              {badges.map((b) => (
                 <span
-                  key={i}
+                  key={b.label}
                   className="
-                    flex items-center gap-2 
-                    bg-[#f6f6f6] 
-                    border border-[#e5e5e5] 
-                    px-3 py-2 
-                    rounded-full 
-                    text-sm 
-                    text-[#4b5563]
+                    inline-flex items-center gap-2
+                    rounded-full
+                    border border-[#e7e7e7]
+                    bg-[#f7f7f7]
+                    px-3 py-2
+                    text-sm font-medium text-[#4b5563]
                   "
                 >
-                  {b.icon}
-                  {b.label}
+                  <span className="text-[#6b7280]">{b.icon}</span>
+                  <span>{b.label}</span>
                 </span>
               ))}
             </div>
