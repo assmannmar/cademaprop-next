@@ -199,13 +199,15 @@ export default function HomePage() {
           <div className="text-center text-white px-4">
             <h2 className="text-5xl font-bold mb-4 drop-shadow-lg">Inmuebles Industriales</h2>
             <p className="text-2xl mb-8 drop-shadow-lg">Galpones, naves y terrenos para tu empresa</p>
-            <Link
-              href="https://cademaprop.com.ar/parque-industrial/"
-              className="btn-split btn-split-top btn-split-wide"
-            >
-              <span className="btn-text">Explorar Inmuebles Industriales</span>
-              <span className="btn-arrow">→</span>
-            </Link>
+            <div className="flex justify-center">
+              <Link
+                href="https://cademaprop.com.ar/parque-industrial/"
+                className="btn-split btn-split-top btn-split-wide"
+              >
+                <span className="btn-text">Explorar Inmuebles Industriales</span>
+                <span className="btn-arrow">→</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
