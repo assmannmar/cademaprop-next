@@ -281,7 +281,7 @@ export default function PropertiesContainer() {
       max_price: pendingFilters.max_price,
     });
     
-    router.push(newUrl);
+    router.push(newUrl, { scroll: false });
     
     // Aplicar filtros
     fetchProperties(pendingFilters);
