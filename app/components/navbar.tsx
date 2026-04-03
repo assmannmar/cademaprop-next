@@ -157,7 +157,7 @@ return (
             <img 
               src="/logos/logo.png" 
               alt="Logo" 
-              className="h-auto w-full max-w-[140px] md:max-w-[180px] transition-all duration-300" 
+              className="h-auto w-full max-w-[120px] md:max-w-[160px] transition-all duration-300" 
             />
           </Link>
 
