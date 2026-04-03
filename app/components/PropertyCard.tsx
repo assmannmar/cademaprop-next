@@ -49,9 +49,10 @@ export default function PropertyCard(property: any) {
       storage: "Depósito",
       warehouse: "Depósito",
       "industrial ship": "Nave industrial",
-      "industrial warehouse": "Depósito industrial",
+      "industrial warehouse": "Nave industrial",
       farm: "Campo",
       ranch: "Campo",
+      countryside: "Campo",
       lot: "Terreno",
       parcel: "Terreno",
       condo: "Departamento",
@@ -70,8 +71,8 @@ export default function PropertyCard(property: any) {
 
     const translations: Record<string, string> = {
       sale: "Venta",
-      rental: "Alquiler",
-      "temporary rental": "Alquiler Temporal",
+      rent: "Alquiler",
+      "temporary rent": "Alquiler Temporal",
     };
 
     return translations[normalized] || type;
