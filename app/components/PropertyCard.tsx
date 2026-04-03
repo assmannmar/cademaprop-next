@@ -105,8 +105,8 @@ export default function PropertyCard(property: any) {
 
   const propertyUrl = generatePropertyUrl(property);
 
-  const landSurface = total_surface || surface || 0;
-  const coveredSurface = roofed_surface || 0;
+  const landSurface = surface || 0;
+  const coveredSurface = roofed_surface || total_surface || 0;
 
   type Badge = {
     label: string;
