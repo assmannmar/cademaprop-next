@@ -174,12 +174,12 @@ export default function HomePage() {
           ) : (
             <p className="text-center text-gray-500">No hay propiedades disponibles</p>
           )}
-        </div>
-        <div className="flex justify-center mt-12">
+          <div className="flex justify-center mt-12">
           <Link href="/propiedades" className="btn-split btn-split-bottom btn-split-wide">
             <span className="btn-text">Ver Todas las Propiedades</span>
             <span className="btn-arrow">→</span>
           </Link>
+        </div>
         </div>
       </section>
 
