@@ -9,7 +9,8 @@ type InstagramPost = {
 };
 
 async function getInstagramPosts(): Promise<InstagramPost[]> {
-  const baseUrl = "https://cademaprop-next.vercel.app";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   const res = await fetch(`${baseUrl}/api/instagram`, {
     next: { revalidate: 3600 },
