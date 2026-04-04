@@ -104,7 +104,7 @@ export default function HomePage() {
               <span className="btn-text">Comprar</span>
               <span className="btn-arrow">→</span>
             </Link>
-            <Link href="/propiedades?operation=rental" className="btn-split">
+            <Link href="/tasar-vender" className="btn-split">
               <span className="btn-text">Vender</span>
               <span className="btn-arrow">→</span>
             </Link>
