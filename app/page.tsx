@@ -230,10 +230,7 @@ export default function HomePage() {
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-6 tracking-wide">Quiénes Somos</h2>
               <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                Con más de 25 años de experiencia en el mercado inmobiliario, Cadema Prop se ha consolidado como una de las inmobiliarias más confiables de la región.
-              </p>
-              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                Nuestro compromiso es brindar un servicio personalizado y profesional, acompañando a nuestros clientes en cada paso del proceso de compra, venta o alquiler de su propiedad.
+                Con más de 60 años de experiencia en el mercado inmobiliario, nuestro compromiso es brindar un servicio personalizado y profesional, acompañando a nuestros clientes en cada paso del proceso de compra, venta o alquiler de su propiedad.
               </p>
               <Link href="/quienes-somos" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition">
                 Conocer Más
