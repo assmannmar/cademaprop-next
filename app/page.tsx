@@ -11,6 +11,7 @@ import {
 } from './components/Carousels';
 import FullScreenLoader from './components/loader';
 import InstagramFeed from "./components/InstagramFeed";
+import BlogSection from "@/app/components/BlogSection";
 
 interface Property {
   id: number;
@@ -291,25 +292,7 @@ export default function HomePage() {
       {/* BLOG */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Blog</h2>
-            <p className="text-xl text-gray-600">Últimas novedades y consejos</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition">
-                <div className="h-48 bg-gray-300"></div>
-                <div className="p-6">
-                  <p className="text-sm text-gray-500 mb-2">12 de Diciembre, 2025</p>
-                  <h3 className="text-xl font-bold mb-3">Título del artículo {i}</h3>
-                  <p className="text-gray-600 mb-4">Extracto del contenido del artículo...</p>
-                  <Link href="#" className="text-red-600 font-semibold hover:text-red-700">
-                    Leer más →
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+          <BlogSection />
         </div>
       </section>
 
