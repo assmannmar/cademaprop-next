@@ -332,16 +332,6 @@ export function TestimoniosCarousel() {
   return (
     <section className="w-full bg-white py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        
-        {/* HEADER */}
-        <div className="text-center mb-16 md:mb-20">
-          <h2 className="text-[30px] md:text-[38px] font-semibold tracking-[0.04em] text-[#2b2b2b]">
-            Testimonios
-          </h2>
-          <p className="mt-3 text-[14px] md:text-[15px] text-[#7a746c]">
-            La experiencia Cadema contada por nuestros clientes
-          </p>
-        </div>
 
         {/* CAROUSEL */}
         <div className="relative">
