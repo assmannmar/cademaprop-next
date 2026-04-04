@@ -252,7 +252,7 @@ export default function HomePage() {
       </section>
 
       {/* CADEMA EN NÚMEROS */}
-      <section className="py-16 bg-red-600 text-white">
+      {/* <section className="py-16 bg-red-600 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4 tracking-wide">Cadema en Números</h2>
@@ -277,7 +277,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* TESTIMONIOS - CAROUSEL DE GOOGLE REVIEWS */}
       <section className="py-16 bg-white">
