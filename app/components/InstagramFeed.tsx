@@ -9,7 +9,7 @@ type InstagramPost = {
 };
 
 async function getInstagramPosts(): Promise<InstagramPost[]> {
-  const baseUrl = "https://cademaprop-next.vercel.app/";
+  const baseUrl = "https://cademaprop-next.vercel.app";
 
   const res = await fetch(`${baseUrl}/api/instagram`, {
     next: { revalidate: 3600 },
