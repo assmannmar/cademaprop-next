@@ -119,7 +119,7 @@ export default function HomePage() {
             <span className="btn-text">Residencial</span>
             <span className="btn-arrow">→</span>
           </Link>
-          <Link href="https://cademaprop.com.ar/parque-industrial/" className="btn-split">
+          <Link href="https://cademaprop.com.ar/industrias/" className="btn-split">
             <span className="btn-text">Industrias</span>
             <span className="btn-arrow">→</span>
           </Link>
