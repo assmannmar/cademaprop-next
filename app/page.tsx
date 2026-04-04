@@ -320,7 +320,7 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Seguinos en Instagram</h2>
             <p className="text-xl text-gray-600">@cademabienesraices</p>
           </div>
-          {/* <InstagramFeed /> */}
+          <InstagramFeed />
           <div className="text-center mt-8">
             
              <a href="https://instagram.com/cademabienesraices"
