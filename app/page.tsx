@@ -48,6 +48,7 @@ export default function HomePage() {
   }, []);
 
   const fetchData = async () => {
+    console.log('🚀 fetchData iniciado');
     try {
       const [devRes, propRes] = await Promise.allSettled([
         fetch('/api/developments'),
@@ -89,6 +90,7 @@ export default function HomePage() {
     } catch (err) {
       console.error('Error cargando datos:', err);
     } finally {
+      console.log('✅ finally ejecutado, setLoading(false)');
       setLoading(false); // ← siempre se ejecuta
     }
   };
