@@ -86,6 +86,7 @@ export default function HomePage() {
 
   return (
     <>
+    {/*  */}
     {/* {loading && <FullScreenLoader />} */}
     <main className="page">
       {/* PORTADA */}
