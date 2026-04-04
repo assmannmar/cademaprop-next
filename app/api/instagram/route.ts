@@ -11,7 +11,7 @@ type InstagramMedia = {
 };
 
 export async function GET() {
-  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
+  const accessToken = IGAAYNHIKSHRRBZAGF6OVlQUkFpcVR6NGp3QzRLSVVyYV9Yem1LR2s1VEwwQzRIeGpncHRwTzlUZAFQzUnRWVG5zMExydTZApaDNDamlDMnpDZAkRrNngyT3pXWEJlaG91QTJGel9hMzNmZADdmOXI0dENobklnYmV6ZAERqRXlMQ1ZAmSQZDZD;
   const limit = process.env.INSTAGRAM_FEED_LIMIT || "6";
 
   if (!accessToken) {
