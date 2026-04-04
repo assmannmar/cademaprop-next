@@ -49,6 +49,10 @@ export default function HomePage() {
 
   useEffect(() => {
     console.log('🔁 useEffect ejecutándose');
+
+    const timeout = setTimeout(() => {
+      setLoading(false); // ← fuerza que el loader desaparezca después de 5s
+    }, 5000);
     
     const load = async () => {
       console.log('📡 iniciando fetches');
