@@ -90,8 +90,7 @@ export default function HomePage() {
 
   return (
     <>
-    {/*  */}
-    {/* {loading && <FullScreenLoader />} */}
+    {loading && <FullScreenLoader />}
     <main className="page">
       {/* PORTADA */}
       <section className="portada">
