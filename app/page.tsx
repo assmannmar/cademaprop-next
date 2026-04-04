@@ -39,11 +39,16 @@ interface Development {
 }
 
 export default function HomePage() {
+  console.log('🏠 HomePage renderizando');
+
   const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [destacadas, setDestacadas] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
+  console.log('📊 loading state:', loading);
+
   useEffect(() => {
+    console.log('🔁 useEffect ejecutándose');
     fetchData();
   }, []);
 
