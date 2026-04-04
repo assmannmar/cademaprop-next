@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
+  const accessToken = process.env.EAAThQZBAMRH4BRAdEZA3YQtr0ZCeaA68y25sjt1qF3ltNisZAXp4huzotqy8NQ9vhMIcQALNSU4fzdOQ1nuuv8vMTq5yZAiYqsMXxsB5iHi6lJ2QzwZBe0yjZBE5wzSRNf3CYYodAQHZCL8H1gRoVBnFZA0xeW62XrrbuZAfNpqr6AYmbrfAj46sVVL33sm9md;
 
   if (!accessToken) {
     return NextResponse.json(
