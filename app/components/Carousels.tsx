@@ -330,7 +330,7 @@ export function TestimoniosCarousel() {
   if (reviews.length === 0) return null;
 
   return (
-    <section className="w-full bg-white py-20 md:py-28">
+    <section className="w-full bg-white py-10 md:py-15">
       <div className="mx-auto max-w-6xl px-6">
 
         {/* CAROUSEL */}
