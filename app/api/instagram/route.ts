@@ -11,7 +11,7 @@ type InstagramMedia = {
 };
 
 export async function GET() {
-  const accessToken = process.env.EAAThQZBAMRH4BRMDhYYWCdyA0yIBjyZBFAwkiYfnZAW0LLT2e8uHqCtZCae4nwWroPyHqwUrqrR8sbA5jVMBch9D6h5EGhMJ5TlXOE8fgSj1xHWgpv7IIOscUopt3Li4IaigcZBf1UZCWWpGb5X14sq7gZCqx7jp04facmfaCaGnWLvXpmviPPg420e5YF0M9itxorKZBdwZBmoeIZCNlyvhvi8F1Gqqzy8NUHvTcLmpz6ZByG1DU0JF0YMkBKC0eFGGoEjAH65TJRUbJ8OPwZAXqVZCsIWFJ6TJx4MTkoJVCHCRBL7o9lQtLvSZAHhV89Vmg86d7W;
+  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
   const limit = process.env.INSTAGRAM_FEED_LIMIT || "6";
 
   if (!accessToken) {
