@@ -11,8 +11,8 @@ import {
   TestimoniosCarousel,
 } from './components/Carousels';
 import FullScreenLoader from './components/loader';
-import InstagramFeed from "./components/InstagramFeed";
-import BlogSection from "@/app/components/BlogSection";
+// import InstagramFeed from "./components/InstagramFeed";
+// import BlogSection from "@/app/components/BlogSection";
 
 interface Property {
   id: number;
@@ -295,7 +295,7 @@ export default function HomePage() {
       {/* BLOG */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <BlogSection />
+          {/* <BlogSection /> */}
         </div>
       </section>
 
@@ -306,7 +306,7 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Seguinos en Instagram</h2>
             <p className="text-xl text-gray-600">@cademabienesraices</p>
           </div>
-          <InstagramFeed />
+          {/* <InstagramFeed /> */}
           <div className="text-center mt-8">
             
              <a href="https://instagram.com/cademabienesraices"
