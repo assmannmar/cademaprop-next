@@ -10,7 +10,7 @@ type InstagramPost = {
 
 async function getInstagramPosts(): Promise<InstagramPost[]> {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    process.env."https://cademaprop.com.ar" || "http://localhost:3000";
 
   const res = await fetch(`${baseUrl}/api/instagram`, {
     next: { revalidate: 3600 },
