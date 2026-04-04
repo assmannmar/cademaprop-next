@@ -39,29 +39,24 @@ interface Development {
 }
 
 export default function HomePage() {
-  console.log('🏠 HomePage renderizando');
 
   const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [destacadas, setDestacadas] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
-  console.log('📊 loading state:', loading);
 
   useEffect(() => {
-    console.log('🔁 useEffect ejecutándose');
 
     const timeout = setTimeout(() => {
       setLoading(false); // ← fuerza que el loader desaparezca después de 5s
     }, 5000);
     
     const load = async () => {
-      console.log('📡 iniciando fetches');
       try {
         const [devRes, propRes] = await Promise.allSettled([
           fetch('/api/developments'),
           fetch('/api/properties'),
         ]);
-        console.log('✅ fetches completados');
 
         if (devRes.status === 'fulfilled' && devRes.value.ok) {
           const devData = await devRes.value.json();
@@ -79,7 +74,6 @@ export default function HomePage() {
       } catch (err) {
         console.error('❌ error:', err);
       } finally {
-        console.log('🏁 setLoading false');
         setLoading(false);
       }
     };
