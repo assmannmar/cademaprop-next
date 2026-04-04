@@ -1,3 +1,5 @@
+import "server-only";
+
 export type InstagramPost = {
   id: string;
   caption?: string;
