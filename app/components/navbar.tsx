@@ -96,7 +96,7 @@ export default function Navbar() {
           ]
         },
         { name: "Simulador", href: "/simulador"},
-        { name: "Tasar/Vender", href: "/vender" },
+        { name: "Tasar/Vender", href: "/tasar-vender" },
       ] 
     },
     { 
