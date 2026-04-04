@@ -21,7 +21,8 @@ export async function getInstagramPosts(limit = 6): Promise<InstagramPost[]> {
   const accessToken = "IGAAYNHIKSHRRBZAGJrdENzcHhCVS1uRXBNWkNxbTNRdTJGX1RaZAkl0U21sdkQ0TmN5ZAThON3Uwd3ppYW50ZAVQtekZAoRWJlN0syTVNwR0dsQnJhR2tzNWpjejFrNVMxMncyRUh5cjE1UjVnc0ZACenFYZA2lrZAG1sb21SZAVZA2TEY3ZAwZDZD";
 
   if (!accessToken) {
-    throw new Error("Falta INSTAGRAM_ACCESS_TOKEN en variables de entorno");
+    console.error("Instagram: falta INSTAGRAM_ACCESS_TOKEN");
+    return [];
   }
 
   const fields = [
@@ -41,33 +42,34 @@ export async function getInstagramPosts(limit = 6): Promise<InstagramPost[]> {
     `&access_token=${encodeURIComponent(accessToken)}`;
 
   const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
 
-    const timeout = setTimeout(() => {
-    controller.abort();
-    }, 5000); // 5 segundos
-
-    let response;
-
-    try {
-    response = await fetch(url, {
-        next: { revalidate: 3600 },
-        signal: controller.signal,
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      signal: controller.signal,
+      cache: "force-cache",
+      next: { revalidate: 3600 },
     });
-    } finally {
-    clearTimeout(timeout);
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Instagram API error:", response.status, text);
+      return [];
     }
 
-  const data: InstagramApiResponse = await response.json();
+    const data: InstagramApiResponse = await response.json();
 
-  if (!response.ok) {
-    throw new Error(
-      data?.error?.message || "Error al consultar la API de Instagram"
-    );
-  }
+    if (!Array.isArray(data.data)) {
+      console.error("Instagram: respuesta sin data válida", data);
+      return [];
+    }
 
-  if (!Array.isArray(data.data)) {
+    return data.data;
+  } catch (error) {
+    console.error("Instagram fetch failed:", error);
     return [];
+  } finally {
+    clearTimeout(timeout);
   }
-
-  return data.data;
 }
