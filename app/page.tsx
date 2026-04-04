@@ -1,5 +1,3 @@
-// hola
-"use client";
 
 import { useState, useEffect } from 'react';
 import HeroCarousel from "./components/HeroCarousel";
