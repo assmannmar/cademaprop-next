@@ -415,13 +415,13 @@ export function TestimoniosCarousel() {
             <>
               <button
                 onClick={prev}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 text-[#8a837a] hover:text-black transition"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 text-[1.5rem] text-[#8a837a] hover:text-black transition"
               >
                 ‹
               </button>
               <button
                 onClick={next}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 text-[#8a837a] hover:text-black transition"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 text-[1.5rem] text-[#8a837a] hover:text-black transition"
               >
                 ›
               </button>
