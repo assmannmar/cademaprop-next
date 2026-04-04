@@ -175,11 +175,11 @@ export default function HomePage() {
             <p className="text-center text-gray-500">No hay propiedades disponibles</p>
           )}
           <div className="flex justify-center mt-12">
-          <Link href="/propiedades" className="btn-split btn-split-bottom btn-split-wide">
-            <span className="btn-text">Ver Todas las Propiedades</span>
-            <span className="btn-arrow">→</span>
-          </Link>
-        </div>
+            <Link href="/propiedades" className="btn-split btn-split-bottom btn-split-wide">
+              <span className="btn-text">Ver Todas las Propiedades</span>
+              <span className="btn-arrow">→</span>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -232,8 +232,9 @@ export default function HomePage() {
               <p className="text-lg text-gray-700 mb-4 leading-relaxed">
                 Con más de 60 años de experiencia en el mercado inmobiliario, nuestro compromiso es brindar un servicio personalizado y profesional, acompañando a nuestros clientes en cada paso del proceso de compra, venta o alquiler de su propiedad.
               </p>
-              <Link href="/quienes-somos" className="inline-block px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow-lg transition">
-                Conocer Más
+              <Link href="/quienes-somos" className="btn-split btn-split-bottom btn-split-wide">
+                <span className="btn-text">Ver Todas las Propiedades</span>
+                <span className="btn-arrow">→</span>
               </Link>
             </div>
             <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden">
