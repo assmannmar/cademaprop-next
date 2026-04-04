@@ -253,17 +253,15 @@ interface Review {
 export function TestimoniosCarousel() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardsToShow, setCardsToShow] = useState(3);
+  const [cardsToShow, setCardsToShow] = useState(2);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setCardsToShow(1);
-      } else if (window.innerWidth < 1024) {
-        setCardsToShow(2);
       } else {
-        setCardsToShow(2);
+        setCardsToShow(2); // 👈 SIEMPRE 2 en desktop (clave diseño)
       }
     };
 
@@ -276,22 +274,17 @@ export function TestimoniosCarousel() {
     try {
       const response = await fetch('/api/reviews');
 
-      if (!response.ok) {
-        throw new Error('Error al conectar con la API interna');
-      }
+      if (!response.ok) throw new Error();
 
       const data = await response.json();
 
-      if (Array.isArray(data)) {
-        setReviews(data);
-      }
+      if (Array.isArray(data)) setReviews(data);
     } catch (error) {
-      console.error('Error cargando testimonios:', error);
       setReviews([
         {
-          author_name: 'Prueba',
+          author_name: 'Cliente',
           rating: 5,
-          text: 'Excelente servicio inmobiliario.',
+          text: 'Excelente experiencia trabajando con Cadema.',
         },
       ]);
     } finally {
@@ -320,17 +313,15 @@ export function TestimoniosCarousel() {
     }
   }, [next, reviews.length, cardsToShow]);
 
-  const getInitial = (name: string) => {
-    return name?.charAt(0)?.toUpperCase() || 'C';
-  };
+  const getInitial = (name: string) =>
+    name?.charAt(0)?.toUpperCase() || 'C';
 
-  const getPhoto = (review: Review) => {
-    return review.author_photo || review.profile_photo_url || '';
-  };
+  const getPhoto = (review: Review) =>
+    review.author_photo || review.profile_photo_url || '';
 
   if (loading) {
     return (
-      <div className="py-20 text-center text-[#8d857c]">
+      <div className="py-20 text-center text-gray-400">
         Cargando testimonios...
       </div>
     );
@@ -339,18 +330,20 @@ export function TestimoniosCarousel() {
   if (reviews.length === 0) return null;
 
   return (
-    <section className="w-full bg-[#f5f2ee] py-16 md:py-20">
-      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
-        {/* Título */}
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-[0.02em] text-[#2f2a26]">
+    <section className="w-full bg-white py-20 md:py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        
+        {/* HEADER */}
+        <div className="text-center mb-16 md:mb-20">
+          <h2 className="text-[30px] md:text-[38px] font-semibold tracking-[0.04em] text-[#2b2b2b]">
             Testimonios
           </h2>
-          <p className="mt-2 text-sm md:text-base text-[#6f685f]">
+          <p className="mt-3 text-[14px] md:text-[15px] text-[#7a746c]">
             La experiencia Cadema contada por nuestros clientes
           </p>
         </div>
 
+        {/* CAROUSEL */}
         <div className="relative">
           <div className="overflow-hidden">
             <div
@@ -365,124 +358,97 @@ export function TestimoniosCarousel() {
                 return (
                   <div
                     key={idx}
-                    className="flex-shrink-0 px-4 md:px-6"
+                    className="flex-shrink-0 px-8 md:px-12"
                     style={{ width: `${100 / cardsToShow}%` }}
                   >
-                    <article className="h-full">
-                      <div className="flex items-start gap-5 md:gap-6">
-                        {/* Foto */}
-                        <div className="pt-8 md:pt-10">
-                          {photo ? (
-                            <img
-                              src={photo}
-                              alt={review.author_name}
-                              className="h-20 w-20 md:h-24 md:w-24 rounded-full object-cover border border-[#d8d1c8] bg-[#ded7ce] flex-shrink-0"
-                            />
-                          ) : (
-                            <div className="h-20 w-20 md:h-24 md:w-24 rounded-full border border-[#d8d1c8] bg-[#d9d2ca] text-[#6b635a] flex items-center justify-center text-2xl md:text-3xl font-semibold flex-shrink-0">
-                              {getInitial(review.author_name)}
-                            </div>
-                          )}
+                    <div className="flex items-start gap-8 md:gap-10">
+                      
+                      {/* FOTO */}
+                      <div className="pt-10">
+                        {photo ? (
+                          <img
+                            src={photo}
+                            alt={review.author_name}
+                            className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#e6e1db] flex items-center justify-center text-[#7a746c] text-2xl font-semibold">
+                            {getInitial(review.author_name)}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* CONTENIDO */}
+                      <div className="max-w-[440px]">
+                        
+                        {/* QUOTE */}
+                        <div className="text-[80px] md:text-[95px] leading-none text-[#e7e1db] font-serif select-none mb-2">
+                          “
                         </div>
 
-                        {/* Contenido */}
-                        <div className="flex-1 max-w-xl">
-                          {/* Quote decorativa */}
-                          <div className="mb-2 leading-none text-[72px] md:text-[86px] font-serif text-[#ddd6cd] select-none">
-                            “
-                          </div>
+                        {/* TEXTO */}
+                        <p className="text-[15px] md:text-[16px] leading-7 text-[#6f685f]">
+                          {review.text}
+                        </p>
 
-                          {/* Texto */}
-                          <p className="text-[15px] md:text-base leading-7 text-[#6c645b]">
-                            {review.text}
-                          </p>
+                        {/* NOMBRE */}
+                        <p className="mt-4 font-semibold text-[#2b2b2b] text-[17px]">
+                          {review.author_name}
+                        </p>
 
-                          {/* Nombre */}
-                          <h4 className="mt-3 text-[18px] md:text-[20px] font-semibold text-[#2f2a26]">
-                            {review.author_name}
-                          </h4>
-
-                          {/* Estrellas */}
-                          <div className="mt-2 flex items-center gap-1">
-                            {[...Array(5)].map((_, i) => (
-                              <svg
-                                key={i}
-                                className={`h-4 w-4 ${
-                                  i < review.rating
-                                    ? 'fill-[#b8aea1]'
-                                    : 'fill-[#ddd6cd]'
-                                }`}
-                                viewBox="0 0 20 20"
-                                aria-hidden="true"
-                              >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                            ))}
-                          </div>
+                        {/* ESTRELLAS */}
+                        <div className="flex gap-[3px] mt-2">
+                          {[...Array(5)].map((_, i) => (
+                            <svg
+                              key={i}
+                              className={`w-[14px] h-[14px] ${
+                                i < review.rating
+                                  ? 'fill-[#b9b1a7]'
+                                  : 'fill-[#e4ded7]'
+                              }`}
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
                         </div>
                       </div>
-                    </article>
+                    </div>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Flechas */}
+          {/* FLECHAS */}
           {reviews.length > cardsToShow && (
             <>
               <button
                 onClick={prev}
-                className="absolute left-0 top-1/2 z-10 -translate-x-2 -translate-y-1/2 rounded-full bg-[#ece6df] p-3 text-[#6f685f] shadow-sm transition hover:bg-[#e2dbd2]"
-                aria-label="Testimonio anterior"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 text-[#8a837a] hover:text-black transition"
               >
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2.2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
+                ‹
               </button>
-
               <button
                 onClick={next}
-                className="absolute right-0 top-1/2 z-10 translate-x-2 -translate-y-1/2 rounded-full bg-[#ece6df] p-3 text-[#6f685f] shadow-sm transition hover:bg-[#e2dbd2]"
-                aria-label="Siguiente testimonio"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 text-[#8a837a] hover:text-black transition"
               >
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2.2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                ›
               </button>
             </>
           )}
         </div>
 
-        {/* Indicadores */}
-        <div className="mt-10 flex justify-center gap-3">
+        {/* DOTS */}
+        <div className="flex justify-center gap-3 mt-12">
           {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              aria-label={`Ir al grupo de testimonios ${idx + 1}`}
-              className={`h-3 w-3 rounded-full transition-all ${
-                idx === currentIndex ? 'bg-[#9b9186]' : 'bg-[#d8d1c8]'
+              className={`w-2.5 h-2.5 rounded-full transition ${
+                idx === currentIndex
+                  ? 'bg-[#9b9186]'
+                  : 'bg-[#e2ddd7]'
               }`}
             />
           ))}
