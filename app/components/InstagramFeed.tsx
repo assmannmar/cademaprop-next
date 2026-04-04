@@ -1,27 +1,4 @@
-type InstagramPost = {
-  id: string;
-  caption?: string;
-  media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
-  media_url?: string;
-  thumbnail_url?: string;
-  permalink: string;
-  timestamp: string;
-};
-
-async function getInstagramPosts(): Promise<InstagramPost[]> {
-  const baseUrl = "https://cademaprop-next.vercel.app";
-
-  const res = await fetch(`${baseUrl}/api/instagram`, {
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) {
-    return [];
-  }
-
-  const data = await res.json();
-  return data.posts || [];
-}
+import { getInstagramPosts, InstagramPost } from "@/lib/instagram";
 
 function getImageSrc(post: InstagramPost) {
   if (post.media_type === "VIDEO") {
@@ -31,13 +8,21 @@ function getImageSrc(post: InstagramPost) {
   return post.media_url || post.thumbnail_url || "";
 }
 
-function truncate(text: string, max = 110) {
+function truncate(text: string, max = 90) {
+  if (!text) return "";
   if (text.length <= max) return text;
   return text.slice(0, max).trim() + "…";
 }
 
 export default async function InstagramFeed() {
-  const posts = await getInstagramPosts();
+  let posts: InstagramPost[] = [];
+
+  try {
+    posts = await getInstagramPosts(6);
+  } catch (error) {
+    console.error("Error cargando InstagramFeed:", error);
+    return null;
+  }
 
   if (!posts.length) return null;
 
@@ -64,7 +49,7 @@ export default async function InstagramFeed() {
           </a>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {posts.map((post) => {
             const imageSrc = getImageSrc(post);
 
@@ -80,17 +65,14 @@ export default async function InstagramFeed() {
                   {imageSrc ? (
                     <img
                       src={imageSrc}
-                      alt={post.caption ? truncate(post.caption, 80) : "Post de Instagram"}
+                      alt={truncate(post.caption || "Post de Instagram", 80)}
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                      loading="lazy"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-neutral-200 text-sm text-neutral-500">
                       Sin imagen
                     </div>
                   )}
-
-                  <div className="pointer-events-none absolute inset-0 bg-black/0 transition group-hover:bg-black/10" />
                 </div>
 
                 <div className="p-4">
