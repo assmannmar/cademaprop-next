@@ -233,7 +233,7 @@ export default function HomePage() {
                 Con más de 60 años de experiencia en el mercado inmobiliario, nuestro compromiso es brindar un servicio personalizado y profesional, acompañando a nuestros clientes en cada paso del proceso de compra, venta o alquiler de su propiedad.
               </p>
               <Link href="/quienes-somos" className="btn-split btn-split-bottom btn-split-wide">
-                <span className="btn-text">Ver Todas las Propiedades</span>
+                <span className="btn-text">Conocé más</span>
                 <span className="btn-arrow">→</span>
               </Link>
             </div>
