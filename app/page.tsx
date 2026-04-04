@@ -241,7 +241,7 @@ export default function HomePage() {
             </div>
             <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden">
               <img
-                src="/about-image.jpg"
+                src="/img/directores.jpg"
                 alt="Cadema Prop"
                 className="w-full h-full object-cover"
                 onError={(e) => {
