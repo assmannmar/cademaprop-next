@@ -40,9 +40,22 @@ export async function getInstagramPosts(limit = 6): Promise<InstagramPost[]> {
     `&limit=${limit}` +
     `&access_token=${encodeURIComponent(accessToken)}`;
 
-  const response = await fetch(url, {
-    next: { revalidate: 3600 },
-  });
+  const controller = new AbortController();
+
+    const timeout = setTimeout(() => {
+    controller.abort();
+    }, 5000); // 5 segundos
+
+    let response;
+
+    try {
+    response = await fetch(url, {
+        next: { revalidate: 3600 },
+        signal: controller.signal,
+    });
+    } finally {
+    clearTimeout(timeout);
+    }
 
   const data: InstagramApiResponse = await response.json();
 
