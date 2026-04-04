@@ -49,41 +49,47 @@ export default function HomePage() {
 
   const fetchData = async () => {
     try {
-      // carga emprendimientos desde la API
-      const devRes = await fetch('/api/developments');
-      const devData = await devRes.json();
-      setEmprendimientos(devData.objects?.slice(0, 20) || []);
+      const [devRes, propRes] = await Promise.allSettled([
+        fetch('/api/developments'),
+        fetch('/api/properties'),
+      ]);
 
-      // carga propiedades desde la API
-      const propRes = await fetch('/api/properties');
-      const propData = await propRes.json();
-      
-      // toma las propiedades destacadas, marcadas en tokko como destacar en la web
-      const propiedadesStarred = propData.objects?.filter((prop: Property) => {
-        return prop.is_starred_on_web === true;
-      }) || [];
+      // Emprendimientos
+      if (devRes.status === 'fulfilled' && devRes.value.ok) {
+        const devData = await devRes.value.json();
+        setEmprendimientos(devData.objects?.slice(0, 20) || []);
+      }
 
-      if (propiedadesStarred.length > 0) {
-        setDestacadas(propiedadesStarred.slice(0, 12));
-      } else {
-        const propiedadesDestacadas = propData.objects?.filter((prop: Property) => {
-          return prop.custom_tags?.some(tag => 
-            tag.name.toLowerCase().includes('destacar') && 
-            tag.name.toLowerCase().includes('landing')
-          );
-        }) || [];
+      // Propiedades
+      if (propRes.status === 'fulfilled' && propRes.value.ok) {
+        const propData = await propRes.value.json();
 
-        if (propiedadesDestacadas.length > 0) {
-          setDestacadas(propiedadesDestacadas.slice(0, 12));
+        const propiedadesStarred = propData.objects?.filter(
+          (prop: Property) => prop.is_starred_on_web === true
+        ) || [];
+
+        if (propiedadesStarred.length > 0) {
+          setDestacadas(propiedadesStarred.slice(0, 12));
         } else {
-          // si no hay propiedades marcadas como destacadas, toma las primeras 12
-          setDestacadas(propData.objects?.slice(0, 12) || []);
+          const propiedadesDestacadas = propData.objects?.filter((prop: Property) =>
+            prop.custom_tags?.some(
+              tag =>
+                tag.name.toLowerCase().includes('destacar') &&
+                tag.name.toLowerCase().includes('landing')
+            )
+          ) || [];
+
+          setDestacadas(
+            propiedadesDestacadas.length > 0
+              ? propiedadesDestacadas.slice(0, 12)
+              : propData.objects?.slice(0, 12) || []
+          );
         }
       }
     } catch (err) {
       console.error('Error cargando datos:', err);
     } finally {
-      setLoading(false);
+      setLoading(false); // ← siempre se ejecuta
     }
   };
 
