@@ -49,56 +49,40 @@ export default function HomePage() {
 
   useEffect(() => {
     console.log('🔁 useEffect ejecutándose');
-    fetchData();
-  }, []);
+    
+    const load = async () => {
+      console.log('📡 iniciando fetches');
+      try {
+        const [devRes, propRes] = await Promise.allSettled([
+          fetch('/api/developments'),
+          fetch('/api/properties'),
+        ]);
+        console.log('✅ fetches completados');
 
-  const fetchData = async () => {
-    console.log('🚀 fetchData iniciado');
-    try {
-      const [devRes, propRes] = await Promise.allSettled([
-        fetch('/api/developments'),
-        fetch('/api/properties'),
-      ]);
-
-      // Emprendimientos
-      if (devRes.status === 'fulfilled' && devRes.value.ok) {
-        const devData = await devRes.value.json();
-        setEmprendimientos(devData.objects?.slice(0, 20) || []);
-      }
-
-      // Propiedades
-      if (propRes.status === 'fulfilled' && propRes.value.ok) {
-        const propData = await propRes.value.json();
-
-        const propiedadesStarred = propData.objects?.filter(
-          (prop: Property) => prop.is_starred_on_web === true
-        ) || [];
-
-        if (propiedadesStarred.length > 0) {
-          setDestacadas(propiedadesStarred.slice(0, 12));
-        } else {
-          const propiedadesDestacadas = propData.objects?.filter((prop: Property) =>
-            prop.custom_tags?.some(
-              tag =>
-                tag.name.toLowerCase().includes('destacar') &&
-                tag.name.toLowerCase().includes('landing')
-            )
-          ) || [];
-
-          setDestacadas(
-            propiedadesDestacadas.length > 0
-              ? propiedadesDestacadas.slice(0, 12)
-              : propData.objects?.slice(0, 12) || []
-          );
+        if (devRes.status === 'fulfilled' && devRes.value.ok) {
+          const devData = await devRes.value.json();
+          setEmprendimientos(devData.objects?.slice(0, 20) || []);
         }
+
+        if (propRes.status === 'fulfilled' && propRes.value.ok) {
+          const propData = await propRes.value.json();
+          const starred = propData.objects?.filter(
+            (p: Property) => p.is_starred_on_web === true
+          ) || [];
+          setDestacadas(starred.length > 0 ? starred.slice(0, 12) : propData.objects?.slice(0, 12) || []);
+        }
+
+      } catch (err) {
+        console.error('❌ error:', err);
+      } finally {
+        console.log('🏁 setLoading false');
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('Error cargando datos:', err);
-    } finally {
-      console.log('✅ finally ejecutado, setLoading(false)');
-      setLoading(false); // ← siempre se ejecuta
-    }
-  };
+    };
+
+    load();
+  }, []);
+  
 
   return (
     <>
