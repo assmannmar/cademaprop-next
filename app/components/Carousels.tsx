@@ -369,17 +369,21 @@ export function TestimoniosCarousel() {
                       </div>
 
                       {/* CONTENIDO */}
-                      <div className="max-w-[440px]">
-                        
+                      <div className="relative max-w-[440px]">
+
                         {/* QUOTE */}
-                        <div className="text-[80px] md:text-[95px] leading-none text-[#e7e1db] font-serif select-none mb-2">
+                        <span
+                          className="absolute -top-2 left-0 text-[95px] md:text-[120px] leading-none text-[#e7e1db] font-serif pointer-events-none select-none"
+                        >
                           “
-                        </div>
+                        </span>
 
                         {/* TEXTO */}
-                        <p className="text-[15px] md:text-[16px] leading-7 text-[#6f685f]">
-                          {review.text}
-                        </p>
+                        <div className="relative z-10 pl-6 md:pl-7 pt-3">
+                          <p className="text-[15px] md:text-[16px] leading-7 text-[#6f685f]">
+                            {review.text}
+                          </p>
+                        </div>
 
                         {/* NOMBRE */}
                         <p className="mt-4 font-semibold text-[#2b2b2b] text-[17px]">
