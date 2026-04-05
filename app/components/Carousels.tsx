@@ -368,10 +368,10 @@ export function TestimoniosCarousel() {
                       {/* CONTENIDO */}
                       <div className="flex-1 max-w-[420px] min-w-0">
                         {/* QUOTE */}
-                        <div className="mb-0 md:mb-1 h-[34px] md:h-[54px] overflow-visible">
+                        <div className="mb-0 md:mb-1 h-[40px] md:h-[54px] overflow-visible">
                           <span
                             aria-hidden="true"
-                            className="block text-[58px] md:text-[108px] leading-none text-[#e7e1db] font-serif select-none -ml-1 md:-ml-2 translate-y-3 md:translate-y-4"
+                            className="block text-[70px] md:text-[108px] leading-none text-[#e7e1db] font-serif select-none -ml-1 md:-ml-2 translate-y-3 md:translate-y-4"
                           >
                             “
                           </span>
