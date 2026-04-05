@@ -242,6 +242,10 @@ export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
 }
 
 // ============ CAROUSEL DE TESTIMONIOS (GOOGLE SHEETS) ============
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+
 interface Review {
   author_name: string;
   rating: number;
@@ -261,7 +265,7 @@ export function TestimoniosCarousel() {
       if (window.innerWidth < 768) {
         setCardsToShow(1);
       } else {
-        setCardsToShow(2); // 👈 SIEMPRE 2 en desktop (clave diseño)
+        setCardsToShow(2);
       }
     };
 
@@ -313,15 +317,14 @@ export function TestimoniosCarousel() {
     }
   }, [next, reviews.length, cardsToShow]);
 
-  const getInitial = (name: string) =>
-    name?.charAt(0)?.toUpperCase() || 'C';
+  const getInitial = (name: string) => name?.charAt(0)?.toUpperCase() || 'C';
 
   const getPhoto = (review: Review) =>
     review.author_photo || review.profile_photo_url || '';
 
   if (loading) {
     return (
-      <div className="py-20 text-center text-gray-400">
+      <div className="py-16 text-center text-gray-400">
         Cargando testimonios...
       </div>
     );
@@ -330,10 +333,8 @@ export function TestimoniosCarousel() {
   if (reviews.length === 0) return null;
 
   return (
-    <section className="w-full bg-white py-10 md:py-15">
-      <div className="mx-auto max-w-6xl px-6">
-
-        {/* CAROUSEL */}
+    <section className="w-full bg-white py-8 md:py-14">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="relative">
           <div className="overflow-hidden">
             <div
@@ -348,45 +349,39 @@ export function TestimoniosCarousel() {
                 return (
                   <div
                     key={idx}
-                    className="flex-shrink-0 px-8 md:px-12"
+                    className="flex-shrink-0 px-3 md:px-10"
                     style={{ width: `${100 / cardsToShow}%` }}
                   >
-                    <div className="flex items-start gap-8 md:gap-10">
-                      
+                    <div className="flex items-start gap-4 md:gap-8">
                       {/* FOTO */}
-                      <div className="pt-10">
+                      <div className="pt-2 md:pt-8 shrink-0">
                         {photo ? (
                           <img
                             src={photo}
                             alt={review.author_name}
-                            className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover"
+                            className="w-14 h-14 md:w-24 md:h-24 rounded-full object-cover"
                           />
                         ) : (
-                          <div className="w-18 h-18 md:w-22 md:h-22 rounded-full bg-[#e6e1db] flex items-center justify-center text-[#7a746c] text-2xl font-semibold">
+                          <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-[#e6e1db] flex items-center justify-center text-[#7a746c] text-lg md:text-2xl font-semibold">
                             {getInitial(review.author_name)}
                           </div>
                         )}
                       </div>
 
                       {/* CONTENIDO */}
-                      <div className="relative max-w-[440px]">
-
+                      <div className="flex-1 max-w-[420px] min-w-0">
                         {/* QUOTE */}
-                        <span
-                          className="absolute -top-2 left-0 text-[95px] md:text-[120px] leading-none text-[#e7e1db] font-serif pointer-events-none select-none"
-                        >
+                        <div className="text-[58px] md:text-[108px] leading-[0.8] text-[#e7e1db] font-serif select-none -ml-1 md:-ml-2 mb-1 md:mb-2">
                           “
-                        </span>
+                        </div>
 
                         {/* TEXTO */}
-                        
-                          <p className="text-[15px] md:text-[16px] leading-7 text-[#6f685f]">
-                            {review.text}
-                          </p>
-                        
+                        <p className="text-[15px] md:text-[16px] leading-8 md:leading-7 text-[#6f685f]">
+                          {review.text}
+                        </p>
 
                         {/* NOMBRE */}
-                        <p className="mt-4 font-semibold text-[#2b2b2b] text-[17px]">
+                        <p className="mt-4 font-semibold text-[#2b2b2b] text-[16px] md:text-[17px]">
                           {review.author_name}
                         </p>
 
@@ -395,12 +390,13 @@ export function TestimoniosCarousel() {
                           {[...Array(5)].map((_, i) => (
                             <svg
                               key={i}
-                              className={`w-[14px] h-[14px] ${
+                              className={`w-[13px] h-[13px] md:w-[14px] md:h-[14px] ${
                                 i < review.rating
                                   ? 'fill-[#b9b1a7]'
                                   : 'fill-[#e4ded7]'
                               }`}
                               viewBox="0 0 20 20"
+                              aria-hidden="true"
                             >
                               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                             </svg>
@@ -419,13 +415,15 @@ export function TestimoniosCarousel() {
             <>
               <button
                 onClick={prev}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 text-[3rem] text-[#8a837a] hover:text-black transition"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 md:-translate-x-6 text-[2.6rem] md:text-[4rem] leading-none text-[#a79f95] hover:text-black transition"
+                aria-label="Testimonio anterior"
               >
                 ‹
               </button>
               <button
                 onClick={next}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 text-[3rem] text-[#8a837a] hover:text-black transition"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 md:translate-x-6 text-[2.6rem] md:text-[4rem] leading-none text-[#a79f95] hover:text-black transition"
+                aria-label="Siguiente testimonio"
               >
                 ›
               </button>
@@ -434,16 +432,15 @@ export function TestimoniosCarousel() {
         </div>
 
         {/* DOTS */}
-        <div className="flex justify-center gap-3 mt-12">
+        <div className="flex justify-center gap-3 mt-8 md:mt-12">
           {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={`w-2.5 h-2.5 rounded-full transition ${
-                idx === currentIndex
-                  ? 'bg-[#9b9186]'
-                  : 'bg-[#e2ddd7]'
+                idx === currentIndex ? 'bg-[#9b9186]' : 'bg-[#e2ddd7]'
               }`}
+              aria-label={`Ir al grupo de testimonios ${idx + 1}`}
             />
           ))}
         </div>
