@@ -242,9 +242,6 @@ export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
 }
 
 // ============ CAROUSEL DE TESTIMONIOS (GOOGLE SHEETS) ============
-'use client';
-
-import { useState, useEffect, useCallback } from 'react';
 
 interface Review {
   author_name: string;
