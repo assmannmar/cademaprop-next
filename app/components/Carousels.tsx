@@ -442,6 +442,12 @@ export function TestimoniosCarousel() {
           ))}
         </div>
       </div>
+      <div className="flex justify-center mt-12">
+          <Link href="https://share.google/LB4oq2bkNOHGAAVQf" target="_blank" rel="noopener noreferrer" className="btn-split btn-split-bottom btn-split-wide">
+            <span className="btn-text">Ir a perfil en Google</span>
+            <span className="btn-arrow">→</span>
+          </Link>
+        </div>
     </section>
   );
 }
