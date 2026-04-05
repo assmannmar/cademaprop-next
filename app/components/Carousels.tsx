@@ -359,10 +359,10 @@ export function TestimoniosCarousel() {
                           <img
                             src={photo}
                             alt={review.author_name}
-                            className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover"
+                            className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover"
                           />
                         ) : (
-                          <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#e6e1db] flex items-center justify-center text-[#7a746c] text-2xl font-semibold">
+                          <div className="w-18 h-18 md:w-22 md:h-22 rounded-full bg-[#e6e1db] flex items-center justify-center text-[#7a746c] text-2xl font-semibold">
                             {getInitial(review.author_name)}
                           </div>
                         )}
