@@ -245,7 +245,7 @@ export default function BlogSection() {
         </div>
 
         <div className="flex justify-center mt-12">
-            <Link href="/emprendimientos" className="btn-split btn-split-bottom btn-split-wide">
+            <Link href="https://cademaprop.com.ar/blog/" target="_blank" rel="noopener" className="btn-split btn-split-bottom btn-split-wide">
               <span className="btn-text">Ver todas las notas</span>
               <span className="btn-arrow">→</span>
             </Link>
