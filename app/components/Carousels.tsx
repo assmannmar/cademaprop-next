@@ -373,7 +373,7 @@ export function TestimoniosCarousel() {
 
                         {/* QUOTE */}
                         <span
-                          className="absolute -top-2 left-0 text-[95px] md:text-[120px] leading-none text-[#e7e1db] font-serif pointer-events-none select-none"
+                          className="absolute -top-10 -left-50 text-[95px] md:text-[120px] leading-none text-[#e7e1db] font-serif pointer-events-none select-none"
                         >
                           “
                         </span>
