@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
+import "./tasar.css";
 
 const processSteps = [
   {
