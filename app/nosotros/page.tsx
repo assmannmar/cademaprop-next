@@ -67,11 +67,13 @@ function CountUpStat({
     requestAnimationFrame(animate);
   }, [started, value, duration]);
 
+  const formatted = count.toLocaleString("es-AR");
+
   return (
     <div className="nosotros-stat" ref={ref}>
       <div className="nosotros-stat-number">
         {prefix}
-        {count}
+        {formatted}
         {suffix}
       </div>
       <div className="nosotros-stat-label">{label}</div>
