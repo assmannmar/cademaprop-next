@@ -278,8 +278,8 @@ export default function HomePage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Testimonios</h2>
-            <p className="text-xl text-gray-600">La experiencia Cadema contada por nuestros clientes</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">La experiencia Cadema</h2>
+            <p className="text-xl text-gray-600">Historias reales de clientes que confiaron en nosotros para vender, comprar e invertir</p>
           </div>
           <TestimoniosCarousel />
         </div>
