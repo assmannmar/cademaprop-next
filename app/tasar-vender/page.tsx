@@ -321,7 +321,7 @@ export default function TasarVenderConCademaPage() {
                 >
                   {/* IMAGEN DE FONDO */}
                   <div
-                    className="absolute inset-0 bg-cover bg-center opacity-[0.06] transition duration-500 group-hover:opacity-[0.12]"
+                    className="absolute inset-0 bg-cover bg-center opacity-[0.30] transition duration-500 group-hover:opacity-[0.12]"
                     style={{
                       backgroundImage: `url(${item.image})`,
                     }}
