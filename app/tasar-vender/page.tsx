@@ -51,21 +51,25 @@ const differentials = [
     icon: BarChart3,
     title: "Tasación con criterio",
     text: "No trabajamos a ciegas ni inflamos valores para captar. Buscamos una estrategia real para vender mejor.",
+    image: "/img/diferenciales/tasacion.jpg",
   },
   {
     icon: MessageSquareMore,
     title: "Comunicación clara",
     text: "Mantenemos un seguimiento ordenado para que sepas qué está pasando en cada etapa del proceso.",
+    image: "/img/diferenciales/frente.jpg",
   },
   {
     icon: ShieldCheck,
     title: "Acompañamiento profesional",
     text: "Desde la primera reunión hasta el cierre, trabajamos con seriedad, método y atención personalizada.",
+    image: "/img/diferenciales/acuerdo.jpg",
   },
   {
     icon: BadgeCheck,
     title: "Enfoque en resultados",
     text: "Cada propiedad necesita una estrategia comercial propia para mejorar su posicionamiento y acelerar la venta.",
+    image: "/img/diferenciales/mercado.jpg",
   },
 ];
 
@@ -296,6 +300,7 @@ export default function TasarVenderConCademaPage() {
       {/* DIFERENCIALES */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 lg:px-12 lg:py-24">
+          
           <div className="mb-12 max-w-3xl">
             <p className="mb-3 text-xs uppercase tracking-[0.24em] text-[#c60c23]">
               Por qué elegir Cadema
@@ -312,25 +317,40 @@ export default function TasarVenderConCademaPage() {
               return (
                 <article
                   key={item.title}
-                  className="rounded-[30px] border border-neutral-200 bg-[#faf9f7] p-7"
+                  className="group relative overflow-hidden rounded-[30px] border border-neutral-200 p-7 transition duration-300"
                 >
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#c60c23]/8 text-[#c60c23]">
-                    <Icon className="h-5 w-5" />
+                  {/* IMAGEN DE FONDO */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center opacity-[0.06] transition duration-500 group-hover:opacity-[0.12]"
+                    style={{
+                      backgroundImage: `url(${item.image})`,
+                    }}
+                  />
+
+                  {/* OVERLAY */}
+                  <div className="absolute inset-0 bg-[#faf9f7]/90 transition duration-500 group-hover:bg-[#faf9f7]/80" />
+
+                  {/* CONTENIDO */}
+                  <div className="relative z-10">
+                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#c60c23]/8 text-[#c60c23]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+
+                    <h3 className="text-xl font-semibold text-neutral-900">
+                      {item.title}
+                    </h3>
+
+                    <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-600 md:text-base">
+                      {item.text}
+                    </p>
                   </div>
-
-                  <h3 className="text-xl font-semibold text-neutral-900">
-                    {item.title}
-                  </h3>
-
-                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-600 md:text-base">
-                    {item.text}
-                  </p>
                 </article>
               );
             })}
           </div>
         </div>
       </section>
+
 
       {/* FRASE / REFUERZO */}
       <section className="bg-[#c60c23] text-white">
