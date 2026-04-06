@@ -200,11 +200,9 @@ function ServicesAccordion() {
             <div
               className="service-bg"
               style={{
-                backgroundImage: `url('${service.image}')`,
+                backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${service.image}')`,
               }}
-            >
-              <div className="service-bg-overlay" />
-            </div>
+            />
 
             <div className="service-overlay">
               <div className="service-top">
