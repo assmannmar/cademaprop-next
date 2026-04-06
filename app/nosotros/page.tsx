@@ -189,10 +189,11 @@ export default function NosotrosPage() {
         <section
           className="nosotros-hero"
           style={{
-            backgroundImage:
-              "linear-gradient(to top, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.30) 45%, rgba(0,0,0,0.14) 100%), url('/nosotros/hero-nosotros.jpg')",
+            backgroundImage: "url('/nosotros/hero-nosotros.jpg')",
           }}
         >
+          <div className="nosotros-hero-overlay" />
+
           <div className="nosotros-hero-inner">
             <h1>NOSOTROS</h1>
           </div>
