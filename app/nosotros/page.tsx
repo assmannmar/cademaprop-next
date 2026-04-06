@@ -222,8 +222,9 @@ export default function NosotrosPage() {
               </p>
 
               <p>
-                Con más de seis décadas de experiencia, nos enorgullece ser una
-                empresa referente en el mercado inmobiliario de Campana.
+                Con más de seis décadas de experiencia, nos enorgullece ser la
+                empresa líder del mercado inmobiliario del Corredor Norte conformado 
+                por las ciudades de Campana, Zárate y Exaltación de la Cruz.
                 Especializados en venta de inmuebles y desarrollos urbanos e
                 industriales, hemos marcado nuestro camino con dedicación y
                 excelencia, combinando trayectoria con una búsqueda constante de
