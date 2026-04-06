@@ -333,7 +333,7 @@ export default function TasarVenderConCademaPage() {
       </section>
 
       {/* FRASE / REFUERZO */}
-      <section className="bg-neutral-950 text-white">
+      <section className="bg-[#c60c23] text-white">
         <div className="mx-auto max-w-7xl px-5 py-16 text-center md:px-8 lg:px-12 lg:py-24">
           <p className="mx-auto max-w-4xl text-3xl font-semibold uppercase leading-tight md:text-5xl">
             No se trata solo de vender. Se trata de hacerlo bien.
