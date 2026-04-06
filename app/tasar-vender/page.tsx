@@ -82,17 +82,17 @@ const faqs = [
   {
     question: "¿Cómo determinan el valor de mi propiedad?",
     answer:
-      "No nos basamos solo en precios publicados. Analizamos características del inmueble, ubicación, oferta comparable y comportamiento real del mercado.",
+      "No nos basamos únicamente en precios publicados ni definimos valores a ojo. Analizamos las características del inmueble, su ubicación, la oferta comparable y el comportamiento real del mercado.",
   },
   {
     question: "¿Cuánto tiempo tarda en venderse una propiedad?",
     answer:
-      "Depende del precio, la demanda y la estrategia comercial. Una propiedad bien posicionada desde el inicio suele generar mejores consultas en menos tiempo.",
+      "Depende del precio, la demanda y la estrategia comercial. Más que el tiempo exacto, lo importante es lograr un buen posicionamiento desde el inicio: eso es lo que permite generar consultas reales y avanzar hacia la venta dentro de plazos razonables de mercado, que suelen ubicarse entre 6 y 9 meses.",
   },
   {
     question: "¿Tengo que firmar exclusividad?",
     answer:
-      "No siempre. En algunos casos puede ser conveniente para trabajar una estrategia más sólida y ordenada. Lo evaluamos según cada propiedad y situación.",
+      "No es obligatoria, pero es la forma más efectiva de lograr una buena venta. La exclusividad evita que la propiedad se diluya en el mercado entre muchas manos, y nos permite trabajar con foco, invertir en su difusión y ejecutar una estrategia real para vender. Los plazos mínimos son de 3 meses, y luego la continuidad queda en manos del cliente según los resultados obtenidos.",
   },
   {
     question: "¿Qué pasa si mi propiedad no se vende?",
@@ -102,7 +102,7 @@ const faqs = [
   {
     question: "¿Se ocupan de las consultas y visitas?",
     answer:
-      "Sí. Nos encargamos de filtrar interesados, coordinar visitas y gestionar el contacto comercial para que vos no tengas que ocuparte de todo.",
+      "Sí. Nos encargamos de filtrar interesados, coordinar visitas y gestionar el contacto comercial para que vos no tengas que ocuparte de nada.",
   },
   {
     question: "¿Me acompañan hasta la firma?",
@@ -110,9 +110,9 @@ const faqs = [
       "Sí. Te acompañamos desde la tasación inicial hasta la firma, incluyendo negociación, coordinación y asistencia en la documentación.",
   },
   {
-    question: "¿Puedo consultar aunque todavía no decidí vender?",
+    question: "¿Puedo consultarles aunque todavía no haya decidido vender?",
     answer:
-      "Por supuesto. Podés solicitar asesoramiento y tasación para evaluar tu situación con información clara, sin compromiso.",
+      "Por supuesto, tu consulta no molesta. Podés solicitarnos asesoramiento para evaluar tu situación con información clara.",
   },
 ];
 
