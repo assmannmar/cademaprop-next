@@ -55,12 +55,7 @@ export default function ContactoPage() {
         }}
       >
         <div className="contact-hero__content container-cadema">
-          <span className="contact-hero__eyebrow">Cadema Bienes Raíces</span>
           <h1 className="contact-hero__title">Contacto</h1>
-          <p className="contact-hero__text">
-            Estamos para acompañarte. Conocé nuestras sucursales y elegí la
-            forma de contactarnos que te resulte más cómoda.
-          </p>
         </div>
       </section>
 
