@@ -77,7 +77,7 @@ const faqs = [
   {
     question: "¿La tasación tiene costo?",
     answer:
-      "No. La tasación es sin costo y sin compromiso. Buscamos darte una visión clara del valor de tu propiedad y orientarte sobre el mejor camino para venderla.",
+      "La tasación para la comercialización del inmueble con nosotros no tiene costo. Buscamos darte una visión clara del valor de tu propiedad y orientarte sobre el mejor camino para venderla. Consultar costos para tasaciones judiciales y otros fines.",
   },
   {
     question: "¿Cómo determinan el valor de mi propiedad?",
