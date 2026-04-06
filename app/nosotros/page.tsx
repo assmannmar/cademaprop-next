@@ -137,12 +137,19 @@ function ServicesAccordion() {
         const isActive = index === activeIndex;
 
         return (
-          <button
+          <div
             key={service.title}
-            type="button"
             className={`service-panel ${isActive ? "active" : ""}`}
             onClick={() => setActiveIndex(index)}
+            role="button"
+            tabIndex={0}
             aria-expanded={isActive}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setActiveIndex(index);
+              }
+            }}
           >
             <div
               className="service-bg"
@@ -158,17 +165,17 @@ function ServicesAccordion() {
 
               <div className="service-content">
                 <p>{service.description}</p>
-                <span className="service-cta">{service.cta}</span>
+
+                <Link
+                  href={service.href}
+                  className="service-cta"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {service.cta}
+                </Link>
               </div>
             </div>
-
-            <Link
-              href={service.href}
-              className="service-link-layer"
-              aria-label={service.title}
-              tabIndex={-1}
-            />
-          </button>
+          </div>
         );
       })}
     </div>
