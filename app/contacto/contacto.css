@@ -36,7 +36,7 @@
 
 .contact-hero__title {
   margin: 0;
-  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  font-size: clamp(2.4rem, 5vw, 4.3rem);
   line-height: 0.95;
   text-transform: uppercase;
   font-weight: 800;
