@@ -3,7 +3,7 @@ import {
   MapPin,
   Phone,
   Mail,
-  Instagram,
+  // Instagram,
   MessageCircle,
 } from "lucide-react";
 
@@ -139,7 +139,7 @@ export default function ContactoSection({
                     </div>
 
                     <div className="office-info-row">
-                      <Instagram size={18} strokeWidth={1.6} />
+                      {/* <Instagram size={18} strokeWidth={1.6} /> */}
                       <a
                         href="https://www.instagram.com/cadema_bienesraices/"
                         target="_blank"
