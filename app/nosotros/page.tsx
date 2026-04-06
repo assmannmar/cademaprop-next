@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import "./nosotros.css";
-import ContactoSection from "@/components/contacto/ContactoSection";
+import ContactoSection from "@/app/components/contacto/ContactoSection";
 
 type StatItemProps = {
   value: number;
