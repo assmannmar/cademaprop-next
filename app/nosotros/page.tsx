@@ -7,6 +7,7 @@ import "./nosotros.css";
 type StatItemProps = {
   value: number;
   label: string;
+  prefix?: string;
   suffix?: string;
   duration?: number;
 };
@@ -69,6 +70,7 @@ function CountUpStat({
   return (
     <div className="nosotros-stat" ref={ref}>
       <div className="nosotros-stat-number">
+        {prefix}
         {count}
         {suffix}
       </div>
@@ -238,10 +240,10 @@ export default function NosotrosPage() {
 
         <section className="nosotros-stats-section">
           <div className="nosotros-stats">
-            <CountUpStat value={500} label="PROPIEDADES VENDIDAS EL ÚLTIMO AÑO" />
-            <CountUpStat value={2000} label="CONSULTAS MENSUALES GENERADAS" />
-            <CountUpStat value={60000} label="CLIENTES EN DIFUSIÓN" />
-            <CountUpStat value={15} label="DESARROLLOS EN CARTERA" />
+            <CountUpStat value={500} label="PROPIEDADES VENDIDAS EL ÚLTIMO AÑO" prefix="+" />
+            <CountUpStat value={2000} label="CONSULTAS MENSUALES GENERADAS" prefix="+" />
+            <CountUpStat value={80000} label="CLIENTES EN CARTERA" prefix="+" />
+            <CountUpStat value={20} label="DESARROLLOS EN CARTERA" prefix="+" />
           </div>
         </section>
 
