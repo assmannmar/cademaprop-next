@@ -28,7 +28,7 @@ const offices: Office[] = [
     instagram: "@cadema_bienesraices",
     mapEmbedUrl:
       "https://www.google.com/maps?q=Av.%20Varela%20420%2C%20Campana%2C%20Buenos%20Aires&output=embed",
-    image: "/oficinas/casa-central.jpg",
+    image: "img/oficinas/oficina-campana.jpg",
   },
   {
     name: "Oficina Zárate",
@@ -39,7 +39,7 @@ const offices: Office[] = [
     instagram: "@cadema_bienesraices",
     mapEmbedUrl:
       "https://www.google.com/maps?q=Z%C3%A1rate%2C%20Buenos%20Aires%2C%20Argentina&output=embed",
-    image: "/oficinas/zarate.jpg",
+    image: "img/oficinas/oficina-zarate.jpg",
   },
   {
     name: "Oficina Industrias",
@@ -50,7 +50,7 @@ const offices: Office[] = [
     instagram: "@cadema_bienesraices",
     mapEmbedUrl:
       "https://www.google.com/maps?q=Campana%2C%20Buenos%20Aires%2C%20Argentina&output=embed",
-    image: "/oficinas/industrias.jpg",
+    image: "img/oficinas/oficina-industria.jpg",
   },
 ];
 
