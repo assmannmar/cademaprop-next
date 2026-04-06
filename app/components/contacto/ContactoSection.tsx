@@ -8,6 +8,7 @@ type Office = {
   email: string;
   instagram: string;
   mapEmbedUrl: string;
+  image: string;
 };
 
 const offices: Office[] = [
@@ -20,6 +21,7 @@ const offices: Office[] = [
     instagram: "@cadema_bienesraices",
     mapEmbedUrl:
       "https://www.google.com/maps?q=Av.%20Varela%20420%2C%20Campana%2C%20Buenos%20Aires&output=embed",
+    image: "/oficinas/casa-central.jpg",
   },
   {
     name: "Oficina Zárate",
@@ -30,6 +32,7 @@ const offices: Office[] = [
     instagram: "@cadema_bienesraices",
     mapEmbedUrl:
       "https://www.google.com/maps?q=Z%C3%A1rate%2C%20Buenos%20Aires%2C%20Argentina&output=embed",
+    image: "/oficinas/zarate.jpg",
   },
   {
     name: "Oficina Industrias",
@@ -40,6 +43,7 @@ const offices: Office[] = [
     instagram: "@cadema_bienesraices",
     mapEmbedUrl:
       "https://www.google.com/maps?q=Campana%2C%20Buenos%20Aires%2C%20Argentina&output=embed",
+    image: "/oficinas/industrias.jpg",
   },
 ];
 
@@ -86,8 +90,17 @@ export default function ContactoSection({
           <div className="offices-grid">
             {offices.map((office) => (
               <article className="office-card" key={office.name}>
+                <div className="office-card__image-wrap">
+                  <img
+                    src={office.image}
+                    alt={office.name}
+                    className="office-card__image"
+                  />
+                </div>
+
                 <div className="office-card__top">
                   <h3>{office.name}</h3>
+                  <div className="office-card__divider" />
 
                   <div className="office-info-list">
                     <div className="office-info-item">
@@ -97,9 +110,7 @@ export default function ContactoSection({
 
                     <div className="office-info-item">
                       <span className="office-info-item__label">Teléfono</span>
-                      <a href={`tel:${office.phone.replace(/\s/g, "")}`}>
-                        {office.phone}
-                      </a>
+                      <a href={`tel:${office.phone.replace(/\s/g, "")}`}>{office.phone}</a>
                     </div>
 
                     {office.whatsapp && (
