@@ -72,7 +72,7 @@ export default function Navbar() {
   }, [openSubmenu]);
 
   const navLinks = [
-    { name: "NOSOTROS", href: "/quienes-somos" },
+    { name: "NOSOTROS", href: "/nosotros" },
     { 
       name: "PROPIEDADES",
       href: "/propiedades",
