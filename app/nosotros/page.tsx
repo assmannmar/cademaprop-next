@@ -1,0 +1,254 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import "./nosotros.css";
+
+type StatItemProps = {
+  value: number;
+  label: string;
+  suffix?: string;
+  duration?: number;
+};
+
+function CountUpStat({
+  value,
+  label,
+  suffix = "",
+  duration = 1200,
+}: StatItemProps) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+
+    let start = 0;
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      const eased =
+        1 - Math.pow(1 - progress, 3); // easeOutCubic
+
+      const currentValue = Math.floor(start + (value - start) * eased);
+      setCount(currentValue);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setCount(value);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [started, value, duration]);
+
+  return (
+    <div className="nosotros-stat" ref={ref}>
+      <div className="nosotros-stat-number">
+        {count}
+        {suffix}
+      </div>
+      <div className="nosotros-stat-label">{label}</div>
+    </div>
+  );
+}
+
+type Service = {
+  title: string;
+  description: string;
+  image: string;
+  cta: string;
+  href: string;
+};
+
+const services: Service[] = [
+  {
+    title: "Propuestas Comerciales",
+    description:
+      "Diseñamos estrategias de comercialización a medida para cada propiedad o desarrollo, priorizando posicionamiento, claridad y resultados.",
+    image: "/nosotros/servicio-1.jpg",
+    cta: "Solicitar propuesta",
+    href: "/contacto",
+  },
+  {
+    title: "Informes de Mercado",
+    description:
+      "Analizamos contexto, oferta, demanda y valores de referencia para ayudarte a tomar decisiones comerciales con información real.",
+    image: "/nosotros/servicio-2.jpg",
+    cta: "Consultar informe",
+    href: "/contacto",
+  },
+  {
+    title: "Tasaciones",
+    description:
+      "Realizamos tasaciones profesionales con criterio comercial, conocimiento territorial y enfoque estratégico para cada operación.",
+    image: "/nosotros/servicio-3.jpg",
+    cta: "Pedir tasación",
+    href: "/tasar-vender",
+  },
+  {
+    title: "Visitas",
+    description:
+      "Coordinamos recorridos con asesoramiento personalizado, cuidando la experiencia del cliente y la correcta presentación del inmueble.",
+    image: "/nosotros/servicio-4.jpg",
+    cta: "Agendar visita",
+    href: "/contacto",
+  },
+  {
+    title: "Marketing",
+    description:
+      "Potenciamos cada propiedad con contenido, pauta, difusión y recursos visuales pensados para destacar y acelerar oportunidades.",
+    image: "/nosotros/servicio-5.jpg",
+    cta: "Ver cómo trabajamos",
+    href: "/contacto",
+  },
+];
+
+function ServicesAccordion() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  return (
+    <div className="services-accordion">
+      {services.map((service, index) => {
+        const isActive = index === activeIndex;
+
+        return (
+          <button
+            key={service.title}
+            type="button"
+            className={`service-panel ${isActive ? "active" : ""}`}
+            onClick={() => setActiveIndex(index)}
+            aria-expanded={isActive}
+          >
+            <div
+              className="service-bg"
+              style={{
+                backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.30) 45%, rgba(0,0,0,0.18) 100%), url('${service.image}')`,
+              }}
+            />
+
+            <div className="service-overlay">
+              <div className="service-top">
+                <h3>{service.title}</h3>
+              </div>
+
+              <div className="service-content">
+                <p>{service.description}</p>
+                <span className="service-cta">{service.cta}</span>
+              </div>
+            </div>
+
+            <Link
+              href={service.href}
+              className="service-link-layer"
+              aria-label={service.title}
+              tabIndex={-1}
+            />
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function NosotrosPage() {
+  return (
+    <>
+      <main className="nosotros-page">
+        <section
+          className="nosotros-hero"
+          style={{
+            backgroundImage:
+              "linear-gradient(to top, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.30) 45%, rgba(0,0,0,0.14) 100%), url('/nosotros/hero-nosotros.jpg')",
+          }}
+        >
+          <div className="nosotros-hero-inner">
+            <h1>NOSOTROS</h1>
+          </div>
+        </section>
+
+        <section className="nosotros-intro">
+          <div className="nosotros-intro-wrap">
+            <div className="nosotros-intro-image">
+              <img src="/nosotros/cadema-oficina.jpg" alt="Cadema Bienes Raíces" />
+            </div>
+
+            <div className="nosotros-intro-card">
+              <h2>¿Quiénes Somos?</h2>
+
+              <p>
+                En Cadema Bienes Raíces, nuestra prioridad es lograr una síntesis
+                equilibrada entre las necesidades del comprador y los requerimientos
+                del vendedor. Cada operación es una oportunidad para crear valor y
+                satisfacción para las partes, construyendo hogares, impulsando
+                inversiones y cumpliendo sueños.
+              </p>
+
+              <p>
+                Nos destacamos por construir relaciones sólidas y duraderas,
+                basadas en la transparencia, la confianza y la eficiencia.
+              </p>
+
+              <p>
+                Con más de seis décadas de experiencia, nos enorgullece ser una
+                empresa referente en el mercado inmobiliario de Campana.
+                Especializados en venta de inmuebles y desarrollos urbanos e
+                industriales, hemos marcado nuestro camino con dedicación y
+                excelencia, combinando trayectoria con una búsqueda constante de
+                innovación.
+              </p>
+
+              <p>Bienvenidos a Cadema Bienes Raíces.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="nosotros-stats-section">
+          <div className="nosotros-stats">
+            <CountUpStat value={500} label="PROPIEDADES VENDIDAS EL ÚLTIMO AÑO" />
+            <CountUpStat value={2000} label="CONSULTAS MENSUALES GENERADAS" />
+            <CountUpStat value={60000} label="CLIENTES EN DIFUSIÓN" />
+            <CountUpStat value={15} label="DESARROLLOS EN CARTERA" />
+          </div>
+        </section>
+
+        <section className="nosotros-services">
+          <div className="nosotros-services-head">
+            <h2>Servicios</h2>
+            <p>
+              Contamos con equipos especializados para brindar una experiencia
+              inmobiliaria completa.
+            </p>
+          </div>
+
+          <ServicesAccordion />
+        </section>
+      </main>
+
+    </>
+  );
+}
