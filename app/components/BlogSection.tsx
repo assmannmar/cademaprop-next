@@ -138,7 +138,7 @@ export default function BlogSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">
-            Blog
+            Blog CademaNews
           </h2>
           <p className="text-xl text-gray-600">Últimas novedades y noticias</p>
         </div>
