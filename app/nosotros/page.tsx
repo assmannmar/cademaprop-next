@@ -92,7 +92,7 @@ const services: Service[] = [
     title: "Propuestas Comerciales",
     description:
       "Diseñamos estrategias de comercialización a medida para cada propiedad o desarrollo, priorizando posicionamiento, claridad y resultados.",
-    image: "/nosotros/servicio-1.jpg",
+    image: "/nosotros/serv-1.jpg",
     cta: "Solicitar propuesta",
     href: "/contacto",
   },
@@ -100,7 +100,7 @@ const services: Service[] = [
     title: "Informes de Mercado",
     description:
       "Analizamos contexto, oferta, demanda y valores de referencia para ayudarte a tomar decisiones comerciales con información real.",
-    image: "/nosotros/servicio-2.jpg",
+    image: "/nosotros/serv-2.jpg",
     cta: "Consultar informe",
     href: "/contacto",
   },
@@ -108,7 +108,7 @@ const services: Service[] = [
     title: "Tasaciones",
     description:
       "Realizamos tasaciones profesionales con criterio comercial, conocimiento territorial y enfoque estratégico para cada operación.",
-    image: "/nosotros/servicio-3.jpg",
+    image: "/nosotros/serv-3.jpg",
     cta: "Pedir tasación",
     href: "/tasar-vender",
   },
@@ -116,7 +116,7 @@ const services: Service[] = [
     title: "Visitas",
     description:
       "Coordinamos recorridos con asesoramiento personalizado, cuidando la experiencia del cliente y la correcta presentación del inmueble.",
-    image: "/nosotros/servicio-4.jpg",
+    image: "/nosotros/serv-4.jpg",
     cta: "Agendar visita",
     href: "/contacto",
   },
@@ -124,7 +124,7 @@ const services: Service[] = [
     title: "Marketing",
     description:
       "Potenciamos cada propiedad con contenido, pauta, difusión y recursos visuales pensados para destacar y acelerar oportunidades.",
-    image: "/nosotros/servicio-5.jpg",
+    image: "/nosotros/serv-5.jpg",
     cta: "Ver cómo trabajamos",
     href: "/contacto",
   },
