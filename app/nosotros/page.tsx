@@ -15,6 +15,7 @@ type StatItemProps = {
 function CountUpStat({
   value,
   label,
+  prefix = "",
   suffix = "",
   duration = 1200,
 }: StatItemProps) {
