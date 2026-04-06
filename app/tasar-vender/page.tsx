@@ -169,8 +169,7 @@ export default function TasarVenderConCademaPage() {
       <section
         className="relative flex min-h-[72vh] items-end overflow-hidden md:min-h-[82vh]"
         style={{
-          backgroundImage:
-            "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.42) 38%, rgba(0,0,0,0.18) 100%), url('/carousel/2.jpg')",
+          backgroundImage: "rgba(0, 0, 0, 0.55)",
           backgroundSize: "cover",
           backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
