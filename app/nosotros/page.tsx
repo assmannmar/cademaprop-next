@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import "./nosotros.css";
+import ContactoSection from "@/components/contacto/ContactoSection";
 
 type StatItemProps = {
   value: number;
@@ -329,6 +330,12 @@ export default function NosotrosPage() {
 
           <ServicesAccordion />
         </section>
+
+        <ContactoSection
+          showHero={false}
+          title="Hablemos"
+          subtitle="Nuestro equipo está para ayudarte."
+        />
       </main>
 
     </>
