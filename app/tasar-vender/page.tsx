@@ -215,7 +215,7 @@ export default function TasarVenderConCademaPage() {
               <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-xs uppercase tracking-[0.18em] text-white/70 md:text-sm">
                 <span>Tasación profesional</span>
                 <span>Asesoramiento personalizado</span>
-                <span>Sin compromiso</span>
+                <span>Conocimiento del mercado</span>
               </div>
             </div>
           </div>
@@ -401,9 +401,9 @@ export default function TasarVenderConCademaPage() {
 
             <div className="mt-8 space-y-4">
               {[
-                "Sin compromiso",
                 "Atención personalizada",
                 "Respuesta rápida",
+                "Esperamos tu consulta",
               ].map((item) => (
                 <div key={item} className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#c60c23]/8 text-[#c60c23]">
