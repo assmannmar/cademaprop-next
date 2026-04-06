@@ -261,7 +261,7 @@
 /* =========================
    ANIMACION DE TEXTO
 ========================= */
-.hero-copy-anim {
+/* .hero-copy-anim {
   animation: heroCopyIn 0.7s ease;
 }
 
@@ -274,7 +274,7 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
+} */
 
 /* =========================
    RESPONSIVE
