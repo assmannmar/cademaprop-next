@@ -100,7 +100,7 @@ const valores = [
         </svg>
       ),
       title: 'Profesionalismo',
-      description: 'Equipo altamente capacitado con más de 25 años de experiencia en el sector.'
+      description: 'Respaldamos cada operación con más de 60 años de experiencia y conocimiento del mercado.'
     },
     {
       icon: (
@@ -109,7 +109,7 @@ const valores = [
         </svg>
       ),
       title: 'Innovación',
-      description: 'Utilizamos las últimas tecnologías para brindar el mejor servicio.'
+      description: 'Aplicamos tecnología y nuevas ideas para estar siempre un paso adelante'
     },
     {
       icon: (
