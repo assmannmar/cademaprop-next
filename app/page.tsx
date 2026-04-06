@@ -295,21 +295,7 @@ export default function HomePage() {
       {/* INSTAGRAM - CAROUSEL */}
       <section className="py-8 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Seguinos en Instagram</h2>
-            <p className="text-xl text-gray-600">@cademabienesraices</p>
-          </div>
           <InstagramFeed />
-          <div className="text-center mt-8">
-            
-             <a href="https://instagram.com/cademabienesraices"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold rounded-lg shadow-lg transition"
-            >
-              Ver Perfil de Instagram
-            </a>
-          </div>
         </div>
       </section>
 
