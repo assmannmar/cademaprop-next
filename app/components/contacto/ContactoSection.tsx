@@ -4,7 +4,7 @@ import {
   Phone,
   Mail,
   HeartPlus,
-  MessageCircle,
+  MessageCircleCheck,
 } from "lucide-react";
 
 type Office = {
@@ -122,7 +122,7 @@ export default function ContactoSection({
 
                     {office.whatsapp && (
                       <div className="office-info-row">
-                        <MessageCircle size={18} strokeWidth={1.6} />
+                        <MessageCircleCheck size={18} strokeWidth={1.6} />
                         <a
                           href={`https://wa.me/${office.whatsapp.replace(/\D/g, "")}`}
                           target="_blank"
