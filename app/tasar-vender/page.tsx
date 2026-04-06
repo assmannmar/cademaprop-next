@@ -328,7 +328,7 @@ export default function TasarVenderConCademaPage() {
                   />
 
                   {/* OVERLAY */}
-                  <div className="absolute inset-0 bg-[#faf9f7]/90 transition duration-500 group-hover:bg-[#faf9f7]/80" />
+                  <div className="absolute inset-0 bg-[#faf9f7]/80 transition duration-500 group-hover:bg-[#faf9f7]/50" />
 
                   {/* CONTENIDO */}
                   <div className="relative z-10">
