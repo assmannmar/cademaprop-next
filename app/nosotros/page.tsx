@@ -79,6 +79,47 @@ function CountUpStat({
   );
 }
 
+
+const valores = [
+    {
+      icon: (
+        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        </svg>
+      ),
+      title: 'Confianza',
+      description: 'Construimos relaciones duraderas basadas en la transparencia y honestidad.'
+    },
+    {
+      icon: (
+        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+        </svg>
+      ),
+      title: 'Profesionalismo',
+      description: 'Equipo altamente capacitado con más de 25 años de experiencia en el sector.'
+    },
+    {
+      icon: (
+        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+        </svg>
+      ),
+      title: 'Innovación',
+      description: 'Utilizamos las últimas tecnologías para brindar el mejor servicio.'
+    },
+    {
+      icon: (
+        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+        </svg>
+      ),
+      title: 'Compromiso',
+      description: 'Nos dedicamos a superar las expectativas de nuestros clientes.'
+    }
+  ];
+
+
 type Service = {
   title: string;
   description: string;
@@ -237,6 +278,38 @@ export default function NosotrosPage() {
             </div>
           </div>
         </section>
+
+        {/* Valores */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Nuestros Valores</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Los principios que guían cada una de nuestras acciones
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {valores.map((valor, idx) => (
+                <div
+                  key={idx}
+                  className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 border border-gray-100"
+                >
+                  <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center text-red-600 mb-6 mx-auto">
+                    {valor.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
+                    {valor.title}
+                  </h3>
+                  <p className="text-gray-600 text-center leading-relaxed">
+                    {valor.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
 
         <section className="nosotros-stats-section">
           <div className="nosotros-stats">
