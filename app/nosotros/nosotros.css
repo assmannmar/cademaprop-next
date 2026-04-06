@@ -533,10 +533,19 @@
 
   .service-overlay {
     padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 🔥 clave */
+    height: 100%;
   }
 
+  .service-top {
+    align-self: flex-start;
+  }
+  
   .service-content p {
     font-size: 0.92rem;
+    margin-top: auto;
   }
 
   .service-cta {
