@@ -1,4 +1,11 @@
 import "./contacto-section.css";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Instagram,
+  MessageCircle,
+} from "lucide-react";
 
 type Office = {
   name: string;
@@ -101,19 +108,21 @@ export default function ContactoSection({
                   <div className="office-card__divider" />
 
                   <div className="office-info-list">
-                    <div className="office-info-item">
-                      <span className="office-info-item__label">Dirección</span>
-                      <p>{office.address}</p>
+                    <div className="office-info-row">
+                      <MapPin size={18} strokeWidth={1.6} />
+                      <span>{office.address}</span>
                     </div>
 
-                    <div className="office-info-item">
-                      <span className="office-info-item__label">Teléfono</span>
-                      <a href={`tel:${office.phone.replace(/\s/g, "")}`}>{office.phone}</a>
+                    <div className="office-info-row">
+                      <Phone size={18} strokeWidth={1.6} />
+                      <a href={`tel:${office.phone.replace(/\s/g, "")}`}>
+                        {office.phone}
+                      </a>
                     </div>
 
                     {office.whatsapp && (
-                      <div className="office-info-item">
-                        <span className="office-info-item__label">WhatsApp</span>
+                      <div className="office-info-row">
+                        <MessageCircle size={18} strokeWidth={1.6} />
                         <a
                           href={`https://wa.me/${office.whatsapp.replace(/\D/g, "")}`}
                           target="_blank"
@@ -124,13 +133,13 @@ export default function ContactoSection({
                       </div>
                     )}
 
-                    <div className="office-info-item">
-                      <span className="office-info-item__label">Email</span>
+                    <div className="office-info-row">
+                      <Mail size={18} strokeWidth={1.6} />
                       <a href={`mailto:${office.email}`}>{office.email}</a>
                     </div>
 
-                    <div className="office-info-item">
-                      <span className="office-info-item__label">Instagram</span>
+                    <div className="office-info-row">
+                      <Instagram size={18} strokeWidth={1.6} />
                       <a
                         href="https://www.instagram.com/cadema_bienesraices/"
                         target="_blank"
