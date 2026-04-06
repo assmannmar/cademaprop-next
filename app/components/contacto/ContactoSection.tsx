@@ -56,7 +56,7 @@ type ContactoSectionProps = {
 export default function ContactoSection({
   showHero = true,
   title = "Contacto",
-  subtitle = "Estamos para acompañarte. Conocé nuestras sucursales y elegí la forma de contactarnos que te resulte más cómoda.",
+  subtitle = "",
 }: ContactoSectionProps) {
   return (
     <section className="contact-section">
@@ -65,11 +65,10 @@ export default function ContactoSection({
           className="contact-hero"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(0,0,0,0.42), rgba(0,0,0,0.42)), url('/carousel/2.jpg')",
+              "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/carousel/2.jpg')",
           }}
         >
           <div className="contact-hero__content container-cadema">
-            <span className="contact-hero__eyebrow">Cadema Bienes Raíces</span>
             <h1 className="contact-hero__title">{title}</h1>
             <p className="contact-hero__text">{subtitle}</p>
           </div>
@@ -80,7 +79,6 @@ export default function ContactoSection({
         <div className="container-cadema">
           <div className="section-heading">
             <span className="section-heading__kicker">Nuestras oficinas</span>
-            <h2>Elegí la sucursal más cercana</h2>
             <p>
               Contamos con distintos puntos de atención para brindarte una
               atención cercana, profesional y personalizada.
