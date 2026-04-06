@@ -179,7 +179,7 @@
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   transform: scale(1.02);
   transition: transform 0.45s ease;
 }
@@ -189,16 +189,17 @@
   transform: scale(1.06);
 }
 
+.service-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5); /* mismo tono en todos */
+  z-index: 1;
+}
+
+/* texto por encima */
 .service-overlay {
   position: relative;
   z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: #fff;
-  padding: 20px 18px;
-  text-align: left;
 }
 
 .service-top h3 {
