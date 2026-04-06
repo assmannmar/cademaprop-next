@@ -283,31 +283,26 @@ export default function NosotrosPage() {
         </section>
 
         {/* Valores */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Nuestros Valores</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Los principios que guían cada una de nuestras acciones
+        <section className="nosotros-values">
+          <div className="nosotros-values-container">
+            <div className="nosotros-values-head">
+              <h2>Nuestros Valores</h2>
+              <p>
+                Los principios que guían cada una de nuestras acciones.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="nosotros-values-grid">
               {valores.map((valor, idx) => (
-                <div
-                  key={idx}
-                  className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-105 border border-gray-100"
-                >
-                  <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center text-red-600 mb-6 mx-auto">
+                <article key={idx} className="nosotros-value-card">
+                  <div className="nosotros-value-icon">
                     {valor.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
-                    {valor.title}
-                  </h3>
-                  <p className="text-gray-600 text-center leading-relaxed">
-                    {valor.description}
-                  </p>
-                </div>
+
+                  <h3>{valor.title}</h3>
+
+                  <p>{valor.description}</p>
+                </article>
               ))}
             </div>
           </div>

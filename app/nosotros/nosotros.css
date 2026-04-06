@@ -254,6 +254,146 @@
   z-index: 3;
 }
 
+
+/* VALORES */
+.nosotros-values {
+  padding: 72px 24px 56px;
+  background: #f3f3f1;
+}
+
+.nosotros-values-container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.nosotros-values-head {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.nosotros-values-head h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.9rem, 2.3vw, 2.6rem);
+  font-weight: 800;
+  color: #1b1b1b;
+}
+
+.nosotros-values-head p {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #4a4a4a;
+}
+
+.nosotros-values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.nosotros-value-card {
+  background: #f7f7f5;
+  border: 1px solid rgba(25, 25, 25, 0.08);
+  padding: 30px 24px 28px;
+  text-align: center;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.nosotros-value-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.08);
+  border-color: rgba(198, 12, 35, 0.14);
+}
+
+.nosotros-value-icon {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 20px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c60c23;
+  background: rgba(198, 12, 35, 0.08);
+}
+
+.nosotros-value-icon svg {
+  width: 34px;
+  height: 34px;
+  display: block;
+}
+
+.nosotros-value-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.nosotros-value-card p {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* TABLET */
+@media (max-width: 991px) {
+  .nosotros-values {
+    padding: 60px 24px 46px;
+  }
+
+  .nosotros-values-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 640px) {
+  .nosotros-values {
+    padding: 48px 18px 38px;
+  }
+
+  .nosotros-values-head {
+    margin-bottom: 24px;
+  }
+
+  .nosotros-values-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .nosotros-value-card {
+    padding: 24px 18px 22px;
+  }
+
+  .nosotros-value-icon {
+    width: 66px;
+    height: 66px;
+    margin-bottom: 16px;
+  }
+
+  .nosotros-value-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .nosotros-value-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .nosotros-value-card p {
+    font-size: 0.92rem;
+  }
+}
+
+
 /* DESKTOP SUPERPOSICIÓN FOTO + TEXTO */
 @media (min-width: 992px) {
   .nosotros-intro {
