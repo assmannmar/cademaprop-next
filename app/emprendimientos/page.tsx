@@ -305,27 +305,31 @@ function EmprendimientosContent() {
   }, [heroItems.length]);
 
   useEffect(() => {
-    const updateRailPosition = () => {
-      const rail = railRef.current;
-      const wrap = wrapRef.current;
-      if (!rail || !wrap) return;
+  const updateRailPosition = () => {
+    const rail = railRef.current;
+    const wrap = wrapRef.current;
+    if (!rail || !wrap) return;
 
-      const cards = rail.querySelectorAll<HTMLElement>(".emprendimientos-card");
-      const activeCard = cards[activeIndex];
-      if (!activeCard) return;
+    const cards = rail.querySelectorAll<HTMLElement>(".emprendimientos-card");
+    const activeCard = cards[activeIndex];
+    if (!activeCard) return;
 
-      // Alinea la card activa al inicio visible del contenedor
-      const targetX = activeCard.offsetLeft;
-      rail.style.transform = `translate3d(${-targetX}px, 0, 0)`;
-    };
+    const wrapWidth = wrap.offsetWidth;
+    const cardLeft = activeCard.offsetLeft;
+    const cardWidth = activeCard.offsetWidth;
 
-    updateRailPosition();
-    window.addEventListener("resize", updateRailPosition);
+    const targetX = cardLeft - (wrapWidth / 2) + (cardWidth / 2);
 
-    return () => {
-      window.removeEventListener("resize", updateRailPosition);
-    };
-  }, [activeIndex, heroItems.length]);
+    rail.style.transform = `translate3d(${-targetX}px, 0, 0)`;
+  };
+
+  updateRailPosition();
+  window.addEventListener("resize", updateRailPosition);
+
+  return () => {
+    window.removeEventListener("resize", updateRailPosition);
+  };
+}, [activeIndex, heroItems.length]);
 
   return (
     <>
