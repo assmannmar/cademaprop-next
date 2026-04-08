@@ -231,11 +231,9 @@ export default function PropertiesContainer() {
     const sorted = [...properties].sort((a, b) => {
       switch (criteria) {
         case 'surface_desc':
-          return (parseFloat(String(b.total_surface)) || parseFloat(String(b.surface)) || 0) 
-              - (parseFloat(String(a.total_surface)) || parseFloat(String(a.surface)) || 0);
-        case 'surface_asc':
-          return (parseFloat(String(a.total_surface)) || parseFloat(String(a.surface)) || 0) 
-              - (parseFloat(String(b.total_surface)) || parseFloat(String(b.surface)) || 0);
+        return parseFloat(String(b.surface || 0)) - parseFloat(String(a.surface || 0));
+      case 'surface_asc':
+        return parseFloat(String(a.surface || 0)) - parseFloat(String(b.surface || 0));
         case 'roofed_desc':
           return parseFloat(String(b.roofed_surface || 0)) - parseFloat(String(a.roofed_surface || 0));
         case 'roofed_asc':
