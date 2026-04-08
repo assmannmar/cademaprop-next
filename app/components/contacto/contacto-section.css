@@ -12,13 +12,13 @@
 /* HERO */
 .contact-hero {
   position: relative;
-  min-height: 68vh;
+  min-height: 60vh;
   display: flex;
   align-items: flex-end;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  padding: 0 0 70px;
+  padding: 0 0 60px 4px;
 }
 
 .contact-hero__content {
@@ -40,7 +40,8 @@
   line-height: 0.95;
   text-transform: uppercase;
   font-weight: 800;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.08em;
+  margin-bottom: -20px;
 }
 
 .contact-hero__text {

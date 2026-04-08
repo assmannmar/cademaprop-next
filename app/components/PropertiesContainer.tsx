@@ -295,7 +295,7 @@ export default function PropertiesContainer() {
     <div className="w-full">
       {/* PORTADA */}
       <section
-        className="relative w-full min-h-[60vh] md:min-h-[68vh] flex items-end"
+        className="relative w-full min-h-[60vh] md:min-h-[60vh] flex items-end"
         style={{
           backgroundImage:
             "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.35) 100%), url('/carousel/2.jpg')",
@@ -304,9 +304,9 @@ export default function PropertiesContainer() {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="w-full max-w-[1280px] mx-auto px-6 md:px-8 lg:px-4 pb-10 md:pb-14 lg:pb-16 relative z-10">
+        <div className="w-full max-w-[1280px] mx-auto px-6 md:px-8 lg:px-6 pb-10 md:pb-14 lg:pb-16 relative z-10">
           <div className="max-w-4xl">
-            <h1 className="text-white uppercase font-extrabold tracking-[0.08em] text-4xl md:text-6xl lg:text-7xl leading-none">
+            <h1 className="text-white uppercase font-extrabold tracking-[0.08em] text-[clamp(2.4rem,5vw,4.3rem)] leading-none">
               Propiedades
             </h1>
 
