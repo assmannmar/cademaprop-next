@@ -301,7 +301,6 @@
     left: 0;
     right: 0;
     bottom: 8rem;
-    padding: 0 1rem;
   }
 
   .emprendimientos-card {
@@ -309,6 +308,12 @@
     height: 180px;
     border-radius: 22px;
   }
+
+  .emprendimientos-card__titulo {
+    font-size: 1rem;
+    margin: 1rem 0;
+  }
+
 }
 
 @media (max-width: 768px) {
@@ -327,6 +332,7 @@
 
    .emprendimientos-hero__info {
     margin-bottom: 30vh;
+    padding-left: 1rem;
   }
 
   .emprendimientos-hero__titulo {
@@ -355,7 +361,7 @@
   }
 
   .emprendimientos-hero__rail-wrap {
-    bottom: 6.5rem;
+    bottom: 7rem;
   }
 
   .emprendimientos-card {
