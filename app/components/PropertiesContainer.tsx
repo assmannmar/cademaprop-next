@@ -28,9 +28,9 @@ interface Property {
   room_amount?: number;
   bathroom_amount?: number;
   parking_lot_amount?: number;
-  surface?: number;
-  roofed_surface?: number;
-  total_surface?: number;
+  surface?: number | string;
+  roofed_surface?: number | string;
+  total_surface?: number | string;
   photos?: Array<{ 
     image: string; 
     is_front_cover?: boolean;
@@ -231,13 +231,13 @@ export default function PropertiesContainer() {
     const sorted = [...properties].sort((a, b) => {
       switch (criteria) {
         case 'surface_desc':
-          return (b.total_surface || b.surface || 0) - (a.total_surface || a.surface || 0);
+          return (parseFloat(String(b.total_surface || b.surface || 0))) - (parseFloat(String(a.total_surface || a.surface || 0)));
         case 'surface_asc':
-          return (a.total_surface || a.surface || 0) - (b.total_surface || b.surface || 0);
+          return (parseFloat(String(a.total_surface || a.surface || 0))) - (parseFloat(String(b.total_surface || b.surface || 0)));
         case 'roofed_desc':
-          return (b.roofed_surface || 0) - (a.roofed_surface || 0);
+          return parseFloat(String(b.roofed_surface || 0)) - parseFloat(String(a.roofed_surface || 0));
         case 'roofed_asc':
-          return (a.roofed_surface || 0) - (b.roofed_surface || 0);
+          return parseFloat(String(a.roofed_surface || 0)) - parseFloat(String(b.roofed_surface || 0));
         case 'price_desc':
           const priceA_desc = a.operations?.[0]?.prices?.[0]?.price || 0;
           const priceB_desc = b.operations?.[0]?.prices?.[0]?.price || 0;
