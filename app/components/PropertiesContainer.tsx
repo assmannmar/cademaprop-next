@@ -304,7 +304,7 @@ export default function PropertiesContainer() {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="w-full max-w-[1280px] mx-auto px-6 md:px-10 lg:px-16 pb-10 md:pb-14 lg:pb-16 relative z-10">
+        <div className="w-full max-w-[1280px] mx-auto px-6 md:px-8 lg:px-0 pb-10 md:pb-14 lg:pb-16 relative z-10">
           <div className="max-w-4xl">
             <h1 className="text-white uppercase font-extrabold tracking-[0.08em] text-4xl md:text-6xl lg:text-7xl leading-none">
               Propiedades
