@@ -327,19 +327,19 @@ export default function PropertiesContainer() {
 
         {!loading && properties.length > 0 && (
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 mt-8">
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-gray-600">
               Mostrando <span className="font-semibold">{displayedProperties.length}</span>{' '}
               propiedades
             </p>
 
             <div className="flex items-center gap-2">
-              <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <label className="text-sm font-semibold text-gray-700 ">
                 Ordenar por:
               </label>
               <select
                 value={sortBy}
                 onChange={handleSortChange}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+                className="px-3 py-2 border border-gray-300 rounded-md text-sm"
               >
                 <option value="recent_desc">Más recientes primero</option>
                 <option value="recent_asc">Más antiguos primero</option>
@@ -357,14 +357,14 @@ export default function PropertiesContainer() {
         {loading && (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
+            <p className="mt-4 text-lg text-gray-600">
               Cargando propiedades...
             </p>
           </div>
         )}
 
         {error && (
-          <div className="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-100 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-red-100 border border-red-400  text-red-700 px-4 py-3 rounded-lg mb-6">
             <p className="font-semibold">Error al cargar propiedades</p>
             <p>{error}</p>
           </div>
@@ -379,7 +379,7 @@ export default function PropertiesContainer() {
         ) : (
           !loading && (
             <div className="text-center py-12">
-              <p className="text-xl text-gray-500 dark:text-gray-400">
+              <p className="text-xl text-gray-500">
                 No se encontraron propiedades con los filtros seleccionados.
               </p>
             </div>
