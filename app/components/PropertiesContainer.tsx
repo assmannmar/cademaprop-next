@@ -30,7 +30,7 @@ interface Property {
   parking_lot_amount?: number;
   surface?: number | string;
   roofed_surface?: number | string;
-  total_surface?: number | string;
+  // total_surface?: number | string;
   photos?: Array<{ 
     image: string; 
     is_front_cover?: boolean;
