@@ -1,4 +1,39 @@
 import Link from 'next/link';
+import { Facebook, Instagram, Linkedin, Globe, Music2  } from "lucide-react";
+
+const socialLinks = [
+  {
+    name: "Facebook",
+    icon: Facebook,
+    url: "https://facebook.com/TU_PAGINA",
+  },
+  {
+    name: "Instagram Cadema",
+    icon: Instagram,
+    url: "https://instagram.com/cadema_bienesraices",
+  },
+  {
+    name: "Instagram Industrias",
+    icon: Instagram,
+    url: "https://instagram.com/cadema_industrias",
+    highlight: true,
+  },
+  {
+    name: "LinkedIn",
+    icon: Linkedin,
+    url: "https://linkedin.com/company/TU_EMPRESA",
+  },
+  {
+    name: "TikTok",
+    icon: Music2,
+    url: "https://tiktok.com/@TU_CUENTA",
+  },
+  {
+    name: "Blog",
+    icon: Globe,
+    url: "https://tusitio.com/blog",
+  },
+];
 
 export default function Footer() {
   return (
@@ -75,22 +110,32 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4 uppercase tracking-wider">Seguinos</h4>
             
             {/* Redes Sociales */}
-            <div className="flex justify-center md:justify-end gap-3 mb-4">
-              {['facebook', 'twitter', 'instagram', 'linkedin', 'youtube'].map((social) => (
-                <a 
-                  key={social}
-                  href="#" 
-                  target="_blank" 
-                  className="w-9 h-9 bg-white/10 hover:bg-[#ff4444] rounded-full flex items-center justify-center text-white transition-all transform hover:scale-110"
-                >
-                  <i className={`fa-brands fa-${social === 'youtube' ? 'youtube' : social} text-sm`}></i>
-                </a>
-              ))}
+            <div className="flex flex-wrap justify-center md:justify-end gap-3 mb-4">
+              {socialLinks.map((social) => {
+                const Icon = social.icon;
+
+                return (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={social.name}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-all transform hover:scale-110
+                      ${social.highlight 
+                        ? "bg-[#ff4444]/20 hover:bg-[#ff4444]" 
+                        : "bg-white/10 hover:bg-[#ff4444]"}
+                    `}
+                  >
+                    <Icon size={16} strokeWidth={2} className="text-white" />
+                  </a>
+                );
+              })}
             </div>
 
             {/* AFIP Dataweb */}
             <div className="flex justify-center md:justify-end">
-              <a href="http://qr.afip.gob.ar/..." target="_F960AFIPInfo">
+              <a href="http://qr.afip.gob.ar/?qr=82JvChoulzyyUkU3O2T0pA" target="_blank" rel="noopener">
                 <img 
                   src="/logos/DATAWEB.jpg" 
                   width="45" 
