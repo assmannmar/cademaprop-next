@@ -95,7 +95,7 @@ export default function Navbar() {
             {name: "Terreno Industrial", href: "/propiedades?tipo=Terreno+industrial"},
           ]
         },
-        { name: "Simulador", href: "/simulador"},
+        // { name: "Simulador", href: "/simulador"},
         { name: "Tasar/Vender", href: "/tasar-vender" },
       ] 
     },
@@ -106,7 +106,7 @@ export default function Navbar() {
       [
         { name: "Residencial", href: "/emprendimientos?div=residencial"},
         { name: "Industrial", href: "/emprendimientos?div=industrial"},
-        { name: "Simulador", href: "/simulador"},
+        // { name: "Simulador", href: "/simulador"},
       ]
     },
     { name: "INDUSTRIA", href: "https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" },
@@ -115,7 +115,7 @@ export default function Navbar() {
     { name: "SINOR", href: "https://sinor.com.ar/" },
   ];
 
-  const linkClass = `nav-item px-3 py-2 transition-colors duration-200 font-bold ${
+  const linkClass = `nav-item inline-flex items-center h-11 px-3 py-2 transition-colors duration-200 font-bold leading-none ${
     scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
   }`;
 
@@ -162,26 +162,30 @@ return (
           </Link>
 
           {/* MENU DESKTOP */}
+                    {/* MENU DESKTOP */}
           <div className="hidden lg:flex items-center ml-auto space-x-1">
             {navLinks.map((link) => {
               const hasSubmenu = link.submenu && link.submenu.length > 0;
-              
+
+              const desktopLinkClass = `nav-item inline-flex items-center justify-center h-11 px-3 py-2 transition-colors duration-200 font-bold leading-none ${
+                scrolled ? "text-gray-800 hover:text-blue-600" : "text-white hover:text-gray-300"
+              }`;
+
               return (
-                <div key={link.name} className="relative">
+                <div key={link.name} className="relative flex items-center">
                   {hasSubmenu ? (
                     <>
                       <Link
                         href={link.href}
                         onClick={(e) => handleDesktopMenuClick(e, link, !!hasSubmenu)}
-                        className={`${linkClass} flex items-center cursor-pointer`}
+                        className={`${desktopLinkClass} cursor-pointer`}
                       >
-                        {link.name}
-                        <span className={`transition-transform duration-200 ${openSubmenu === link.name ? 'rotate-180' : ''}`} />
+                        <span>{link.name}</span>
                       </Link>
-                      
+
                       {/* Submenu Desktop */}
                       {openSubmenu === link.name && (
-                        <div 
+                        <div
                           className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 animate-fade-in z-50"
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -192,9 +196,8 @@ return (
                               <div key={sublink.name} className="relative group/sub">
                                 {hasSubSubmenu ? (
                                   <>
-                                    {/* Cambiado de <div> a <Link> para que el click navegue */}
                                     <Link
-                                      href={sublink.href}  // href: "/propiedades" o "/emprendimientos"
+                                      href={sublink.href}
                                       className="flex items-center justify-between px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-600 cursor-pointer font-semibold transition-colors"
                                       onClick={() => setOpenSubmenu(null)}
                                     >
@@ -202,7 +205,6 @@ return (
                                       <span className="text-[10px]">▶</span>
                                     </Link>
 
-                                    {/* Sub-sub-menú: se mantiene igual con hover */}
                                     <div className="absolute left-full top-0 ml-0 w-48 bg-white shadow-xl border border-gray-100 py-2 hidden group-hover/sub:block animate-fade-in">
                                       {sublink.items?.map((item) => (
                                         <Link
@@ -232,19 +234,31 @@ return (
                       )}
                     </>
                   ) : (
-                    <Link href={link.href} className={linkClass}>
-                      {link.name}
+                    <Link href={link.href} className={desktopLinkClass}>
+                      <span>{link.name}</span>
                     </Link>
                   )}
                 </div>
               );
             })}
-            
+
             {/* Redes sociales como parte del mismo grupo de space-x */}
-            <a href="https://instagram.com/cademabienesraices" target="_blank" className={linkClass} aria-label="Instagram">
+            <a
+              href="https://instagram.com/cademabienesraices"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+              aria-label="Instagram"
+            >
               <InstagramIcon />
             </a>
-            <a href="https://wa.me/5493489368518" target="_blank" className={linkClass} aria-label="WhatsApp">
+            <a
+              href="https://wa.me/5493489368518"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+              aria-label="WhatsApp"
+            >
               <WhatsAppIcon />
             </a>
           </div>
