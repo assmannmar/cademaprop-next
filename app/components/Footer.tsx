@@ -1,37 +1,64 @@
 import Link from 'next/link';
-
+import Image from "next/image";
 
 const socialLinks = [
   {
     name: "Facebook",
-    icon: Facebook,
-    url: "https://facebook.com/TU_PAGINA",
+    icon: "/logos/rrss/facebook.png",
+    url: "https://www.facebook.com/cademabienesraices",
   },
   {
     name: "Instagram Cadema",
-    icon: Instagram,
-    url: "https://instagram.com/cadema_bienesraices",
+    icon: "/logos/rrss/instagram.png",
+    url: "https://www.instagram.com/cademabienesraices",
   },
   {
-    name: "Instagram Industrias",
-    icon: Instagram,
-    url: "https://instagram.com/cadema_industrias",
+    name: "Instagram Cadema Industrias",
+    icon: "/logos/rrss/instagram.png",
+    url: "https://www.instagram.com/cademaindustrias",
     highlight: true,
   },
   {
     name: "LinkedIn",
-    icon: Linkedin,
-    url: "https://linkedin.com/company/TU_EMPRESA",
+    icon: "/logos/rrss/linkedin.png",
+    url: "https://www.linkedin.com/company/cademabienesraices",
   },
   {
     name: "TikTok",
-    icon: Music2,
-    url: "https://tiktok.com/@TU_CUENTA",
+    icon: "/logos/rrss/tiktok.png",
+    url: "https://www.tiktok.com/@cademabienesraices",
   },
   {
     name: "Blog",
-    icon: Globe,
-    url: "https://tusitio.com/blog",
+    icon: "/logos/rrss/wordpress.png",
+    url: "https://cademaprop.com.ar/blog",
+  },
+];
+
+const offices = [
+  {
+    name: "Campana",
+    address: "Av Varela 420, Campana",
+    mapsUrl: "https://maps.app.goo.gl/Qj1sZve3ELwJ8niWA.",
+    phone: "+54 9 3489 368518",
+    whatsappUrl: "https://wa.me/5493489368518",
+    hours: "Lun-Vie 10 a 18hs",
+  },
+  {
+    name: "Zárate",
+    address: "Av Gallesio 55, Zárate",
+    mapsUrl: "https://maps.app.goo.gl/YtUpnjzds6qvJinLA",
+    phone: "+54 9 3487 624830",
+    whatsappUrl: "https://wa.me/5493487624830",
+    hours: "Lun-Vie 10 a 18hs",
+  },
+  {
+    name: "Industrias",
+    address: "Parque Industrial Ruta 6 - Autovia 6 km180",
+    mapsUrl: "https://maps.app.goo.gl/5m4Ag1wm4Tsod2qC8",
+    phone: "+54 9 3489 517998",
+    whatsappUrl: "https://wa.me/5493489517998",
+    hours: "-",
   },
 ];
 
@@ -65,43 +92,46 @@ export default function Footer() {
 
           {/* Información de Contacto */}
           <div className="text-white text-center md:text-left">
-            <h4 className="text-lg font-semibold mb-4 uppercase tracking-wider">Contacto</h4>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center justify-center md:justify-start gap-2 opacity-80 hover:opacity-100 transition">
-                <span className="text-[#ff4444]">📍</span>
-                <a 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  href="https://www.google.com.ar/maps/place/Inmobiliaria+Cadema+S.A./..."
-                  className="hover:text-[#ff4444] transition-colors"
-                >
-                  Av Varela 420, Campana
-                </a>
-              </li>
-              <li className="flex items-center justify-center md:justify-start gap-2 opacity-80 hover:opacity-100 transition">
-                <span className="text-[#ff4444]">📱</span>
-                <a 
-                  target="_blank" 
-                  href="https://wa.me/5493489368518"
-                  className="hover:text-[#ff4444] transition-colors"
-                >
-                  +54 9 3489 36-8518
-                </a>
-              </li>
-              <li className="flex items-center justify-center md:justify-start gap-2 opacity-80 hover:opacity-100 transition">
-                <span className="text-[#ff4444]">✉️</span>
-                <a 
-                  href="mailto:ventas@cademaprop.com.ar"
-                  className="hover:text-[#ff4444] transition-colors"
-                >
-                  ventas@cademaprop.com.ar
-                </a>
-              </li>
-            </ul>
+            <h4 className="text-lg font-semibold mb-4 uppercase tracking-wider">
+              Contacto
+            </h4>
 
-            {/* Horarios compactos */}
-            <div className="mt-4 text-xs opacity-70">
-              <p>Lun-Vie: 10-18hs | Cita previa: 9-19hs</p>
+            <div className="space-y-4 text-sm">
+              {offices.map((office) => (
+                <div key={office.name} className="space-y-1">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-white/55">
+                    {office.name}
+                  </p>
+
+                  <div className="flex items-center justify-center md:justify-start gap-2 text-white/80 hover:text-white transition-colors">
+                    <span className="text-[#ff4444] shrink-0">📍</span>
+                    <a
+                      href={office.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-[#ff4444] transition-colors"
+                    >
+                      {office.address}
+                    </a>
+                  </div>
+
+                  <div className="flex items-center justify-center md:justify-start gap-2 text-white/80 hover:text-white transition-colors">
+                    <span className="text-[#ff4444] shrink-0">📱</span>
+                    <a
+                      href={office.whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-[#ff4444] transition-colors"
+                    >
+                      {office.phone}
+                    </a>
+                  </div>
+                  <div className="flex items-center justify-center md:justify-start gap-2 text-white/60 text-[12px]">
+                    <span className="text-[#ff4444]">🕒</span>
+                    <span>{office.hours}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -111,31 +141,33 @@ export default function Footer() {
             
             {/* Redes Sociales */}
             <div className="flex flex-wrap justify-center md:justify-end gap-3 mb-4">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-
-                return (
-                  <a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={social.name}
-                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-all transform hover:scale-110
-                      ${social.highlight 
-                        ? "bg-[#ff4444]/20 hover:bg-[#ff4444]" 
-                        : "bg-white/10 hover:bg-[#ff4444]"}
-                    `}
-                  >
-                    <Icon size={16} strokeWidth={2} className="text-white" />
-                  </a>
-                );
-              })}
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={social.name}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110
+                    ${social.highlight 
+                      ? "bg-[white] hover:bg-[#ff4444]" 
+                      : "bg-white hover:bg-[#ff4444]"}
+                  `}
+                >
+                  <Image
+                    src={social.icon}
+                    alt={social.name}
+                    width={38}
+                    height={38}
+                    className="object-contain"
+                  />
+                </a>
+              ))}
             </div>
 
             {/* AFIP Dataweb */}
             <div className="flex justify-center md:justify-end">
-              <a href="http://qr.afip.gob.ar/?qr=82JvChoulzyyUkU3O2T0pA" target="_blank" rel="noopener">
+              <a href="http://qr.afip.gob.ar/?qr=82JvChoulzyyUkU3O2T0pA,," target="_blank" rel="noopener">
                 <img 
                   src="/logos/DATAWEB.jpg" 
                   width="45" 
