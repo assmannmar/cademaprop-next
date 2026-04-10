@@ -170,7 +170,7 @@ export default function PropertyDetailPage() {
       'Daily dining':        'Comedor diario',
       'Dining lounge':       'Living comedor',
       'Garden':              'Jardín',
-      'Dressing room':       'Vestidor',
+      'Dresser':             'Vestidor',
       'Solarium':            'Solarium',
       'Swimming pool':       'Pileta',
     };
