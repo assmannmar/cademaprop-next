@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Script from 'next/script';
-import VentuxForm from "@/app/components/VentuxForm";
+
 
 export default function QuienesSomosPage() {
   const valores = [
