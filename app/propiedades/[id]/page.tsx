@@ -167,6 +167,12 @@ export default function PropertyDetailPage() {
       'Drinking Water':      'Agua Potable',
       'Balcony terrace':     'Balcón / Terraza',
       'Public lighting':     'Alumbrado Público',
+      'Daily dining':        'Comedor diario',
+      'Dining lounge':       'Living comedor',
+      'Garden':              'Jardín',
+      'Dressing room':       'Vestidor',
+      'Solarium':            'Solarium',
+      'Swimming pool':       'Pileta',
     };
     return translations[tag] || tag;
   };
