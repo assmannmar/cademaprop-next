@@ -306,7 +306,16 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Formulario de Contacto</h2>
             <p className="text-xl text-gray-600">Estamos para ayudarte</p>
           </div>
-          <VentuxForm />
+          <iframe
+                  width="100%"
+                  height="500"
+                  frameBorder="0"
+                  style={{ border: 0 }}
+                  src="https://link.ventux.io/widget/form/ucy1LfDZBfGuZJOStMqg"
+                  allowFullScreen
+                />
+            <script src="https://link.ventux.io/js/form_embed.js"></script>
+          {/* <VentuxForm /> */}
         </div>
       </section>
     </main>
