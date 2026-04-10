@@ -8,73 +8,49 @@ export default function VentuxForm() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   useEffect(() => {
-    // Evitar cargas múltiples
     if (scriptLoadedRef.current) return;
-    
-    // Verificar entorno del navegador
     if (typeof window === 'undefined') return;
     
     const container = containerRef.current;
     if (!container) return;
 
-    // Limpiar contenido previo
     container.innerHTML = '';
 
-    // Crear el iframe con los datos exactos del código original
     const iframe = document.createElement('iframe');
-    iframe.src = "https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz";
-    // Ajustado a height 619px según tu código original
-    iframe.style.cssText = "display:block;width:100%;height:619px;border:none;border-radius:3px";
-    iframe.id = "inline-OWI77RP94NZkMNa4BIaz";
+    iframe.src = "https://link.ventux.io/widget/form/ucy1LfDZBfGuZJOStMqg";
+    iframe.style.cssText = "display:block;width:100%;height:560px;border:none;border-radius:3px";
+    iframe.id = "inline-ucy1LfDZBfGuZJOStMqg";
     
-    // Configuración de Layout Inline
-    iframe.setAttribute('data-layout', JSON.stringify({
-      id: 'INLINE'
-    }));
-    
-    // Atributos de comportamiento
+    iframe.setAttribute('data-layout', JSON.stringify({ id: 'INLINE' }));
     iframe.setAttribute('data-trigger-type', 'alwaysShow');
     iframe.setAttribute('data-trigger-value', '');
     iframe.setAttribute('data-activation-type', 'alwaysActivated');
     iframe.setAttribute('data-activation-value', '');
     iframe.setAttribute('data-deactivation-type', 'neverDeactivate');
     iframe.setAttribute('data-deactivation-value', '');
-    iframe.setAttribute('data-form-name', 'Form Web Inmueble');
-    iframe.setAttribute('data-height', '619');
-    iframe.setAttribute('data-layout-iframe-id', 'inline-OWI77RP94NZkMNa4BIaz');
-    iframe.setAttribute('data-form-id', 'OWI77RP94NZkMNa4BIaz');
-    iframe.title = "Form Web Inmueble";
+    iframe.setAttribute('data-form-name', 'Form Web General');
+    iframe.setAttribute('data-height', '560');
+    iframe.setAttribute('data-layout-iframe-id', 'inline-ucy1LfDZBfGuZJOStMqg');
+    iframe.setAttribute('data-form-id', 'ucy1LfDZBfGuZJOStMqg');
+    iframe.title = "Form Web General";
 
-    // Guardar referencia para limpieza
     iframeRef.current = iframe;
-    
-    // Insertar iframe
     container.appendChild(iframe);
 
-    // Cargar el script de Ventux si no existe
     if (!document.querySelector('script[src*="form_embed.js"]')) {
       const script = document.createElement('script');
       script.src = "https://link.ventux.io/js/form_embed.js";
       script.async = true;
-      
-      script.onload = () => {
-        scriptLoadedRef.current = true;
-      };
-
-      script.onerror = () => {
-        console.error('Error loading Ventux script');
-      };
-
+      script.onload = () => { scriptLoadedRef.current = true; };
+      script.onerror = () => { console.error('Error loading Ventux script'); };
       document.body.appendChild(script);
     } else {
       scriptLoadedRef.current = true;
     }
 
-    // Función de limpieza al desmontar el componente
     return () => {
       const currentIframe = iframeRef.current;
       const currentContainer = containerRef.current;
-      
       if (currentIframe && currentContainer) {
         try {
           if (currentContainer.contains(currentIframe)) {
@@ -91,8 +67,8 @@ export default function VentuxForm() {
   return (
     <div 
       ref={containerRef} 
-      className="ventux-form-container w-full min-h-[619px] bg-transparent"
-      style={{ minHeight: '619px' }}
+      className="ventux-form-container w-full min-h-[560px] bg-transparent"
+      style={{ minHeight: '560px' }}
     />
   );
 }
