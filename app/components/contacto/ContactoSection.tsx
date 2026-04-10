@@ -190,51 +190,15 @@ export default function ContactoSection({
             </div>
 
             <div className="contact-form-card">
-              <form className="contact-form">
-                <div className="form-grid">
-                  <div className="form-field">
-                    <label htmlFor="name">Nombre y apellido</label>
-                    <input id="name" type="text" placeholder="Tu nombre" />
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="phone">Teléfono</label>
-                    <input id="phone" type="tel" placeholder="Tu teléfono" />
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="email">Email</label>
-                    <input id="email" type="email" placeholder="Tu email" />
-                  </div>
-
-                  <div className="form-field">
-                    <label htmlFor="office">Sucursal de interés</label>
-                    <select id="office" defaultValue="">
-                      <option value="" disabled>
-                        Seleccionar sucursal
-                      </option>
-                      {offices.map((office) => (
-                        <option key={office.name} value={office.name}>
-                          {office.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="form-field form-field--full">
-                    <label htmlFor="message">Mensaje</label>
-                    <textarea
-                      id="message"
-                      rows={6}
-                      placeholder="Escribí tu consulta"
-                    />
-                  </div>
-                </div>
-
-                <button type="submit" className="contact-submit-btn">
-                  Enviar consulta
-                </button>
-              </form>
+              <iframe
+                  width="100%"
+                  height="560"
+                  frameBorder="0"
+                  style={{ border: 0 }}
+                  src="https://link.ventux.io/widget/form/ucy1LfDZBfGuZJOStMqg"
+                  allowFullScreen
+                />
+            <script src="https://link.ventux.io/js/form_embed.js"></script>
             </div>
           </div>
         </div>
