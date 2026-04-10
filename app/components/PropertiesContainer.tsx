@@ -91,7 +91,7 @@ export default function PropertiesContainer() {
     
     setPendingFilters(initialFilters);
     fetchProperties(initialFilters);
-  }, []);
+  }, [searchParams]);
 
   // El ordenamiento se aplica automáticamente cuando cambian las propiedades
   useEffect(() => {
