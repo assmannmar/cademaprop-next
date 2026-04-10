@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import HeroCarousel from "./components/HeroCarousel";
-import VentuxForm from "@/app/components/VentuxForm";
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -315,7 +314,7 @@ export default function HomePage() {
                   allowFullScreen
                 />
             <script src="https://link.ventux.io/js/form_embed.js"></script>
-          {/* <VentuxForm /> */}
+          
         </div>
       </section>
     </main>
