@@ -276,7 +276,7 @@ export default function QuienesSomosPage() {
                   <h2 className="text-4xl font-bold text-gray-900 mb-4">Formulario de Contacto</h2>
                   <p className="text-xl text-gray-600">Estamos para ayudarte</p>
                 </div>
-                <VentuxForm />
+                {/* <VentuxForm /> */}
               </div>
             </section>
     </div>
