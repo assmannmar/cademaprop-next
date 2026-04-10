@@ -192,7 +192,7 @@ export default function ContactoSection({
             <div className="contact-form-card">
               <iframe
                   width="100%"
-                  height="560"
+                  height="500"
                   frameBorder="0"
                   style={{ border: 0 }}
                   src="https://link.ventux.io/widget/form/ucy1LfDZBfGuZJOStMqg"
