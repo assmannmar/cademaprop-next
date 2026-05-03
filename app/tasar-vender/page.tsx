@@ -439,9 +439,9 @@ export default function TasarVenderConCademaPage() {
 
           <div className="rounded-[32px] border border-neutral-200 bg-[#faf9f7] p-4 md:p-6 shadow-[0_12px_32px_rgba(0,0,0,0.05)]">
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#c60c23]/8 text-[#c60c23]">
+              {/* <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#c60c23]/8 text-[#c60c23]">
                 <FileText className="h-5 w-5" />
-              </div>
+              </div> */}
               <iframe
                   width="100%"
                   height="500"
