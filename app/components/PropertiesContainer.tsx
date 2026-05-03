@@ -385,9 +385,12 @@ export default function PropertiesContainer() {
               <div className="flex justify-center mt-10">
                 <button
                   onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_PAGE)}
-                  className="btn-text"
+                  className="btn-split btn-split-bottom btn-split-wide"
                 >
-                  Cargar más ({displayedProperties.length - visibleCount} restantes)
+                  <span className="btn-text">
+                    Cargar más ({displayedProperties.length - visibleCount} restantes)
+                  </span>
+                  <span className="btn-arrow">→</span>
                 </button>
               </div>
             )}
