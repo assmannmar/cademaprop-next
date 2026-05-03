@@ -442,17 +442,18 @@ export default function TasarVenderConCademaPage() {
               <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#c60c23]/8 text-[#c60c23]">
                 <FileText className="h-5 w-5" />
               </div>
-              <div>
-                <p className="text-sm font-semibold text-neutral-900">
-                  Formulario de contacto
-                </p>
-                <p className="text-xs text-neutral-500">
-                  Integración desde Ventux
-                </p>
-              </div>
+              <iframe
+                  width="100%"
+                  height="500"
+                  frameBorder="0"
+                  style={{ border: 0 }}
+                  src="https://link.ventux.io/widget/form/ucy1LfDZBfGuZJOStMqg"
+                  allowFullScreen
+                />
+              <script src="https://link.ventux.io/js/form_embed.js"></script>
             </div>
 
-            <div className="rounded-[24px] border border-dashed border-neutral-300 bg-white p-6">
+            {/* <div className="rounded-[24px] border border-dashed border-neutral-300 bg-white p-6">
               <p className="text-sm leading-relaxed text-neutral-600">
                 Reemplazá este bloque por el embed de Ventux.
               </p>
@@ -465,7 +466,7 @@ export default function TasarVenderConCademaPage() {
                 Ejemplo: formulario integrado para solicitar tasación o iniciar
                 proceso de venta.
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
