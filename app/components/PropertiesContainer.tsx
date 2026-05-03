@@ -385,7 +385,7 @@ export default function PropertiesContainer() {
               <div className="flex justify-center mt-10">
                 <button
                   onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_PAGE)}
-                  className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  className="btn-text"
                 >
                   Cargar más ({displayedProperties.length - visibleCount} restantes)
                 </button>
