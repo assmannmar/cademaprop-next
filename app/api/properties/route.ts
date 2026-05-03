@@ -26,8 +26,7 @@ export async function GET() {
     const url = `https://www.tokkobroker.com/api/v1/property/?key=${apiKey}&limit=300&format=json&lang=es`;
 
     const response = await fetch(url, {
-        // Configuraciones de cacheado para asegurar que Vercel no use una respuesta antigua
-        cache: 'no-store' 
+        next: { revalidate: 300 } // cachea 5 minutos en el servidor
     });
 
     // 2. Manejo de errores de Tokko (ej. 401/403 si la clave es mala)

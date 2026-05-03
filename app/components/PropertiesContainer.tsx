@@ -52,12 +52,15 @@ interface ApiResponse {
 
 type SortOption = 'recent_desc' | 'recent_asc' | 'price_desc' | 'price_asc' | 'surface_desc' | 'surface_asc' | 'roofed_desc' | 'roofed_asc';
 
+const ITEMS_PER_PAGE = 12;
+
 export default function PropertiesContainer() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   const [properties, setProperties] = useState<Property[]>([]);
   const [displayedProperties, setDisplayedProperties] = useState<Property[]>([]);
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>('recent_desc');
@@ -228,6 +231,7 @@ export default function PropertiesContainer() {
   };
 
   const sortProperties = (criteria: SortOption) => {
+    setVisibleCount(ITEMS_PER_PAGE);
     const sorted = [...properties].sort((a, b) => {
       switch (criteria) {
         case 'surface_desc':
@@ -371,11 +375,23 @@ export default function PropertiesContainer() {
         )}
 
         {!loading && displayedProperties.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {displayedProperties.map((property) => (
-              <PropertyCard key={property.id} {...property} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {displayedProperties.slice(0, visibleCount).map((property) => (
+                <PropertyCard key={property.id} {...property} />
+              ))}
+            </div>
+            {visibleCount < displayedProperties.length && (
+              <div className="flex justify-center mt-10">
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_PAGE)}
+                  className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Cargar más ({displayedProperties.length - visibleCount} restantes)
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           !loading && (
             <div className="text-center py-12">
