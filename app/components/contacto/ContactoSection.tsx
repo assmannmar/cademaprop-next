@@ -198,7 +198,7 @@ export default function ContactoSection({
                   src="https://link.ventux.io/widget/form/ucy1LfDZBfGuZJOStMqg"
                   allowFullScreen
                 />
-            <script src="https://link.ventux.io/js/form_embed.js"></script>
+              <script src="https://link.ventux.io/js/form_embed.js"></script>
             </div>
           </div>
         </div>
