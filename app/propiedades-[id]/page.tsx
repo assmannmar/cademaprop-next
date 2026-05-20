@@ -73,6 +73,8 @@ export default function PropertyDetailPage() {
   const params = useParams();
   const id = params?.id;
 
+  const propertyId = id ? (id as string).split('-')[0] : null;
+
   const [currentUrl, setCurrentUrl] = useState('');
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
@@ -117,7 +119,7 @@ export default function PropertyDetailPage() {
       if (!response.ok) throw new Error('Error al cargar la propiedad');
 
       const data = await response.json();
-      const foundProperty = data.objects.find((p: Property) => p.id === parseInt(id as string));
+      const foundProperty = data.objects.find((p: Property) => p.id === parseInt(propertyId as string));
 
       if (!foundProperty) throw new Error('Propiedad no encontrada');
 
