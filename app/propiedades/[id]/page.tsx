@@ -134,8 +134,8 @@ export default function PropertyDetailPage() {
   const translateOperationType = (type: string) => {
     const translations: Record<string, string> = {
       Sale: 'Venta',
-      Rental: 'Alquiler',
-      'Temporary Rental': 'Alquiler Temporal',
+      Rent: 'Alquiler',
+      'Temporary Rent': 'Alquiler Temporal',
     };
     return translations[type] || type;
   };
@@ -151,6 +151,7 @@ export default function PropertyDetailPage() {
       Building: 'Edificio',
       PH: 'PH',
       'Industrial Ship': 'Nave Industrial',
+      Storage: 'Depósito',
     };
     return translations[type] || type;
   };
