@@ -71,7 +71,10 @@ interface Property {
 
 export default function PropertyDetailPage() {
   const params = useParams();
-  const id = params?.id;
+  const slug = params?.slug as string;
+  
+  // Extrae el ID del slug (primera parte antes del guion)
+  const id = slug ? slug.split('-')[0] : null;
 
   const [currentUrl, setCurrentUrl] = useState('');
   const [property, setProperty] = useState<Property | null>(null);

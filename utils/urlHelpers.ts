@@ -36,7 +36,8 @@ export function generatePropertyUrl(property: {
   const operacionSlug = generateSlug(translateOperationType(operacion));
   const direccionSlug = generateSlug(direccion);
   
-  return `/propiedades/${id}-${tipoSlug}-${operacionSlug}-${direccionSlug}`;
+  // CAMBIO AQUÍ: sin /propiedades/, directo con guion
+  return `/propiedades-${id}-${tipoSlug}-${operacionSlug}-${direccionSlug}`;
 }
 
 // Parsear ID de URL SEO-friendly
