@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Navbar from '@/app/components/navbar';
-import Footer from '@/app/components/Footer';
 
 // ============================================================
 // ICONS - SVG inline (sin lucide-react)
@@ -272,8 +270,7 @@ export default function IndustriasPage() {
 
   return (
     <>
-      <Navbar />
-
+      
       {/* TOP STRIP */}
       <div className="bg-[#141414] text-[#d6cfb9] text-xs tracking-wide py-2 px-8 mt-20">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 flex-wrap">
@@ -575,7 +572,7 @@ export default function IndustriasPage() {
         </section>
       </main>
 
-      {/* <Footer /> */}
+      
     </>
   );
 }
