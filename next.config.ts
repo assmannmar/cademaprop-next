@@ -1,7 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: '/propiedad-:id-:slug*',
+        destination: '/propiedades/:id-casa-venta-:slug*',
+        permanent: true, // 301 (permanente)
+      }
+    ]
+  }
 };
 
 export default nextConfig;
