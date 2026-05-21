@@ -575,7 +575,7 @@ export default function IndustriasPage() {
         </section>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
