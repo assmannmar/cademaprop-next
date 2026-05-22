@@ -1,6 +1,15 @@
 "use client";
 
+import { usePathname } from 'next/navigation';
+
 export default function WhatsAppButton() {
+  const pathname = usePathname();
+  
+  // No mostrar el botón si estamos en /industria
+  if (pathname.startsWith('/industria')) {
+    return null;
+  }
+
   const WHATSAPP_NUMBER = "5493489368518";
   const DEFAULT_MESSAGE = "Hola, quiero más información";
 
