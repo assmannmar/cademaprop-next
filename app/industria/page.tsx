@@ -449,43 +449,64 @@ export default function IndustriasPage() {
         </section>
 
         {/* ============================================================
-             HOW WE WORK
+            HOW WE WORK
         ============================================================ */}
-        <section id="como" className="py-20 border-b border-[#d8d1c4]">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="mb-16">
-              <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">03 · Cómo trabajamos</span>
-              <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">
-                Un proceso enfocado en <em className="italic font-normal text-[#b8252c]">su decisión</em>, no en cerrar operaciones.
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  num: '01',
-                  title: 'Entendemos su operación',
-                  desc: 'Tipo de industria, logística, ampliaciones previstas, equipamiento, requerimientos eléctricos, normativa aplicable. Antes de mostrar opciones queremos conocer su negocio.',
-                },
-                {
-                  num: '02',
-                  title: 'Relevamos opciones reales',
-                  desc: 'Comparamos superficies disponibles, valores, beneficios impositivos, servicios e infraestructura entre varios parques y ubicaciones.',
-                },
-                {
-                  num: '03',
-                  title: 'Acompañamos hasta la radicación',
-                  desc: 'Visitas coordinadas, negociación con desarrolladores, vinculación con constructoras. Honorarios habituales, solo al cierre.',
-                },
-              ].map((step) => (
-                <div key={step.num} className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors">
-                  <span className="font-mono text-xs tracking-widest text-[#b8252c] font-semibold">PASO {step.num}</span>
-                  <h4 className="font-serif text-lg font-medium text-[#141414] mt-3 mb-3">{step.title}</h4>
-                  <p className="text-sm text-[#6b6660] leading-relaxed">{step.desc}</p>
+        <section id="como" className="py-24 border-b border-[#d8d1c4] bg-[#f5f3f0]">
+            <div className="max-w-7xl mx-auto px-8">
+                {/* Encabezado */}
+                <div className="mb-20">
+                <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase block mb-6">
+                    03 · Cómo trabajamos
+                </span>
+                <h2 className="font-serif text-5xl md:text-6xl font-medium text-[#141414] leading-tight">
+                    Un proceso enfocado en{' '}
+                    <em className="italic font-normal text-[#b8252c]">su decisión</em>, no en
+                    <br />
+                    cerrar una operación cualquiera.
+                </h2>
                 </div>
-              ))}
+
+                {/* Grid de 3 pasos */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+                {[
+                    {
+                    num: '01',
+                    title: 'Entendemos su operación',
+                    desc: 'Tipo de industria, logística, ampliaciones previstas, equipamiento, requerimientos eléctricos, normativa aplicable. Antes de mostrar opciones queremos conocer su negocio.',
+                    },
+                    {
+                    num: '02',
+                    title: 'Relevamos opciones reales',
+                    desc: 'Comparamos superficies disponibles, valores, beneficios impositivos, servicios e infraestructura entre varios parques y ubicaciones. Le presentamos un cuadro comparable para decidir con datos.',
+                    },
+                    {
+                    num: '03',
+                    title: 'Acompañamos hasta la radicación',
+                    desc: 'Visitas coordinadas, negociación con desarrolladores, vinculación con constructoras si necesita levantar nave, gestión de habilitaciones. Los honorarios son los habituales del sector, solo al cierre.',
+                    },
+                ].map((step) => (
+                    <div key={step.num} className="flex flex-col">
+                    {/* Número con línea */}
+                    <div className="flex items-center gap-4 mb-6">
+                        <span className="font-mono text-sm font-semibold text-[#b8252c] tracking-widest">
+                        PASO {step.num}
+                        </span>
+                        <div className="flex-grow h-px bg-[#d8d1c4]" />
+                    </div>
+
+                    {/* Título */}
+                    <h3 className="font-serif text-xl md:text-2xl font-medium text-[#141414] mb-4">
+                        {step.title}
+                    </h3>
+
+                    {/* Descripción */}
+                    <p className="text-base text-[#2a2a2a] leading-relaxed">
+                        {step.desc}
+                    </p>
+                    </div>
+                ))}
+                </div>
             </div>
-          </div>
         </section>
 
         {/* ============================================================
