@@ -583,15 +583,15 @@ export default function IndustriasPage() {
              FINAL CTA SECTION
         ============================================================ */}
         <section className="py-20 bg-gradient-to-br from-[#C63137] to-[#A0272E] text-white border-b border-[#C63137]">
-          <div className="max-w-7xl mx-auto px-8">
+          <div className="max-w-7xl mx-auto px-8 text-center">
             <span className="font-mono text-xs tracking-widest uppercase opacity-90 block mb-6">07 · Empecemos</span>
             <h2 className="font-serif text-5xl font-medium leading-tight mb-4">
-              Su <em className="italic font-normal text-orange-200">próxima planta</em> ya está disponible. Solo falta encontrarla.
+              Su <em className="italic font-normal">próxima planta</em> ya está disponible. Solo falta encontrarla.
             </h2>
-            <p className="text-lg text-gray-100 max-w-xl mb-8">
+            <p className="text-lg text-gray-100 max-w-xl mb-8 mx-auto">
               Cuéntenos qué necesita su empresa y le respondemos con opciones concretas el mismo día.
             </p>
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-3 flex-wrap justify-center">
               <a href="#formulario" className="inline-flex items-center gap-2 bg-white text-[#C63137] px-7 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
                 Completar formulario <span>→</span>
               </a>
