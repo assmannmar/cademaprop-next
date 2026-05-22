@@ -2,14 +2,13 @@
 
 import { ReactNode } from 'react';
 import Link from 'next/link';
-import WhatsAppButtonIndustria from './WhatsappButtonIndustria';
+import WhatsAppButtonIndustria from '@/app/components/Whatsappbuttonindustria';
 
 export default function IndustriaLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <NavbarIndustrias />
       {children}
-      {/* Botón WhatsApp específico para Industria */}
       <WhatsAppButtonIndustria />
     </>
   );
@@ -19,7 +18,6 @@ function NavbarIndustrias() {
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#f4f1ec]/92 backdrop-blur-md border-b border-[#d8d1c4]">
       <div className="max-w-7xl mx-auto px-8 flex items-center justify-between py-4.5">
-        {/* LOGO */}
         <Link href="/industria" className="flex items-baseline gap-2.5">
           <img 
               src="/logos-industria/logo-industria.png" 
@@ -28,7 +26,6 @@ function NavbarIndustrias() {
             />
         </Link>
         
-        {/* MENU DESKTOP */}
         <ul className="hidden lg:flex gap-8">
           <li>
             <a href="#propiedades" className="text-sm font-medium text-[#2a2a2a] hover:border-b border-[#141414] pb-0.5 transition-colors">
@@ -57,7 +54,6 @@ function NavbarIndustrias() {
           </li>
         </ul>
 
-        {/* BOTÓN CTA */}
         <a 
           href="#formulario" 
           className="hidden md:inline-block bg-[#141414] text-[#f4f1ec] px-4.5 py-2.5 rounded-full text-sm font-medium hover:bg-[#b8252c] transition-colors"
