@@ -176,14 +176,10 @@ export default function IndustriasPage() {
 
   // Datos de logos - hardcodeados
   const empresasLogos: CarouselItem[] = [
-    { id: '1', title: 'Seventeen', subtitle: 'Cortinas y accesorios', image: '/logos/seventeen.png' },
-    { id: '2', title: 'Polo Industrial', subtitle: 'Logística', image: '/logos/polo.png' },
-    { id: '3', title: 'Tecnometal', subtitle: 'Metalmecánica', image: '/logos/tecnometal.png' },
-    { id: '4', title: 'Frigorífico R.', subtitle: 'Alimentos', image: '/logos/frigorifico.png' },
-    { id: '5', title: 'Logística AZ', subtitle: 'Transporte', image: '/logos/logistica-az.png' },
-    { id: '6', title: 'Aceros del Norte', subtitle: 'Siderurgia', image: '/logos/aceros.png' },
-    { id: '7', title: 'Distribuidora P.', subtitle: 'Distribución', image: '/logos/distrib.png' },
-    { id: '8', title: 'Plásticos LV', subtitle: 'Plástica', image: '/logos/plasticos.png' },
+    { id: '1', title: 'Seventeen', subtitle: 'Cortinas y accesorios', image: '/logos-industria/seventeen.png' },
+    { id: '2', title: 'Polo Industrial', subtitle: 'Logística', image: '/logos-industria/polo.png' },
+    { id: '3', title: 'Tecnometal', subtitle: 'Metalmecánica', image: '/logos-industria/tecnometal.png' },
+    { id: '4', title: 'Frigorífico R.', subtitle: 'Alimentos', image: '/logos-industria/frigorifico.png' },
   ];
 
   // Fetch datos de la API
