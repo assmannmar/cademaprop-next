@@ -582,23 +582,23 @@ export default function IndustriasPage() {
         {/* ============================================================
              FINAL CTA SECTION
         ============================================================ */}
-        <section className="py-20 bg-gradient-to-r from-[#141414] to-[#2a2a2a] text-white border-b border-[#141414]">
+        <section className="py-20 bg-gradient-to-br from-[#C63137] to-[#A0272E] text-white border-b border-[#C63137]">
           <div className="max-w-7xl mx-auto px-8">
-            <span className="font-mono text-xs tracking-widest uppercase opacity-70 block mb-6">07 · Empecemos</span>
+            <span className="font-mono text-xs tracking-widest uppercase opacity-90 block mb-6">07 · Empecemos</span>
             <h2 className="font-serif text-5xl font-medium leading-tight mb-4">
-              Su <em className="italic font-normal text-[#d97e2f]">próxima planta</em> ya está disponible.
+              Su <em className="italic font-normal text-orange-200">próxima planta</em> ya está disponible. Solo falta encontrarla.
             </h2>
-            <p className="text-lg text-gray-300 max-w-xl mb-8">
+            <p className="text-lg text-gray-100 max-w-xl mb-8">
               Cuéntenos qué necesita su empresa y le respondemos con opciones concretas el mismo día.
             </p>
-            <div className="flex gap-4 flex-wrap">
-              <a href="#formulario" className="inline-flex items-center gap-2 bg-white text-[#141414] px-6 py-3 rounded-lg font-semibold hover:bg-[#d97e2f] hover:text-white transition-colors">
+            <div className="flex gap-3 flex-wrap">
+              <a href="#formulario" className="inline-flex items-center gap-2 bg-white text-[#C63137] px-7 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
                 Completar formulario <span>→</span>
               </a>
-              <a href="https://api.whatsapp.com/send/?phone=5493489517998" className="inline-flex items-center gap-2 border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#141414] transition-colors">
+              <a href="https://api.whatsapp.com/send/?phone=5493489517998" className="inline-flex items-center gap-2 border-2 border-white text-white px-7 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#C63137] transition-colors">
                 WhatsApp directo
               </a>
-              <a href="tel:+5493489517998" className="inline-flex items-center gap-2 border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#141414] transition-colors">
+              <a href="tel:+5493489517998" className="inline-flex items-center gap-2 border-2 border-white text-white px-7 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#C63137] transition-colors">
                 +54 9 3489 517-998
               </a>
             </div>
