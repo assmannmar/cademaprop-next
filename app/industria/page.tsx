@@ -420,32 +420,42 @@ export default function IndustriasPage() {
         </section>
 
         {/* ============================================================
-             EMPRENDIMIENTOS INDUSTRIALES - CAROUSEL (API)
+            EMPRENDIMIENTOS INDUSTRIALES - CAROUSEL (API)
         ============================================================ */}
-        <section id="parques" className="py-20 border-b border-[#d8d1c4]">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="mb-12">
-              <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">02 · Parques industriales</span>
-              <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">Emprendimientos destacados en Zona Norte</h2>
-            </div>
+        <section id="parques" className="py-24 border-b border-[#d8d1c4] bg-[#1a1a1a]">
+            <div className="max-w-7xl mx-auto px-8">
+                {/* Header */}
+                <div className="mb-16">
+                <span className="font-mono text-xs tracking-widest text-[#8a8a8a] uppercase block mb-6">
+                    02 · Parques que representamos
+                </span>
+                <h2 className="font-serif text-4xl md:text-5xl font-medium text-white leading-tight mb-6">
+                    Acceso directo a los principales{' '}
+                    <em className="italic font-normal text-[#b8252c]">parques industriales</em> de Zona Norte.
+                </h2>
+                <p className="text-lg text-[#b0b0b0] max-w-2xl leading-relaxed">
+                    Relación de trabajo con desarrolladores, cuerpos directivos y administradores. Información actualizada de superficies disponibles, valores y beneficios impositivos.
+                </p>
+                </div>
 
-            {loading ? (
-              <div className="text-center py-12">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#b8252c]"></div>
-              </div>
-            ) : emprendimientosIndustriales.length > 0 ? (
-              <EmprendimientosIndustrialesCarousel emprendimientos={emprendimientosIndustriales} />
-            ) : (
-              <p className="text-center text-gray-500">No hay emprendimientos industriales disponibles en este momento</p>
-            )}
+                {/* Carousel */}
+                {loading ? (
+                <div className="text-center py-12">
+                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#b8252c]"></div>
+                </div>
+                ) : emprendimientosIndustriales.length > 0 ? (
+                <EmprendimientosIndustrialesCarousel emprendimientos={emprendimientosIndustriales} />
+                ) : (
+                <p className="text-center text-gray-500">No hay emprendimientos industriales disponibles en este momento</p>
+                )}
 
-            <div className="flex justify-center mt-12">
+                <div className="flex justify-center mt-12">
                 <Link href="/emprendimientos?div=industrial" className="btn-split btn-split-bottom btn-split-wide">
-                <span className="btn-text">Ver Todos los Emprendimientos</span>
-                <span className="btn-arrow">→</span>
+                    <span className="btn-text">Ver Todos los Emprendimientos</span>
+                    <span className="btn-arrow">→</span>
                 </Link>
+                </div>
             </div>
-          </div>
         </section>
 
         {/* ============================================================
