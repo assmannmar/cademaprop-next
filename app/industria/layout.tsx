@@ -18,9 +18,11 @@ function NavbarIndustrias() {
       <div className="max-w-7xl mx-auto px-8 flex items-center justify-between py-4.5">
         {/* LOGO */}
         <Link href="/industria" className="flex items-baseline gap-2.5">
-          <div className="w-7 h-7 bg-[#b8252c] rounded"></div>
-          <span className="font-serif text-2xl font-bold text-[#141414]">CADEMA</span>
-          <span className="font-mono text-xs font-light tracking-widest text-[#6b6660]">Industrias</span>
+          <img 
+              src="/logos-industria/logo-industria.png" 
+              alt="Logo" 
+              className="h-auto w-full max-w-[120px] md:max-w-[160px] transition-all duration-300" 
+            />
         </Link>
         
         {/* MENU DESKTOP */}
