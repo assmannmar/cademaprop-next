@@ -506,11 +506,11 @@ export default function IndustriasPage() {
 
               <div className="bg-white p-8 rounded-lg border border-[#d8d1c4]">
                 <blockquote className="font-serif text-lg italic text-[#2a2a2a] mb-6 leading-relaxed">
-                  "Cuando contactamos a CADEMA estábamos sin lugar donde expandirnos. En dos meses de visitas y reuniones pudimos comprar un terreno en Ruta 6 y hoy estamos terminando la nave a estrenar."
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
                 </blockquote>
                 <div className="border-t border-[#d8d1c4] pt-6">
-                  <div className="font-semibold text-[#141414]">SEVENTEEN SRL</div>
-                  <p className="text-sm text-[#6b6660] mt-1">Fabricación de cortinas y accesorios · Localidad de Munro</p>
+                  <div className="font-semibold text-[#141414]">Empresa x</div>
+                  <p className="text-sm text-[#6b6660] mt-1">xxxxxx · Localidad de xxx</p>
                   
                   <div className="grid grid-cols-2 gap-4 mt-6">
                     <div>
@@ -519,7 +519,7 @@ export default function IndustriasPage() {
                     </div>
                     <div>
                       <div className="font-mono text-xs text-[#6b6660] tracking-widest uppercase mb-1">Tiempo a cierre</div>
-                      <div className="font-semibold text-[#141414]">8 semanas</div>
+                      <div className="font-semibold text-[#141414]">x semanas</div>
                     </div>
                   </div>
                 </div>
