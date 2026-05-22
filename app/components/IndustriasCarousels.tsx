@@ -277,6 +277,7 @@ export function EmprendimientosIndustrialesCarousel({ emprendimientos }: Emprend
 interface Logo {
   id?: string;
   name?: string;
+  image?: string;
 }
 
 interface LogosCarouselProps {
@@ -292,14 +293,17 @@ export function LogosCarousel({
 }: LogosCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(6);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 640) {
-        setItemsPerView(2);
+        setItemsPerView(1);
       } else if (window.innerWidth < 768) {
-        setItemsPerView(3);
+        setItemsPerView(2);
       } else if (window.innerWidth < 1024) {
+        setItemsPerView(3);
+      } else if (window.innerWidth < 1280) {
         setItemsPerView(4);
       } else {
         setItemsPerView(6);
@@ -321,10 +325,13 @@ export function LogosCarousel({
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   }, [maxIndex]);
 
+  // Auto-play with pause on hover
   useEffect(() => {
-    const timer = setInterval(next, 5000);
+    if (!isAutoPlay || logos.length <= itemsPerView) return;
+    
+    const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, isAutoPlay, logos.length, itemsPerView]);
 
   if (!logos || logos.length === 0) {
     return <p className="text-center text-gray-500">No hay logos disponibles</p>;
@@ -343,34 +350,59 @@ export function LogosCarousel({
       </div>
 
       {/* Carousel */}
-      <div className="relative">
+      <div 
+        className="relative"
+        onMouseEnter={() => setIsAutoPlay(false)}
+        onMouseLeave={() => setIsAutoPlay(true)}
+      >
         <div className="overflow-hidden">
           <div
-            className="flex transition-transform duration-500 ease-out gap-6"
-            style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
+            className="flex transition-transform duration-500 ease-out"
+            style={{ 
+              transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`,
+              gap: '1.5rem'
+            }}
           >
             {logos.map((logo) => (
               <div
                 key={logo.id || logo.name}
                 className="flex-shrink-0"
-                style={{ width: `${100 / itemsPerView}%` }}
+                style={{ width: `calc(${100 / itemsPerView}% - ${1.5 * (itemsPerView - 1) / itemsPerView}rem)` }}
               >
-                <div className="bg-white aspect-2/1 rounded-lg border border-[#d8d1c4] flex items-center justify-center p-6 hover:border-[#141414] hover:shadow-md transition-all cursor-pointer group h-32 px-3">
-                  <span className="font-serif font-semibold text-[#6b6660] text-center group-hover:text-[#141414] transition-colors text-sm md:text-base">
-                    {logo.name}
-                  </span>
+                <div className="bg-white rounded-lg border border-[#d8d1c4] flex items-center justify-center p-4 md:p-6 hover:border-[#b8252c] hover:shadow-md transition-all cursor-pointer group min-h-28 md:min-h-32">
+                  {logo.image ? (
+                    <img
+                      src={logo.image}
+                      alt={logo.name || 'Logo'}
+                      className="max-h-16 max-w-[85%] object-contain group-hover:scale-110 transition-transform duration-300"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          parent.innerHTML = `<span class="font-serif font-semibold text-[#6b6660] text-center text-xs md:text-sm px-2">${logo.name || 'Logo'}</span>`;
+                        }
+                      }}
+                    />
+                  ) : (
+                    <span className="font-serif font-semibold text-[#6b6660] text-center group-hover:text-[#b8252c] transition-colors text-xs md:text-sm px-2">
+                      {logo.name}
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Botones navegación */}
+        {/* Navigation Buttons */}
         {logos.length > itemsPerView && (
           <>
             <button
               onClick={prev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 md:translate-x-0 md:left-2 bg-white border border-[#d8d1c4] rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#141414] hover:text-white transition-all z-10"
+              aria-label="Anterior"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 md:-translate-x-16 bg-white border border-[#d8d1c4] rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#b8252c] hover:text-white hover:border-[#b8252c] transition-all z-10"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -379,7 +411,8 @@ export function LogosCarousel({
 
             <button
               onClick={next}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 md:translate-x-0 md:right-2 bg-white border border-[#d8d1c4] rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#141414] hover:text-white transition-all z-10"
+              aria-label="Siguiente"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 md:translate-x-16 bg-white border border-[#d8d1c4] rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#b8252c] hover:text-white hover:border-[#b8252c] transition-all z-10"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -390,17 +423,23 @@ export function LogosCarousel({
       </div>
 
       {/* Dots */}
-      <div className="flex justify-center gap-2 mt-8">
-        {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrentIndex(idx)}
-            className={`h-2 rounded-full transition-all ${
-              idx === currentIndex ? 'w-8 bg-[#141414]' : 'w-2 bg-[#d8d1c4] hover:bg-[#6b6660]'
-            }`}
-          />
-        ))}
-      </div>
+      {logos.length > itemsPerView && (
+        <div className="flex justify-center gap-2 mt-8">
+          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                setCurrentIndex(idx);
+                setIsAutoPlay(true);
+              }}
+              aria-label={`Ir a slide ${idx + 1}`}
+              className={`h-2 rounded-full transition-all ${
+                idx === currentIndex ? 'w-8 bg-[#b8252c]' : 'w-2 bg-[#d8d1c4] hover:bg-[#6b6660]'
+              }`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
