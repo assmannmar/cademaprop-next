@@ -620,7 +620,7 @@ export default function IndustriasPage() {
                   height="500"
                   frameBorder="0"
                   style={{ border: 0 }}
-                  src="https://link.ventux.io/widget/form/qH6Ia9bqN0C0WkJm8Zds"
+                  src="https://link.ventux.io/widget/form/GWRG5jg8hqV4zcVjh6f1"
                   allowFullScreen
                 />
               <script src="https://link.ventux.io/js/form_embed.js"></script>
