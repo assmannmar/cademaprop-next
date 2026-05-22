@@ -245,12 +245,12 @@ export default function IndustriasPage() {
             </span>
           </div>
           <a href="tel:+5493489517998" className="text-[#f4f1ec] hover:text-white transition-colors">
-            +54 9 3489 517-998
+            +54 9 3489 517998
           </a>
         </div>
       </div>
 
-      <main>
+      <main className="pt-20">
         {/* ============================================================
              HERO SECTION
         ============================================================ */}
