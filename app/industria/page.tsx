@@ -615,8 +615,15 @@ export default function IndustriasPage() {
             
             {/* TODO: Importa tu componente del formulario aquí */}
             <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] text-center text-[#6b6660]">
-              <p className="mb-4">Formulario de búsqueda industrial irá aquí</p>
-              <p className="text-sm">Importa tu componente FormularioBusquedaIndustrial y reemplaza este div</p>
+              <iframe
+                  width="100%"
+                  height="500"
+                  frameBorder="0"
+                  style={{ border: 0 }}
+                  src="https://link.ventux.io/widget/form/qH6Ia9bqN0C0WkJm8Zds"
+                  allowFullScreen
+                />
+              <script src="https://link.ventux.io/js/form_embed.js"></script>
             </div>
           </div>
         </section>
