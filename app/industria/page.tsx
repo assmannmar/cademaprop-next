@@ -267,11 +267,11 @@ export default function IndustriasPage() {
               <div>
                 <div className="inline-flex items-center gap-2.5 border border-[#c2b9a6] bg-[#fdfcf9] px-3.5 py-1.5 rounded-full mb-7">
                   <div className="w-1.5 h-1.5 bg-[#b8252c] rounded-full"></div>
-                  <span className="font-mono text-xs tracking-widest text-[#6b6660]">Zona Norte AMBA</span>
+                  <span className="font-mono text-xs tracking-widest text-[#6b6660]">ESPECIALISTAS EN REAL ESTATE INDUSTRIAL · ZONA NORTE AMBA</span>
                 </div>
 
                 <h1 className="font-serif text-5xl lg:text-6xl font-medium text-[#141414] leading-tight mb-7 tracking-tight">
-                  Naves y lotes industriales <em className="italic font-normal text-[#b8252c]">en la mejor ubicación</em>
+                  Naves industriales y lotes en <em className="italic font-normal text-[#b8252c]">parques industriales</em> de Zona Norte.
                 </h1>
 
                 <p className="text-lg text-[#2a2a2a] max-w-md mb-8 leading-relaxed">
