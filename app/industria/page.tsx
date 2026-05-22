@@ -235,7 +235,7 @@ export default function IndustriasPage() {
 
   return (
     <>
-      {/* TOP STRIP */}
+      {/* TOP STRIP
       <div className="bg-[#141414] text-[#d6cfb9] text-xs tracking-wide py-2 px-8 mt-20">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 flex-wrap">
           <div>
@@ -248,7 +248,7 @@ export default function IndustriasPage() {
             +54 9 3489 517998
           </a>
         </div>
-      </div>
+      </div> */}
 
       <main className="pt-20">
         {/* ============================================================
