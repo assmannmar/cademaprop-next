@@ -458,7 +458,7 @@ export default function IndustriasPage() {
                 <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase block mb-6">
                     03 · Cómo trabajamos
                 </span>
-                <h2 className="font-serif text-3xl md:text-4xl font-medium text-[#141414] leading-tight">
+                <h2 className="font-serif text-4xl md:text-5xl font-medium text-[#141414] leading-tight">
                     Un proceso enfocado en{' '}
                     <em className="italic font-normal text-[#b8252c]">su decisión</em>, no en
                     <br />
