@@ -309,114 +309,115 @@ export default function IndustriasPage() {
         </section>
 
         {/* ============================================================
-             ¿QUÉ ESTÁS BUSCANDO?
-        ============================================================ */}
-        <section className="py-20 bg-[#ebe6dd]">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="mb-16">
-              <h2 className="font-serif text-4xl font-medium text-[#141414] mb-4 leading-tight">
-                ¿Qué <em className="italic font-normal text-[#b8252c]">estás buscando</em>?
-              </h2>
-              <p className="text-lg text-[#6b6660] max-w-2xl leading-relaxed">
-                Cuatro caminos directos según el tipo de operación. Cada propuesta incluye relevamiento de zonificación, beneficios fiscales y condiciones contractuales.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* OPCIÓN 1: ALQUILER DE NAVES */}
-              <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
-                <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold text-[#b8252c]">N</span>
-                </div>
-                <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
-                  Alquiler de naves industriales
-                </h3>
-                <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
-                  Galpones y naves AAA desde 800 a 12.000 m², dentro y fuera de parques.
-                </p>
-                <a href="/propiedades?operacion=rent&tipo=industrial" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
-                  Ver naves en alquiler →
-                </a>
-              </div>
-
-              {/* OPCIÓN 2: VENTA DE LOTES */}
-              <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
-                <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold text-[#b8252c]">L</span>
-                </div>
-                <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
-                  Venta de lotes industriales
-                </h3>
-                <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
-                  Fracciones desde 2.000 a 48.000 m² en parques categorías 1, 2 y 3.
-                </p>
-                <a href="#propiedades" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
-                  Ver lotes en venta →
-                </a>
-              </div>
-
-              {/* OPCIÓN 3: CENTROS LOGÍSTICOS */}
-              <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
-                <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold text-[#b8252c]">C</span>
-                </div>
-                <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
-                  Centros logísticos
-                </h3>
-                <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
-                  Docks, playas para camiones, accesos rápidos a autopistas troncales.
-                </p>
-                <a href="#propiedades" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
-                  Ver opciones logísticas →
-                </a>
-              </div>
-
-              {/* OPCIÓN 4: BÚSQUEDA A MEDIDA */}
-              <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
-                <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold text-[#b8252c]">B</span>
-                </div>
-                <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
-                  Búsqueda a medida
-                </h3>
-                <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
-                  ¿No encuentras lo que necesitas? Hacemos relevamiento personalizado.
-                </p>
-                <a href="#formulario" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
-                  Solicitar búsqueda →
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================================
-             PROPIEDADES INDUSTRIALES - CAROUSEL (API)
+            ¿QUÉ ESTÁS BUSCANDO? + PROPIEDADES INDUSTRIALES
         ============================================================ */}
         <section id="propiedades" className="py-20 border-b border-[#d8d1c4]">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="mb-12">
-              <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">01 · Propiedades disponibles</span>
-              <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">Opciones reales en Zona Norte</h2>
-            </div>
+            <div className="max-w-7xl mx-auto px-8">
+                
+                {/* Subsección 1: ¿Qué estás buscando? */}
+                <div className="mb-24">
+                <div className="mb-16">
+                    <h2 className="font-serif text-4xl font-medium text-[#141414] mb-4 leading-tight">
+                    ¿Qué <em className="italic font-normal text-[#b8252c]">estás buscando</em>?
+                    </h2>
+                    <p className="text-lg text-[#6b6660] max-w-2xl leading-relaxed">
+                    Cuatro caminos directos según el tipo de operación. Cada propuesta incluye relevamiento de zonificación, beneficios fiscales y condiciones contractuales.
+                    </p>
+                </div>
 
-            {loading ? (
-              <div className="text-center py-12">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#b8252c]"></div>
-              </div>
-            ) : propiedadesIndustriales.length > 0 ? (
-              <PropiedadesIndustrialesCarousel propiedades={propiedadesIndustriales} />
-            ) : (
-              <p className="text-center text-gray-500">No hay propiedades industriales disponibles en este momento</p>
-            )}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* OPCIÓN 1: ALQUILER DE NAVES */}
+                    <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
+                    <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
+                        <span className="text-2xl font-bold text-[#b8252c]">N</span>
+                    </div>
+                    <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
+                        Alquiler de naves industriales
+                    </h3>
+                    <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
+                        Galpones y naves AAA desde 800 a 12.000 m², dentro y fuera de parques.
+                    </p>
+                    <a href="/propiedades?operacion=rent&tipo=industrial" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
+                        Ver naves en alquiler →
+                    </a>
+                    </div>
 
-            <div className="flex justify-center mt-12">
-                <Link href="/propiedades?division=Industria" className="btn-split btn-split-bottom btn-split-wide">
-                <span className="btn-text">Ver Todas las propiedades</span>
-                <span className="btn-arrow">→</span>
-                </Link>
+                    {/* OPCIÓN 2: VENTA DE LOTES */}
+                    <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
+                    <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
+                        <span className="text-2xl font-bold text-[#b8252c]">L</span>
+                    </div>
+                    <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
+                        Venta de lotes industriales
+                    </h3>
+                    <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
+                        Fracciones desde 2.000 a 48.000 m² en parques categorías 1, 2 y 3.
+                    </p>
+                    <a href="#propiedades" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
+                        Ver lotes en venta →
+                    </a>
+                    </div>
+
+                    {/* OPCIÓN 3: CENTROS LOGÍSTICOS */}
+                    <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
+                    <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
+                        <span className="text-2xl font-bold text-[#b8252c]">C</span>
+                    </div>
+                    <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
+                        Centros logísticos
+                    </h3>
+                    <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
+                        Docks, playas para camiones, accesos rápidos a autopistas troncales.
+                    </p>
+                    <a href="#propiedades" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
+                        Ver opciones logísticas →
+                    </a>
+                    </div>
+
+                    {/* OPCIÓN 4: BÚSQUEDA A MEDIDA */}
+                    <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
+                    <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
+                        <span className="text-2xl font-bold text-[#b8252c]">B</span>
+                    </div>
+                    <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
+                        Búsqueda a medida
+                    </h3>
+                    <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
+                        ¿No encuentras lo que necesitas? Hacemos relevamiento personalizado.
+                    </p>
+                    <a href="#formulario" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
+                        Solicitar búsqueda →
+                    </a>
+                    </div>
+                </div>
+                </div>
+
+                {/* Subsección 2: Propiedades disponibles */}
+                <div>
+                <div className="mb-12">
+                    <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">01 · Propiedades disponibles</span>
+                    <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">Opciones reales en Zona Norte</h2>
+                </div>
+
+                {loading ? (
+                    <div className="text-center py-12">
+                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#b8252c]"></div>
+                    </div>
+                ) : propiedadesIndustriales.length > 0 ? (
+                    <PropiedadesIndustrialesCarousel propiedades={propiedadesIndustriales} />
+                ) : (
+                    <p className="text-center text-gray-500">No hay propiedades industriales disponibles en este momento</p>
+                )}
+
+                <div className="flex justify-center mt-12">
+                    <Link href="/propiedades?division=Industria" className="btn-split btn-split-bottom btn-split-wide">
+                    <span className="btn-text">Ver Todas las propiedades</span>
+                    <span className="btn-arrow">→</span>
+                    </Link>
+                </div>
+                </div>
+
             </div>
-          </div>
         </section>
 
         {/* ============================================================
