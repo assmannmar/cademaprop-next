@@ -250,7 +250,7 @@ export default function IndustriasPage() {
         </div>
       </div> */}
 
-      <main className="pt-20">
+      <main className="pt-10">
         {/* ============================================================
              HERO SECTION
         ============================================================ */}
