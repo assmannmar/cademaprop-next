@@ -89,7 +89,7 @@ export default function Navbar() {
         },
         {
           name: "Industriales",
-          href: "/propiedades?tipo=Industrial",
+          href: "/propiedades?division=Industria",
           items: [
             {name: "Nave Industrial", href: "/propiedades?tipo=Industrial+Ship"},
             {name: "Terreno Industrial", href: "/propiedades?tipo=Terreno+industrial"},
@@ -109,7 +109,7 @@ export default function Navbar() {
         // { name: "Simulador", href: "/simulador"},
       ]
     },
-    { name: "INDUSTRIA", href: "https://cademaprop.com.ar/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/" },
+    { name: "INDUSTRIA", href: "/industria" },
     { name: "CONTACTO", href: "/contacto" },
     { name: "BLOG", href: "/blog" },
     { name: "SINOR", href: "https://sinor.com.ar/" },
