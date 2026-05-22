@@ -171,7 +171,7 @@ export default function PropertyFilters({
                 >
                   <option value="">Todas</option>
                   <option value="sale">Venta</option>
-                  <option value="rental">Alquiler</option>
+                  <option value="rent">Alquiler</option>
                 </select>
               </div>
 
