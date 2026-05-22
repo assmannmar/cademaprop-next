@@ -605,7 +605,7 @@ export default function IndustriasPage() {
              FORMULARIO
         ============================================================ */}
         <section id="formulario" className="py-20 bg-[#f4f1ec] border-b border-[#d8d1c4]">
-          <div className="max-w-2xl mx-auto px-8">
+          <div className="max-w-6xl mx-auto px-8">
             <div className="mb-12">
               <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">Consulta personalizada</span>
               <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">
