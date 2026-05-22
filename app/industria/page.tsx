@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from "next/link";
 import { PropiedadesIndustrialesCarousel, EmprendimientosIndustrialesCarousel } from '@/app/components/IndustriasCarousels';
 
 // ============================================================
@@ -430,6 +431,13 @@ export default function IndustriasPage() {
             ) : (
               <p className="text-center text-gray-500">No hay emprendimientos industriales disponibles en este momento</p>
             )}
+
+            <div className="flex justify-center mt-12">
+            <Link href="/emprendimientos?div=industrial" className="btn-split btn-split-bottom btn-split-wide">
+              <span className="btn-text">Ver Todos los Emprendimientos</span>
+              <span className="btn-arrow">→</span>
+            </Link>
+          </div>
           </div>
         </section>
 
