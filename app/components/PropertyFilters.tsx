@@ -50,7 +50,7 @@ export default function PropertyFilters({
 
   const activeFiltersCount = useMemo(() => {
     return Object.entries(filters).filter(([key, value]) => {
-      if (key === 'division') return false; // hoy no se usa
+      // if (key === 'division') return false; 
       return value !== '';
     }).length;
   }, [filters]);
@@ -143,6 +143,24 @@ export default function PropertyFilters({
             </div>
 
             <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              
+              {/* División - NUEVO FILTRO */}
+              <div>
+                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                  División
+                </label>
+                <select
+                  name="division"
+                  value={filters.division}
+                  onChange={handleChange}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                >
+                  <option value="">Todas</option>
+                  <option value="Industria">Industria</option>
+                  <option value="Ciudad">Ciudad</option>
+                </select>
+              </div>
+
               {/* Ubicación */}
               <div>
                 <label className="mb-2 block text-sm font-semibold text-gray-700">
