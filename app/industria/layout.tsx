@@ -2,12 +2,15 @@
 
 import { ReactNode } from 'react';
 import Link from 'next/link';
+import WhatsAppButtonIndustria from './WhatsappButtonIndustria';
 
 export default function IndustriaLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <NavbarIndustrias />
       {children}
+      {/* Botón WhatsApp específico para Industria */}
+      <WhatsAppButtonIndustria />
     </>
   );
 }
