@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { PropiedadesIndustrialesCarousel, EmprendimientosIndustrialesCarousel } from '@/app/components/IndustriasCarousels';
 
 // ============================================================
-// ICONS - SVG inline (sin lucide-react)
+// ICONS - SVG inline
 // ============================================================
 const ChevronLeft = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -41,7 +42,36 @@ const Maximize2 = ({ size = 20 }) => (
 );
 
 // ============================================================
-// CAROUSEL COMPONENT
+// TYPES
+// ============================================================
+interface Property {
+  id: number;
+  publication_title?: string;
+  photos?: Array<{ image: string }>;
+  type?: { name: string };
+  location?: { name: string };
+  operations?: Array<{
+    operation_type: string;
+    prices?: Array<{ price: number; currency: string }>;
+  }>;
+  custom_tags?: Array<{ name: string; group_name?: string }>;
+  development?: { type?: { name: string } };
+  is_starred_on_web?: boolean;
+}
+
+interface Development {
+  id: number;
+  name?: string;
+  publication_title?: string;
+  photos?: Array<{ image: string }>;
+  location?: { name: string };
+  type?: { name: string };
+  description?: string;
+  web_url?: string;
+}
+
+// ============================================================
+// CAROUSEL COMPONENT - Genérico reutilizable (para logos)
 // ============================================================
 interface CarouselItem {
   id: string;
@@ -93,56 +123,6 @@ function Carousel({ items, type, title, subtitle }: CarouselProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {visibleItems.map((item) => (
             <div key={item.id} className="group">
-              {type === 'properties' && (
-                <div className="bg-white rounded-lg overflow-hidden border border-[#d8d1c4] hover:border-[#b8252c] transition-colors h-full">
-                  {item.image && (
-                    <div className="relative h-48 bg-[#ebe6dd]">
-                      <Image src={item.image} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform" />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h4 className="font-serif text-lg font-medium text-[#141414]">{item.title}</h4>
-                        {item.location && (
-                          <div className="flex items-center gap-1 text-sm text-[#6b6660] mt-1">
-                            <MapPin size={14} />
-                            {item.location}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between pt-4 border-t border-[#d8d1c4]">
-                      {item.price && (
-                        <div className="flex items-center gap-1 text-[#b8252c] font-semibold">
-                          <DollarSign size={14} />
-                          {item.price}
-                        </div>
-                      )}
-                      {item.size && (
-                        <div className="flex items-center gap-1 text-sm text-[#2a2a2a]">
-                          <Maximize2 size={14} />
-                          {item.size}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {type === 'parks' && (
-                <div className="bg-white rounded-lg overflow-hidden border border-[#d8d1c4] hover:border-[#b8252c] transition-colors p-6 h-full flex flex-col">
-                  {item.image && (
-                    <div className="relative h-40 bg-[#ebe6dd] rounded mb-4 -mx-6 -mt-6 mb-4">
-                      <Image src={item.image} alt={item.title} fill className="object-cover rounded-t" />
-                    </div>
-                  )}
-                  <h4 className="font-serif text-xl font-medium text-[#141414] mb-2">{item.title}</h4>
-                  {item.location && <p className="text-sm text-[#6b6660] mb-3">{item.location}</p>}
-                  {item.subtitle && <p className="text-sm font-semibold text-[#2a2a2a]">{item.subtitle}</p>}
-                </div>
-              )}
-
               {type === 'logos' && (
                 <div className="bg-white rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors p-8 flex items-center justify-center h-40 group-hover:bg-[#f4f1ec]">
                   {item.image ? (
@@ -190,73 +170,11 @@ function Carousel({ items, type, title, subtitle }: CarouselProps) {
 // MAIN PAGE COMPONENT
 // ============================================================
 export default function IndustriasPage() {
-  // Datos de ejemplo - reemplazar con datos reales
-  const propiedadesIndustriales: CarouselItem[] = [
-    {
-      id: '1',
-      title: 'Nave Industrial Ruta 6',
-      location: 'Campana, Buenos Aires',
-      price: 'USD 5.50/m² mes',
-      size: '2,500 m²',
-      image: '/images/nave-1.jpg',
-    },
-    {
-      id: '2',
-      title: 'Lote en CLIP Zárate',
-      location: 'Zárate, Buenos Aires',
-      price: 'USD 45,000',
-      size: '5,000 m²',
-      image: '/images/lote-1.jpg',
-    },
-    {
-      id: '3',
-      title: 'Centro Logístico Pilar',
-      location: 'Pilar, Buenos Aires',
-      price: 'USD 6.80/m² mes',
-      size: '3,200 m²',
-      image: '/images/centro-1.jpg',
-    },
-    {
-      id: '4',
-      title: 'Nave Categoría AAA',
-      location: 'Escobar, Buenos Aires',
-      price: 'USD 7.50/m² mes',
-      size: '1,800 m²',
-      image: '/images/nave-2.jpg',
-    },
-  ];
+  const [propiedadesIndustriales, setPropiedadesIndustriales] = useState<Property[]>([]);
+  const [emprendimientosIndustriales, setEmprendimientosIndustriales] = useState<Development[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const parquesIndustriales: CarouselItem[] = [
-    {
-      id: '1',
-      title: 'Ruta 6',
-      location: 'Campana, Zárate',
-      subtitle: 'Corredor industrial principal',
-      image: '/images/parque-ruta6.jpg',
-    },
-    {
-      id: '2',
-      title: 'Los Libertadores',
-      location: 'Pilar',
-      subtitle: 'Parque industrial de categoría AAA',
-      image: '/images/parque-libertadores.jpg',
-    },
-    {
-      id: '3',
-      title: 'CLIP Zárate',
-      location: 'Zárate',
-      subtitle: 'Centro logístico industrial',
-      image: '/images/parque-clip.jpg',
-    },
-    {
-      id: '4',
-      title: 'Plaza Industrial Pilar',
-      location: 'Pilar',
-      subtitle: 'Emprendimiento de categoría 2',
-      image: '/images/parque-plaza-pilar.jpg',
-    },
-  ];
-
+  // Datos de logos - hardcodeados
   const empresasLogos: CarouselItem[] = [
     { id: '1', title: 'Seventeen', subtitle: 'Cortinas y accesorios', image: '/logos/seventeen.png' },
     { id: '2', title: 'Polo Industrial', subtitle: 'Logística', image: '/logos/polo.png' },
@@ -268,9 +186,55 @@ export default function IndustriasPage() {
     { id: '8', title: 'Plásticos LV', subtitle: 'Plástica', image: '/logos/plasticos.png' },
   ];
 
+  // Fetch datos de la API
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    const load = async () => {
+      try {
+        const [propRes, devRes] = await Promise.allSettled([
+          fetch('/api/properties'),
+          fetch('/api/developments'),
+        ]);
+
+        // Filtrar propiedades industriales
+        if (propRes.status === 'fulfilled' && propRes.value.ok) {
+          const propData = await propRes.value.json();
+          const industriales = propData.objects?.filter(
+            (p: Property) => 
+              p.type?.name?.toLowerCase().includes('industrial') ||
+              p.custom_tags?.some(tag => tag.name?.toLowerCase().includes('industrial'))
+          ) || [];
+          setPropiedadesIndustriales(industriales.slice(0, 12));
+        }
+
+        // Filtrar emprendimientos industriales
+        if (devRes.status === 'fulfilled' && devRes.value.ok) {
+          const devData = await devRes.value.json();
+          const industriales = devData.objects?.filter(
+            (d: Development) => 
+              d.type?.name?.toLowerCase().includes('industrial') ||
+              d.description?.toLowerCase().includes('industrial')
+          ) || [];
+          setEmprendimientosIndustriales(industriales.slice(0, 12));
+        }
+
+      } catch (err) {
+        console.error('❌ Error cargando datos:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    load();
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <>
-      
       {/* TOP STRIP */}
       <div className="bg-[#141414] text-[#d6cfb9] text-xs tracking-wide py-2 px-8 mt-20">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 flex-wrap">
@@ -348,30 +312,46 @@ export default function IndustriasPage() {
         </section>
 
         {/* ============================================================
-             PROPIEDADES DESTACADAS - CAROUSEL
+             PROPIEDADES INDUSTRIALES - CAROUSEL (API)
         ============================================================ */}
         <section id="propiedades" className="py-20 border-b border-[#d8d1c4]">
           <div className="max-w-7xl mx-auto px-8">
-            <Carousel 
-              items={propiedadesIndustriales}
-              type="properties"
-              title="01 · Propiedades disponibles"
-              subtitle="Opciones reales en Zona Norte"
-            />
+            <div className="mb-12">
+              <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">01 · Propiedades disponibles</span>
+              <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">Opciones reales en Zona Norte</h2>
+            </div>
+
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#b8252c]"></div>
+              </div>
+            ) : propiedadesIndustriales.length > 0 ? (
+              <PropiedadesIndustrialesCarousel propiedades={propiedadesIndustriales} />
+            ) : (
+              <p className="text-center text-gray-500">No hay propiedades industriales disponibles en este momento</p>
+            )}
           </div>
         </section>
 
         {/* ============================================================
-             PARQUES INDUSTRIALES - CAROUSEL
+             EMPRENDIMIENTOS INDUSTRIALES - CAROUSEL (API)
         ============================================================ */}
         <section id="parques" className="py-20 border-b border-[#d8d1c4]">
           <div className="max-w-7xl mx-auto px-8">
-            <Carousel 
-              items={parquesIndustriales}
-              type="parks"
-              title="02 · Parques industriales"
-              subtitle="Emprendimientos destacados en Zona Norte"
-            />
+            <div className="mb-12">
+              <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">02 · Parques industriales</span>
+              <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">Emprendimientos destacados en Zona Norte</h2>
+            </div>
+
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#b8252c]"></div>
+              </div>
+            ) : emprendimientosIndustriales.length > 0 ? (
+              <EmprendimientosIndustrialesCarousel emprendimientos={emprendimientosIndustriales} />
+            ) : (
+              <p className="text-center text-gray-500">No hay emprendimientos industriales disponibles en este momento</p>
+            )}
           </div>
         </section>
 
@@ -545,7 +525,6 @@ export default function IndustriasPage() {
 
         {/* ============================================================
              FORMULARIO
-             TODO: Si tienes un componente separado, importa aquí
         ============================================================ */}
         <section id="formulario" className="py-20 bg-[#f4f1ec] border-b border-[#d8d1c4]">
           <div className="max-w-2xl mx-auto px-8">
@@ -556,14 +535,7 @@ export default function IndustriasPage() {
               </h2>
             </div>
             
-            {/* 
-              TODO: Importa tu componente del formulario aquí
-              Ejemplo:
-              import FormularioBusquedaIndustrial from '@/app/components/FormularioBusquedaIndustrial';
-              
-              Luego reemplaza esto por:
-              <FormularioBusquedaIndustrial />
-            */}
+            {/* TODO: Importa tu componente del formulario aquí */}
             <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] text-center text-[#6b6660]">
               <p className="mb-4">Formulario de búsqueda industrial irá aquí</p>
               <p className="text-sm">Importa tu componente FormularioBusquedaIndustrial y reemplaza este div</p>
@@ -571,8 +543,6 @@ export default function IndustriasPage() {
           </div>
         </section>
       </main>
-
-      
     </>
   );
 }
