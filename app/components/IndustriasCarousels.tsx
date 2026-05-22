@@ -272,3 +272,135 @@ export function EmprendimientosIndustrialesCarousel({ emprendimientos }: Emprend
     </div>
   );
 }
+
+// ============ LOGOS CAROUSEL ============
+interface Logo {
+  id?: string;
+  name?: string;
+}
+
+interface LogosCarouselProps {
+  logos: Logo[];
+  title?: string;
+  subtitle?: string;
+}
+
+export function LogosCarousel({ 
+  logos, 
+  title = "05 · Confían en nosotros",
+  subtitle = "Empresas que radicamos en Zona Norte"
+}: LogosCarouselProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerView, setItemsPerView] = useState(6);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerView(2);
+      } else if (window.innerWidth < 768) {
+        setItemsPerView(3);
+      } else if (window.innerWidth < 1024) {
+        setItemsPerView(4);
+      } else {
+        setItemsPerView(6);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const maxIndex = Math.max(0, logos.length - itemsPerView);
+
+  const next = useCallback(() => {
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  }, [maxIndex]);
+
+  const prev = useCallback(() => {
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  }, [maxIndex]);
+
+  useEffect(() => {
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  if (!logos || logos.length === 0) {
+    return <p className="text-center text-gray-500">No hay logos disponibles</p>;
+  }
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="mb-12">
+        <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase block mb-2">
+          {title}
+        </span>
+        <h2 className="font-serif text-4xl font-medium text-[#141414] leading-tight">
+          {subtitle}
+        </h2>
+      </div>
+
+      {/* Carousel */}
+      <div className="relative">
+        <div className="overflow-hidden">
+          <div
+            className="flex transition-transform duration-500 ease-out gap-6"
+            style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
+          >
+            {logos.map((logo) => (
+              <div
+                key={logo.id || logo.name}
+                className="flex-shrink-0"
+                style={{ width: `${100 / itemsPerView}%` }}
+              >
+                <div className="bg-white aspect-2/1 rounded-lg border border-[#d8d1c4] flex items-center justify-center p-6 hover:border-[#141414] hover:shadow-md transition-all cursor-pointer group h-32 px-3">
+                  <span className="font-serif font-semibold text-[#6b6660] text-center group-hover:text-[#141414] transition-colors text-sm md:text-base">
+                    {logo.name}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Botones navegación */}
+        {logos.length > itemsPerView && (
+          <>
+            <button
+              onClick={prev}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 md:translate-x-0 md:left-2 bg-white border border-[#d8d1c4] rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#141414] hover:text-white transition-all z-10"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            <button
+              onClick={next}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 md:translate-x-0 md:right-2 bg-white border border-[#d8d1c4] rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#141414] hover:text-white transition-all z-10"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Dots */}
+      <div className="flex justify-center gap-2 mt-8">
+        {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentIndex(idx)}
+            className={`h-2 rounded-full transition-all ${
+              idx === currentIndex ? 'w-8 bg-[#141414]' : 'w-2 bg-[#d8d1c4] hover:bg-[#6b6660]'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}

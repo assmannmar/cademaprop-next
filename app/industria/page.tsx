@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from "next/link";
-import { PropiedadesIndustrialesCarousel, EmprendimientosIndustrialesCarousel } from '@/app/components/IndustriasCarousels';
+import { PropiedadesIndustrialesCarousel, EmprendimientosIndustrialesCarousel, LogosCarousel } from '@/app/components/IndustriasCarousels';
 
 // ============================================================
 // ICONS - SVG inline
@@ -532,14 +532,13 @@ export default function IndustriasPage() {
              LOGOS / EMPRESAS - CAROUSEL
         ============================================================ */}
         <section className="py-20 border-b border-[#d8d1c4]">
-          <div className="max-w-7xl mx-auto px-8">
-            <Carousel 
-              items={empresasLogos}
-              type="logos"
-              title="05 · Confían en nosotros"
-              subtitle="Empresas que radicamos en Zona Norte"
-            />
-          </div>
+            <div className="max-w-7xl mx-auto px-8">
+                <LogosCarousel 
+                logos={empresasLogos}
+                title="05 · Confían en nosotros"
+                subtitle="Empresas que radicamos en Zona Norte"
+                />
+            </div>
         </section>
 
         {/* ============================================================
