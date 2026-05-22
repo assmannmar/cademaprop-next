@@ -337,7 +337,7 @@ export default function IndustriasPage() {
                 <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
                   Galpones y naves AAA desde 800 a 12.000 m², dentro y fuera de parques.
                 </p>
-                <a href="#propiedades" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
+                <a href="/propiedades?operacion=rent&tipo=industrial" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
                   Ver naves en alquiler →
                 </a>
               </div>
