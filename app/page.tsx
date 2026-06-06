@@ -12,6 +12,7 @@ import {
 import FullScreenLoader from './components/loader';
 import InstagramFeed from "./components/InstagramFeed";
 import BlogSection from "@/app/components/BlogSection";
+import { apiUrl } from "@/lib/api";
 
 interface Property {
   id: number;
@@ -53,8 +54,8 @@ export default function HomePage() {
     const load = async () => {
       try {
         const [devRes, propRes] = await Promise.allSettled([
-          fetch('/api/developments'),
-          fetch('/api/properties'),
+          fetch(apiUrl("developments")),
+          fetch(apiUrl("properties")),
         ]);
 
         if (devRes.status === 'fulfilled' && devRes.value.ok) {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { apiUrl } from "@/lib/api";
 
 type InstagramPost = {
   id: string;
@@ -29,7 +30,7 @@ export default function InstagramFeed() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/instagram')
+    fetch(apiUrl("instagram"))
       .then((r) => r.json())
       .then((data) => {
         if (data.posts && Array.isArray(data.posts)) {

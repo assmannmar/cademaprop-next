@@ -20,7 +20,7 @@ type InstagramApiResponse = {
 };
 
 export async function getInstagramPosts(limit = 6): Promise<InstagramPost[]> {
-  const accessToken = "IGAAYNHIKSHRRBZAGJrdENzcHhCVS1uRXBNWkNxbTNRdTJGX1RaZAkl0U21sdkQ0TmN5ZAThON3Uwd3ppYW50ZAVQtekZAoRWJlN0syTVNwR0dsQnJhR2tzNWpjejFrNVMxMncyRUh5cjE1UjVnc0ZACenFYZA2lrZAG1sb21SZAVZA2TEY3ZAwZDZD";
+  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN;
 
   if (!accessToken) {
     console.error("Instagram: falta INSTAGRAM_ACCESS_TOKEN");

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
+import { apiUrl } from "@/lib/api";
 
 // ============ CAROUSEL DE EMPRENDIMIENTOS ============
 interface EmprendimientoCarouselProps {
@@ -273,7 +274,7 @@ export function TestimoniosCarousel() {
 
   const fetchSheetReviews = useCallback(async () => {
     try {
-      const response = await fetch('/api/reviews');
+      const response = await fetch(apiUrl("reviews"));
 
       if (!response.ok) throw new Error();
 

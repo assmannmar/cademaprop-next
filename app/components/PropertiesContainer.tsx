@@ -6,6 +6,7 @@ import PropertyFilters from '@/app/components/PropertyFilters';
 import PropertyCard from '@/app/components/PropertyCard';
 import type { FilterValues } from '@/app/components/PropertyFilters';
 import { buildSearchUrl } from '@/utils/urlHelpers';
+import { apiUrl } from "@/lib/api";
 
 interface Property {
   id: number;
@@ -106,7 +107,7 @@ export default function PropertiesContainer() {
     setError(null);
 
     try {
-      const response = await fetch('/api/properties');
+      const response = await fetch(apiUrl("properties"));
 
       if (!response.ok) {
         throw new Error(`Error al cargar propiedades: ${response.statusText}`);

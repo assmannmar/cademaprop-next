@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from "next/link";
 import { PropiedadesIndustrialesCarousel, EmprendimientosIndustrialesCarousel, LogosCarousel } from '@/app/components/IndustriasCarousels';
+import { apiUrl } from "@/lib/api";
 
 // ============================================================
 // ICONS - SVG inline
@@ -192,8 +193,8 @@ export default function IndustriasPage() {
     const load = async () => {
       try {
         const [propRes, devRes] = await Promise.allSettled([
-          fetch('/api/properties'),
-          fetch('/api/developments'),
+          fetch(apiUrl("properties")),
+          fetch(apiUrl("developments")),
         ]);
 
         // Filtrar propiedades industriales

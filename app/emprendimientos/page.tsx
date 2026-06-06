@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import "./emprendimientos.css";
 import FullScreenLoader from "../components/loader";
+import { apiUrl } from "@/lib/api";
 // --- 1. DICCIONARIOS Y TRADUCCIONES ---
 
 const TIPOLOGIAS_MAP: Record<string, string> = {
@@ -157,7 +158,7 @@ function EmprendimientosContent() {
   useEffect(() => {
     const fetchEmprendimientos = async () => {
       try {
-        const response = await fetch("/api/developments");
+        const response = await fetch(apiUrl("developments"));
         const data = await response.json();
         setEmprendimientos(data.objects || []);
       } catch (err) {

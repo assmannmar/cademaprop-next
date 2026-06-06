@@ -1,0 +1,7 @@
+RewriteEngine On
+
+RewriteRule ^propiedad-([0-9]+)-(.+)$ /propiedades/$1-casa-venta-$2/ [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^propiedades/.+/?$ /propiedades/placeholder/ [L]

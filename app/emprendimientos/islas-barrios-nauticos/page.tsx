@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import './islas-barrios-nauticos.css';
 import VentuxForm from "@/app/emprendimientos/islas-barrios-nauticos/Form-islas";
+import { apiUrl } from "@/lib/api";
 
 interface Development {
   id: number;
@@ -95,7 +96,7 @@ export default function IslasPage() {
 
   const fetchDevelopment = async () => {
     try {
-      const response = await fetch('/api/developments');
+      const response = await fetch(apiUrl("developments"));
       if (!response.ok) throw new Error('Error al cargar datos');
       const data = await response.json();
       const found = data.objects.find((d: Development) => d.id === EMPRENDIMIENTO_ID);
