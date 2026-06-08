@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 
 interface FilterProps {
   onFilterChange: (filters: FilterValues) => void;
-  onSearch: () => void;
+  onSearch: (filters?: FilterValues) => void;
   initialFilters?: FilterValues;
 }
 
@@ -65,12 +65,12 @@ export default function PropertyFilters({
   const handleReset = () => {
     setFilters(emptyFilters);
     onFilterChange(emptyFilters);
-    onSearch();
+    onSearch(emptyFilters);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch();
+    onSearch(filters);
   };
 
   return (

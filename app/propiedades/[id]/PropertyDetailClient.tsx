@@ -120,14 +120,10 @@ export default function PropertyDetailPage() {
     setError(null);
 
     try {
-      const response = await fetch(apiUrl("properties"));
+      const response = await fetch(`${apiUrl("properties")}/${propertyId}`);
       if (!response.ok) throw new Error('Error al cargar la propiedad');
 
-      const data = await response.json();
-      const foundProperty = data.objects.find((p: Property) => p.id === parseInt(propertyId as string));
-
-      if (!foundProperty) throw new Error('Propiedad no encontrada');
-
+      const foundProperty = await response.json();
       setProperty(foundProperty);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');

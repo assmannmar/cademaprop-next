@@ -193,19 +193,18 @@ export default function IndustriasPage() {
     const load = async () => {
       try {
         const [propRes, devRes] = await Promise.allSettled([
-          fetch(apiUrl("properties")),
+          fetch(`${apiUrl("properties")}?${new URLSearchParams({
+            property_type: "Industrial Ship",
+            limit: "12",
+            page: "1",
+          }).toString()}`),
           fetch(apiUrl("developments")),
         ]);
 
         // Filtrar propiedades industriales
         if (propRes.status === 'fulfilled' && propRes.value.ok) {
           const propData = await propRes.value.json();
-          const industriales = propData.objects?.filter(
-            (p: Property) => 
-              p.type?.name?.toLowerCase().includes('industrial') ||
-              p.custom_tags?.some(tag => tag.name?.toLowerCase().includes('industrial'))
-          ) || [];
-          setPropiedadesIndustriales(industriales.slice(0, 12));
+          setPropiedadesIndustriales(propData.objects || []);
         }
 
         // Filtrar emprendimientos industriales

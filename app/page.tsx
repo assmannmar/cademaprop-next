@@ -93,15 +93,17 @@ export default function HomePage() {
 
     const loadProperties = async () => {
       try {
-        const response = await fetch(apiUrl("properties"));
+        const params = new URLSearchParams({
+          featured: "true",
+          limit: "12",
+          page: "1",
+        });
+        const response = await fetch(`${apiUrl("properties")}?${params.toString()}`);
 
         if (response.ok) {
           const propData = await response.json();
           if (!isActive) return;
-          const starred = propData.objects?.filter(
-            (p: Property) => p.is_starred_on_web === true
-          ) || [];
-          setDestacadas(starred.length > 0 ? starred.slice(0, 12) : propData.objects?.slice(0, 12) || []);
+          setDestacadas(propData.objects || []);
         }
       } catch (err) {
         console.error('Error cargando propiedades destacadas:', err);
