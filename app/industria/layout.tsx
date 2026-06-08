@@ -44,17 +44,35 @@ function NavbarIndustrias() {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-        { label: 'Propiedades', href: '#propiedades' },
+    { label: 'Propiedades', href: '#propiedades' },
     { label: 'Parques', href: '#parques' },
     { label: 'Como trabajamos', href: '#como' },
     { label: 'Casos', href: '#casos' },
     { label: 'Preguntas', href: '#faq' },
-    { label: 'Volver a Cadema', href: '/' }
+    { label: 'Volver a Cadema', href: '/' },
   ];
 
   const linkClass = `nav-item inline-flex h-11 items-center px-3 py-2 font-bold leading-none transition-colors duration-200 ${
     scrolled ? 'text-gray-800 hover:text-red-600' : 'text-white hover:text-white/75'
   }`;
+
+  const handleNavClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (!href.startsWith('#')) {
+      return;
+    }
+
+    event.preventDefault();
+    setMobileMenuOpen(false);
+
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.history.pushState(null, '', href);
+    }
+  };
 
   return (
     <>
@@ -76,7 +94,12 @@ function NavbarIndustrias() {
 
           <div className="ml-auto hidden items-center space-x-1 lg:flex">
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href} className={linkClass}>
+              <a
+                key={link.href}
+                href={link.href}
+                className={linkClass}
+                onClick={(event) => handleNavClick(event, link.href)}
+              >
                 {link.label}
               </a>
             ))}
@@ -84,6 +107,7 @@ function NavbarIndustrias() {
 
           <a
             href="#formulario"
+            onClick={(event) => handleNavClick(event, '#formulario')}
             className={`ml-3 hidden rounded-full px-5 py-2.5 text-sm font-bold uppercase tracking-[0.08em] transition md:inline-flex ${
               scrolled
                 ? 'bg-[#141414] text-white hover:bg-[#c60c23]'
@@ -116,7 +140,7 @@ function NavbarIndustrias() {
             <a
               key={link.href}
               href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(event) => handleNavClick(event, link.href)}
               className="w-full border-b border-gray-50 py-4 text-center"
             >
               {link.label}
@@ -125,7 +149,7 @@ function NavbarIndustrias() {
 
           <a
             href="#formulario"
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={(event) => handleNavClick(event, '#formulario')}
             className="mt-6 inline-flex rounded-full bg-[#c60c23] px-7 py-3 text-sm font-bold uppercase tracking-[0.08em] text-white"
           >
             Contactar
