@@ -44,12 +44,12 @@ function NavbarIndustrias() {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { label: 'Volver a Cadema', href: '/' },
-    { label: 'Propiedades', href: '#propiedades' },
+        { label: 'Propiedades', href: '#propiedades' },
     { label: 'Parques', href: '#parques' },
     { label: 'Como trabajamos', href: '#como' },
     { label: 'Casos', href: '#casos' },
     { label: 'Preguntas', href: '#faq' },
+    { label: 'Volver a Cadema', href: '/' }
   ];
 
   const linkClass = `nav-item inline-flex h-11 items-center px-3 py-2 font-bold leading-none transition-colors duration-200 ${
