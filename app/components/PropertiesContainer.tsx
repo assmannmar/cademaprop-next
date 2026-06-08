@@ -192,7 +192,16 @@ export default function PropertiesContainer() {
 
   const handleSearch = (filtersOverride?: FilterValues) => {
     const filtersToApply = filtersOverride || pendingFilters;
-    router.push(buildSearchUrl({ ...filtersToApply }), { scroll: false });
+    const nextUrl = buildSearchUrl({ ...filtersToApply });
+    const params = new URLSearchParams(nextUrl.split('?')[1] || '');
+    const currentSort = getSortFromUrl();
+
+    if (currentSort !== 'recent_desc') {
+      params.set('orden', currentSort);
+    }
+
+    const queryString = params.toString();
+    router.push(`/propiedades${queryString ? `?${queryString}` : ''}`, { scroll: false });
   };
 
   const goToPage = (page: number) => {
@@ -236,6 +245,52 @@ export default function PropertiesContainer() {
 
   const currentPage = getCurrentPage();
 
+  const PaginationControls = ({ className = '' }: { className?: string }) => {
+    if (totalPages <= 1) return null;
+
+    return (
+      <nav
+        className={`flex flex-wrap items-center justify-center gap-2 ${className}`}
+        aria-label="Paginacion de propiedades"
+      >
+        <button
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Anterior
+        </button>
+
+        {paginationItems().map((page, index, pages) => (
+          <div key={page} className="flex items-center gap-2">
+            {index > 0 && page - pages[index - 1] > 1 && (
+              <span className="px-1 text-gray-400">...</span>
+            )}
+            <button
+              onClick={() => goToPage(page)}
+              aria-current={currentPage === page ? 'page' : undefined}
+              className={`h-10 min-w-10 rounded-md border px-3 text-sm font-semibold transition ${
+                currentPage === page
+                  ? 'border-red-600 bg-red-600 text-white'
+                  : 'border-gray-300 text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {page}
+            </button>
+          </div>
+        ))}
+
+        <button
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Siguiente
+        </button>
+      </nav>
+    );
+  };
+
   return (
     <div className="w-full">
       <section
@@ -269,13 +324,15 @@ export default function PropertiesContainer() {
         />
 
         {!loading && properties.length > 0 && (
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 mt-8">
+          <div className="grid gap-4 mb-6 mt-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
             <p className="text-gray-600">
               Mostrando <span className="font-semibold">{displayedProperties.length}</span> de{' '}
               <span className="font-semibold">{totalProperties}</span> propiedades
             </p>
 
-            <div className="flex items-center gap-2">
+            <PaginationControls className="lg:justify-center" />
+
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center lg:justify-end">
               <label className="text-sm font-semibold text-gray-700 ">
                 Ordenar por:
               </label>
@@ -321,43 +378,7 @@ export default function PropertiesContainer() {
               ))}
             </div>
 
-            {totalPages > 1 && (
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
-                <button
-                  onClick={() => goToPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Anterior
-                </button>
-
-                {paginationItems().map((page, index, pages) => (
-                  <div key={page} className="flex items-center gap-2">
-                    {index > 0 && page - pages[index - 1] > 1 && (
-                      <span className="px-1 text-gray-400">...</span>
-                    )}
-                    <button
-                      onClick={() => goToPage(page)}
-                      className={`h-10 min-w-10 rounded-md border px-3 text-sm font-semibold transition ${
-                        currentPage === page
-                          ? 'border-red-600 bg-red-600 text-white'
-                          : 'border-gray-300 text-gray-700 hover:bg-gray-100'
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  </div>
-                ))}
-
-                <button
-                  onClick={() => goToPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Siguiente
-                </button>
-              </div>
-            )}
+            <PaginationControls className="mt-10" />
           </>
         ) : (
           !loading && (

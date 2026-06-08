@@ -298,7 +298,8 @@ export default function PropertyDetailPage() {
     `${propertyType} en ${operationType}${property.location?.name ? ` - ${property.location.name}` : ''}`;
 
   const specs = [
-    roomAmount > 0 ? { label: 'Amb', value: roomAmount } : null,
+    roomAmount > 0 ? { label: 'Ambientes', value: roomAmount } : null,
+    property.suite_amount ? { label: 'Dormitorios', value: property.suite_amount } : null,
     property.bathroom_amount ? { label: 'Baños', value: property.bathroom_amount } : null,
     property.parking_lot_amount && property.parking_lot_amount > 0
       ? { label: 'Cochera', value: property.parking_lot_amount }
