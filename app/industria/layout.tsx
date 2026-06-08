@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import WhatsAppButtonIndustria from '@/app/components/Whatsappbuttonindustria';
 
@@ -15,52 +15,122 @@ export default function IndustriaLayout({ children }: { children: ReactNode }) {
 }
 
 function NavbarIndustrias() {
-  return (
-    <nav className="fixed top-0 w-full z-50 bg-[#f4f1ec]/92 backdrop-blur-md border-b border-[#d8d1c4]">
-      <div className="max-w-7xl mx-auto px-8 flex items-center justify-between py-4.5">
-        <Link href="/industria" className="flex items-baseline gap-2.5">
-          <img 
-              src="/logos-industria/logo-industria.png" 
-              alt="Logo" 
-              className="h-auto w-full max-w-[120px] md:max-w-[160px] transition-all duration-300" 
-            />
-        </Link>
-        
-        <ul className="hidden lg:flex gap-8">
-          <li>
-            <a href="#propiedades" className="text-sm font-medium text-[#2a2a2a] hover:border-b border-[#141414] pb-0.5 transition-colors">
-              Propiedades
-            </a>
-          </li>
-          <li>
-            <a href="#parques" className="text-sm font-medium text-[#2a2a2a] hover:border-b border-[#141414] pb-0.5 transition-colors">
-              Parques
-            </a>
-          </li>
-          <li>
-            <a href="#como" className="text-sm font-medium text-[#2a2a2a] hover:border-b border-[#141414] pb-0.5 transition-colors">
-              Cómo trabajamos
-            </a>
-          </li>
-          <li>
-            <a href="#casos" className="text-sm font-medium text-[#2a2a2a] hover:border-b border-[#141414] pb-0.5 transition-colors">
-              Casos
-            </a>
-          </li>
-          <li>
-            <a href="#faq" className="text-sm font-medium text-[#2a2a2a] hover:border-b border-[#141414] pb-0.5 transition-colors">
-              Preguntas
-            </a>
-          </li>
-        </ul>
+  const [visible, setVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const lastY = useRef(0);
 
-        <a 
-          href="#formulario" 
-          className="hidden md:inline-block bg-[#141414] text-[#f4f1ec] px-4.5 py-2.5 rounded-full text-sm font-medium hover:bg-[#b8252c] transition-colors"
-        >
-          Contactar
-        </a>
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 50);
+
+      if (currentY > lastY.current && currentY > 100) {
+        setVisible(false);
+        setMobileMenuOpen(false);
+      } else {
+        setVisible(true);
+      }
+
+      lastY.current = currentY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : 'unset';
+  }, [mobileMenuOpen]);
+
+  const navLinks = [
+    { label: 'Propiedades', href: '#propiedades' },
+    { label: 'Parques', href: '#parques' },
+    { label: 'Como trabajamos', href: '#como' },
+    { label: 'Casos', href: '#casos' },
+    { label: 'Preguntas', href: '#faq' },
+  ];
+
+  const linkClass = `nav-item inline-flex h-11 items-center px-3 py-2 font-bold leading-none transition-colors duration-200 ${
+    scrolled ? 'text-gray-800 hover:text-red-600' : 'text-white hover:text-white/75'
+  }`;
+
+  return (
+    <>
+      <nav
+        className={`fixed top-0 z-50 w-full transform transition-all duration-500 ${
+          visible ? 'translate-y-0' : '-translate-y-full'
+        } ${scrolled ? 'bg-white/95 py-2 shadow-md backdrop-blur-md' : 'bg-transparent py-5'}`}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
+          <Link href="/industria" className="flex-shrink-0">
+            <img
+              src="/logos-industria/logo-industria.png"
+              alt="Cadema Industria"
+              className={`h-auto w-full max-w-[130px] transition-all duration-300 md:max-w-[170px] ${
+                scrolled ? '' : 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)]'
+              }`}
+            />
+          </Link>
+
+          <div className="ml-auto hidden items-center space-x-1 lg:flex">
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} className={linkClass}>
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <a
+            href="#formulario"
+            className={`ml-3 hidden rounded-full px-5 py-2.5 text-sm font-bold uppercase tracking-[0.08em] transition md:inline-flex ${
+              scrolled
+                ? 'bg-[#141414] text-white hover:bg-[#c60c23]'
+                : 'border border-white/35 bg-white/10 text-white backdrop-blur-sm hover:bg-white/15'
+            }`}
+          >
+            Contactar
+          </a>
+
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`z-50 ml-auto text-3xl lg:hidden ${
+              mobileMenuOpen || scrolled ? 'text-gray-900' : 'text-white'
+            }`}
+            aria-label="Abrir menu"
+          >
+            {mobileMenuOpen ? 'x' : '☰'}
+          </button>
+        </div>
+      </nav>
+
+      <div
+        className={`fixed inset-0 z-40 flex flex-col bg-white transition-transform duration-500 ease-in-out lg:hidden ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex h-full flex-col items-center justify-start space-y-2 overflow-y-auto px-6 pb-10 pt-24 text-xl font-semibold text-gray-800">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full border-b border-gray-50 py-4 text-center"
+            >
+              {link.label}
+            </a>
+          ))}
+
+          <a
+            href="#formulario"
+            onClick={() => setMobileMenuOpen(false)}
+            className="mt-6 inline-flex rounded-full bg-[#c60c23] px-7 py-3 text-sm font-bold uppercase tracking-[0.08em] text-white"
+          >
+            Contactar
+          </a>
+        </div>
       </div>
-    </nav>
+    </>
   );
 }

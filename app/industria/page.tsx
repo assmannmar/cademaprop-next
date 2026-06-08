@@ -248,61 +248,72 @@ export default function IndustriasPage() {
         </div>
       </div> */}
 
-      <main className="pt-10">
+      <main className="bg-white text-neutral-900">
         {/* ============================================================
              HERO SECTION
         ============================================================ */}
-        <section className="relative py-20 border-b border-[#d8d1c4] overflow-hidden">
-          {/* Grid background */}
-          <div className="absolute inset-0 opacity-25 pointer-events-none" style={{
-            backgroundImage: `linear-gradient(#d8d1c4 1px, transparent 1px), linear-gradient(90deg, #d8d1c4 1px, transparent 1px)`,
-            backgroundSize: '80px 80px',
-          }}></div>
+        <section
+          className="relative flex min-h-[72vh] items-end overflow-hidden border-b border-neutral-200 md:min-h-[82vh]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.48)), url('/industrial-banner.jpg')",
+            backgroundPosition: 'center center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+          }}
+        >
+          <div className="absolute inset-0 bg-black/10" />
 
-          <div className="max-w-7xl mx-auto px-8 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
+          <div className="relative z-10 w-full">
+            <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-28 md:px-8 md:pb-18 lg:grid-cols-[1.05fr_0.95fr] lg:px-12">
               {/* Left Column */}
               <div>
-                <div className="inline-flex items-center gap-2.5 border border-[#c2b9a6] bg-[#fdfcf9] px-3.5 py-1.5 rounded-full mb-7">
+                <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm [&_span]:font-sans [&_span]:uppercase [&_span]:text-white/80">
                   <div className="w-1.5 h-1.5 bg-[#b8252c] rounded-full"></div>
                   <span className="font-mono text-xs tracking-widest text-[#6b6660]">ESPECIALISTAS EN REAL ESTATE INDUSTRIAL · ZONA NORTE AMBA</span>
                 </div>
 
-                <h1 className="font-serif text-5xl lg:text-6xl font-medium text-[#141414] leading-tight mb-7 tracking-tight">
+                <h1 className="max-w-3xl text-4xl font-semibold uppercase leading-[0.95] text-white md:text-6xl lg:text-7xl [&>em]:text-white">
                   Naves industriales y lotes en <em className="italic font-normal text-[#b8252c]">parques industriales</em> de Zona Norte.
                 </h1>
 
-                <p className="text-lg text-[#2a2a2a] max-w-md mb-8 leading-relaxed">
+                <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/85 md:text-lg">
                   Campana, Pilar, Escobar, Zárate. Búsqueda personalizada, sin costo, con el respaldo de 60 años en real estate industrial.
                 </p>
 
-                <div className="flex gap-4 flex-wrap">
-                  <a href="#propiedades" className="inline-flex items-center gap-2 bg-[#141414] text-[#f4f1ec] px-6 py-3 rounded-lg font-medium hover:bg-[#b8252c] transition-colors">
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <a href="#propiedades" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#c60c23] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#a80f22]">
                     Ver propiedades <span>→</span>
                   </a>
-                  <a href="#formulario" className="inline-flex items-center gap-2 border border-[#d8d1c4] text-[#141414] px-6 py-3 rounded-lg font-medium hover:bg-[#ebe6dd] transition-colors">
+                  <a href="#formulario" className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/15">
                     Consultar ahora
                   </a>
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-xs uppercase tracking-[0.18em] text-white/70 md:text-sm">
+                  <span>Zona Norte AMBA</span>
+                  <span>Parques industriales</span>
+                  <span>Busqueda a medida</span>
                 </div>
               </div>
 
               {/* Right Column - Stats */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-white p-6 rounded-lg border border-[#d8d1c4]">
-                  <div className="font-serif text-4xl font-bold text-[#b8252c] mb-2">60+</div>
-                  <p className="text-sm text-[#6b6660]">Años en real estate industrial</p>
+              <div className="grid grid-cols-2 content-end gap-4 lg:pb-2">
+                <div className="rounded-[26px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md [&>p]:text-white/75">
+                  <div className="mb-2 text-3xl font-semibold md:text-4xl">60+</div>
+                  <p className="text-sm leading-relaxed text-white/75">Años en real estate industrial</p>
                 </div>
-                <div className="bg-white p-6 rounded-lg border border-[#d8d1c4]">
-                  <div className="font-serif text-4xl font-bold text-[#b8252c] mb-2">500+</div>
-                  <p className="text-sm text-[#6b6660]">Operaciones cerradas</p>
+                <div className="rounded-[26px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md [&>p]:text-white/75">
+                  <div className="mb-2 text-3xl font-semibold md:text-4xl">500+</div>
+                  <p className="text-sm leading-relaxed text-white/75">Operaciones cerradas</p>
                 </div>
-                <div className="bg-white p-6 rounded-lg border border-[#d8d1c4]">
-                  <div className="font-serif text-4xl font-bold text-[#b8252c] mb-2">8-10</div>
-                  <p className="text-sm text-[#6b6660]">Días para presentar opciones</p>
+                <div className="rounded-[26px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md [&>p]:text-white/75">
+                  <div className="mb-2 text-3xl font-semibold md:text-4xl">8-10</div>
+                  <p className="text-sm leading-relaxed text-white/75">Días para presentar opciones</p>
                 </div>
-                <div className="bg-white p-6 rounded-lg border border-[#d8d1c4]">
-                  <div className="font-serif text-4xl font-bold text-[#b8252c] mb-2">0%</div>
-                  <p className="text-sm text-[#6b6660]">Costo de búsqueda</p>
+                <div className="rounded-[26px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md [&>p]:text-white/75">
+                  <div className="mb-2 text-3xl font-semibold md:text-4xl">0%</div>
+                  <p className="text-sm leading-relaxed text-white/75">Costo de búsqueda</p>
                 </div>
               </div>
             </div>
@@ -318,7 +329,7 @@ export default function IndustriasPage() {
                 {/* Subsección 1: ¿Qué estás buscando? */}
                 <div className="mb-24">
                 <div className="mb-16">
-                    <h2 className="font-serif text-4xl font-medium text-[#141414] mb-4 leading-tight">
+                    <h2 className="mb-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
                     ¿Qué <em className="italic font-normal text-[#b8252c]">estás buscando</em>?
                     </h2>
                     <p className="text-lg text-[#6b6660] max-w-2xl leading-relaxed">
@@ -332,7 +343,7 @@ export default function IndustriasPage() {
                     <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
                         <span className="text-2xl font-bold text-[#b8252c]">N</span>
                     </div>
-                    <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
+                    <h3 className="mb-2 text-xl font-semibold text-neutral-900">
                         Alquiler de naves industriales
                     </h3>
                     <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
@@ -348,7 +359,7 @@ export default function IndustriasPage() {
                     <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
                         <span className="text-2xl font-bold text-[#b8252c]">L</span>
                     </div>
-                    <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
+                    <h3 className="mb-2 text-xl font-semibold text-neutral-900">
                         Venta de lotes industriales
                     </h3>
                     <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
@@ -364,7 +375,7 @@ export default function IndustriasPage() {
                     <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
                         <span className="text-2xl font-bold text-[#b8252c]">C</span>
                     </div>
-                    <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
+                    <h3 className="mb-2 text-xl font-semibold text-neutral-900">
                         Centros logísticos
                     </h3>
                     <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
@@ -380,7 +391,7 @@ export default function IndustriasPage() {
                     <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
                         <span className="text-2xl font-bold text-[#b8252c]">B</span>
                     </div>
-                    <h3 className="font-serif text-xl font-medium text-[#141414] mb-2">
+                    <h3 className="mb-2 text-xl font-semibold text-neutral-900">
                         Búsqueda a medida
                     </h3>
                     <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
@@ -431,7 +442,7 @@ export default function IndustriasPage() {
                 <span className="font-mono text-xs tracking-widest text-[#8a8a8a] uppercase block mb-6">
                     02 · Parques que representamos
                 </span>
-                <h2 className="font-serif text-4xl md:text-5xl font-medium text-white leading-tight mb-6">
+                <h2 className="mb-6 text-3xl font-semibold uppercase leading-tight text-white md:text-5xl">
                     Acceso directo a los principales{' '}
                     <em className="italic font-normal text-[#b8252c]">parques industriales</em> de Zona Norte.
                 </h2>
@@ -470,7 +481,7 @@ export default function IndustriasPage() {
                 <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase block mb-6">
                     03 · Cómo trabajamos
                 </span>
-                <h2 className="font-serif text-4xl md:text-5xl font-medium text-[#141414] leading-tight">
+                <h2 className="text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
                     Un proceso enfocado en{' '}
                     <em className="italic font-normal text-[#b8252c]">su decisión</em>, no en
                     <br />
@@ -507,7 +518,7 @@ export default function IndustriasPage() {
                     </div>
 
                     {/* Título */}
-                    <h3 className="font-serif text-xl md:text-2xl font-medium text-[#141414] mb-4">
+                    <h3 className="mb-4 text-xl font-semibold text-neutral-900 md:text-2xl">
                         {step.title}
                     </h3>
 
