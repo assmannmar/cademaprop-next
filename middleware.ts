@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const industriaRedirects = new Set([
-  '/industrias',
+  '/industria',
   '/parque-industrial',
   '/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones',
   '/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones',
@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
   const normalizedPathname = pathname.replace(/\/$/, '') || '/';
 
   if (industriaRedirects.has(normalizedPathname)) {
-    const newUrl = new URL('/industria', request.url);
+    const newUrl = new URL('/industrias', request.url);
     return NextResponse.redirect(newUrl, 301);
   }
 
@@ -29,7 +29,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/propiedad-:path*',
-    '/industrias',
+    '/industria',
     '/parque-industrial/:path*',
     '/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones',
   ],

@@ -154,7 +154,7 @@ export default function HomePage() {
             <span className="btn-text">Residencial</span>
             <span className="btn-arrow">→</span>
           </Link>
-          <Link href="https://cademaprop.com.ar/industrias/" className="btn-split">
+          <Link href="/industrias" className="btn-split">
             <span className="btn-text">Industrias</span>
             <span className="btn-arrow">→</span>
           </Link>
@@ -241,7 +241,7 @@ export default function HomePage() {
 
             <div className="flex justify-center">
               <Link
-                href="/industria"
+                href="/industrias"
                 className="btn-split btn-split-top btn-split-wide"
               >
                 <span className="btn-text">Explorar Opciones Industriales</span>

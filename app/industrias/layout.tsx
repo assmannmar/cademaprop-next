@@ -6,7 +6,7 @@ export const metadata = pageMetadata({
   title: "Inmuebles industriales y parques industriales | Cadema Industrias",
   description:
     "Galpones, naves, terrenos, parques industriales y busqueda personalizada para empresas en Campana, Pilar, Escobar, Zarate y Corredor Norte.",
-  path: "/industria",
+  path: "/industrias",
   image: "/industrial-banner.jpg",
 });
 
@@ -19,7 +19,7 @@ export default function IndustriaLayout({ children }: { children: ReactNode }) {
         dangerouslySetInnerHTML={jsonLdScript(
           breadcrumbJsonLd([
             { name: "Inicio", path: "/" },
-            { name: "Industria", path: "/industria" },
+            { name: "Industrias", path: "/industrias" },
           ])
         )}
       />

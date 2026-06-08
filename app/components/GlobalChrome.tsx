@@ -6,7 +6,7 @@ import WhatsAppButton from "./WhatsappButton";
 
 export default function GlobalChrome() {
   const pathname = usePathname();
-  const isIndustria = pathname?.startsWith("/industria");
+  const isIndustria = pathname?.startsWith("/industrias") || pathname?.startsWith("/industria");
 
   if (isIndustria) {
     return null;

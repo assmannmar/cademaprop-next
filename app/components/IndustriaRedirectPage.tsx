@@ -8,7 +8,7 @@ export default function IndustriaRedirectPage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/industria');
+    router.replace('/industrias');
   }, [router]);
 
   return (
@@ -16,8 +16,8 @@ export default function IndustriaRedirectPage() {
       <div>
         <h1 className="mb-3 text-2xl font-bold text-gray-900">Redirigiendo a Industria</h1>
         <p className="mb-6 text-gray-600">Esta sección ahora se encuentra en una nueva dirección.</p>
-        <Link href="/industria" className="font-semibold text-red-600 hover:text-red-700">
-          Ir a Industria
+        <Link href="/industrias" className="font-semibold text-red-600 hover:text-red-700">
+          Ir a Industrias
         </Link>
       </div>
     </main>

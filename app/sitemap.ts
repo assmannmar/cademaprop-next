@@ -8,7 +8,7 @@ const staticRoutes = [
   { path: "/propiedades", priority: 0.95, changeFrequency: "daily" },
   { path: "/emprendimientos", priority: 0.9, changeFrequency: "weekly" },
   { path: "/tasar-vender", priority: 0.85, changeFrequency: "monthly" },
-  { path: "/industria", priority: 0.85, changeFrequency: "weekly" },
+  { path: "/industrias", priority: 0.85, changeFrequency: "weekly" },
   { path: "/nosotros", priority: 0.75, changeFrequency: "monthly" },
   { path: "/contacto", priority: 0.75, changeFrequency: "monthly" },
   { path: "/simulador", priority: 0.6, changeFrequency: "monthly" },

@@ -16,7 +16,7 @@ Cadema Bienes Raices es una inmobiliaria de Campana, Buenos Aires, Argentina, co
 - Propiedades: https://cademaprop.com.ar/propiedades
 - Emprendimientos: https://cademaprop.com.ar/emprendimientos
 - Tasar y vender: https://cademaprop.com.ar/tasar-vender
-- Industria: https://cademaprop.com.ar/industria
+- Industria: https://cademaprop.com.ar/industrias
 - Nosotros: https://cademaprop.com.ar/nosotros
 - Contacto: https://cademaprop.com.ar/contacto
 

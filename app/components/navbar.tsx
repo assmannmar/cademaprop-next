@@ -109,7 +109,7 @@ export default function Navbar() {
         // { name: "Simulador", href: "/simulador"},
       ]
     },
-    { name: "INDUSTRIA", href: "/industria" },
+    { name: "INDUSTRIA", href: "/industrias" },
     { name: "CONTACTO", href: "/contacto" },
     { name: "BLOG", href: "/blog" },
     { name: "SINOR", href: "https://sinor.com.ar/" },
