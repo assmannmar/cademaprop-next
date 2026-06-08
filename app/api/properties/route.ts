@@ -151,7 +151,6 @@ function getSearchData(searchParams: URLSearchParams) {
   const maxPrice = searchParams.get("max_price") || searchParams.get("precio-max") || "";
   const credit = searchParams.get("credit_eligible") || searchParams.get("credito") || "";
   const featured = searchParams.get("featured") === "true";
-
   const operationId = operationTypeMap[normalize(operationType)];
   const propertyTypeIds = resolvePropertyTypes(propertyType, division);
   const filters: unknown[] = [];
@@ -189,7 +188,7 @@ function getSearchData(searchParams: URLSearchParams) {
   }
 
   if (featured) {
-    filters.push(["is_starred_on_web", "op", "Yes"]);
+    filters.push(["is_starred_on_web", "Yes", 0]);
   }
 
   return {

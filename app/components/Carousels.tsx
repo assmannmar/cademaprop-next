@@ -126,9 +126,10 @@ interface DestacadasCarouselProps {
 export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(4);
+  const [shuffleSeed] = useState(() => Math.floor(Math.random() * 1_000_000));
   const shuffledData = useMemo(() => {
-    return seededShuffle(propiedades, SESSION_SEED);
-  }, [propiedades]);
+    return seededShuffle(propiedades, shuffleSeed);
+  }, [propiedades, shuffleSeed]);
 
   useEffect(() => {
     const handleResize = () => {

@@ -95,7 +95,7 @@ export default function HomePage() {
       try {
         const params = new URLSearchParams({
           featured: "true",
-          limit: "12",
+          limit: "50",
           page: "1",
         });
         const response = await fetch(`${apiUrl("properties")}?${params.toString()}`);

@@ -223,7 +223,7 @@ function build_search_data(array $query): array
     }
 
     if ($featured) {
-        $filters[] = ['is_starred_on_web', 'op', 'Yes'];
+        $filters[] = ['is_starred_on_web', 'Yes', 0];
     }
 
     return [
