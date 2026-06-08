@@ -194,8 +194,6 @@ function build_search_data(array $query): array
 
     if ($bedrooms === 'studio') {
         $filters[] = ['room_amount', '=', 1];
-    } elseif ($bedrooms === '4') {
-        $filters[] = ['suite_amount', '>=', 4];
     } elseif ($bedrooms !== '' && is_numeric($bedrooms)) {
         $filters[] = ['suite_amount', '=', (int) $bedrooms];
     }
@@ -225,7 +223,7 @@ function build_search_data(array $query): array
     }
 
     if ($featured) {
-        $filters[] = ['is_starred_on_web', '=', true];
+        $filters[] = ['is_starred_on_web', 'op', 'Yes'];
     }
 
     return [
@@ -335,12 +333,27 @@ function property_matches_text($property, string $query): bool
     return str_contains($haystack, normalize_text($query));
 }
 
-function read_text_filtered_search(
+function property_matches_local_filters($property, array $query): bool
+{
+    if (!is_array($property)) {
+        return false;
+    }
+
+    $bedrooms = query_value($query, 'bedrooms', 'dormitorios');
+    if ($bedrooms === '4' && (int) ($property['suite_amount'] ?? 0) < 4) {
+        return false;
+    }
+
+    return true;
+}
+
+function read_locally_filtered_search(
     string $apiKey,
     int $limit,
     int $page,
     array $searchData,
     string $textQuery,
+    array $query,
     array $sortConfig,
     string $sort
 ): array
@@ -358,7 +371,7 @@ function read_text_filtered_search(
         $totalScanned += count($objects);
 
         foreach ($objects as $object) {
-            if (property_matches_text($object, $textQuery)) {
+            if (property_matches_text($object, $textQuery) && property_matches_local_filters($object, $query)) {
                 $matches[] = $object;
             }
         }
@@ -405,8 +418,9 @@ $data = cached_json($cacheKey, 300, function () use ($apiKey, $limit, $offset, $
     $sortConfig = sort_config($_GET);
     $sort = sort_option($_GET);
 
-    if (trim($location) !== '') {
-        return read_text_filtered_search($apiKey, $limit, $page, $searchData, $location, $sortConfig, $sort);
+    $bedrooms = query_value($_GET, 'bedrooms', 'dormitorios');
+    if (trim($location) !== '' || $bedrooms === '4') {
+        return read_locally_filtered_search($apiKey, $limit, $page, $searchData, $location, $_GET, $sortConfig, $sort);
     }
 
     $responseData = read_tokko_search($apiKey, $limit, $offset, $searchData, $sortConfig);

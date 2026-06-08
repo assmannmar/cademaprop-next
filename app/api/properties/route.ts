@@ -160,8 +160,6 @@ function getSearchData(searchParams: URLSearchParams) {
 
   if (bedrooms === "studio") {
     filters.push(["room_amount", "=", 1]);
-  } else if (bedrooms === "4") {
-    filters.push(["suite_amount", ">=", 4]);
   } else if (bedrooms) {
     filters.push(["suite_amount", "=", Number(bedrooms)]);
   }
@@ -191,7 +189,7 @@ function getSearchData(searchParams: URLSearchParams) {
   }
 
   if (featured) {
-    filters.push(["is_starred_on_web", "=", true]);
+    filters.push(["is_starred_on_web", "op", "Yes"]);
   }
 
   return {
@@ -307,12 +305,26 @@ function matchesTextSearch(property: unknown, query: string) {
   return haystack.includes(normalize(query));
 }
 
-async function fetchTextFilteredSearch(
+function matchesLocalFilters(property: unknown, searchParams: URLSearchParams) {
+  if (typeof property !== "object" || property === null) return false;
+
+  const bedrooms = searchParams.get("bedrooms") || searchParams.get("dormitorios") || "";
+  const item = property as Record<string, unknown>;
+
+  if (bedrooms === "4" && Number(item.suite_amount || 0) < 4) {
+    return false;
+  }
+
+  return true;
+}
+
+async function fetchLocallyFilteredSearch(
   apiKey: string,
   page: number,
   limit: number,
   searchData: object,
   textQuery: string,
+  searchParams: URLSearchParams,
   sort: SortOption
 ) {
   const matches: unknown[] = [];
@@ -331,7 +343,11 @@ async function fetchTextFilteredSearch(
     const objects = Array.isArray(data.objects) ? data.objects : [];
     lastMeta = data.meta;
     totalScanned += objects.length;
-    matches.push(...objects.filter((property) => matchesTextSearch(property, textQuery)));
+    matches.push(
+      ...objects.filter((property) => {
+        return matchesTextSearch(property, textQuery) && matchesLocalFilters(property, searchParams);
+      })
+    );
 
     const totalCount = data.meta?.total_count;
     if (objects.length === 0 || (typeof totalCount === "number" && totalScanned >= totalCount)) {
@@ -374,10 +390,12 @@ export async function GET(request: Request) {
     const limit = clampNumber(searchParams.get("limit"), DEFAULT_PAGE_SIZE, 1, MAX_PAGE_SIZE);
     const offset = (page - 1) * limit;
     const location = searchParams.get("location") || searchParams.get("ubicacion") || "";
+    const bedrooms = searchParams.get("bedrooms") || searchParams.get("dormitorios") || "";
     const sort = getSortOption(searchParams);
     const searchData = getSearchData(searchParams);
-    const result = location.trim()
-      ? await fetchTextFilteredSearch(apiKey, page, limit, searchData, location, sort)
+    const needsLocalFiltering = location.trim() || bedrooms === "4";
+    const result = needsLocalFiltering
+      ? await fetchLocallyFilteredSearch(apiKey, page, limit, searchData, location, searchParams, sort)
       : await fetchTokkoSearch(apiKey, limit, offset, searchData, sort);
 
     if (!result.ok) {
