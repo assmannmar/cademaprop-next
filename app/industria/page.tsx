@@ -274,7 +274,7 @@ export default function IndustriasPage() {
                 </div>
 
                 <h1 className="max-w-3xl text-4xl font-semibold uppercase leading-[0.95] text-white md:text-6xl lg:text-7xl [&>em]:text-white">
-                  Naves industriales y lotes en <em className="italic font-normal text-[#b8252c]">parques industriales</em> de Zona Norte.
+                  Naves y lotes en <em className="italic font-normal text-[#b8252c]">parques industriales</em> de Zona Norte.
                 </h1>
 
                 <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/85 md:text-lg">
