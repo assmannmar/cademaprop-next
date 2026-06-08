@@ -1,67 +1,109 @@
-// C:\Users\assma\Documents\GitHub\cademaprop-next\app\api\properties\route.ts
 import { NextResponse } from "next/server";
 
-// Define el tipo de la respuesta de Tokko para claridad
 interface TokkoResponse {
   meta: {
     limit: number;
-    // ... otros metadatos
+    offset?: number;
+    total_count?: number;
+    next?: string | null;
+    previous?: string | null;
   };
-  objects: any[];
+  objects: unknown[];
+}
+
+const PAGE_SIZE = 300;
+const MAX_PAGES = 200;
+
+function buildTokkoUrl(apiKey: string, offset: number) {
+  const params = new URLSearchParams({
+    key: apiKey,
+    limit: String(PAGE_SIZE),
+    offset: String(offset),
+    format: "json",
+    lang: "es",
+  });
+
+  return `https://www.tokkobroker.com/api/v1/property/?${params.toString()}`;
 }
 
 export async function GET() {
   const apiKey = process.env.TOKKO_API_KEY;
 
-  // 1. Manejo de la clave API (cambiamos a 401/404)
   if (!apiKey) {
     return NextResponse.json(
-      { error: "Falta la API KEY de Tokko. Verifique la configuración de Vercel." },
-      { status: 401 } // No autorizado
+      { error: "Falta la API KEY de Tokko. Verifique la configuracion de Vercel." },
+      { status: 401 }
     );
   }
 
   try {
-    // Mantuvimos el límite reducido para asegurar que el build pase
-    const url = `https://www.tokkobroker.com/api/v1/property/?key=${apiKey}&limit=300&format=json&lang=es`;
+    const properties: unknown[] = [];
+    let offset = 0;
+    let lastMeta: TokkoResponse["meta"] | null = null;
 
-    const response = await fetch(url, {
-        next: { revalidate: 300 } // cachea 5 minutos en el servidor
-    });
+    for (let page = 0; page < MAX_PAGES; page += 1) {
+      const response = await fetch(buildTokkoUrl(apiKey, offset), {
+        next: { revalidate: 300 },
+      });
 
-    // 2. Manejo de errores de Tokko (ej. 401/403 si la clave es mala)
-    if (!response.ok) {
-        
+      if (!response.ok) {
         let tokkoErrorBody = null;
-        
-        // Intentamos leer el JSON de error que Tokko pudo haber enviado
+
         try {
-            tokkoErrorBody = await response.json();
-        } catch (e) {
-            // Si no pudo leer el JSON, significa que Tokko devolvió texto o un cuerpo vacío
+          tokkoErrorBody = await response.json();
+        } catch {
+          // Tokko puede devolver texto o un cuerpo vacio.
         }
-        
-        // Devolvemos el status real de Tokko (401, 403, 404, etc.)
+
         return NextResponse.json(
-            { 
-                error: "Tokko devolvió un error HTTP.", 
-                status_code: response.status,
-                tokko_details: tokkoErrorBody 
-            },
-            { status: response.status }
+          {
+            error: "Tokko devolvio un error HTTP.",
+            status_code: response.status,
+            tokko_details: tokkoErrorBody,
+          },
+          { status: response.status }
         );
+      }
+
+      const data: TokkoResponse = await response.json();
+      const currentObjects = Array.isArray(data.objects) ? data.objects : [];
+      properties.push(...currentObjects);
+      lastMeta = data.meta;
+
+      const totalCount = data.meta?.total_count;
+      const nextOffset = offset + currentObjects.length;
+
+      if (currentObjects.length === 0) {
+        break;
+      }
+
+      if (typeof totalCount === "number" && nextOffset >= totalCount) {
+        break;
+      }
+
+      if (typeof totalCount !== "number" && !data.meta?.next) {
+        break;
+      }
+
+      offset += PAGE_SIZE;
     }
 
-    // 3. Respuesta exitosa
-    const data: TokkoResponse = await response.json();
-    return NextResponse.json(data);
-    
+    return NextResponse.json({
+      meta: {
+        ...lastMeta,
+        limit: properties.length,
+        offset: 0,
+        total_count: lastMeta?.total_count ?? properties.length,
+        next: null,
+        previous: null,
+      },
+      objects: properties,
+    });
   } catch (error) {
-    // 4. Manejo de errores de red (ej. Timeout)
     return NextResponse.json(
-      { 
-        error: "Error de red o timeout al llamar a Tokko Broker.", 
-        details: String(error) 
+      {
+        error: "Error de red o timeout al llamar a Tokko Broker.",
+        details: String(error),
       },
       { status: 500 }
     );

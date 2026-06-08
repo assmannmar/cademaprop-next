@@ -124,12 +124,12 @@ El sitio estará disponible en `http://localhost:3000`.
 
 ### `GET /api/properties`
 
-Consulta todas las propiedades desde Tokko Broker (límite: 300).  
-Devuelve el objeto completo de Tokko sin transformaciones adicionales.  
+Consulta todas las propiedades desde Tokko Broker usando paginación de 300 por tanda.
+Devuelve el objeto completo de Tokko sin transformaciones adicionales.
 **Los filtros se aplican en el cliente** dentro de `PropertiesContainer.tsx`.
 
 ```
-URL Tokko: /api/v1/property/?key=...&limit=300&format=json&lang=es
+URL Tokko: /api/v1/property/?key=...&limit=300&offset=...&format=json&lang=es
 ```
 
 ---
@@ -266,9 +266,9 @@ Si el token está vencido, el carousel de Instagram mostrará imágenes de place
 
 Las reseñas se leen del rango `Reviews!A2:C10`. Para agregar más, extender el rango en `app/api/reviews/route.ts` (ej: `Reviews!A2:C20`).
 
-### Tokko Broker — Límite de propiedades
+### Tokko Broker — Propiedades
 
-La API de propiedades tiene un límite de 300 en la query actual. Si el catálogo supera esa cantidad, aumentar el parámetro `limit` en `app/api/properties/route.ts` o implementar paginación.
+La API de propiedades se consulta por páginas de 300 y la ruta acumula todas las páginas disponibles antes de responder. Si el catálogo crece mucho, revisar el tiempo de respuesta de `app/api/properties/route.ts` y la cache de 5 minutos.
 
 ### Imágenes del Hero
 
