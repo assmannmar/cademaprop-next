@@ -42,6 +42,40 @@ function query_value(array $source, string $primary, string $fallback = ''): str
     return '';
 }
 
+function sort_config(array $query): array
+{
+    $sort = query_value($query, 'sort', 'orden');
+    $sortMap = [
+        'recent_desc' => ['order_by' => 'id', 'order' => 'desc'],
+        'recent_asc' => ['order_by' => 'id', 'order' => 'asc'],
+        'price_desc' => ['order_by' => 'price', 'order' => 'desc'],
+        'price_asc' => ['order_by' => 'price', 'order' => 'asc'],
+        'surface_desc' => ['order_by' => 'surface', 'order' => 'desc'],
+        'surface_asc' => ['order_by' => 'surface', 'order' => 'asc'],
+        'roofed_desc' => ['order_by' => 'roofed_surface', 'order' => 'desc'],
+        'roofed_asc' => ['order_by' => 'roofed_surface', 'order' => 'asc'],
+    ];
+
+    return $sortMap[$sort] ?? $sortMap['recent_desc'];
+}
+
+function sort_option(array $query): string
+{
+    $sort = query_value($query, 'sort', 'orden');
+    $validSorts = [
+        'recent_desc',
+        'recent_asc',
+        'price_desc',
+        'price_asc',
+        'surface_desc',
+        'surface_asc',
+        'roofed_desc',
+        'roofed_asc',
+    ];
+
+    return in_array($sort, $validSorts, true) ? $sort : 'recent_desc';
+}
+
 function get_property_id(): string
 {
     if (isset($_GET['id']) && preg_match('/^\d+$/', (string) $_GET['id'])) {
@@ -158,7 +192,11 @@ function build_search_data(array $query): array
     $withTags = [];
     $withoutTags = [];
 
-    if ($bedrooms !== '' && is_numeric($bedrooms)) {
+    if ($bedrooms === 'studio') {
+        $filters[] = ['room_amount', '=', 1];
+    } elseif ($bedrooms === '4') {
+        $filters[] = ['suite_amount', '>=', 4];
+    } elseif ($bedrooms !== '' && is_numeric($bedrooms)) {
         $filters[] = ['suite_amount', '=', (int) $bedrooms];
     }
 
@@ -206,7 +244,7 @@ function build_search_data(array $query): array
     ];
 }
 
-function read_tokko_search(string $apiKey, int $limit, int $offset, array $searchData): array
+function read_tokko_search(string $apiKey, int $limit, int $offset, array $searchData, array $sortConfig): array
 {
     $url = 'https://www.tokkobroker.com/api/v1/property/search/?'
         . http_build_query([
@@ -215,6 +253,8 @@ function read_tokko_search(string $apiKey, int $limit, int $offset, array $searc
             'offset' => $offset,
             'format' => 'json',
             'lang' => 'es',
+            'order_by' => $sortConfig['order_by'],
+            'order' => $sortConfig['order'],
             'data' => json_encode($searchData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
         ]);
 
@@ -229,6 +269,53 @@ function read_tokko_search(string $apiKey, int $limit, int $offset, array $searc
     }
 
     return is_array($response['data']) ? $response['data'] : [];
+}
+
+function property_price(array $property): float
+{
+    $prices = $property['operations'][0]['prices'] ?? [];
+    if (!is_array($prices) || count($prices) === 0) {
+        return 0;
+    }
+
+    foreach ($prices as $price) {
+        if (is_array($price) && !empty($price['web_price'])) {
+            return isset($price['price']) ? (float) $price['price'] : 0;
+        }
+    }
+
+    return isset($prices[0]['price']) ? (float) $prices[0]['price'] : 0;
+}
+
+function sort_properties(array $properties, string $sort): array
+{
+    usort($properties, function ($a, $b) use ($sort) {
+        $left = is_array($a) ? $a : [];
+        $right = is_array($b) ? $b : [];
+        $direction = str_ends_with($sort, '_desc') ? -1 : 1;
+
+        if (str_starts_with($sort, 'recent')) {
+            $leftValue = isset($left['created_at']) ? strtotime((string) $left['created_at']) : (int) ($left['id'] ?? 0);
+            $rightValue = isset($right['created_at']) ? strtotime((string) $right['created_at']) : (int) ($right['id'] ?? 0);
+            return ($leftValue <=> $rightValue) * $direction;
+        }
+
+        if (str_starts_with($sort, 'price')) {
+            return (property_price($left) <=> property_price($right)) * $direction;
+        }
+
+        if (str_starts_with($sort, 'surface')) {
+            return ((float) ($left['surface'] ?? 0) <=> (float) ($right['surface'] ?? 0)) * $direction;
+        }
+
+        if (str_starts_with($sort, 'roofed')) {
+            return ((float) ($left['roofed_surface'] ?? 0) <=> (float) ($right['roofed_surface'] ?? 0)) * $direction;
+        }
+
+        return 0;
+    });
+
+    return $properties;
 }
 
 function property_matches_text($property, string $query): bool
@@ -248,7 +335,15 @@ function property_matches_text($property, string $query): bool
     return str_contains($haystack, normalize_text($query));
 }
 
-function read_text_filtered_search(string $apiKey, int $limit, int $page, array $searchData, string $textQuery): array
+function read_text_filtered_search(
+    string $apiKey,
+    int $limit,
+    int $page,
+    array $searchData,
+    string $textQuery,
+    array $sortConfig,
+    string $sort
+): array
 {
     $matches = [];
     $totalScanned = 0;
@@ -256,7 +351,7 @@ function read_text_filtered_search(string $apiKey, int $limit, int $page, array 
 
     for ($tokkoPage = 0; $tokkoPage < MAX_TOKKO_PAGES; $tokkoPage++) {
         $offset = $tokkoPage * TOKKO_PAGE_SIZE;
-        $responseData = read_tokko_search($apiKey, TOKKO_PAGE_SIZE, $offset, $searchData);
+        $responseData = read_tokko_search($apiKey, TOKKO_PAGE_SIZE, $offset, $searchData, $sortConfig);
         $meta = isset($responseData['meta']) && is_array($responseData['meta']) ? $responseData['meta'] : [];
         $objects = isset($responseData['objects']) && is_array($responseData['objects']) ? $responseData['objects'] : [];
         $lastMeta = $meta;
@@ -275,6 +370,7 @@ function read_text_filtered_search(string $apiKey, int $limit, int $page, array 
     }
 
     $offset = ($page - 1) * $limit;
+    $matches = sort_properties($matches, $sort);
 
     return [
         'meta' => array_merge($lastMeta, [
@@ -306,12 +402,14 @@ $cacheKey = 'properties_search_' . md5($_SERVER['QUERY_STRING'] ?? '');
 
 $data = cached_json($cacheKey, 300, function () use ($apiKey, $limit, $offset, $page, $location) {
     $searchData = build_search_data($_GET);
+    $sortConfig = sort_config($_GET);
+    $sort = sort_option($_GET);
 
     if (trim($location) !== '') {
-        return read_text_filtered_search($apiKey, $limit, $page, $searchData, $location);
+        return read_text_filtered_search($apiKey, $limit, $page, $searchData, $location, $sortConfig, $sort);
     }
 
-    $responseData = read_tokko_search($apiKey, $limit, $offset, $searchData);
+    $responseData = read_tokko_search($apiKey, $limit, $offset, $searchData, $sortConfig);
     $meta = isset($responseData['meta']) && is_array($responseData['meta']) ? $responseData['meta'] : [];
     $objects = isset($responseData['objects']) && is_array($responseData['objects']) ? $responseData['objects'] : [];
     $totalCount = isset($meta['total_count']) ? (int) $meta['total_count'] : 0;

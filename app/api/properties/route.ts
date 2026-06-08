@@ -11,6 +11,16 @@ interface TokkoResponse {
   objects: unknown[];
 }
 
+type SortOption =
+  | "recent_desc"
+  | "recent_asc"
+  | "price_desc"
+  | "price_asc"
+  | "surface_desc"
+  | "surface_asc"
+  | "roofed_desc"
+  | "roofed_asc";
+
 const DEFAULT_PAGE_SIZE = 30;
 const MAX_PAGE_SIZE = 50;
 const TOKKO_PAGE_SIZE = 50;
@@ -59,19 +69,44 @@ const propertyTypeMap: Record<string, number[]> = {
   "terreno industrial": [27],
 };
 
+const sortMap: Record<SortOption, { orderBy: string; order: "asc" | "desc" }> = {
+  recent_desc: { orderBy: "id", order: "desc" },
+  recent_asc: { orderBy: "id", order: "asc" },
+  price_desc: { orderBy: "price", order: "desc" },
+  price_asc: { orderBy: "price", order: "asc" },
+  surface_desc: { orderBy: "surface", order: "desc" },
+  surface_asc: { orderBy: "surface", order: "asc" },
+  roofed_desc: { orderBy: "roofed_surface", order: "desc" },
+  roofed_asc: { orderBy: "roofed_surface", order: "asc" },
+};
+
+function getSortOption(searchParams: URLSearchParams): SortOption {
+  const sort = searchParams.get("sort") || searchParams.get("orden") || "recent_desc";
+  return sort in sortMap ? (sort as SortOption) : "recent_desc";
+}
+
 function clampNumber(value: string | null, fallback: number, min: number, max: number) {
   const parsed = Number(value);
   if (!Number.isFinite(parsed)) return fallback;
   return Math.min(Math.max(Math.trunc(parsed), min), max);
 }
 
-function buildTokkoSearchUrl(apiKey: string, limit: number, offset: number, data: object) {
+function buildTokkoSearchUrl(
+  apiKey: string,
+  limit: number,
+  offset: number,
+  data: object,
+  sort: SortOption
+) {
+  const sortConfig = sortMap[sort];
   const params = new URLSearchParams({
     key: apiKey,
     limit: String(limit),
     offset: String(offset),
     format: "json",
     lang: "es",
+    order_by: sortConfig.orderBy,
+    order: sortConfig.order,
     data: JSON.stringify(data),
   });
 
@@ -123,7 +158,11 @@ function getSearchData(searchParams: URLSearchParams) {
   const withTags: number[] = [];
   const withoutTags: number[] = [];
 
-  if (bedrooms) {
+  if (bedrooms === "studio") {
+    filters.push(["room_amount", "=", 1]);
+  } else if (bedrooms === "4") {
+    filters.push(["suite_amount", ">=", 4]);
+  } else if (bedrooms) {
     filters.push(["suite_amount", "=", Number(bedrooms)]);
   }
 
@@ -171,8 +210,14 @@ function getSearchData(searchParams: URLSearchParams) {
   };
 }
 
-async function fetchTokkoSearch(apiKey: string, limit: number, offset: number, searchData: object) {
-  const response = await fetch(buildTokkoSearchUrl(apiKey, limit, offset, searchData), {
+async function fetchTokkoSearch(
+  apiKey: string,
+  limit: number,
+  offset: number,
+  searchData: object,
+  sort: SortOption
+) {
+  const response = await fetch(buildTokkoSearchUrl(apiKey, limit, offset, searchData, sort), {
     next: { revalidate: 300 },
   });
 
@@ -201,6 +246,50 @@ async function fetchTokkoSearch(apiKey: string, limit: number, offset: number, s
   };
 }
 
+function getPrice(property: Record<string, unknown>) {
+  const operations = property.operations;
+  if (!Array.isArray(operations)) return 0;
+
+  const firstOperation = operations[0] as Record<string, unknown> | undefined;
+  const prices = firstOperation?.prices;
+  if (!Array.isArray(prices)) return 0;
+
+  const webPrice = prices.find((price) => {
+    return typeof price === "object" && price !== null && (price as Record<string, unknown>).web_price;
+  }) as Record<string, unknown> | undefined;
+
+  const firstPrice = prices[0] as Record<string, unknown> | undefined;
+  return Number(webPrice?.price ?? firstPrice?.price ?? 0);
+}
+
+function sortProperties(properties: unknown[], sort: SortOption) {
+  return [...properties].sort((a, b) => {
+    const left = typeof a === "object" && a !== null ? (a as Record<string, unknown>) : {};
+    const right = typeof b === "object" && b !== null ? (b as Record<string, unknown>) : {};
+    const direction = sort.endsWith("_desc") ? -1 : 1;
+
+    if (sort.startsWith("recent")) {
+      const leftDate = left.created_at ? new Date(String(left.created_at)).getTime() : Number(left.id || 0);
+      const rightDate = right.created_at ? new Date(String(right.created_at)).getTime() : Number(right.id || 0);
+      return (leftDate - rightDate) * direction;
+    }
+
+    if (sort.startsWith("price")) {
+      return (getPrice(left) - getPrice(right)) * direction;
+    }
+
+    if (sort.startsWith("surface")) {
+      return (Number(left.surface || 0) - Number(right.surface || 0)) * direction;
+    }
+
+    if (sort.startsWith("roofed")) {
+      return (Number(left.roofed_surface || 0) - Number(right.roofed_surface || 0)) * direction;
+    }
+
+    return 0;
+  });
+}
+
 function matchesTextSearch(property: unknown, query: string) {
   if (!query.trim() || typeof property !== "object" || property === null) return true;
 
@@ -223,7 +312,8 @@ async function fetchTextFilteredSearch(
   page: number,
   limit: number,
   searchData: object,
-  textQuery: string
+  textQuery: string,
+  sort: SortOption
 ) {
   const matches: unknown[] = [];
   let totalScanned = 0;
@@ -231,7 +321,7 @@ async function fetchTextFilteredSearch(
 
   for (let tokkoPage = 0; tokkoPage < MAX_TOKKO_PAGES; tokkoPage += 1) {
     const offset = tokkoPage * TOKKO_PAGE_SIZE;
-    const result = await fetchTokkoSearch(apiKey, TOKKO_PAGE_SIZE, offset, searchData);
+    const result = await fetchTokkoSearch(apiKey, TOKKO_PAGE_SIZE, offset, searchData, sort);
 
     if (!result.ok) {
       return result;
@@ -250,6 +340,7 @@ async function fetchTextFilteredSearch(
   }
 
   const offset = (page - 1) * limit;
+  const sortedMatches = sortProperties(matches, sort);
 
   return {
     ok: true as const,
@@ -262,7 +353,7 @@ async function fetchTextFilteredSearch(
         offset,
         total_count: matches.length,
       },
-      objects: matches.slice(offset, offset + limit),
+      objects: sortedMatches.slice(offset, offset + limit),
     },
   };
 }
@@ -283,10 +374,11 @@ export async function GET(request: Request) {
     const limit = clampNumber(searchParams.get("limit"), DEFAULT_PAGE_SIZE, 1, MAX_PAGE_SIZE);
     const offset = (page - 1) * limit;
     const location = searchParams.get("location") || searchParams.get("ubicacion") || "";
+    const sort = getSortOption(searchParams);
     const searchData = getSearchData(searchParams);
     const result = location.trim()
-      ? await fetchTextFilteredSearch(apiKey, page, limit, searchData, location)
-      : await fetchTokkoSearch(apiKey, limit, offset, searchData);
+      ? await fetchTextFilteredSearch(apiKey, page, limit, searchData, location, sort)
+      : await fetchTokkoSearch(apiKey, limit, offset, searchData, sort);
 
     if (!result.ok) {
       return NextResponse.json(

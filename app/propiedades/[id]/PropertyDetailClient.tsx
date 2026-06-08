@@ -283,7 +283,7 @@ export default function PropertyDetailPage() {
   );
 
   const displayAddress = property.fake_address || property.address || 'Consultar ubicación';
-  const totalRooms = (property.room_amount || 0) + (property.suite_amount || 0);
+  const roomAmount = property.room_amount || 0;
 
   const isCreditEligible =
     property.credit_eligible === 'Eligible' ||
@@ -298,7 +298,7 @@ export default function PropertyDetailPage() {
     `${propertyType} en ${operationType}${property.location?.name ? ` - ${property.location.name}` : ''}`;
 
   const specs = [
-    totalRooms > 0 ? { label: 'Amb', value: totalRooms } : null,
+    roomAmount > 0 ? { label: 'Amb', value: roomAmount } : null,
     property.bathroom_amount ? { label: 'Baños', value: property.bathroom_amount } : null,
     property.parking_lot_amount && property.parking_lot_amount > 0
       ? { label: 'Cochera', value: property.parking_lot_amount }

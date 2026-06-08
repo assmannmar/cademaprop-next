@@ -26,7 +26,7 @@ export default function PropertyCard(property: any) {
   const displayAddress = fake_address || address || "Consultar ubicación";
   const locationName = location?.name || "";
 
-  const totalRooms = (room_amount || 0) + (suite_amount || 0);
+  const bedrooms = suite_amount || 0;
 
   const propertyType = type?.name || "Propiedad";
 
@@ -115,9 +115,9 @@ export default function PropertyCard(property: any) {
 
   const badges: Badge[] = [];
 
-  if (totalRooms > 0) {
+  if (bedrooms > 0) {
     badges.push({
-      label: `${totalRooms} ${totalRooms === 1 ? "Ambiente" : "Ambientes"}`,
+      label: `${bedrooms} ${bedrooms === 1 ? "Dormitorio" : "Dormitorios"}`,
       icon: (
         <svg
           className="w-4 h-4"

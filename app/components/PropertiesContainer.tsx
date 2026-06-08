@@ -106,10 +106,27 @@ export default function PropertiesContainer() {
     max_price: searchParams.get('precio-max') || '',
   });
 
+  const getSortFromUrl = (): SortOption => {
+    const sort = searchParams.get('orden') as SortOption | null;
+    const validSorts: SortOption[] = [
+      'recent_desc',
+      'recent_asc',
+      'price_desc',
+      'price_asc',
+      'surface_desc',
+      'surface_asc',
+      'roofed_desc',
+      'roofed_asc',
+    ];
+
+    return sort && validSorts.includes(sort) ? sort : 'recent_desc';
+  };
+
   const buildApiQuery = (filterValues: FilterValues, page: number) => {
     const params = new URLSearchParams({
       page: String(page),
       limit: String(ITEMS_PER_PAGE),
+      sort: getSortFromUrl(),
     });
 
     const apiParamMap: Record<keyof FilterValues, string> = {
@@ -161,35 +178,13 @@ export default function PropertiesContainer() {
   useEffect(() => {
     const initialFilters = getFiltersFromUrl();
     setPendingFilters(initialFilters);
+    setSortBy(getSortFromUrl());
     fetchProperties(initialFilters, getCurrentPage());
   }, [searchParams]);
 
   useEffect(() => {
-    const sorted = [...properties].sort((a, b) => {
-      switch (sortBy) {
-        case 'surface_desc':
-          return parseFloat(String(b.surface || 0)) - parseFloat(String(a.surface || 0));
-        case 'surface_asc':
-          return parseFloat(String(a.surface || 0)) - parseFloat(String(b.surface || 0));
-        case 'roofed_desc':
-          return parseFloat(String(b.roofed_surface || 0)) - parseFloat(String(a.roofed_surface || 0));
-        case 'roofed_asc':
-          return parseFloat(String(a.roofed_surface || 0)) - parseFloat(String(b.roofed_surface || 0));
-        case 'price_desc':
-          return (b.operations?.[0]?.prices?.[0]?.price || 0) - (a.operations?.[0]?.prices?.[0]?.price || 0);
-        case 'price_asc':
-          return (a.operations?.[0]?.prices?.[0]?.price || 0) - (b.operations?.[0]?.prices?.[0]?.price || 0);
-        case 'recent_desc':
-          return (b.created_at ? new Date(b.created_at).getTime() : 0) - (a.created_at ? new Date(a.created_at).getTime() : 0);
-        case 'recent_asc':
-          return (a.created_at ? new Date(a.created_at).getTime() : 0) - (b.created_at ? new Date(b.created_at).getTime() : 0);
-        default:
-          return 0;
-      }
-    });
-
-    setDisplayedProperties(sorted);
-  }, [properties, sortBy]);
+    setDisplayedProperties(properties);
+  }, [properties]);
 
   const handleFilterChange = (newFilters: FilterValues) => {
     setPendingFilters(newFilters);
@@ -228,7 +223,15 @@ export default function PropertiesContainer() {
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortBy(e.target.value as SortOption);
+    const params = new URLSearchParams(searchParams.toString());
+    const nextSort = e.target.value as SortOption;
+
+    setSortBy(nextSort);
+    params.set('orden', nextSort);
+    params.delete('page');
+
+    const queryString = params.toString();
+    router.push(`/propiedades${queryString ? `?${queryString}` : ''}`, { scroll: false });
   };
 
   const currentPage = getCurrentPage();
