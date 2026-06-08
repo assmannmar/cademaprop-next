@@ -9,7 +9,6 @@ import {
   DestacadasCarousel, 
   TestimoniosCarousel,
 } from './components/Carousels';
-import FullScreenLoader from './components/loader';
 import InstagramFeed from "./components/InstagramFeed";
 import BlogSection from "@/app/components/BlogSection";
 import { apiUrl } from "@/lib/api";
@@ -38,53 +37,79 @@ interface Development {
   description?: string;
 }
 
+function ApiSectionLoader() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" aria-label="Cargando contenido">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div key={index} className="px-3">
+          <div className="relative aspect-[3/4] overflow-hidden bg-gray-200 shadow-lg">
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200" />
+            <div className="absolute inset-x-8 top-1/2 h-4 -translate-y-1/2 rounded bg-white/70" />
+            <div className="absolute inset-x-14 top-[56%] h-3 rounded bg-white/50" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function HomePage() {
 
   const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [destacadas, setDestacadas] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [emprendimientosLoading, setEmprendimientosLoading] = useState(true);
+  const [destacadasLoading, setDestacadasLoading] = useState(true);
 
 
   useEffect(() => {
+    let isActive = true;
 
-    const timeout = setTimeout(() => {
-      setLoading(false); // ← fuerza que el loader desaparezca después de 5s
-    }, 5000);
-    
-    const load = async () => {
+    const loadDevelopments = async () => {
       try {
-        const [devRes, propRes] = await Promise.allSettled([
-          fetch(apiUrl("developments")),
-          fetch(apiUrl("properties")),
-        ]);
+        const response = await fetch(apiUrl("developments"));
 
-        if (devRes.status === 'fulfilled' && devRes.value.ok) {
-          const devData = await devRes.value.json();
+        if (response.ok) {
+          const devData = await response.json();
+          if (!isActive) return;
           setEmprendimientos(devData.objects?.slice(0, 20) || []);
         }
+      } catch (err) {
+        console.error('Error cargando emprendimientos:', err);
+      } finally {
+        if (isActive) setEmprendimientosLoading(false);
+      }
+    };
 
-        if (propRes.status === 'fulfilled' && propRes.value.ok) {
-          const propData = await propRes.value.json();
+    const loadProperties = async () => {
+      try {
+        const response = await fetch(apiUrl("properties"));
+
+        if (response.ok) {
+          const propData = await response.json();
+          if (!isActive) return;
           const starred = propData.objects?.filter(
             (p: Property) => p.is_starred_on_web === true
           ) || [];
           setDestacadas(starred.length > 0 ? starred.slice(0, 12) : propData.objects?.slice(0, 12) || []);
         }
-
       } catch (err) {
-        console.error('❌ error:', err);
+        console.error('Error cargando propiedades destacadas:', err);
       } finally {
-        setLoading(false);
+        if (isActive) setDestacadasLoading(false);
       }
     };
 
-    load();
+    loadDevelopments();
+    loadProperties();
+
+    return () => {
+      isActive = false;
+    };
   }, []);
   
 
   return (
     <>
-    {loading && <FullScreenLoader />}
     <main className="page">
       {/* PORTADA */}
       <section className="portada">
@@ -134,10 +159,8 @@ export default function HomePage() {
             <p className="text-xl text-gray-600">Proyectos exclusivos en las mejores ubicaciones</p>
           </div>
 
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
-            </div>
+          {emprendimientosLoading ? (
+            <ApiSectionLoader />
           ) : emprendimientos.length > 0 ? (
             <EmprendimientosCarousel emprendimientos={emprendimientos} />
           ) : (
@@ -160,10 +183,8 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Propiedades Destacadas</h2>
           </div>
 
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
-            </div>
+          {destacadasLoading ? (
+            <ApiSectionLoader />
           ) : destacadas.length > 0 ? (
             <DestacadasCarousel propiedades={destacadas} />
           ) : (
