@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Script from 'next/script';
 import './propiedad.css';
@@ -72,9 +72,13 @@ interface Property {
 
 export default function PropertyDetailPage() {
   const params = useParams();
+  const pathname = usePathname();
   const id = params?.id;
 
-  const propertyId = id ? (id as string).split('-')[0] : null;
+  const routeSlug = id ? (id as string) : '';
+  const pathSlug = pathname?.match(/\/propiedades\/([^/]+)/)?.[1] || '';
+  const propertySlug = routeSlug === 'placeholder' ? pathSlug : routeSlug;
+  const propertyId = propertySlug ? propertySlug.split('-')[0] : null;
 
   const [currentUrl, setCurrentUrl] = useState('');
   const [property, setProperty] = useState<Property | null>(null);
@@ -90,13 +94,13 @@ export default function PropertyDetailPage() {
       setCurrentUrl(window.location.href);
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
-  }, [id]);
+  }, [propertySlug]);
 
   useEffect(() => {
-    if (id) {
+    if (propertyId) {
       fetchProperty();
     }
-  }, [id]);
+  }, [propertyId]);
 
   useEffect(() => {
     if (!isFullscreen) return;
