@@ -241,7 +241,7 @@ export default function HomePage() {
 
             <div className="flex justify-center">
               <Link
-                href="https://cademaprop.com.ar/parque-industrial/"
+                href="/industria"
                 className="btn-split btn-split-top btn-split-wide"
               >
                 <span className="btn-text">Explorar Opciones Industriales</span>
