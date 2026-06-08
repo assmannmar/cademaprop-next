@@ -194,7 +194,7 @@ export default function IndustriasPage() {
       try {
         const [propRes, devRes] = await Promise.allSettled([
           fetch(`${apiUrl("properties")}?${new URLSearchParams({
-            property_type: "Industrial Ship",
+            division: "Industria",
             limit: "12",
             page: "1",
           }).toString()}`),
