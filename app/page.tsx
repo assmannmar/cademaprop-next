@@ -9,6 +9,7 @@ import {
   DestacadasCarousel, 
   TestimoniosCarousel,
 } from './components/Carousels';
+import FullScreenLoader from './components/loader';
 import InstagramFeed from "./components/InstagramFeed";
 import BlogSection from "@/app/components/BlogSection";
 import { apiUrl } from "@/lib/api";
@@ -57,8 +58,18 @@ export default function HomePage() {
 
   const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [destacadas, setDestacadas] = useState<Property[]>([]);
+  const [showInitialLoader, setShowInitialLoader] = useState(true);
   const [emprendimientosLoading, setEmprendimientosLoading] = useState(true);
   const [destacadasLoading, setDestacadasLoading] = useState(true);
+
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setShowInitialLoader(false);
+    }, 1000);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
 
   useEffect(() => {
@@ -110,6 +121,7 @@ export default function HomePage() {
 
   return (
     <>
+    {showInitialLoader && <FullScreenLoader />}
     <main className="page">
       {/* PORTADA */}
       <section className="portada">
