@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "./components/navbar";
 import Footer from "./components/Footer";
-import WhatsAppButton from "./components/WhatsappButton";
+import GlobalChrome from "./components/GlobalChrome";
 
 export const metadata: Metadata = {
   title: "Cadema Bienes Raíces",
@@ -22,13 +21,11 @@ export default function RootLayout({
       <body
         className="antialiased bg-gray-50"
       >
-        <Navbar />
+        <GlobalChrome />
 
         {children}
 
         <Footer />
-
-        <WhatsAppButton />
       </body>
     </html>
   );

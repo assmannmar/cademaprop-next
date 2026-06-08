@@ -44,6 +44,7 @@ function NavbarIndustrias() {
   }, [mobileMenuOpen]);
 
   const navLinks = [
+    { label: 'Volver a Cadema', href: '/' },
     { label: 'Propiedades', href: '#propiedades' },
     { label: 'Parques', href: '#parques' },
     { label: 'Como trabajamos', href: '#como' },
@@ -63,7 +64,7 @@ function NavbarIndustrias() {
         } ${scrolled ? 'bg-white/95 py-2 shadow-md backdrop-blur-md' : 'bg-transparent py-5'}`}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
-          <Link href="/industria" className="flex-shrink-0">
+          <Link href="/" className="flex-shrink-0">
             <img
               src="/logos-industria/logo-industria.png"
               alt="Cadema Industria"
