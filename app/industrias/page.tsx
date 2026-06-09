@@ -1,51 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from "next/link";
-import { PropiedadesIndustrialesCarousel, EmprendimientosIndustrialesCarousel, LogosCarousel } from '@/app/components/IndustriasCarousels';
-import { apiUrl } from "@/lib/api";
+import Link from 'next/link';
+import {
+  EmprendimientosIndustrialesCarousel,
+  LogosCarousel,
+  PropiedadesIndustrialesCarousel,
+} from '@/app/components/IndustriasCarousels';
+import { apiUrl } from '@/lib/api';
 
-// ============================================================
-// ICONS - SVG inline
-// ============================================================
-const ChevronLeft = ({ size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-    <polyline points="15 18 9 12 15 6"></polyline>
-  </svg>
-);
-
-const ChevronRight = ({ size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-    <polyline points="9 18 15 12 9 6"></polyline>
-  </svg>
-);
-
-const MapPin = ({ size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-    <circle cx="12" cy="10" r="3"></circle>
-  </svg>
-);
-
-const DollarSign = ({ size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-    <line x1="12" y1="1" x2="12" y2="23"></line>
-    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-  </svg>
-);
-
-const Maximize2 = ({ size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-    <polyline points="15 3 21 3 21 9"></polyline>
-    <polyline points="9 21 3 21 3 15"></polyline>
-    <line x1="21" y1="3" x2="3" y2="21"></line>
-  </svg>
-);
-
-// ============================================================
-// TYPES
-// ============================================================
 interface Property {
   id: number;
   publication_title?: string;
@@ -72,119 +36,168 @@ interface Development {
   web_url?: string;
 }
 
-// ============================================================
-// CAROUSEL COMPONENT - Genérico reutilizable (para logos)
-// ============================================================
-interface CarouselItem {
-  id: string;
-  title: string;
-  subtitle?: string;
-  image?: string;
-  location?: string;
-  price?: string;
-  size?: string;
-  type?: string;
-  [key: string]: any;
+interface AccordionItem {
+  q: string;
+  a: string;
 }
 
-interface CarouselProps {
-  items: CarouselItem[];
-  type: 'properties' | 'parks' | 'logos';
-  title: string;
-  subtitle?: string;
-}
+const problemItems: AccordionItem[] = [
+  {
+    q: 'Falta de tiempo para pensar en un cambio',
+    a: 'Muchas empresas están pensando hoy en alternativas para su localización, pero indagar sobre las distintas opciones, analizar pros y contras de cada una de ellas, valores de referencia, superficies disponibles, beneficios fiscales, entre otros ítems, insume una enorme cantidad de tiempo y esfuerzo.',
+  },
+  {
+    q: 'Pocos espacios industriales disponibles',
+    a: 'El sector logístico busca constantemente espacios disponibles para montar nuevos puntos de distribución. Hoy el mercado de alquileres logísticos se encuentra saturado, con pocas opciones en zonas adecuadas, lo que complejiza su búsqueda.',
+  },
+  {
+    q: 'Zonas antes industriales, ahora residenciales',
+    a: 'Numerosas pymes del AMBA se localizaron en zonas despobladas, pero hoy se han convertido en áreas eminentemente residenciales, con accesos, calles y servicios que no fueron planificados para la industria.',
+  },
+  {
+    q: 'Multas, cortes de calles, problemas con vecinos',
+    a: 'Esto genera conflictividad con los vecinos, importantes erogaciones en tasas y multas, y altos costos operativos.',
+  },
+];
 
-function Carousel({ items, type, title, subtitle }: CarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerPage = type === 'logos' ? 6 : 3;
-  const maxIndex = Math.max(0, items.length - itemsPerPage);
+const workItems = [
+  {
+    title: 'Conocimiento',
+    text: 'Coordinamos visitas a zonas industriales, parques y centros logísticos para conocer la diversidad de opciones. En base a ello, confeccionamos un relevamiento constante de datos: valores, superficies disponibles, servicios instalados y beneficios impositivos, entre otros puntos.',
+  },
+  {
+    title: 'Relaciones',
+    text: 'Tenemos contacto fluido con representantes de parques industriales, inversores y constructores. Además, somos miembros de CIALI, formando parte de una red de búsquedas e intereses que se enriquece día a día con colegas del sector.',
+  },
+  {
+    title: 'Comercial',
+    text: 'Contamos con una variada carpeta de opciones, enfocadas en zonas norte y oeste del AMBA, tanto respecto de tierra en parques o zonas industriales como de naves en venta y alquiler.',
+  },
+];
 
-  const nextSlide = () => {
-    if (currentIndex < maxIndex) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
+const empresasRadicadas = [
+  { id: 'seventeen', name: 'Seventeen SRL' },
+  { id: 'adn', name: 'ADN Logística' },
+  { id: 'loginter', name: 'Loginter' },
+  { id: 'plexo', name: 'Plexo' },
+  { id: 'grupo-l', name: 'Grupo L' },
+  { id: 'urbano', name: 'Urbano Express' },
+  { id: 'polar', name: 'Polar' },
+  { id: 'transfarmaco', name: 'Transfarmaco' },
+];
 
-  const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
+const empresasInstituciones = [
+  { id: 'ciali', name: 'CIALI' },
+  { id: 'parque-ruta-6', name: 'Parque Industrial Ruta 6' },
+  { id: 'los-libertadores', name: 'Parque Industrial Los Libertadores' },
+  { id: 'clip', name: 'Centro Logístico Industrial Planificado Zárate' },
+  { id: 'campana', name: 'Parque Industrial Campana' },
+  { id: 'plaza-pilar', name: 'Plaza Industrial Pilar' },
+  { id: 'plaza-escobar', name: 'Plaza Industrial Escobar' },
+  { id: 'desarrolladores', name: 'Desarrolladores industriales' },
+];
 
-  const visibleItems = items.slice(currentIndex, currentIndex + itemsPerPage);
+const faqItems: AccordionItem[] = [
+  {
+    q: '¿En qué zonas trabajan?',
+    a: 'Nos especializamos en zona norte del GBA: Zárate, Campana, Escobar y Pilar. También podemos realizar búsquedas en otras zonas como Cañuelas, Buen Ayre, Tigre y otros corredores industriales.',
+  },
+  {
+    q: '¿Qué tipo de información necesitan?',
+    a: 'Te vamos a pedir las características de tu empresa, si es industria o logística, qué tipo de operación querés realizar, tipo de producto que fabricás o almacenás, superficie requerida, potencia, accesos y plazos.',
+  },
+  {
+    q: '¿En qué se diferencian de una inmobiliaria tradicional?',
+    a: 'La inmobiliaria tradicional se basa en la venta de un producto puntual. Nuestro trabajo, en cambio, se enfoca en la consultoría: entendemos tus necesidades y buscamos las mejores alternativas de acuerdo a tus requerimientos.',
+  },
+  {
+    q: '¿El servicio es más oneroso que el de una inmobiliaria tradicional?',
+    a: 'No. Los honorarios que percibe CADEMA son similares a los de cualquier inmobiliaria tradicional. Al cerrar la operación solamente vas a abonar el porcentaje habitual por la compra o alquiler del terreno o la nave.',
+  },
+  {
+    q: 'Si CADEMA realiza la búsqueda, ¿estoy obligado a realizar la operación con ustedes?',
+    a: 'No estás obligado, pero confiamos en que vamos a ser quienes te presentemos las mejores alternativas para tu proyecto.',
+  },
+  {
+    q: '¿Cuánto cuesta alquilar una nave industrial en Zona Norte?',
+    a: 'El valor depende de ubicación, categoría del parque, estado de la nave, superficie, servicios y condiciones contractuales. Lo importante es comparar opciones reales y vigentes antes de definir.',
+  },
+  {
+    q: '¿Qué diferencia hay entre las categorías 1, 2 y 3?',
+    a: 'La categoría define qué actividades se pueden radicar. Categoría 1 admite industrias inocuas, categoría 2 actividades incómodas y categoría 3 actividades de mayor complejidad. Verificarlo antes de avanzar es clave.',
+  },
+  {
+    q: '¿Conviene comprar un lote o alquilar una nave?',
+    a: 'Depende del horizonte, el capital disponible y la urgencia operativa. Comprar lote puede ser más eficiente para proyectos de largo plazo; alquilar una nave permite entrar en operación más rápido.',
+  },
+  {
+    q: '¿Tienen propiedades fuera de parques industriales?',
+    a: 'Sí. También trabajamos con naves y galpones independientes en zonas industriales tradicionales, evaluando habilitación, accesos, costos operativos y compatibilidad con la actividad.',
+  },
+  {
+    q: '¿Qué beneficios fiscales ofrecen los parques industriales?',
+    a: 'Varían según jurisdicción y proyecto. Algunos parques ofrecen exenciones o beneficios en tasas e impuestos. Presentamos esa información dentro del análisis comparativo de cada alternativa.',
+  },
+  {
+    q: '¿Cómo cobran sus honorarios?',
+    a: 'Los honorarios son los habituales del sector inmobiliario industrial y se abonan al cierre de la operación. No hay costo adicional por la búsqueda ni por las visitas.',
+  },
+];
 
+const team = [
+  {
+    name: 'Rolando Cafferatta',
+    role: 'Director General',
+    image: '/team/3.png',
+  },
+  {
+    name: 'Alejandro Torres Hotton',
+    role: 'Coordinador',
+    image: '/team/1.png',
+  },
+  {
+    name: 'Hernán González',
+    role: 'Gerente Comercial',
+    image: '/team/2.png',
+  },
+];
+
+function AccordionList({ items }: { items: AccordionItem[] }) {
   return (
-    <div className="w-full">
-      <div className="mb-12">
-        <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">{title}</span>
-        {subtitle && <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">{subtitle}</h2>}
-      </div>
-
-      <div className="relative">
-        {/* Items Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {visibleItems.map((item) => (
-            <div key={item.id} className="group">
-              {type === 'logos' && (
-                <div className="bg-white rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors p-8 flex items-center justify-center h-40 group-hover:bg-[#f4f1ec]">
-                  {item.image ? (
-                    <Image src={item.image} alt={item.title} width={120} height={60} className="max-h-16 w-auto" />
-                  ) : (
-                    <div className="text-center">
-                      <div className="font-semibold text-[#2a2a2a] text-lg">{item.title}</div>
-                      {item.subtitle && <p className="text-xs text-[#6b6660] mt-1">{item.subtitle}</p>}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Navigation */}
-        <div className="flex items-center justify-between mt-8">
-          <div className="flex gap-2">
-            <button
-              onClick={prevSlide}
-              disabled={currentIndex === 0}
-              className="p-2 border border-[#d8d1c4] rounded-lg hover:bg-[#b8252c] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={nextSlide}
-              disabled={currentIndex >= maxIndex}
-              className="p-2 border border-[#d8d1c4] rounded-lg hover:bg-[#b8252c] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-          <div className="text-sm text-[#6b6660]">
-            {currentIndex + 1} — {Math.ceil(items.length / itemsPerPage)}
-          </div>
-        </div>
-      </div>
+    <div className="divide-y divide-[#d8d1c4] border-y border-[#d8d1c4]">
+      {items.map((item, index) => (
+        <details key={item.q} className="group" open={index === 0}>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left">
+            <span className="text-lg font-semibold text-[#141414]">{item.q}</span>
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#d8d1c4] text-xl text-[#b8252c] transition group-open:rotate-45">
+              +
+            </span>
+          </summary>
+          <p className="max-w-4xl pb-6 text-base leading-relaxed text-[#5f5a53]">
+            {item.a}
+          </p>
+        </details>
+      ))}
     </div>
   );
 }
 
-// ============================================================
-// MAIN PAGE COMPONENT
-// ============================================================
 export default function IndustriasPage() {
   const [propiedadesIndustriales, setPropiedadesIndustriales] = useState<Property[]>([]);
   const [emprendimientosIndustriales, setEmprendimientosIndustriales] = useState<Development[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Datos de logos - hardcodeados
-  const empresasLogos: CarouselItem[] = [
-    { id: '1', title: 'Seventeen', subtitle: 'Cortinas y accesorios', image: '/logos-industria/seventeen.png' },
-    { id: '2', title: 'Polo Industrial', subtitle: 'Logística', image: '/logos-industria/polo.png' },
-    { id: '3', title: 'Tecnometal', subtitle: 'Metalmecánica', image: '/logos-industria/tecnometal.png' },
-    { id: '4', title: 'Frigorífico R.', subtitle: 'Alimentos', image: '/logos-industria/frigorifico.png' },
-  ];
+  useEffect(() => {
+    const scriptId = 'ventux-form-embed';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.src = 'https://link.ventux.io/js/form_embed.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
 
-  // Fetch datos de la API
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(false);
@@ -193,33 +206,33 @@ export default function IndustriasPage() {
     const load = async () => {
       try {
         const [propRes, devRes] = await Promise.allSettled([
-          fetch(`${apiUrl("properties")}?${new URLSearchParams({
-            division: "Industria",
-            limit: "12",
-            page: "1",
-          }).toString()}`),
-          fetch(apiUrl("developments")),
+          fetch(
+            `${apiUrl('properties')}?${new URLSearchParams({
+              division: 'Industria',
+              limit: '12',
+              page: '1',
+            }).toString()}`
+          ),
+          fetch(apiUrl('developments')),
         ]);
 
-        // Filtrar propiedades industriales
         if (propRes.status === 'fulfilled' && propRes.value.ok) {
           const propData = await propRes.value.json();
           setPropiedadesIndustriales(propData.objects || []);
         }
 
-        // Filtrar emprendimientos industriales
         if (devRes.status === 'fulfilled' && devRes.value.ok) {
           const devData = await devRes.value.json();
-          const industriales = devData.objects?.filter(
-            (d: Development) => 
-              d.type?.name?.toLowerCase().includes('industrial') ||
-              d.description?.toLowerCase().includes('industrial')
-          ) || [];
+          const industriales =
+            devData.objects?.filter(
+              (d: Development) =>
+                d.type?.name?.toLowerCase().includes('industrial') ||
+                d.description?.toLowerCase().includes('industrial')
+            ) || [];
           setEmprendimientosIndustriales(industriales.slice(0, 12));
         }
-
       } catch (err) {
-        console.error('❌ Error cargando datos:', err);
+        console.error('Error cargando datos industriales:', err);
       } finally {
         setLoading(false);
       }
@@ -231,460 +244,387 @@ export default function IndustriasPage() {
   }, []);
 
   return (
-    <>
-      {/* TOP STRIP
-      <div className="bg-[#141414] text-[#d6cfb9] text-xs tracking-wide py-2 px-8 mt-20">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 flex-wrap">
-          <div>
-            <span className="inline-flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-[#4ade80] rounded-full shadow-lg shadow-green-400"></span>
-              Búsqueda de propiedades industriales sin costo adicional
-            </span>
-          </div>
-          <a href="tel:+5493489517998" className="text-[#f4f1ec] hover:text-white transition-colors">
-            +54 9 3489 517-998
-          </a>
-        </div>
-      </div> */}
-
-      <main className="bg-white text-neutral-900">
-        {/* ============================================================
-             HERO SECTION
-        ============================================================ */}
-        <section
-          className="relative flex min-h-[72vh] items-end overflow-hidden border-b border-neutral-200 md:min-h-[82vh]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.48)), url('/industrial-banner.jpg')",
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-          }}
-        >
-          <div className="absolute inset-0 bg-black/10" />
-
-          <div className="relative z-10 w-full">
-            <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-28 md:px-8 md:pb-18 lg:grid-cols-[1.05fr_0.95fr] lg:px-12">
-              {/* Left Column */}
-              <div>
-                <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm [&_span]:font-sans [&_span]:uppercase [&_span]:text-white/80">
-                  <div className="w-1.5 h-1.5 bg-[#b8252c] rounded-full"></div>
-                  <span className="font-mono text-xs tracking-widest text-[#6b6660]">ESPECIALISTAS EN REAL ESTATE INDUSTRIAL · ZONA NORTE AMBA</span>
-                </div>
-
-                <h1 className="max-w-3xl text-4xl font-semibold uppercase leading-[0.95] text-white md:text-6xl lg:text-7xl [&>em]:text-white">
-                  Naves y lotes en <em className="italic font-normal text-[#b8252c]">parques industriales</em> de Zona Norte.
-                </h1>
-
-                <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/85 md:text-lg">
-                  Campana, Pilar, Escobar, Zárate. Búsqueda personalizada, sin costo, con el respaldo de 60 años en real estate industrial.
-                </p>
-
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <a href="#propiedades" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#c60c23] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#a80f22]">
-                    Ver propiedades <span>→</span>
-                  </a>
-                  <a href="#formulario" className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/15">
-                    Consultar ahora
-                  </a>
-                </div>
-
-                <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-xs uppercase tracking-[0.18em] text-white/70 md:text-sm">
-                  <span>Zona Norte AMBA</span>
-                  <span>Parques industriales</span>
-                  <span>Busqueda a medida</span>
-                </div>
-              </div>
-
-              {/* Right Column - Stats */}
-              <div className="grid grid-cols-2 content-end gap-4 lg:pb-2">
-                <div className="rounded-[26px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md [&>p]:text-white/75">
-                  <div className="mb-2 text-3xl font-semibold md:text-4xl">60+</div>
-                  <p className="text-sm leading-relaxed text-white/75">Años en real estate industrial</p>
-                </div>
-                <div className="rounded-[26px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md [&>p]:text-white/75">
-                  <div className="mb-2 text-3xl font-semibold md:text-4xl">500+</div>
-                  <p className="text-sm leading-relaxed text-white/75">Operaciones cerradas</p>
-                </div>
-                <div className="rounded-[26px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md [&>p]:text-white/75">
-                  <div className="mb-2 text-3xl font-semibold md:text-4xl">8-10</div>
-                  <p className="text-sm leading-relaxed text-white/75">Días para presentar opciones</p>
-                </div>
-                <div className="rounded-[26px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md [&>p]:text-white/75">
-                  <div className="mb-2 text-3xl font-semibold md:text-4xl">0%</div>
-                  <p className="text-sm leading-relaxed text-white/75">Costo de búsqueda</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================================
-            ¿QUÉ ESTÁS BUSCANDO? + PROPIEDADES INDUSTRIALES
-        ============================================================ */}
-        <section id="propiedades" className="py-20 border-b border-[#d8d1c4]">
-            <div className="max-w-7xl mx-auto px-8">
-                
-                {/* Subsección 1: ¿Qué estás buscando? */}
-                <div className="mb-24">
-                <div className="mb-16">
-                    <h2 className="mb-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
-                    ¿Qué <em className="italic font-normal text-[#b8252c]">estás buscando</em>?
-                    </h2>
-                    <p className="text-lg text-[#6b6660] max-w-2xl leading-relaxed">
-                    Cuatro caminos directos según el tipo de operación. Cada propuesta incluye relevamiento de zonificación, beneficios fiscales y condiciones contractuales.
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {/* OPCIÓN 1: ALQUILER DE NAVES */}
-                    <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
-                    <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
-                        <span className="text-2xl font-bold text-[#b8252c]">N</span>
-                    </div>
-                    <h3 className="mb-2 text-xl font-semibold text-neutral-900">
-                        Alquiler de naves industriales
-                    </h3>
-                    <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
-                        Galpones y naves AAA desde 800 a 12.000 m², dentro y fuera de parques.
-                    </p>
-                    <a href="/propiedades?operacion=rent&tipo=industrial" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
-                        Ver naves en alquiler →
-                    </a>
-                    </div>
-
-                    {/* OPCIÓN 2: VENTA DE LOTES */}
-                    <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
-                    <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
-                        <span className="text-2xl font-bold text-[#b8252c]">L</span>
-                    </div>
-                    <h3 className="mb-2 text-xl font-semibold text-neutral-900">
-                        Venta de lotes industriales
-                    </h3>
-                    <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
-                        Fracciones desde 2.000 a 48.000 m² en parques categorías 1, 2 y 3.
-                    </p>
-                    <a href="#propiedades" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
-                        Ver lotes en venta →
-                    </a>
-                    </div>
-
-                    {/* OPCIÓN 3: CENTROS LOGÍSTICOS */}
-                    <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
-                    <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
-                        <span className="text-2xl font-bold text-[#b8252c]">C</span>
-                    </div>
-                    <h3 className="mb-2 text-xl font-semibold text-neutral-900">
-                        Centros logísticos
-                    </h3>
-                    <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
-                        Docks, playas para camiones, accesos rápidos a autopistas troncales.
-                    </p>
-                    <a href="#propiedades" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
-                        Ver opciones logísticas →
-                    </a>
-                    </div>
-
-                    {/* OPCIÓN 4: BÚSQUEDA A MEDIDA */}
-                    <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] hover:border-[#b8252c] transition-colors flex flex-col">
-                    <div className="w-12 h-12 bg-[#fdf3f1] rounded flex items-center justify-center mb-6">
-                        <span className="text-2xl font-bold text-[#b8252c]">B</span>
-                    </div>
-                    <h3 className="mb-2 text-xl font-semibold text-neutral-900">
-                        Búsqueda a medida
-                    </h3>
-                    <p className="text-sm text-[#6b6660] mb-6 leading-relaxed flex-grow">
-                        ¿No encuentras lo que necesitas? Hacemos relevamiento personalizado.
-                    </p>
-                    <a href="#formulario" className="text-[#b8252c] text-sm font-semibold hover:text-[#8e1a20] transition-colors">
-                        Solicitar búsqueda →
-                    </a>
-                    </div>
-                </div>
-                </div>
-
-                {/* Subsección 2: Propiedades disponibles */}
-                <div>
-                <div className="mb-12">
-                    <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">01 · Propiedades disponibles</span>
-                    <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">Opciones reales en Zona Norte</h2>
-                </div>
-
-                {loading ? (
-                    <div className="text-center py-12">
-                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#b8252c]"></div>
-                    </div>
-                ) : propiedadesIndustriales.length > 0 ? (
-                    <PropiedadesIndustrialesCarousel propiedades={propiedadesIndustriales} />
-                ) : (
-                    <p className="text-center text-gray-500">No hay propiedades industriales disponibles en este momento</p>
-                )}
-
-                <div className="flex justify-center mt-12">
-                    <Link href="/propiedades?division=Industria" className="btn-split btn-split-bottom btn-split-wide">
-                    <span className="btn-text">Ver Todas las propiedades</span>
-                    <span className="btn-arrow">→</span>
-                    </Link>
-                </div>
-                </div>
-
-            </div>
-        </section>
-
-        {/* ============================================================
-            EMPRENDIMIENTOS INDUSTRIALES - CAROUSEL (API)
-        ============================================================ */}
-        <section id="parques" className="py-24 border-b border-[#d8d1c4] bg-[#1a1a1a]">
-            <div className="max-w-7xl mx-auto px-8">
-                {/* Header */}
-                <div className="mb-16">
-                <span className="font-mono text-xs tracking-widest text-[#8a8a8a] uppercase block mb-6">
-                    02 · Parques que representamos
+    <main className="bg-white text-neutral-900">
+      <section
+        className="relative flex min-h-[72vh] scroll-mt-24 items-end overflow-hidden border-b border-neutral-200 md:min-h-[82vh]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.48)), url('/industrial-banner.jpg')",
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+        }}
+      >
+        <div className="relative z-10 w-full">
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-28 md:px-8 md:pb-18 lg:grid-cols-[1.1fr_0.9fr] lg:px-12">
+            <div>
+              <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm">
+                <div className="h-1.5 w-1.5 rounded-full bg-[#b8252c]" />
+                <span className="font-mono text-xs uppercase tracking-widest text-white/80">
+                  Líderes en Zona Norte
                 </span>
-                <h2 className="mb-6 text-3xl font-semibold uppercase leading-tight text-white md:text-5xl">
-                    Acceso directo a los principales{' '}
-                    <em className="italic font-normal text-[#b8252c]">parques industriales</em> de Zona Norte.
-                </h2>
-                <p className="text-lg text-[#b0b0b0] max-w-2xl leading-relaxed">
-                    Relación de trabajo con desarrolladores, cuerpos directivos y administradores. Información actualizada de superficies disponibles, valores y beneficios impositivos.
+              </div>
+
+              <p className="mb-4 text-xl font-semibold uppercase tracking-[0.18em] text-white/85">
+                Sabemos de Inmuebles, Sabemos de Industria.
+              </p>
+
+              <h1 className="max-w-4xl text-4xl font-semibold uppercase leading-[0.98] text-white md:text-6xl lg:text-7xl">
+                Contamos con el mejor lugar para radicar tu empresa
+              </h1>
+
+              <div className="mt-6 max-w-3xl space-y-4 text-base leading-relaxed text-white/88 md:text-lg">
+                <p>
+                  Brindamos un servicio de gestión inteligente en la búsqueda del terreno o la
+                  nave mas conveniente para el crecimiento de tu empresa.
                 </p>
-                </div>
-
-                {/* Carousel */}
-                {loading ? (
-                <div className="text-center py-12">
-                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#b8252c]"></div>
-                </div>
-                ) : emprendimientosIndustriales.length > 0 ? (
-                <EmprendimientosIndustrialesCarousel emprendimientos={emprendimientosIndustriales} />
-                ) : (
-                <p className="text-center text-gray-500">No hay emprendimientos industriales disponibles en este momento</p>
-                )}
-
-                <div className="flex justify-center mt-12">
-                <Link href="/emprendimientos?div=industrial" className="btn-split btn-split-bottom btn-split-wide">
-                    <span className="btn-text">Ver Todos los Emprendimientos</span>
-                    <span className="btn-arrow">→</span>
-                </Link>
-                </div>
-            </div>
-        </section>
-
-        {/* ============================================================
-            HOW WE WORK
-        ============================================================ */}
-        <section id="como" className="py-24 border-b border-[#d8d1c4] bg-[#f5f3f0]">
-            <div className="max-w-7xl mx-auto px-8">
-                {/* Encabezado */}
-                <div className="mb-20">
-                <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase block mb-6">
-                    03 · Cómo trabajamos
-                </span>
-                <h2 className="text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
-                    Un proceso enfocado en{' '}
-                    <em className="italic font-normal text-[#b8252c]">su decisión</em>, no en
-                    <br />
-                    cerrar una operación cualquiera.
-                </h2>
-                </div>
-
-                {/* Grid de 3 pasos */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-                {[
-                    {
-                    num: '01',
-                    title: 'Entendemos su operación',
-                    desc: 'Tipo de industria, logística, ampliaciones previstas, equipamiento, requerimientos eléctricos, normativa aplicable. Antes de mostrar opciones queremos conocer su negocio.',
-                    },
-                    {
-                    num: '02',
-                    title: 'Relevamos opciones reales',
-                    desc: 'Comparamos superficies disponibles, valores, beneficios impositivos, servicios e infraestructura entre varios parques y ubicaciones. Le presentamos un cuadro comparable para decidir con datos.',
-                    },
-                    {
-                    num: '03',
-                    title: 'Acompañamos hasta la radicación',
-                    desc: 'Visitas coordinadas, negociación con desarrolladores, vinculación con constructoras si necesita levantar nave, gestión de habilitaciones. Los honorarios son los habituales del sector, solo al cierre.',
-                    },
-                ].map((step) => (
-                    <div key={step.num} className="flex flex-col">
-                    {/* Número con línea */}
-                    <div className="flex items-center gap-4 mb-6">
-                        <span className="font-mono text-sm font-semibold text-[#b8252c] tracking-widest">
-                        PASO {step.num}
-                        </span>
-                        <div className="flex-grow h-px bg-[#d8d1c4]" />
-                    </div>
-
-                    {/* Título */}
-                    <h3 className="mb-4 text-xl font-semibold text-neutral-900 md:text-2xl">
-                        {step.title}
-                    </h3>
-
-                    {/* Descripción */}
-                    <p className="text-base text-[#2a2a2a] leading-relaxed">
-                        {step.desc}
-                    </p>
-                    </div>
-                ))}
-                </div>
-            </div>
-        </section>
-
-        {/* ============================================================
-             TESTIMONIAL / CASOS
-        ============================================================ */}
-        <section id="casos" className="py-20 border-b border-[#d8d1c4] bg-[#ebe6dd]">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div>
-                <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">04 · Casos</span>
-                <h2 className="font-serif text-3xl font-medium text-[#141414] mt-3 leading-tight">
-                  Casos reales de empresas que radicamos.
-                </h2>
-                <p className="text-sm text-[#6b6660] mt-4 leading-relaxed">
-                  Trabajamos con pymes en crecimiento, industrias consolidadas y operadores logísticos. Esta es una de las operaciones cerradas en 2023.
+                <p>
+                  Como agentes inmobiliarios, nos enfocamos en conocer tus inquietudes y
+                  necesidades, y en base a ello encontrar la localización que mejor se adapte a
+                  tu proyecto.
                 </p>
               </div>
 
-              <div className="bg-white p-8 rounded-lg border border-[#d8d1c4]">
-                <blockquote className="font-serif text-lg italic text-[#2a2a2a] mb-6 leading-relaxed">
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                </blockquote>
-                <div className="border-t border-[#d8d1c4] pt-6">
-                  <div className="font-semibold text-[#141414]">Empresa x</div>
-                  <p className="text-sm text-[#6b6660] mt-1">xxxxxx · Localidad de xxx</p>
-                  
-                  <div className="grid grid-cols-2 gap-4 mt-6">
-                    <div>
-                      <div className="font-mono text-xs text-[#6b6660] tracking-widest uppercase mb-1">Operación</div>
-                      <div className="font-semibold text-[#141414]">Compra de lote</div>
-                    </div>
-                    <div>
-                      <div className="font-mono text-xs text-[#6b6660] tracking-widest uppercase mb-1">Tiempo a cierre</div>
-                      <div className="font-semibold text-[#141414]">x semanas</div>
-                    </div>
-                  </div>
-                </div>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="#formulario"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#c60c23] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#a80f22]"
+                >
+                  Contacta a un agente con experiencia <span>→</span>
+                </a>
+                <a
+                  href="#problemas"
+                  className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/15"
+                >
+                  Ver cómo ayudamos
+                </a>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* ============================================================
-             LOGOS / EMPRESAS - CAROUSEL
-        ============================================================ */}
-        <section className="py-20 border-b border-[#d8d1c4]">
-            <div className="max-w-7xl mx-auto px-8">
-                <LogosCarousel 
-                logos={empresasLogos}
-                title="05 · Confían en nosotros"
-                subtitle="Empresas que radicamos en Zona Norte"
-                />
-            </div>
-        </section>
-
-        {/* ============================================================
-             FAQ
-        ============================================================ */}
-        <section id="faq" className="py-20 border-b border-[#d8d1c4]">
-          <div className="max-w-7xl mx-auto px-8">
-            <div className="mb-16">
-              <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">06 · Consultas frecuentes</span>
-              <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">
-                Todo lo que <em className="italic font-normal text-[#b8252c]">conviene saber</em> antes de radicar.
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 content-end gap-4 lg:pb-2">
               {[
-                {
-                  q: '¿Cuánto cuesta alquilar una nave industrial en Zona Norte?',
-                  a: 'El valor de alquiler oscila entre USD 4,50 y USD 7,50 por m² mensual según ubicación, categoría del parque, antigüedad y servicios. En parques AAA con docks y oficinas el rango sube.',
-                },
-                {
-                  q: '¿Qué diferencia hay entre las categorías 1, 2 y 3?',
-                  a: 'La categoría define qué actividades se pueden radicar. Cat. 1 admite industrias inocuas, Cat. 2 incómodas y Cat. 3 peligrosas. Verificar es clave antes de comprometerse.',
-                },
-                {
-                  q: '¿Conviene comprar un lote o alquilar una nave?',
-                  a: 'Depende del horizonte. Si la operación tiene más de 5 años proyectados y capital disponible, comprar lote suele ser más eficiente. Para entrar en operaciones, alquiler es más rápido.',
-                },
-                {
-                  q: '¿Tienen propiedades fuera de parques industriales?',
-                  a: 'Sí, también trabajamos naves y galpones independientes en zonas industriales tradicionales. La diferencia está en la habilitación y el costo operativo.',
-                },
-                {
-                  q: '¿Qué beneficios fiscales ofrecen los parques industriales?',
-                  a: 'Varían por jurisdicción. Algunos parques ofrecen exenciones de Ingresos Brutos, descuentos en tasas municipales. Le proveemos el detalle por parque.',
-                },
-                {
-                  q: '¿Cómo cobran sus honorarios?',
-                  a: 'Los honorarios son los habituales del sector inmobiliario industrial y se abonan únicamente al cierre. No hay costo por la búsqueda ni por las visitas.',
-                },
-              ].map((item, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-lg border border-[#d8d1c4]">
-                  <h5 className="font-semibold text-[#141414] mb-3">{item.q}</h5>
-                  <p className="text-sm text-[#6b6660] leading-relaxed">{item.a}</p>
+                ['60+', 'Años de trayectoria'],
+                ['Zona Norte', 'AMBA y Provincia de Buenos Aires'],
+                ['CIALI', 'Socios del consejo inmobiliario logístico e industrial'],
+                ['0%', 'Sin costo adicional de búsqueda'],
+              ].map(([number, label]) => (
+                <div
+                  key={number}
+                  className="rounded-[18px] border border-white/15 bg-white/12 p-5 text-white shadow-[0_16px_40px_rgba(0,0,0,0.12)] backdrop-blur-md"
+                >
+                  <div className="mb-2 text-2xl font-semibold md:text-4xl">{number}</div>
+                  <p className="text-sm leading-relaxed text-white/75">{label}</p>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ============================================================
-             FINAL CTA SECTION
-        ============================================================ */}
-        <section className="py-20 bg-gradient-to-br from-[#C63137] to-[#A0272E] text-white border-b border-[#C63137]">
-          <div className="max-w-7xl mx-auto px-8 text-center">
-            <span className="font-mono text-xs tracking-widest uppercase opacity-90 block mb-6">07 · Empecemos</span>
-            <h2 className="font-serif text-5xl font-medium leading-tight mb-4">
-              Su <em className="italic font-normal">próxima planta</em> ya está disponible. Solo falta encontrarla.
+      <section id="problemas" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#f5f3f0] py-20">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="mb-12 max-w-4xl">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+              ¿Necesitás expandir tu empresa? ¿Buscás dónde localizarte?
+            </span>
+            <h2 className="mt-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
+              ¿Tu empresa enfrenta estos problemas?
             </h2>
-            <p className="text-lg text-gray-100 max-w-xl mb-8 mx-auto">
-              Cuéntenos qué necesita su empresa y le respondemos con opciones concretas el mismo día.
-            </p>
-            <div className="flex gap-3 flex-wrap justify-center">
-              <a href="#formulario" className="inline-flex items-center gap-2 bg-white text-[#C63137] px-7 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                Completar formulario <span>→</span>
-              </a>
-              <a href="https://api.whatsapp.com/send/?phone=5493489517998" className="inline-flex items-center gap-2 border-2 border-white text-white px-7 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#C63137] transition-colors">
-                WhatsApp directo
-              </a>
-              <a href="tel:+5493489517998" className="inline-flex items-center gap-2 border-2 border-white text-white px-7 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#C63137] transition-colors">
-                +54 9 3489 517-998
-              </a>
-            </div>
           </div>
-        </section>
+          <AccordionList items={problemItems} />
+        </div>
+      </section>
 
-        {/* ============================================================
-             FORMULARIO
-        ============================================================ */}
-        <section id="formulario" className="py-20 bg-[#f4f1ec] border-b border-[#d8d1c4]">
-          <div className="max-w-6xl mx-auto px-8">
-            <div className="mb-12">
-              <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase">Consulta personalizada</span>
-              <h2 className="font-serif text-4xl font-medium text-[#141414] mt-3 leading-tight">
-                Cuéntenos qué necesita
+      <section id="como" className="scroll-mt-24 border-b border-[#d8d1c4] py-24">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="mb-16 grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+                03 · Cómo trabajamos
+              </span>
+              <h2 className="mt-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
+                Somos los representantes de la empresa que busca donde radicarse
               </h2>
             </div>
-            
-            {/* TODO: Importa tu componente del formulario aquí */}
-            <div className="bg-white p-8 rounded-lg border border-[#d8d1c4] text-center text-[#6b6660]">
-              <iframe
-                  width="100%"
-                  height="500"
-                  frameBorder="0"
-                  style={{ border: 0 }}
-                  src="https://link.ventux.io/widget/form/GWRG5jg8hqV4zcVjh6f1"
-                  allowFullScreen
-                />
-              <script src="https://link.ventux.io/js/form_embed.js"></script>
+            <div className="space-y-5 text-base leading-relaxed text-[#4f4a44] md:text-lg">
+              <p>
+                Situada en Campana, Pcia. de Buenos Aires, la Inmobiliaria CADEMA lleva más de
+                50 años de impecable trayectoria en el mercado local. Su fuerte participación en
+                el Real Estate industrial llevó naturalmente a CADEMA SA a desarrollar la
+                División Industrias, posicionándose como una consultora integral inmobiliaria de
+                referencia en la región.
+              </p>
+              <p>
+                Dividimos nuestro trabajo en tres ejes temáticos, en permanente actualización y
+                crecimiento.
+              </p>
             </div>
           </div>
-        </section>
-      </main>
-    </>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {workItems.map((item, index) => (
+              <div key={item.title} className="border-t border-[#b8252c] pt-6">
+                <div className="mb-5 font-mono text-xs font-semibold uppercase tracking-widest text-[#b8252c]">
+                  Eje {String(index + 1).padStart(2, '0')}
+                </div>
+                <h3 className="mb-4 text-2xl font-semibold text-[#141414]">{item.title}</h3>
+                <p className="text-base leading-relaxed text-[#5f5a53]">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="propiedades" className="scroll-mt-24 border-b border-[#d8d1c4] py-20">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="mb-16">
+            <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+              01 · Propiedades disponibles
+            </span>
+            <h2 className="mb-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
+              Naves, lotes y fracciones industriales
+            </h2>
+            <p className="max-w-2xl text-lg leading-relaxed text-[#6b6660]">
+              Opciones reales dentro y fuera de parques industriales, con análisis de
+              zonificación, superficies disponibles, valores, servicios y condiciones para
+              radicar tu empresa.
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="py-12 text-center">
+              <div className="inline-block h-12 w-12 animate-spin rounded-full border-b-2 border-[#b8252c]" />
+            </div>
+          ) : propiedadesIndustriales.length > 0 ? (
+            <PropiedadesIndustrialesCarousel propiedades={propiedadesIndustriales} />
+          ) : (
+            <p className="text-center text-gray-500">
+              No hay propiedades industriales disponibles en este momento
+            </p>
+          )}
+
+          <div className="mt-12 flex justify-center">
+            <Link href="/propiedades?division=Industria" className="btn-split btn-split-bottom btn-split-wide">
+              <span className="btn-text">Ver todas las propiedades</span>
+              <span className="btn-arrow">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="parques" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#1a1a1a] py-24">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="mb-16">
+            <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-[#8a8a8a]">
+              02 · Parques que representamos
+            </span>
+            <h2 className="mb-6 text-3xl font-semibold uppercase leading-tight text-white md:text-5xl">
+              Acceso directo a los principales parques industriales de Zona Norte
+            </h2>
+            <p className="max-w-2xl text-lg leading-relaxed text-[#b0b0b0]">
+              Relación de trabajo con desarrolladores, cuerpos directivos y administradores.
+              Información actualizada de superficies disponibles, valores y beneficios.
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="py-12 text-center">
+              <div className="inline-block h-12 w-12 animate-spin rounded-full border-b-2 border-[#b8252c]" />
+            </div>
+          ) : emprendimientosIndustriales.length > 0 ? (
+            <EmprendimientosIndustrialesCarousel emprendimientos={emprendimientosIndustriales} />
+          ) : (
+            <p className="text-center text-gray-500">
+              No hay emprendimientos industriales disponibles en este momento
+            </p>
+          )}
+
+          <div className="mt-12 flex justify-center">
+            <Link href="/emprendimientos?div=industrial" className="btn-split btn-split-bottom btn-split-wide">
+              <span className="btn-text">Ver todos los emprendimientos</span>
+              <span className="btn-arrow">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="casos" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#ebe6dd] py-20">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+                04 · Casos
+              </span>
+              <h2 className="mt-3 text-3xl font-medium leading-tight text-[#141414] md:text-5xl">
+                Historia de éxito: Seventeen SRL
+              </h2>
+            </div>
+
+            <article className="rounded-lg border border-[#d8d1c4] bg-white p-8">
+              <div className="space-y-5 text-base leading-relaxed text-[#4f4a44]">
+                <p>
+                  Seventeen SRL es una empresa dedicada a la fabricación de cortinas y
+                  accesorios, radicada en la localidad de Munro. Su historia es similar a la de
+                  muchas pymes de la Argentina: comenzó en una vivienda, con un único operario y
+                  fundador. Con los años, el negocio creció y la empresa necesitó más espacio.
+                </p>
+                <p>
+                  A comienzos de 2023 se encontraban sin lugar donde expandirse, con
+                  dificultades operativas y poco espacio en sus depósitos. Se comunicaron con
+                  CADEMA y nos plantearon la posibilidad de mudarse a un parque industrial.
+                  Coordinamos una entrevista en su planta de Munro para conocer mejor su
+                  actividad, necesidades e inquietudes.
+                </p>
+                <p>
+                  Luego de visitas y reuniones, la empresa decidió comprar un terreno en el
+                  Parque Industrial Ruta 6, donde hoy está terminando de construir una nave a
+                  estrenar, pensada para sus gustos y necesidades.
+                </p>
+              </div>
+              <div className="mt-8 grid grid-cols-1 gap-4 border-t border-[#d8d1c4] pt-6 sm:grid-cols-3">
+                <div>
+                  <div className="mb-1 font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+                    Empresa
+                  </div>
+                  <div className="font-semibold text-[#141414]">Seventeen SRL</div>
+                </div>
+                <div>
+                  <div className="mb-1 font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+                    Operación
+                  </div>
+                  <div className="font-semibold text-[#141414]">Compra de terreno</div>
+                </div>
+                <div>
+                  <div className="mb-1 font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+                    Ubicación
+                  </div>
+                  <div className="font-semibold text-[#141414]">Parque Industrial Ruta 6</div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#d8d1c4] py-20">
+        <div className="mx-auto max-w-7xl space-y-20 px-8">
+          <LogosCarousel
+            logos={empresasRadicadas}
+            title="05 · Empresas que radicamos"
+            subtitle="Empresas que confiaron en Cadema Industrias"
+          />
+          <LogosCarousel
+            logos={empresasInstituciones}
+            title="05 · Empresas e instituciones con las que trabajamos"
+            subtitle="Una red activa para encontrar mejores oportunidades"
+          />
+        </div>
+      </section>
+
+      <section id="faq" className="scroll-mt-24 border-b border-[#d8d1c4] py-20">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="mb-12 max-w-4xl">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+              06 · Preguntas frecuentes
+            </span>
+            <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
+              Todo lo que conviene saber antes de radicar tu empresa
+            </h2>
+          </div>
+          <AccordionList items={faqItems} />
+        </div>
+      </section>
+
+      <section className="border-b border-[#d8d1c4] bg-[#C63137] py-20 text-white">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+            <div>
+              <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-white/80">
+                07 · Agendemos una reunión
+              </span>
+              <h2 className="mb-6 text-4xl font-semibold uppercase leading-tight md:text-6xl">
+                Encontremos juntos la opción ideal para tu Empresa
+              </h2>
+              <div className="space-y-3 text-lg leading-relaxed text-white/90">
+                <p>Conocemos el Mercado del Corredor Norte-Oeste.</p>
+                <p>Somos socios del Consejo Inmobiliario Argentino Logístico e Industrial (CIALI).</p>
+                <p>Poseemos alianzas con los principales parques industriales de la región.</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+              <a
+                href="#formulario"
+                className="inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 font-semibold uppercase tracking-[0.08em] text-[#C63137] transition hover:bg-gray-100"
+              >
+                Agendar una reunión
+              </a>
+              <a
+                href="https://api.whatsapp.com/send/?phone=5493489517998"
+                className="inline-flex items-center justify-center rounded-lg border-2 border-white px-7 py-3 font-semibold text-white transition hover:bg-white hover:text-[#C63137]"
+              >
+                WhatsApp directo
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#d8d1c4] bg-[#f5f3f0] py-20">
+        <div className="mx-auto max-w-7xl px-8">
+          <div className="mb-12">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+              Nuestro Equipo
+            </span>
+            <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
+              Especialistas en real estate industrial y logístico
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {team.map((person) => (
+              <article key={person.name} className="text-center">
+                <div className="mx-auto mb-6 h-64 w-64 max-w-full overflow-hidden rounded-full bg-white">
+                  <Image
+                    src={person.image}
+                    alt={person.name}
+                    width={256}
+                    height={256}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <h3 className="text-2xl font-semibold text-[#141414]">{person.name}</h3>
+                <p className="mt-2 text-sm uppercase tracking-[0.18em] text-[#6b6660]">
+                  {person.role}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="formulario" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#f4f1ec] py-20">
+        <div className="mx-auto max-w-6xl px-8">
+          <div className="mb-12">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+              Consúltenos
+            </span>
+            <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
+              Contanos qué necesita tu empresa
+            </h2>
+          </div>
+
+          <div className="rounded-lg border border-[#d8d1c4] bg-white p-4 md:p-8">
+            <iframe
+              title="Formulario de consulta industrias"
+              width="100%"
+              height="620"
+              frameBorder="0"
+              style={{ border: 0 }}
+              src="https://link.ventux.io/widget/form/GWRG5jg8hqV4zcVjh6f1"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

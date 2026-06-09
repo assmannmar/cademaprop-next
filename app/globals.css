@@ -53,6 +53,10 @@ body {
   font-family: 'UniversRegular', Helvetica, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 
 /* NAVBAR */
 .nav-item {
