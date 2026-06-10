@@ -229,17 +229,17 @@ const team = [
   {
     name: 'Rolando Cafferatta',
     role: 'Director General',
-    image: '/team/3.png',
+    image: '/industria/equipo/rolando-cafferatta.webp',
   },
   {
     name: 'Alejandro Torres Hotton',
     role: 'Coordinador',
-    image: '/team/1.png',
+    image: '/industria/equipo/alejandro-torres-hotton.webp',
   },
   {
-    name: 'Hernán González',
-    role: 'Gerente Comercial',
-    image: '/team/2.png',
+    name: 'José Luis Pérez',
+    role: 'Asesoramiento y ventas',
+    image: '/industria/equipo/jose-luis-perez.webp',
   },
 ];
 
@@ -776,6 +776,22 @@ export default function IndustriasPage() {
 
       <section className="border-b border-[#d8d1c4] bg-[#C63137] py-20 text-white">
         <div className="mx-auto max-w-7xl px-8">
+          <div className="relative mb-12 h-36 overflow-hidden rounded-lg border border-white/15 bg-[#141414] md:h-52">
+            <Image
+              src="/industria/corredor-norte-panorama.jpg"
+              alt="Vista aérea panorámica del corredor industrial norte"
+              fill
+              sizes="(max-width: 768px) 100vw, 1200px"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-black/20" />
+            <div className="absolute bottom-5 left-5 right-5">
+              <span className="font-mono text-xs uppercase tracking-widest text-white/80">
+                Corredor Norte-Oeste
+              </span>
+            </div>
+          </div>
+
           <div className="grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
               <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-white/80">
