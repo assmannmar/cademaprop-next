@@ -75,6 +75,37 @@ const workItems = [
   },
 ];
 
+const propertySearchOptions = [
+  {
+    letter: 'N',
+    title: 'Alquiler de naves industriales',
+    description: 'Galpones y naves AAA desde 800 a 12.000 m², dentro y fuera de parques.',
+    href: '/propiedades/?division=Industria&operacion=rent',
+    cta: 'Ver naves en alquiler',
+  },
+  {
+    letter: 'L',
+    title: 'Venta de lotes industriales',
+    description: 'Fracciones desde 2.000 a 48.000 m² en parques categorías 1, 2 y 3.',
+    href: '/propiedades/?division=Industria&operacion=sale&tipo=Terreno+industrial',
+    cta: 'Ver lotes en venta',
+  },
+  {
+    letter: 'V',
+    title: 'Venta de naves y galpones industriales',
+    description: 'Naves, depósitos y galpones industriales listos para operar o adaptar a tu proyecto.',
+    href: '/propiedades/?division=Industria&operacion=sale&tipo=Deposito%2FNave+Industrial',
+    cta: 'Ver naves y galpones en venta',
+  },
+  {
+    letter: 'B',
+    title: 'Búsqueda a medida',
+    description: '¿No encuentras lo que necesitas? Hacemos relevamiento personalizado.',
+    href: '#formulario',
+    cta: 'Solicitar búsqueda',
+  },
+];
+
 const workGalleryImages = [
   {
     src: '/industria/como-trabajamos/parque-ruta-6-aereo.jpg',
@@ -493,13 +524,6 @@ export default function IndustriasPage() {
         <div className="relative z-10 w-full">
           <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-28 md:px-8 md:pb-18 lg:grid-cols-[1.1fr_0.9fr] lg:px-12">
             <div>
-              <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm">
-                <div className="h-1.5 w-1.5 rounded-full bg-[#b8252c]" />
-                <span className="font-mono text-xs uppercase tracking-widest text-white/80">
-                  Líderes en Zona Norte
-                </span>
-              </div>
-
               <p className="mb-4 text-xl font-semibold uppercase tracking-[0.18em] text-white/85">
                 Sabemos de Inmuebles, Sabemos de Industria.
               </p>
@@ -541,7 +565,7 @@ export default function IndustriasPage() {
                 ['60+', 'Años de trayectoria'],
                 ['Zona Norte', 'AMBA y Provincia de Buenos Aires'],
                 ['CIALI', 'Socios del consejo inmobiliario logístico e industrial'],
-                ['0%', 'Sin costo adicional de búsqueda'],
+                ['SINOR', 'Promotores del mayor evento regional'],
               ].map(([number, label]) => (
                 <div
                   key={number}
@@ -587,7 +611,7 @@ export default function IndustriasPage() {
             <div className="space-y-5 text-base leading-relaxed text-[#4f4a44] md:text-lg">
               <p>
                 Situada en Campana, Pcia. de Buenos Aires, la Inmobiliaria CADEMA lleva más de
-                50 años de impecable trayectoria en el mercado local. Su fuerte participación en
+                60 años de impecable trayectoria en el mercado local. Su fuerte participación en
                 el Real Estate industrial llevó naturalmente a CADEMA SA a desarrollar la
                 División Industrias, posicionándose como una consultora integral inmobiliaria de
                 referencia en la región.
@@ -648,6 +672,43 @@ export default function IndustriasPage() {
               <span className="btn-text">Ver todas las propiedades</span>
               <span className="btn-arrow">→</span>
             </Link>
+          </div>
+
+          <div className="mt-20 border-t border-[#d8d1c4] pt-16">
+            <div className="mb-12">
+              <h3 className="mb-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
+                ¿Qué estás buscando?
+              </h3>
+              <p className="max-w-2xl text-lg leading-relaxed text-[#6b6660]">
+                Cuatro caminos directos según el tipo de operación. Cada propuesta incluye
+                relevamiento de zonificación, beneficios fiscales y condiciones contractuales.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {propertySearchOptions.map((option) => (
+                <div
+                  key={option.title}
+                  className="flex flex-col rounded-lg border border-[#d8d1c4] bg-white p-7 transition hover:border-[#b8252c] hover:shadow-md"
+                >
+                  <div className="mb-6 flex h-12 w-12 items-center justify-center rounded bg-[#fdf3f1] text-2xl font-bold text-[#b8252c]">
+                    {option.letter}
+                  </div>
+                  <h4 className="mb-3 text-xl font-semibold leading-tight text-[#141414]">
+                    {option.title}
+                  </h4>
+                  <p className="mb-6 flex-grow text-sm leading-relaxed text-[#6b6660]">
+                    {option.description}
+                  </p>
+                  <Link
+                    href={option.href}
+                    className="text-sm font-semibold text-[#b8252c] transition hover:text-[#8e1a20]"
+                  >
+                    {option.cta} →
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -776,13 +837,13 @@ export default function IndustriasPage() {
 
       <section className="border-b border-[#d8d1c4] bg-[#C63137] py-20 text-white">
         <div className="mx-auto max-w-7xl px-8">
-          <div className="relative mb-12 h-36 overflow-hidden rounded-lg border border-white/15 bg-[#141414] md:h-52">
+          <div className="relative mb-12 -mx-8 h-24 overflow-hidden bg-[#141414] md:mx-0 md:h-52 md:rounded-lg md:border md:border-white/15">
             <Image
               src="/industria/corredor-norte-panorama.jpg"
               alt="Vista aérea panorámica del corredor industrial norte"
               fill
               sizes="(max-width: 768px) 100vw, 1200px"
-              className="object-cover"
+              className="object-contain md:object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-black/20" />
             <div className="absolute bottom-5 left-5 right-5">
