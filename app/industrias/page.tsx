@@ -75,6 +75,34 @@ const workItems = [
   },
 ];
 
+const workGalleryImages = [
+  {
+    src: '/industria/como-trabajamos/cadema-frente.jpg',
+    alt: 'Frente de Cadema Industrias',
+    label: 'Presencia local',
+  },
+  {
+    src: '/industria/como-trabajamos/encuentro-ruta-6.png',
+    alt: 'Encuentro con referentes del Parque Industrial Ruta 6',
+    label: 'Relaciones de trabajo',
+  },
+  {
+    src: '/industria/como-trabajamos/presentacion-territorio.jpg',
+    alt: 'Presentación sobre localización industrial',
+    label: 'Análisis territorial',
+  },
+  {
+    src: '/industria/como-trabajamos/sinor-panel.jpg',
+    alt: 'Panel de referentes industriales y logísticos',
+    label: 'Red institucional',
+  },
+  {
+    src: '/industria/como-trabajamos/parque-ruta-6-aereo.jpg',
+    alt: 'Vista aérea del Parque Industrial Ruta 6',
+    label: 'Opciones reales',
+  },
+];
+
 const empresasRadicadas = [
   { id: 'seventeen', name: 'Seventeen SRL' },
   { id: 'adn', name: 'ADN Logística' },
@@ -178,6 +206,61 @@ function AccordionList({ items }: { items: AccordionItem[] }) {
           </p>
         </details>
       ))}
+    </div>
+  );
+}
+
+function WorkGalleryBanner() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % workGalleryImages.length);
+    }, 4200);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="relative mb-16 overflow-hidden rounded-lg bg-[#141414]">
+      <div className="relative h-[220px] md:h-[300px]">
+        {workGalleryImages.map((image, index) => (
+          <Image
+            key={image.src}
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            className={`object-cover transition-opacity duration-1000 ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/20 to-black/20" />
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-5 p-6 text-white md:flex-row md:items-end md:justify-between md:p-8">
+          <div>
+            <span className="font-mono text-xs uppercase tracking-widest text-white/70">
+              {workGalleryImages[currentIndex].label}
+            </span>
+            <h3 className="mt-2 max-w-2xl text-2xl font-semibold uppercase leading-tight md:text-4xl">
+              Conocimiento del territorio, vínculo directo y oportunidades concretas
+            </h3>
+          </div>
+          <div className="flex gap-2">
+            {workGalleryImages.map((image, index) => (
+              <button
+                key={image.src}
+                type="button"
+                aria-label={`Ver imagen ${index + 1}`}
+                onClick={() => setCurrentIndex(index)}
+                className={`h-2 rounded-full transition-all ${
+                  index === currentIndex ? 'w-8 bg-white' : 'w-2 bg-white/45 hover:bg-white/75'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -363,6 +446,8 @@ export default function IndustriasPage() {
               </p>
             </div>
           </div>
+
+          <WorkGalleryBanner />
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {workItems.map((item, index) => (
