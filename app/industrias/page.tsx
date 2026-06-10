@@ -524,6 +524,13 @@ export default function IndustriasPage() {
         <div className="relative z-10 w-full">
           <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-14 pt-28 md:px-8 md:pb-18 lg:grid-cols-[1.1fr_0.9fr] lg:px-12">
             <div>
+              <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 backdrop-blur-sm">
+                <div className="h-1.5 w-1.5 rounded-full bg-[#b8252c]" />
+                <span className="font-mono text-xs uppercase tracking-widest text-white/80">
+                  Especialistas en real estate industrial
+                </span>
+              </div>
+
               <p className="mb-4 text-xl font-semibold uppercase tracking-[0.18em] text-white/85">
                 Sabemos de Inmuebles, Sabemos de Industria.
               </p>
@@ -535,12 +542,8 @@ export default function IndustriasPage() {
               <div className="mt-6 max-w-3xl space-y-4 text-base leading-relaxed text-white/88 md:text-lg">
                 <p>
                   Brindamos un servicio de gestión inteligente en la búsqueda del terreno o la
-                  nave mas conveniente para el crecimiento de tu empresa.
-                </p>
-                <p>
-                  Como agentes inmobiliarios, nos enfocamos en conocer tus inquietudes y
-                  necesidades, y en base a ello encontrar la localización que mejor se adapte a
-                  tu proyecto.
+                  nave más conveniente para el crecimiento de tu empresa, en la localización
+                  que mejor se adapte a tu proyecto.
                 </p>
               </div>
 
@@ -549,23 +552,23 @@ export default function IndustriasPage() {
                   href="#formulario"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[#c60c23] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#a80f22]"
                 >
-                  Contacta a un agente con experiencia <span>→</span>
+                  Contactá a un agente con experiencia <span>→</span>
                 </a>
                 <a
                   href="#problemas"
                   className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/15"
                 >
-                  Ver cómo ayudamos
+                  Cómo trabajamos
                 </a>
               </div>
             </div>
 
             <div className="grid grid-cols-2 content-end gap-4 lg:pb-2">
               {[
-                ['60+', 'Años de trayectoria'],
-                ['Zona Norte', 'AMBA y Provincia de Buenos Aires'],
-                ['CIALI', 'Socios del consejo inmobiliario logístico e industrial'],
-                ['SINOR', 'Promotores del mayor evento regional'],
+                ['+60 años', 'Trayectoria en real estate'],
+                ['+50.000 m²', 'Vendidos el último año'],
+                ['CIALI', 'Socios del Consejo Inmobiliario Argentino Logístico e Industrial'],
+                ['Zona Norte', 'Líderes en AMBA y Norte de la Provincia de Buenos Aires'],
               ].map(([number, label]) => (
                 <div
                   key={number}

@@ -49,7 +49,7 @@ function NavbarIndustrias() {
     { label: "Parques", href: "#parques" },
     { label: "Casos", href: "#casos" },
     { label: "Preguntas", href: "#faq" },
-    { label: "Volver a Cadema", href: "/" },
+    { label: "Ir a web Cadema", href: "/" },
   ];
 
   const linkClass = `nav-item inline-flex h-11 items-center px-3 py-2 font-bold leading-none transition-colors duration-200 ${
