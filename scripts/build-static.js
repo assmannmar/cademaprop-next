@@ -6,6 +6,12 @@ const root = process.cwd();
 const apiDir = path.join(root, "app", "api");
 const disabledApiDir = path.join(root, "app", "_api_disabled_for_static_export");
 
+function removeGeneratedDir(dir) {
+  if (fs.existsSync(dir) && dir.startsWith(root)) {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 function move(from, to) {
   if (fs.existsSync(from)) {
     fs.renameSync(from, to);
@@ -25,6 +31,9 @@ process.env.NEXT_PUBLIC_API_TARGET = "php";
 let status = 1;
 
 try {
+  removeGeneratedDir(path.join(root, ".next", "dev"));
+  removeGeneratedDir(path.join(root, ".next-static"));
+
   move(apiDir, disabledApiDir);
 
   const nextBin = path.join(root, "node_modules", ".bin", process.platform === "win32" ? "next.cmd" : "next");

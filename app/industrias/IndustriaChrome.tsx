@@ -44,10 +44,12 @@ function NavbarIndustrias() {
   }, [mobileMenuOpen]);
 
   const navLinks = [
+    { label: "Diagnóstico", href: "#problemas" },
+    { label: "Como trabajamos", href: "#como" },
     { label: "Propiedades", href: "#propiedades" },
     { label: "Parques", href: "#parques" },
-    { label: "Como trabajamos", href: "#como" },
     { label: "Casos", href: "#casos" },
+    { label: "Empresas", href: "#empresas" },
     { label: "Preguntas", href: "#faq" },
     { label: "Volver a Cadema", href: "/" },
   ];

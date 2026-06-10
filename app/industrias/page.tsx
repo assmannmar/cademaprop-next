@@ -325,11 +325,14 @@ export default function IndustriasPage() {
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-12 max-w-4xl">
             <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
-              ¿Necesitás expandir tu empresa? ¿Buscás dónde localizarte?
+              01 · Diagnóstico
             </span>
             <h2 className="mt-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
               ¿Tu empresa enfrenta estos problemas?
             </h2>
+            <p className="mt-4 text-lg leading-relaxed text-[#6b6660]">
+              ¿Necesitás expandir tu empresa? ¿Buscás dónde localizarte?
+            </p>
           </div>
           <AccordionList items={problemItems} />
         </div>
@@ -340,7 +343,7 @@ export default function IndustriasPage() {
           <div className="mb-16 grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
-                03 · Cómo trabajamos
+                02 · Cómo trabajamos
               </span>
               <h2 className="mt-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
                 Somos los representantes de la empresa que busca donde radicarse
@@ -379,7 +382,7 @@ export default function IndustriasPage() {
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-16">
             <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-[#6b6660]">
-              01 · Propiedades disponibles
+              03 · Propiedades disponibles
             </span>
             <h2 className="mb-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
               Naves, lotes y fracciones industriales
@@ -416,7 +419,7 @@ export default function IndustriasPage() {
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-16">
             <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-[#8a8a8a]">
-              02 · Parques que representamos
+              04 · Parques que representamos
             </span>
             <h2 className="mb-6 text-3xl font-semibold uppercase leading-tight text-white md:text-5xl">
               Acceso directo a los principales parques industriales de Zona Norte
@@ -453,7 +456,7 @@ export default function IndustriasPage() {
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
-                04 · Casos
+                05 · Casos
               </span>
               <h2 className="mt-3 text-3xl font-medium leading-tight text-[#141414] md:text-5xl">
                 Historia de éxito: Seventeen SRL
@@ -506,16 +509,16 @@ export default function IndustriasPage() {
         </div>
       </section>
 
-      <section className="border-b border-[#d8d1c4] py-20">
+      <section id="empresas" className="scroll-mt-24 border-b border-[#d8d1c4] py-20">
         <div className="mx-auto max-w-7xl space-y-20 px-8">
           <LogosCarousel
             logos={empresasRadicadas}
-            title="05 · Empresas que radicamos"
+            title="06 · Empresas que radicamos"
             subtitle="Empresas que confiaron en Cadema Industrias"
           />
           <LogosCarousel
             logos={empresasInstituciones}
-            title="05 · Empresas e instituciones con las que trabajamos"
+            title="06 · Empresas e instituciones con las que trabajamos"
             subtitle="Una red activa para encontrar mejores oportunidades"
           />
         </div>
@@ -525,7 +528,7 @@ export default function IndustriasPage() {
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-12 max-w-4xl">
             <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
-              06 · Preguntas frecuentes
+              07 · Preguntas frecuentes
             </span>
             <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
               Todo lo que conviene saber antes de radicar tu empresa
@@ -540,7 +543,7 @@ export default function IndustriasPage() {
           <div className="grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
               <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-white/80">
-                07 · Agendemos una reunión
+                08 · Agendemos una reunión
               </span>
               <h2 className="mb-6 text-4xl font-semibold uppercase leading-tight md:text-6xl">
                 Encontremos juntos la opción ideal para tu Empresa
