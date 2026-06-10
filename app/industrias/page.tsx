@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -77,29 +77,82 @@ const workItems = [
 
 const workGalleryImages = [
   {
+    src: '/industria/como-trabajamos/parque-ruta-6-aereo.jpg',
+    alt: 'Vista aérea del Parque Industrial Ruta 6',
+    label: 'Opciones reales',
+    headline:
+      'Contamos con una variada carpeta de opciones, con foco en Zona Norte de Buenos Aires',
+  },
+  {
     src: '/industria/como-trabajamos/cadema-frente.jpg',
     alt: 'Frente de Cadema Industrias',
-    label: 'Presencia local',
+    label: 'Sabemos de Industria',
+    headline: 'Somos los representantes de la empresa que busca dónde radicarse',
   },
   {
     src: '/industria/como-trabajamos/encuentro-ruta-6.png',
     alt: 'Encuentro con referentes del Parque Industrial Ruta 6',
     label: 'Relaciones de trabajo',
+    headline:
+      'Relaciones con los principales actores del mercado inmobiliario, parques industriales y constructores',
   },
   {
     src: '/industria/como-trabajamos/presentacion-territorio.jpg',
     alt: 'Presentación sobre localización industrial',
     label: 'Análisis territorial',
+    headline: 'Conocimiento del mercado inmobiliario, parques industriales y centros logísticos',
   },
   {
     src: '/industria/como-trabajamos/sinor-panel.jpg',
     alt: 'Panel de referentes industriales y logísticos',
     label: 'Red institucional',
+    headline:
+      'Más de 60 años de trayectoria en el mercado inmobiliario industrial y logístico',
+  },
+];
+
+const seventeenGalleryImages = [
+  {
+    src: '/industria/seventeen/los-inicios.webp',
+    alt: 'Primer espacio productivo de Seventeen',
+    label: 'Los inicios',
+    caption: 'Una pyme que comenzó en un espacio limitado y fue creciendo con el tiempo.',
   },
   {
-    src: '/industria/como-trabajamos/parque-ruta-6-aereo.jpg',
-    alt: 'Vista aérea del Parque Industrial Ruta 6',
-    label: 'Opciones reales',
+    src: '/industria/seventeen/oficinas-actuales.webp',
+    alt: 'Oficinas actuales de Seventeen',
+    label: 'La empresa en marcha',
+    caption: 'Oficinas y operación consolidada, con una estructura que pedía más superficie.',
+  },
+  {
+    src: '/industria/seventeen/interior-apretado.webp',
+    alt: 'Interior de la planta actual de Seventeen',
+    label: 'El problema operativo',
+    caption: 'Producción y depósito funcionando con poco margen para seguir expandiéndose.',
+  },
+  {
+    src: '/industria/seventeen/familia-propietaria.jpg',
+    alt: 'Familia propietaria de Seventeen',
+    label: 'La decisión',
+    caption: 'La familia propietaria definió avanzar hacia una radicación industrial planificada.',
+  },
+  {
+    src: '/industria/seventeen/nave-nueva-visita-1.jpg',
+    alt: 'Visita a la nueva nave de Seventeen',
+    label: 'Nueva etapa',
+    caption: 'Visitas y acompañamiento en el proceso de construcción de la nueva nave.',
+  },
+  {
+    src: '/industria/seventeen/nave-nueva-interior.jpg',
+    alt: 'Interior de la nueva nave de Seventeen',
+    label: 'Nave a medida',
+    caption: 'Un espacio pensado para crecer, operar mejor y ordenar la producción.',
+  },
+  {
+    src: '/industria/seventeen/nave-nueva-parque.webp',
+    alt: 'Nueva nave de Seventeen en parque industrial',
+    label: 'Radicación',
+    caption: 'Terreno y nave en Parque Industrial Ruta 6, alineados a su próximo ciclo de crecimiento.',
   },
 ];
 
@@ -212,18 +265,24 @@ function AccordionList({ items }: { items: AccordionItem[] }) {
 
 function WorkGalleryBanner() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % workGalleryImages.length);
+  }, []);
+  const goToPrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + workGalleryImages.length) % workGalleryImages.length);
+  }, []);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % workGalleryImages.length);
+      goToNext();
     }, 4200);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [goToNext]);
 
   return (
     <div className="relative mb-16 overflow-hidden rounded-lg bg-[#141414]">
-      <div className="relative h-[220px] md:h-[300px]">
+      <div className="relative h-[280px] md:h-[320px]">
         {workGalleryImages.map((image, index) => (
           <Image
             key={image.src}
@@ -237,16 +296,32 @@ function WorkGalleryBanner() {
           />
         ))}
         <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/20 to-black/20" />
-        <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-5 p-6 text-white md:flex-row md:items-end md:justify-between md:p-8">
-          <div>
+        <button
+          type="button"
+          aria-label="Ver imagen anterior"
+          onClick={goToPrev}
+          className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-2xl leading-none text-white backdrop-blur-sm transition hover:bg-white hover:text-[#141414] md:left-5"
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          aria-label="Ver imagen siguiente"
+          onClick={goToNext}
+          className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-2xl leading-none text-white backdrop-blur-sm transition hover:bg-white hover:text-[#141414] md:right-5"
+        >
+          ›
+        </button>
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-4 p-5 pl-16 pr-16 text-white md:flex-row md:items-end md:justify-between md:p-8 md:pl-20 md:pr-20">
+          <div className="max-w-3xl">
             <span className="font-mono text-xs uppercase tracking-widest text-white/70">
               {workGalleryImages[currentIndex].label}
             </span>
-            <h3 className="mt-2 max-w-2xl text-2xl font-semibold uppercase leading-tight md:text-4xl">
-              Conocimiento del territorio, vínculo directo y oportunidades concretas
+            <h3 className="mt-2 text-base font-semibold uppercase leading-tight sm:text-xl md:text-3xl">
+              {workGalleryImages[currentIndex].headline}
             </h3>
           </div>
-          <div className="flex gap-2">
+          <div className="flex shrink-0 gap-2">
             {workGalleryImages.map((image, index) => (
               <button
                 key={image.src}
@@ -260,6 +335,83 @@ function WorkGalleryBanner() {
             ))}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function SeventeenCaseGallery() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % seventeenGalleryImages.length);
+  }, []);
+  const goToPrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + seventeenGalleryImages.length) % seventeenGalleryImages.length);
+  }, []);
+
+  const currentImage = seventeenGalleryImages[currentIndex];
+
+  return (
+    <div className="overflow-hidden rounded-lg border border-[#d8d1c4] bg-[#141414]">
+      <div className="relative h-[300px] bg-[#141414] md:h-[470px]">
+        {seventeenGalleryImages.map((image, index) => (
+          <Image
+            key={image.src}
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 620px"
+            className={`object-contain transition-opacity duration-700 ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-5 text-white">
+          <span className="font-mono text-xs uppercase tracking-widest text-white/70">
+            {currentImage.label}
+          </span>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/90 md:text-base">
+            {currentImage.caption}
+          </p>
+        </div>
+        <button
+          type="button"
+          aria-label="Ver imagen anterior del caso Seventeen"
+          onClick={goToPrev}
+          className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-2xl leading-none text-white backdrop-blur-sm transition hover:bg-white hover:text-[#141414]"
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          aria-label="Ver imagen siguiente del caso Seventeen"
+          onClick={goToNext}
+          className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-2xl leading-none text-white backdrop-blur-sm transition hover:bg-white hover:text-[#141414]"
+        >
+          ›
+        </button>
+      </div>
+
+      <div className="grid grid-cols-4 gap-2 bg-white p-3 md:grid-cols-7">
+        {seventeenGalleryImages.map((image, index) => (
+          <button
+            key={image.src}
+            type="button"
+            aria-label={`Ver ${image.label}`}
+            onClick={() => setCurrentIndex(index)}
+            className={`relative h-16 overflow-hidden rounded border transition ${
+              index === currentIndex ? 'border-[#b8252c]' : 'border-transparent opacity-70 hover:opacity-100'
+            }`}
+          >
+            <Image
+              src={image.src}
+              alt=""
+              fill
+              sizes="90px"
+              className="object-cover"
+            />
+          </button>
+        ))}
       </div>
     </div>
   );
@@ -538,35 +690,32 @@ export default function IndustriasPage() {
 
       <section id="casos" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#ebe6dd] py-20">
         <div className="mx-auto max-w-7xl px-8">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <article className="rounded-lg border border-[#d8d1c4] bg-white p-8">
               <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
                 05 · Casos
               </span>
               <h2 className="mt-3 text-3xl font-medium leading-tight text-[#141414] md:text-5xl">
                 Historia de éxito: Seventeen SRL
               </h2>
-            </div>
 
-            <article className="rounded-lg border border-[#d8d1c4] bg-white p-8">
-              <div className="space-y-5 text-base leading-relaxed text-[#4f4a44]">
+              <div className="mt-8 space-y-5 text-base leading-relaxed text-[#4f4a44]">
                 <p>
                   Seventeen SRL es una empresa dedicada a la fabricación de cortinas y
                   accesorios, radicada en la localidad de Munro. Su historia es similar a la de
-                  muchas pymes de la Argentina: comenzó en una vivienda, con un único operario y
-                  fundador. Con los años, el negocio creció y la empresa necesitó más espacio.
+                  muchas pymes de la Argentina: empezó con una estructura chica, creció y
+                  necesitó más espacio.
                 </p>
                 <p>
                   A comienzos de 2023 se encontraban sin lugar donde expandirse, con
                   dificultades operativas y poco espacio en sus depósitos. Se comunicaron con
-                  CADEMA y nos plantearon la posibilidad de mudarse a un parque industrial.
-                  Coordinamos una entrevista en su planta de Munro para conocer mejor su
-                  actividad, necesidades e inquietudes.
+                  CADEMA y coordinamos una entrevista en su planta de Munro para conocer mejor
+                  su actividad, necesidades e inquietudes.
                 </p>
                 <p>
-                  Luego de visitas y reuniones, la empresa decidió comprar un terreno en el
-                  Parque Industrial Ruta 6, donde hoy está terminando de construir una nave a
-                  estrenar, pensada para sus gustos y necesidades.
+                  Después de visitas y reuniones, la empresa decidió comprar un terreno en el
+                  Parque Industrial Ruta 6, donde hoy avanza con una nave pensada para su
+                  operación y su próximo ciclo de crecimiento.
                 </p>
               </div>
               <div className="mt-8 grid grid-cols-1 gap-4 border-t border-[#d8d1c4] pt-6 sm:grid-cols-3">
@@ -590,6 +739,8 @@ export default function IndustriasPage() {
                 </div>
               </div>
             </article>
+
+            <SeventeenCaseGallery />
           </div>
         </div>
       </section>
