@@ -341,7 +341,7 @@ export function LogosCarousel({
     <div>
       {/* Header */}
       <div className="mb-12">
-        <span className="font-mono text-xs tracking-widest text-[#6b6660] uppercase block mb-2">
+        <span className="mb-2 block font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
           {title}
         </span>
         <h2 className="font-serif text-4xl font-medium text-[#141414] leading-tight">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import PropertyFilters from '@/app/components/PropertyFilters';
 import PropertyCard from '@/app/components/PropertyCard';
@@ -35,7 +35,7 @@ interface Property {
     image: string;
     is_front_cover?: boolean;
   }>;
-  videos?: Array<any>;
+  videos?: Array<unknown>;
   tags?: Array<{ name: string }>;
   custom_tags?: Array<{ name: string; group_name?: string }>;
   created_at?: string;
@@ -63,6 +63,24 @@ type SortOption =
   | 'roofed_asc';
 
 const ITEMS_PER_PAGE = 30;
+const DEFAULT_HERO_IMAGE = '/carousel/2.jpg';
+const INDUSTRIAL_HERO_IMAGE = '/industrial-banner.jpg';
+const INDUSTRIAL_PROPERTY_TYPES = new Set([
+  'countryside',
+  'campo',
+  'deposito/nave industrial',
+  'depósito/nave industrial',
+  'industrial ship',
+  'nave industrial',
+  'terreno industrial',
+]);
+
+const normalizeFilterValue = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
 
 const emptyFilters: FilterValues = {
   division: '',
@@ -88,6 +106,16 @@ export default function PropertiesContainer() {
   const [totalProperties, setTotalProperties] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [pendingFilters, setPendingFilters] = useState<FilterValues>(emptyFilters);
+
+  const heroImage = useMemo(() => {
+    const division = normalizeFilterValue(pendingFilters.division);
+    const propertyType = normalizeFilterValue(pendingFilters.property_type);
+
+    const isIndustrialFilter =
+      division === 'industria' || INDUSTRIAL_PROPERTY_TYPES.has(propertyType);
+
+    return isIndustrialFilter ? INDUSTRIAL_HERO_IMAGE : DEFAULT_HERO_IMAGE;
+  }, [pendingFilters.division, pendingFilters.property_type]);
 
   const getCurrentPage = () => {
     const pageParam = Number(searchParams.get('page') || '1');
@@ -297,7 +325,7 @@ export default function PropertiesContainer() {
         className="relative w-full min-h-[60vh] md:min-h-[60vh] flex items-end"
         style={{
           backgroundImage:
-            "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.35) 100%), url('/carousel/2.jpg')",
+            `linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.35) 100%), url('${heroImage}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',

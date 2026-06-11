@@ -187,26 +187,19 @@ const seventeenGalleryImages = [
   },
 ];
 
-const empresasRadicadas = [
-  { id: 'seventeen', name: 'Seventeen SRL' },
-  { id: 'adn', name: 'ADN Logística' },
-  { id: 'loginter', name: 'Loginter' },
-  { id: 'plexo', name: 'Plexo' },
-  { id: 'grupo-l', name: 'Grupo L' },
-  { id: 'urbano', name: 'Urbano Express' },
-  { id: 'polar', name: 'Polar' },
-  { id: 'transfarmaco', name: 'Transfarmaco' },
-];
-
 const empresasInstituciones = [
-  { id: 'ciali', name: 'CIALI' },
-  { id: 'parque-ruta-6', name: 'Parque Industrial Ruta 6' },
-  { id: 'los-libertadores', name: 'Parque Industrial Los Libertadores' },
-  { id: 'clip', name: 'Centro Logístico Industrial Planificado Zárate' },
-  { id: 'campana', name: 'Parque Industrial Campana' },
-  { id: 'plaza-pilar', name: 'Plaza Industrial Pilar' },
-  { id: 'plaza-escobar', name: 'Plaza Industrial Escobar' },
-  { id: 'desarrolladores', name: 'Desarrolladores industriales' },
+  { id: 'campana', name: 'Parque Industrial Campana', image: '/industria/logos-instituciones/parque-industrial-campana.png' },
+  { id: 'sinor', name: 'SINOR', image: '/industria/logos-instituciones/sinor.png' },
+  { id: 'dr-construcciones', name: 'DR Construcciones', image: '/industria/logos-instituciones/dr-construcciones.png' },
+  { id: 'cerea', name: 'CEREA', image: '/industria/logos-instituciones/cerea.png' },
+  { id: 'parque-pilar', name: 'Parque Industrial Pilar', image: '/industria/logos-instituciones/parque-industrial-pilar.png' },
+  { id: 'ciali', name: 'CIALI', image: '/industria/logos-instituciones/ciali.png' },
+  { id: 'parque-zarate', name: 'Parque Industrial Zárate', image: '/industria/logos-instituciones/parque-industrial-zarate.png' },
+  { id: 'plaza-escobar', name: 'Plaza Industrial Escobar', image: '/industria/logos-instituciones/plaza-industrial-escobar.png' },
+  { id: 'ruta-6', name: 'Parque Industrial Ruta 6', image: '/industria/logos-instituciones/parque-industrial-ruta-6.png' },
+  { id: 'los-libertadores', name: 'Los Libertadores Parque Industrial', image: '/industria/logos-instituciones/los-libertadores.png' },
+  { id: 'plaza-pilar', name: 'Plaza Industrial Pilar', image: '/industria/logos-instituciones/plaza-industrial-pilar.png' },
+  { id: 'plaza-escobar-2', name: 'Plaza Industrial Escobar', image: '/industria/logos-instituciones/plaza-industrial-escobar-2.png' },
 ];
 
 const faqItems: AccordionItem[] = [
@@ -586,7 +579,7 @@ export default function IndustriasPage() {
       <section id="problemas" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#f5f3f0] py-20">
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-12 max-w-4xl">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+            <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               01 · Diagnóstico
             </span>
             <h2 className="mt-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
@@ -604,7 +597,7 @@ export default function IndustriasPage() {
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-16 grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
             <div>
-              <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+              <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
                 02 · Cómo trabajamos
               </span>
               <h2 className="mt-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
@@ -613,7 +606,7 @@ export default function IndustriasPage() {
             </div>
             <div className="space-y-5 text-base leading-relaxed text-[#4f4a44] md:text-lg">
               <p>
-                Situada en Campana, Pcia. de Buenos Aires, la Inmobiliaria CADEMA lleva más de
+                Situada en Campana, Pcia. de Buenos Aires, CADEMA Bienes Raíces lleva más de
                 60 años de impecable trayectoria en el mercado local. Su fuerte participación en
                 el Real Estate industrial llevó naturalmente a CADEMA SA a desarrollar la
                 División Industrias, posicionándose como una consultora integral inmobiliaria de
@@ -645,7 +638,7 @@ export default function IndustriasPage() {
       <section id="propiedades" className="scroll-mt-24 border-b border-[#d8d1c4] py-20">
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-16">
-            <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+            <span className="mb-6 block font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               03 · Propiedades disponibles
             </span>
             <h2 className="mb-4 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
@@ -719,7 +712,7 @@ export default function IndustriasPage() {
       <section id="parques" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#1a1a1a] py-24">
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-16">
-            <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-[#8a8a8a]">
+            <span className="mb-6 block font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#b0b0b0] md:text-base">
               04 · Parques que representamos
             </span>
             <h2 className="mb-6 text-3xl font-semibold uppercase leading-tight text-white md:text-5xl">
@@ -756,7 +749,7 @@ export default function IndustriasPage() {
         <div className="mx-auto max-w-7xl px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <article className="rounded-lg border border-[#d8d1c4] bg-white p-8">
-              <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+              <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
                 05 · Casos
               </span>
               <h2 className="mt-3 text-3xl font-medium leading-tight text-[#141414] md:text-5xl">
@@ -810,12 +803,7 @@ export default function IndustriasPage() {
       </section>
 
       <section id="empresas" className="scroll-mt-24 border-b border-[#d8d1c4] py-20">
-        <div className="mx-auto max-w-7xl space-y-20 px-8">
-          <LogosCarousel
-            logos={empresasRadicadas}
-            title="06 · Empresas que radicamos"
-            subtitle="Empresas que confiaron en Cadema Industrias"
-          />
+        <div className="mx-auto max-w-7xl px-8">
           <LogosCarousel
             logos={empresasInstituciones}
             title="06 · Empresas e instituciones con las que trabajamos"
@@ -827,7 +815,7 @@ export default function IndustriasPage() {
       <section id="faq" className="scroll-mt-24 border-b border-[#d8d1c4] py-20">
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-12 max-w-4xl">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+            <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               07 · Preguntas frecuentes
             </span>
             <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
@@ -858,7 +846,7 @@ export default function IndustriasPage() {
 
           <div className="grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
-              <span className="mb-6 block font-mono text-xs uppercase tracking-widest text-white/80">
+              <span className="mb-6 block font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-white/85 md:text-base">
                 08 · Agendemos una reunión
               </span>
               <h2 className="mb-6 text-4xl font-semibold uppercase leading-tight md:text-6xl">
@@ -891,7 +879,7 @@ export default function IndustriasPage() {
       <section className="border-b border-[#d8d1c4] bg-[#f5f3f0] py-20">
         <div className="mx-auto max-w-7xl px-8">
           <div className="mb-12">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+            <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               Nuestro Equipo
             </span>
             <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
@@ -923,7 +911,7 @@ export default function IndustriasPage() {
       <section id="formulario" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#f4f1ec] py-20">
         <div className="mx-auto max-w-6xl px-8">
           <div className="mb-12">
-            <span className="font-mono text-xs uppercase tracking-widest text-[#6b6660]">
+            <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               Consúltenos
             </span>
             <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
@@ -933,12 +921,24 @@ export default function IndustriasPage() {
 
           <div className="rounded-lg border border-[#d8d1c4] bg-white p-4 md:p-8">
             <iframe
-              title="Formulario de consulta industrias"
+              id="inline-gSsNcfgrOPYOckVML8zt"
+              title="Form Landing Industrias"
               width="100%"
-              height="620"
+              height="581"
               frameBorder="0"
-              style={{ border: 0 }}
-              src="https://link.ventux.io/widget/form/GWRG5jg8hqV4zcVjh6f1"
+              style={{ border: 0, borderRadius: 0 }}
+              src="https://link.ventux.io/widget/form/gSsNcfgrOPYOckVML8zt"
+              data-layout="{'id':'INLINE'}"
+              data-trigger-type="alwaysShow"
+              data-trigger-value=""
+              data-activation-type="alwaysActivated"
+              data-activation-value=""
+              data-deactivation-type="neverDeactivate"
+              data-deactivation-value=""
+              data-form-name="Form Landing Industrias"
+              data-height="581"
+              data-layout-iframe-id="inline-gSsNcfgrOPYOckVML8zt"
+              data-form-id="gSsNcfgrOPYOckVML8zt"
               allowFullScreen
             />
           </div>
