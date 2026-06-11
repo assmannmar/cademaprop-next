@@ -1,6 +1,10 @@
 RewriteEngine On
 
-RewriteRule ^propiedad-([0-9]+)-(.+)$ /propiedades/$1-casa-venta-$2/ [R=301,L]
+RewriteRule ^industria/?$ /industrias/ [R=301,L]
+RewriteRule ^parque-industrial/?$ /industrias/ [R=301,L]
+RewriteRule ^parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/?$ /industrias/ [R=301,L]
+RewriteRule ^centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones/?$ /industrias/ [R=301,L]
+RewriteRule ^propiedad-([0-9]+)(-.*)?/?$ /propiedades/$1/ [R=301,L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

@@ -17,11 +17,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(newUrl, 301);
   }
 
-  const match = pathname.match(/^\/propiedad-(\d+)-(.+)$/);
+  const match = pathname.match(/^\/propiedad-(\d+)(?:-.+)?\/?$/);
 
   if (match) {
-    const [, id, slug] = match;
-    const newUrl = new URL(`/propiedades/${id}-casa-venta-${slug}`, request.url);
+    const [, id] = match;
+    const newUrl = new URL(`/propiedades/${id}/`, request.url);
     return NextResponse.redirect(newUrl, 301);
   }
 }

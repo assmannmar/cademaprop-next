@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { pageMetadata } from "@/app/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Simulador de lotes | Cadema Bienes Raices",
+  title: "Simulador de lotes",
   description:
     "Simula opciones y consulta informacion comercial sobre lotes y emprendimientos disponibles con Cadema Bienes Raices.",
   path: "/simulador",

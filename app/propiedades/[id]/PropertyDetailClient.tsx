@@ -9,7 +9,7 @@ import './propiedad.css';
 import { apiUrl } from "@/lib/api";
 import PropertyCard from '@/app/components/PropertyCard';
 
-interface Property {
+export interface Property {
   id: number;
   publication_title?: string;
   address?: string;
@@ -72,7 +72,13 @@ interface Property {
   };
 }
 
-export default function PropertyDetailPage() {
+type PropertyDetailPageProps = {
+  initialProperty?: Property | null;
+};
+
+export default function PropertyDetailPage({
+  initialProperty = null,
+}: PropertyDetailPageProps) {
   const params = useParams();
   const pathname = usePathname();
   const id = params?.id;
@@ -83,8 +89,8 @@ export default function PropertyDetailPage() {
   const propertyId = propertySlug ? propertySlug.split('-')[0] : null;
 
   const [currentUrl, setCurrentUrl] = useState('');
-  const [property, setProperty] = useState<Property | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [property, setProperty] = useState<Property | null>(initialProperty);
+  const [loading, setLoading] = useState(!initialProperty);
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -103,10 +109,19 @@ export default function PropertyDetailPage() {
   }, [propertySlug]);
 
   useEffect(() => {
+    if (!propertyId) return;
+
+    if (initialProperty?.id === Number(propertyId)) {
+      setProperty(initialProperty);
+      setLoading(false);
+      fetchSimilarProperties(initialProperty.id);
+      return;
+    }
+
     if (propertyId) {
       fetchProperty();
     }
-  }, [propertyId]);
+  }, [propertyId, initialProperty]);
 
   useEffect(() => {
     if (!isFullscreen) return;

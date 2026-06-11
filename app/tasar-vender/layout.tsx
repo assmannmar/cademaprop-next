@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { breadcrumbJsonLd, jsonLdScript, pageMetadata } from "@/app/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Tasar y vender una propiedad | Cadema Bienes Raices",
+  title: "Tasar y vender una propiedad",
   description:
     "Solicita una tasacion profesional y vende tu propiedad con estrategia comercial, difusion inteligente y acompanamiento personalizado de Cadema.",
   path: "/tasar-vender",

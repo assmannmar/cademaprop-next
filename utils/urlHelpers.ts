@@ -41,7 +41,7 @@ export function generatePropertyUrl(property: {
 
 // Parsear ID de URL SEO-friendly
 export function parsePropertyId(slug: string): number | null {
-  const match = slug.match(/^(\d+)-/);
+  const match = slug.match(/^(\d+)(?:-|$)/);
   return match ? parseInt(match[1]) : null;
 }
 
