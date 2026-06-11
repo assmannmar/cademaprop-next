@@ -148,6 +148,7 @@ function resolve_property_types(string $propertyType, string $division): array
         'house' => [3],
         'casa' => [3],
         'weekend house' => [4],
+        'casa de fin de semana' => [4],
         'office' => [5],
         'oficina' => [5],
         'mooring' => [6],
@@ -157,6 +158,7 @@ function resolve_property_types(string $propertyType, string $division): array
         'campo' => [9],
         'deposit' => [14],
         'deposito' => [14],
+        'storage' => [14],
         'industrial ship' => [12],
         'nave industrial' => [12],
         'deposito/nave industrial' => [14, 12],
@@ -554,6 +556,14 @@ function read_locally_filtered_search(
 $propertyId = get_property_id();
 
 if ($propertyId !== '') {
+    if (is_similar_request()) {
+        $data = cached_json('property_similar_' . $propertyId, 300, function () use ($apiKey, $propertyId) {
+            return read_similar_properties($apiKey, $propertyId);
+        });
+
+        json_response($data);
+    }
+
     $data = cached_json('property_' . $propertyId, 300, function () use ($apiKey, $propertyId) {
         return read_tokko_property($apiKey, $propertyId);
     });

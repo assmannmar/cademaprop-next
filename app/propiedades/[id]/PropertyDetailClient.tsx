@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Script from 'next/script';
@@ -90,6 +90,8 @@ export default function PropertyDetailPage() {
   const [autoplayPaused, setAutoplayPaused] = useState(false);
   const [similarProperties, setSimilarProperties] = useState<Property[]>([]);
   const [similarLoading, setSimilarLoading] = useState(false);
+  const [similarAutoplayPaused, setSimilarAutoplayPaused] = useState(false);
+  const similarCarouselRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -262,6 +264,31 @@ export default function PropertyDetailPage() {
     setSelectedImage((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
   };
 
+  const scrollSimilarCarousel = (direction: 'next' | 'prev') => {
+    const carousel = similarCarouselRef.current;
+    if (!carousel) return;
+
+    const scrollAmount = carousel.clientWidth * 0.88;
+    const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+    const isAtEnd = carousel.scrollLeft >= maxScrollLeft - 8;
+    const isAtStart = carousel.scrollLeft <= 8;
+
+    if (direction === 'next' && isAtEnd) {
+      carousel.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (direction === 'prev' && isAtStart) {
+      carousel.scrollTo({ left: maxScrollLeft, behavior: 'smooth' });
+      return;
+    }
+
+    carousel.scrollBy({
+      left: direction === 'next' ? scrollAmount : -scrollAmount,
+      behavior: 'smooth',
+    });
+  };
+
   useEffect(() => {
     if (photos.length <= 1 || autoplayPaused || isFullscreen) return;
 
@@ -271,6 +298,16 @@ export default function PropertyDetailPage() {
 
     return () => clearInterval(interval);
   }, [photos.length, autoplayPaused, isFullscreen]);
+
+  useEffect(() => {
+    if (similarProperties.length <= 1 || similarAutoplayPaused) return;
+
+    const interval = setInterval(() => {
+      scrollSimilarCarousel('next');
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [similarProperties.length, similarAutoplayPaused]);
 
   if (loading) {
     return (
@@ -667,8 +704,29 @@ export default function PropertyDetailPage() {
         {(similarLoading || similarProperties.length > 0) && (
           <section className="property-related container-property">
             <div className="property-related__header">
-              <span className="property-section-kicker">M&aacute;s opciones</span>
-              <h2 className="property-section-title">Conoc&eacute; otras propiedades</h2>
+              <div>
+                <span className="property-section-kicker">M&aacute;s opciones</span>
+                <h2 className="property-section-title">Conoc&eacute; otras propiedades</h2>
+              </div>
+
+              {similarProperties.length > 1 && (
+                <div className="property-related__nav">
+                  <button
+                    type="button"
+                    onClick={() => scrollSimilarCarousel('prev')}
+                    aria-label="Propiedad anterior"
+                  >
+                    â€¹
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollSimilarCarousel('next')}
+                    aria-label="Propiedad siguiente"
+                  >
+                    â€º
+                  </button>
+                </div>
+              )}
             </div>
 
             {similarLoading ? (
@@ -676,12 +734,48 @@ export default function PropertyDetailPage() {
                 Buscando propiedades similares...
               </div>
             ) : (
-              <div className="property-related__carousel" aria-label="Propiedades similares">
-                {similarProperties.map((similarProperty) => (
-                  <div className="property-related__item" key={similarProperty.id}>
-                    <PropertyCard {...similarProperty} />
-                  </div>
-                ))}
+              <div
+                className="property-related__shell"
+                onMouseEnter={() => setSimilarAutoplayPaused(true)}
+                onMouseLeave={() => setSimilarAutoplayPaused(false)}
+                onFocus={() => setSimilarAutoplayPaused(true)}
+                onBlur={() => setSimilarAutoplayPaused(false)}
+                onTouchStart={() => setSimilarAutoplayPaused(true)}
+                onTouchEnd={() => setSimilarAutoplayPaused(false)}
+              >
+                {similarProperties.length > 1 && (
+                  <button
+                    type="button"
+                    className="property-related__arrow property-related__arrow--prev"
+                    onClick={() => scrollSimilarCarousel('prev')}
+                    aria-label="Propiedad anterior"
+                  >
+                    â€¹
+                  </button>
+                )}
+
+                <div
+                  ref={similarCarouselRef}
+                  className="property-related__carousel"
+                  aria-label="Propiedades similares"
+                >
+                  {similarProperties.map((similarProperty) => (
+                    <div className="property-related__item" key={similarProperty.id}>
+                      <PropertyCard {...similarProperty} />
+                    </div>
+                  ))}
+                </div>
+
+                {similarProperties.length > 1 && (
+                  <button
+                    type="button"
+                    className="property-related__arrow property-related__arrow--next"
+                    onClick={() => scrollSimilarCarousel('next')}
+                    aria-label="Propiedad siguiente"
+                  >
+                    â€º
+                  </button>
+                )}
               </div>
             )}
           </section>

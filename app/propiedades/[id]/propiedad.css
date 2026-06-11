@@ -722,7 +722,46 @@ html {
 }
 
 .property-related__header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
   margin-bottom: 22px;
+}
+
+.property-related__nav {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.property-related__nav button,
+.property-related__arrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid var(--property-border);
+  background: var(--property-surface);
+  color: var(--property-text);
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--property-shadow-soft);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.property-related__nav button:hover,
+.property-related__arrow:hover {
+  background: var(--property-red);
+  color: var(--property-white);
+  transform: translateY(-1px);
+}
+
+.property-related__shell {
+  position: relative;
 }
 
 .property-related__carousel {
@@ -734,6 +773,7 @@ html {
   padding: 2px 2px 18px;
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 
 .property-related__carousel::-webkit-scrollbar {
@@ -747,6 +787,26 @@ html {
 
 .property-related__item {
   scroll-snap-align: start;
+}
+
+.property-related__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.property-related__arrow:hover {
+  transform: translateY(-50%) translateY(-1px);
+}
+
+.property-related__arrow--prev {
+  left: -18px;
+}
+
+.property-related__arrow--next {
+  right: -18px;
 }
 
 .property-related__loading {
@@ -967,8 +1027,37 @@ html {
     padding-bottom: 54px;
   }
 
+  .property-related__header {
+    align-items: flex-start;
+  }
+
+  .property-related__nav {
+    display: none;
+  }
+
   .property-related__carousel {
     grid-auto-columns: minmax(260px, 86vw);
+    padding-inline: 4px;
+    scrollbar-width: none;
+  }
+
+  .property-related__carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .property-related__arrow {
+    display: block;
+    width: 42px;
+    height: 42px;
+    font-size: 1.55rem;
+  }
+
+  .property-related__arrow--prev {
+    left: -4px;
+  }
+
+  .property-related__arrow--next {
+    right: -4px;
   }
 
   .property-lightbox__nav {
