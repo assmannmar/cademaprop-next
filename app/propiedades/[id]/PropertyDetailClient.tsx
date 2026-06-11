@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Script from 'next/script';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './propiedad.css';
 import { apiUrl } from "@/lib/api";
 import PropertyCard from '@/app/components/PropertyCard';
@@ -716,14 +717,14 @@ export default function PropertyDetailPage() {
                     onClick={() => scrollSimilarCarousel('prev')}
                     aria-label="Propiedad anterior"
                   >
-                    â€¹
+                    <ChevronLeft aria-hidden="true" />
                   </button>
                   <button
                     type="button"
                     onClick={() => scrollSimilarCarousel('next')}
                     aria-label="Propiedad siguiente"
                   >
-                    â€º
+                    <ChevronRight aria-hidden="true" />
                   </button>
                 </div>
               )}
@@ -750,7 +751,7 @@ export default function PropertyDetailPage() {
                     onClick={() => scrollSimilarCarousel('prev')}
                     aria-label="Propiedad anterior"
                   >
-                    â€¹
+                    <ChevronLeft aria-hidden="true" />
                   </button>
                 )}
 
@@ -773,7 +774,7 @@ export default function PropertyDetailPage() {
                     onClick={() => scrollSimilarCarousel('next')}
                     aria-label="Propiedad siguiente"
                   >
-                    â€º
+                    <ChevronRight aria-hidden="true" />
                   </button>
                 )}
               </div>

@@ -737,6 +737,9 @@ html {
 
 .property-related__nav button,
 .property-related__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 46px;
   height: 46px;
   border-radius: 999px;
@@ -751,6 +754,13 @@ html {
     background 0.2s ease,
     color 0.2s ease,
     transform 0.2s ease;
+}
+
+.property-related__nav svg,
+.property-related__arrow svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.2;
 }
 
 .property-related__nav button:hover,
@@ -772,17 +782,13 @@ html {
   overflow-x: auto;
   padding: 2px 2px 18px;
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
+  scrollbar-width: none;
   scroll-behavior: smooth;
+  -ms-overflow-style: none;
 }
 
 .property-related__carousel::-webkit-scrollbar {
-  height: 8px;
-}
-
-.property-related__carousel::-webkit-scrollbar-thumb {
-  background: rgba(31, 31, 27, 0.24);
-  border-radius: 999px;
+  display: none;
 }
 
 .property-related__item {

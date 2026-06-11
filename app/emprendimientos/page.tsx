@@ -34,6 +34,12 @@ const translateType = (type: string | undefined) => {
   return TIPOLOGIAS_MAP[type.toLowerCase()] || type;
 };
 
+const matchesDivision = (emp: Development, division: string) => {
+  if (division === "industrial") return emp.is_industrial === true;
+  if (division === "residencial") return emp.is_industrial !== true;
+  return true;
+};
+
 // Shuffle para mostrar los emprendimientos destacados en un orden diferente cada vez, pero siempre el mismo para cada usuario gracias a la semilla fija por sesión
 
 const sessionSeed = Math.floor(Math.random() * 1_000_000);
@@ -98,6 +104,7 @@ function EmprendimientosContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [initialHeroDivision] = useState(searchParams.get("div") || "all");
 
   // Filtros
   const [filterLoc, setFilterLoc] = useState(searchParams.get("loc") || "all");
@@ -175,9 +182,7 @@ function EmprendimientosContent() {
     const filtered = emprendimientos.filter((emp) => {
       const matchLoc = filterLoc === "all" || emp.location?.name === filterLoc;
       const matchType = filterType === "all" || emp.type?.name === filterType;
-      let matchDiv = true;
-      if (filterDivision === "industrial") matchDiv = emp.is_industrial === true;
-      if (filterDivision === "residencial") matchDiv = emp.is_industrial !== true;
+      const matchDiv = matchesDivision(emp, filterDivision);
       return matchLoc && matchType && matchDiv;
     });
     const filterHash = [...`${filterLoc}-${filterType}-${filterDivision}`]
@@ -194,7 +199,9 @@ function EmprendimientosContent() {
   );
 
   const heroItems = useMemo<HeroItem[]>(() => {
-    const withPhotos = emprendimientos.filter((emp) => emp.photos?.length);
+    const withPhotos = emprendimientos.filter(
+      (emp) => emp.photos?.length && matchesDivision(emp, initialHeroDivision)
+    );
     const shuffled = seededShuffle(withPhotos, sessionSeed);
     const count = Math.max(6, Math.min(10, shuffled.length));
     return shuffled.slice(0, count).map((emp) => {
@@ -217,7 +224,7 @@ function EmprendimientosContent() {
           isExternal: Boolean(emp.web_url),
         };
       });
-  }, [emprendimientos]);
+  }, [emprendimientos, initialHeroDivision]);
 
   const activeHeroItem = heroItems[activeIndex];
 
