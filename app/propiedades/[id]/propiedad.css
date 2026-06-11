@@ -715,6 +715,49 @@ html {
   margin: 0 0 4px;
 }
 
+/* RELATED PROPERTIES */
+
+.property-related {
+  padding: 0 0 72px;
+}
+
+.property-related__header {
+  margin-bottom: 22px;
+}
+
+.property-related__carousel {
+  display: grid;
+  grid-auto-columns: minmax(280px, 390px);
+  grid-auto-flow: column;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 2px 2px 18px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+
+.property-related__carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.property-related__carousel::-webkit-scrollbar-thumb {
+  background: rgba(31, 31, 27, 0.24);
+  border-radius: 999px;
+}
+
+.property-related__item {
+  scroll-snap-align: start;
+}
+
+.property-related__loading {
+  border: 1px solid var(--property-border);
+  border-radius: var(--property-radius-lg);
+  background: var(--property-surface);
+  color: var(--property-text-soft);
+  padding: 26px;
+  box-shadow: var(--property-shadow-soft);
+}
+
 /* LIGHTBOX */
 
 .property-lightbox {
@@ -918,6 +961,14 @@ html {
 
   .property-contact-card__form-embed {
     min-height: 520px;
+  }
+
+  .property-related {
+    padding-bottom: 54px;
+  }
+
+  .property-related__carousel {
+    grid-auto-columns: minmax(260px, 86vw);
   }
 
   .property-lightbox__nav {

@@ -12,6 +12,8 @@ const DEFAULT_PAGE_SIZE = 30;
 const MAX_PAGE_SIZE = 50;
 const TOKKO_PAGE_SIZE = 50;
 const MAX_TOKKO_PAGES = 200;
+const RELATED_LIMIT = 6;
+const PRICE_RANGE_RATIO = 0.3;
 
 function clamp_number($value, int $fallback, int $min, int $max): int
 {
@@ -93,6 +95,17 @@ function get_property_id(): string
     }
 
     return '';
+}
+
+function is_similar_request(): bool
+{
+    $pathInfo = isset($_SERVER['PATH_INFO']) ? trim((string) $_SERVER['PATH_INFO'], '/') : '';
+    if ($pathInfo !== '' && preg_match('#^\d+/similar/?$#', $pathInfo)) {
+        return true;
+    }
+
+    $requestUri = isset($_SERVER['REQUEST_URI']) ? (string) $_SERVER['REQUEST_URI'] : '';
+    return (bool) preg_match('#/properties\.php/\d+/similar(?:[/?#]|$)#', $requestUri);
 }
 
 function read_tokko_property(string $apiKey, string $id): array
@@ -283,6 +296,147 @@ function property_price(array $property): float
     }
 
     return isset($prices[0]['price']) ? (float) $prices[0]['price'] : 0;
+}
+
+function property_operation_type(array $property): string
+{
+    $operationType = $property['operations'][0]['operation_type'] ?? '';
+    return is_string($operationType) ? $operationType : '';
+}
+
+function property_type_name(array $property): string
+{
+    $developmentType = $property['development']['type']['name'] ?? '';
+    if (is_string($developmentType) && trim($developmentType) !== '') {
+        return $developmentType;
+    }
+
+    $type = $property['type']['name'] ?? '';
+    return is_string($type) ? $type : '';
+}
+
+function operation_type_id(string $operationType): ?int
+{
+    $operationTypeMap = [
+        'sale' => 1,
+        'rent' => 2,
+        'rental' => 2,
+        'temporary rent' => 3,
+        'temporary rental' => 3,
+    ];
+
+    $normalized = normalize_text($operationType);
+    return $operationTypeMap[$normalized] ?? null;
+}
+
+function unique_properties_by_id(array $properties): array
+{
+    $seen = [];
+    $unique = [];
+
+    foreach ($properties as $property) {
+        if (!is_array($property)) {
+            continue;
+        }
+
+        $id = isset($property['id']) ? (int) $property['id'] : 0;
+        if ($id <= 0 || isset($seen[$id])) {
+            continue;
+        }
+
+        $seen[$id] = true;
+        $unique[] = $property;
+    }
+
+    return $unique;
+}
+
+function read_similar_properties(string $apiKey, string $propertyId): array
+{
+    $property = read_tokko_property($apiKey, $propertyId);
+    $operationId = operation_type_id(property_operation_type($property));
+    $propertyTypeIds = resolve_property_types(normalize_text(property_type_name($property)), '');
+
+    if ($operationId === null || count($propertyTypeIds) === 0 || $propertyTypeIds === range(1, 27)) {
+        return ['objects' => []];
+    }
+
+    $searchData = [
+        'current_localization_id' => 0,
+        'current_localization_type' => 'country',
+        'division_filters' => [],
+        'price_from' => 0,
+        'price_to' => 999999999,
+        'operation_types' => [$operationId],
+        'property_types' => $propertyTypeIds,
+        'currency' => 'ANY',
+        'filters' => [],
+        'with_tags' => [],
+        'without_tags' => [],
+        'only_available' => 'checked',
+    ];
+
+    $candidates = [];
+    $totalScanned = 0;
+
+    for ($tokkoPage = 0; $tokkoPage < MAX_TOKKO_PAGES; $tokkoPage++) {
+        $offset = $tokkoPage * TOKKO_PAGE_SIZE;
+        $responseData = read_tokko_search(
+            $apiKey,
+            TOKKO_PAGE_SIZE,
+            $offset,
+            $searchData,
+            ['order_by' => 'id', 'order' => 'desc']
+        );
+        $meta = isset($responseData['meta']) && is_array($responseData['meta']) ? $responseData['meta'] : [];
+        $objects = isset($responseData['objects']) && is_array($responseData['objects']) ? $responseData['objects'] : [];
+        $totalScanned += count($objects);
+
+        foreach ($objects as $object) {
+            if (is_array($object) && (int) ($object['id'] ?? 0) !== (int) $propertyId) {
+                $candidates[] = $object;
+            }
+        }
+
+        $totalCount = isset($meta['total_count']) ? (int) $meta['total_count'] : null;
+        if (count($objects) === 0 || ($totalCount !== null && $totalScanned >= $totalCount)) {
+            break;
+        }
+    }
+
+    $uniqueCandidates = unique_properties_by_id($candidates);
+    $basePrice = property_price($property);
+    $priceCandidates = [];
+
+    if ($basePrice > 0) {
+        foreach ($uniqueCandidates as $candidate) {
+            $candidatePrice = property_price($candidate);
+            if (
+                $candidatePrice > 0
+                && $candidatePrice >= $basePrice * (1 - PRICE_RANGE_RATIO)
+                && $candidatePrice <= $basePrice * (1 + PRICE_RANGE_RATIO)
+            ) {
+                $priceCandidates[] = $candidate;
+            }
+        }
+    }
+
+    if (count($uniqueCandidates) > RELATED_LIMIT && $basePrice > 0) {
+        shuffle($priceCandidates);
+        $selected = array_slice($priceCandidates, 0, RELATED_LIMIT);
+        $selectedIds = array_fill_keys(array_map(fn ($item) => (int) $item['id'], $selected), true);
+        $remaining = array_values(array_filter(
+            $uniqueCandidates,
+            fn ($item) => !isset($selectedIds[(int) $item['id']])
+        ));
+        shuffle($remaining);
+        $selected = array_slice(array_merge($selected, $remaining), 0, RELATED_LIMIT);
+    } else {
+        shuffle($uniqueCandidates);
+        $selected = array_slice($uniqueCandidates, 0, RELATED_LIMIT);
+    }
+
+    return ['objects' => $selected];
 }
 
 function sort_properties(array $properties, string $sort): array

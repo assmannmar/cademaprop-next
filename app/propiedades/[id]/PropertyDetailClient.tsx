@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import './propiedad.css';
 import { apiUrl } from "@/lib/api";
+import PropertyCard from '@/app/components/PropertyCard';
 
 interface Property {
   id: number;
@@ -87,6 +88,8 @@ export default function PropertyDetailPage() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [autoplayPaused, setAutoplayPaused] = useState(false);
+  const [similarProperties, setSimilarProperties] = useState<Property[]>([]);
+  const [similarLoading, setSimilarLoading] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -125,10 +128,28 @@ export default function PropertyDetailPage() {
 
       const foundProperty = await response.json();
       setProperty(foundProperty);
+      fetchSimilarProperties(foundProperty.id);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchSimilarProperties = async (id: number) => {
+    setSimilarLoading(true);
+    setSimilarProperties([]);
+
+    try {
+      const response = await fetch(`${apiUrl("properties")}/${id}/similar`);
+      if (!response.ok) return;
+
+      const data = await response.json();
+      setSimilarProperties(Array.isArray(data.objects) ? data.objects : []);
+    } catch {
+      setSimilarProperties([]);
+    } finally {
+      setSimilarLoading(false);
     }
   };
 
@@ -642,6 +663,29 @@ export default function PropertyDetailPage() {
             </aside>
           </div>
         </section>
+
+        {(similarLoading || similarProperties.length > 0) && (
+          <section className="property-related container-property">
+            <div className="property-related__header">
+              <span className="property-section-kicker">M&aacute;s opciones</span>
+              <h2 className="property-section-title">Conoc&eacute; otras propiedades</h2>
+            </div>
+
+            {similarLoading ? (
+              <div className="property-related__loading">
+                Buscando propiedades similares...
+              </div>
+            ) : (
+              <div className="property-related__carousel" aria-label="Propiedades similares">
+                {similarProperties.map((similarProperty) => (
+                  <div className="property-related__item" key={similarProperty.id}>
+                    <PropertyCard {...similarProperty} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
         {isFullscreen && photos.length > 0 && (
           <div
