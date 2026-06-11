@@ -31,6 +31,25 @@ function normalize_text(string $value): string
     return $converted !== false ? $converted : $normalized;
 }
 
+function starts_with(string $value, string $prefix): bool
+{
+    return $prefix === '' || strpos($value, $prefix) === 0;
+}
+
+function ends_with(string $value, string $suffix): bool
+{
+    if ($suffix === '') {
+        return true;
+    }
+
+    return substr($value, -strlen($suffix)) === $suffix;
+}
+
+function contains_text(string $value, string $needle): bool
+{
+    return $needle === '' || strpos($value, $needle) !== false;
+}
+
 function query_value(array $source, string $primary, string $fallback = ''): string
 {
     if (isset($source[$primary]) && $source[$primary] !== '') {
@@ -136,7 +155,9 @@ function resolve_property_types(string $propertyType, string $division): array
     $allPropertyTypes = range(1, 27);
     $cityPropertyTypes = array_values(array_filter(
         $allPropertyTypes,
-        fn ($id) => !in_array($id, $industrialPropertyTypes, true)
+        function ($id) use ($industrialPropertyTypes) {
+            return !in_array($id, $industrialPropertyTypes, true);
+        }
     ));
 
     $propertyTypeMap = [
@@ -165,11 +186,14 @@ function resolve_property_types(string $propertyType, string $division): array
         'terreno industrial' => [27],
     ];
 
-    $divisionTypes = match (normalize_text($division)) {
-        'industria' => $industrialPropertyTypes,
-        'ciudad' => $cityPropertyTypes,
-        default => $allPropertyTypes,
-    };
+    $normalizedDivision = normalize_text($division);
+    if ($normalizedDivision === 'industria') {
+        $divisionTypes = $industrialPropertyTypes;
+    } elseif ($normalizedDivision === 'ciudad') {
+        $divisionTypes = $cityPropertyTypes;
+    } else {
+        $divisionTypes = $allPropertyTypes;
+    }
 
     if (!isset($propertyTypeMap[$propertyType])) {
         return $divisionTypes;
@@ -426,10 +450,14 @@ function read_similar_properties(string $apiKey, string $propertyId): array
     if (count($uniqueCandidates) > RELATED_LIMIT && $basePrice > 0) {
         shuffle($priceCandidates);
         $selected = array_slice($priceCandidates, 0, RELATED_LIMIT);
-        $selectedIds = array_fill_keys(array_map(fn ($item) => (int) $item['id'], $selected), true);
+        $selectedIds = array_fill_keys(array_map(function ($item) {
+            return (int) $item['id'];
+        }, $selected), true);
         $remaining = array_values(array_filter(
             $uniqueCandidates,
-            fn ($item) => !isset($selectedIds[(int) $item['id']])
+            function ($item) use ($selectedIds) {
+                return !isset($selectedIds[(int) $item['id']]);
+            }
         ));
         shuffle($remaining);
         $selected = array_slice(array_merge($selected, $remaining), 0, RELATED_LIMIT);
@@ -446,23 +474,23 @@ function sort_properties(array $properties, string $sort): array
     usort($properties, function ($a, $b) use ($sort) {
         $left = is_array($a) ? $a : [];
         $right = is_array($b) ? $b : [];
-        $direction = str_ends_with($sort, '_desc') ? -1 : 1;
+        $direction = ends_with($sort, '_desc') ? -1 : 1;
 
-        if (str_starts_with($sort, 'recent')) {
+        if (starts_with($sort, 'recent')) {
             $leftValue = isset($left['created_at']) ? strtotime((string) $left['created_at']) : (int) ($left['id'] ?? 0);
             $rightValue = isset($right['created_at']) ? strtotime((string) $right['created_at']) : (int) ($right['id'] ?? 0);
             return ($leftValue <=> $rightValue) * $direction;
         }
 
-        if (str_starts_with($sort, 'price')) {
+        if (starts_with($sort, 'price')) {
             return (property_price($left) <=> property_price($right)) * $direction;
         }
 
-        if (str_starts_with($sort, 'surface')) {
+        if (starts_with($sort, 'surface')) {
             return ((float) ($left['surface'] ?? 0) <=> (float) ($right['surface'] ?? 0)) * $direction;
         }
 
-        if (str_starts_with($sort, 'roofed')) {
+        if (starts_with($sort, 'roofed')) {
             return ((float) ($left['roofed_surface'] ?? 0) <=> (float) ($right['roofed_surface'] ?? 0)) * $direction;
         }
 
@@ -486,7 +514,7 @@ function property_matches_text($property, string $query): bool
     ];
 
     $haystack = normalize_text(implode(' ', array_filter($values, 'is_string')));
-    return str_contains($haystack, normalize_text($query));
+    return contains_text($haystack, normalize_text($query));
 }
 
 function property_matches_local_filters($property, array $query): bool
