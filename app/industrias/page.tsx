@@ -446,6 +446,23 @@ export default function IndustriasPage() {
   const [emprendimientosIndustriales, setEmprendimientosIndustriales] = useState<Development[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const forceDocumentNavigation =
+    (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      window.location.assign(href);
+    };
+
   useEffect(() => {
     const scriptId = 'ventux-form-embed';
     if (!document.getElementById(scriptId)) {
@@ -664,7 +681,11 @@ export default function IndustriasPage() {
           )}
 
           <div className="mt-12 flex justify-center">
-            <Link href="/propiedades?division=Industria" className="btn-split btn-split-bottom btn-split-wide">
+            <Link
+              href="/propiedades/?division=Industria"
+              onClick={forceDocumentNavigation("/propiedades/?division=Industria")}
+              className="btn-split btn-split-bottom btn-split-wide"
+            >
               <span className="btn-text">Ver todas las propiedades</span>
               <span className="btn-arrow">→</span>
             </Link>
@@ -698,6 +719,7 @@ export default function IndustriasPage() {
                   </p>
                   <Link
                     href={option.href}
+                    onClick={forceDocumentNavigation(option.href)}
                     className="text-sm font-semibold text-[#b8252c] transition hover:text-[#8e1a20]"
                   >
                     {option.cta} →

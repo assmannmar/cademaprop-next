@@ -62,6 +62,22 @@ export default function HomePage() {
   const [emprendimientosLoading, setEmprendimientosLoading] = useState(true);
   const [destacadasLoading, setDestacadasLoading] = useState(true);
 
+  const forceDocumentNavigation =
+    (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      window.location.assign(href);
+    };
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -135,7 +151,11 @@ export default function HomePage() {
 
           {/* BOTONES SUPERIORES */}
           <div className="portada-botones top">
-            <Link href="/propiedades?operation=sale" className="btn-split">
+            <Link
+              href="/propiedades/?operation=sale"
+              onClick={forceDocumentNavigation("/propiedades/?operation=sale")}
+              className="btn-split"
+            >
               <span className="btn-text">Comprar</span>
               <span className="btn-arrow">→</span>
             </Link>
@@ -150,7 +170,11 @@ export default function HomePage() {
       {/* SECCIÓN INFERIOR DE LA PORTADA */}
       <section className="portada-bottom">
         <div className="portada-botones bottom">
-          <Link href="/propiedades" className="btn-split">
+          <Link
+            href="/propiedades/"
+            onClick={forceDocumentNavigation("/propiedades/")}
+            className="btn-split"
+          >
             <span className="btn-text">Residencial</span>
             <span className="btn-arrow">→</span>
           </Link>
@@ -205,7 +229,11 @@ export default function HomePage() {
             <p className="text-center text-gray-500">No hay propiedades disponibles</p>
           )}
           <div className="flex justify-center mt-12">
-            <Link href="/propiedades" className="btn-split btn-split-bottom btn-split-wide">
+            <Link
+              href="/propiedades/"
+              onClick={forceDocumentNavigation("/propiedades/")}
+              className="btn-split btn-split-bottom btn-split-wide"
+            >
               <span className="btn-text">Ver Todas las Propiedades</span>
               <span className="btn-arrow">→</span>
             </Link>
