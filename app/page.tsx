@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import HeroCarousel from "./components/HeroCarousel";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { 
   EmprendimientosCarousel, 
   DestacadasCarousel, 
@@ -13,6 +14,13 @@ import FullScreenLoader from './components/loader';
 import InstagramFeed from "./components/InstagramFeed";
 import BlogSection from "@/app/components/BlogSection";
 import { apiUrl } from "@/lib/api";
+import {
+  NosotrosIntro,
+  NosotrosServicesSection,
+  NosotrosStatsSection,
+  NosotrosValuesSection,
+} from "@/app/components/nosotros/NosotrosSections";
+import "./nosotros/nosotros.css";
 
 interface Property {
   id: number;
@@ -281,61 +289,13 @@ export default function HomePage() {
 
       </section>
 
-      {/* QUIÉNES SOMOS */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 tracking-wide">Quiénes Somos</h2>
-              <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                Con más de 60 años de experiencia en el mercado inmobiliario, nuestro compromiso es brindar un servicio personalizado y profesional, acompañando a nuestros clientes en cada paso del proceso de compra, venta o alquiler de su propiedad.
-              </p>
-              <Link href="/nosotros" className="btn-split btn-split-bottom btn-split-wide">
-                <span className="btn-text">Conocé más</span>
-                <span className="btn-arrow">→</span>
-              </Link>
-            </div>
-            <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden">
-              <img
-                src="/img/directores.jpg"
-                alt="Cadema Prop"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80';
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CADEMA EN NÚMEROS */}
-      {/* <section className="py-16 bg-red-600 text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 tracking-wide">Cadema en Números</h2>
-            <p className="text-xl">Nuestra trayectoria nos respalda</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">25+</div>
-              <p className="text-xl">Años de experiencia</p>
-            </div>
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">500+</div>
-              <p className="text-xl">Propiedades</p>
-            </div>
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">2000+</div>
-              <p className="text-xl">Clientes satisfechos</p>
-            </div>
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">15</div>
-              <p className="text-xl">Agentes expertos</p>
-            </div>
-          </div>
-        </div>
-      </section> */}
+      {/* QUIENES SOMOS + VALORES + SERVICIOS */}
+      <div className="home-nosotros-sections">
+        <NosotrosIntro showCta />
+        <NosotrosValuesSection />
+        <NosotrosStatsSection />
+        <NosotrosServicesSection />
+      </div>
 
       {/* TESTIMONIOS - CAROUSEL DE GOOGLE REVIEWS */}
       <section className="py-16 bg-white">
@@ -377,7 +337,7 @@ export default function HomePage() {
                   src="https://link.ventux.io/widget/form/ucy1LfDZBfGuZJOStMqg"
                   allowFullScreen
                 />
-            <script src="https://link.ventux.io/js/form_embed.js"></script>
+            <Script src="https://link.ventux.io/js/form_embed.js" strategy="lazyOnload" />
           
         </div>
       </section>
