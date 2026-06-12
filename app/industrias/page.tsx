@@ -442,6 +442,7 @@ export default function IndustriasPage() {
   const [propiedadesIndustriales, setPropiedadesIndustriales] = useState<Property[]>([]);
   const [emprendimientosIndustriales, setEmprendimientosIndustriales] = useState<Development[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isCaseExpanded, setIsCaseExpanded] = useState(false);
 
   const forceDocumentNavigation =
     (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -593,11 +594,11 @@ export default function IndustriasPage() {
 
       <section id="problemas" className="scroll-mt-24 border-b border-[#d8d1c4] bg-[#f5f3f0] py-20">
         <div className="mx-auto max-w-7xl px-8">
-          <div className="mx-auto mb-12 max-w-4xl text-center">
+          <div className="mb-12">
             <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               01 · Diagnóstico
             </span>
-            <h2 className="mt-5 space-y-3 text-2xl font-semibold uppercase leading-tight text-neutral-900 md:text-4xl">
+            <h2 className="mx-auto mt-5 max-w-4xl space-y-3 text-center text-2xl font-semibold uppercase leading-tight text-neutral-900 md:text-4xl">
               <span className="block">¿Necesitás expandir tu empresa?</span>
               <span className="block">¿Buscás dónde localizarte?</span>
               <span className="block">¿Tu empresa enfrenta estos problemas?</span>
@@ -694,25 +695,38 @@ export default function IndustriasPage() {
                   industrial. Coordinamos una entrevista personal en su planta de Munro, donde
                   pudimos conocer mejor su actividad, sus necesidades y sus inquietudes.
                 </p>
-                <p>
-                  Con esa información iniciamos la búsqueda de opciones en distintos parques
-                  industriales de Argentina y, en paralelo, gestionamos reuniones con empresas
-                  constructoras para que pudieran evaluar costos de obra, alternativas técnicas y
-                  variantes de proyecto.
-                </p>
-                <p>
-                  Luego de meses de visitas y reuniones, Seventeen decidió comprar un terreno en
-                  el Parque Industrial Ruta 6. Allí hoy están terminando de construir una nave a
-                  estrenar, pensada de acuerdo a sus gustos y necesidades, con un área de
-                  depósito y otra destinada al desarrollo de un nuevo producto. La administración
-                  y el trabajo comercial se mantienen en Munro.
-                </p>
-                <p>
-                  CADEMA Industrias continúa acompañando a pymes que necesitan soluciones
-                  personalizadas para crecer, radicarse mejor y proyectar su expansión en parques
-                  industriales de Zona Norte.
-                </p>
+                {isCaseExpanded && (
+                  <>
+                    <p>
+                      Con esa información iniciamos la búsqueda de opciones en distintos parques
+                      industriales de Argentina y, en paralelo, gestionamos reuniones con empresas
+                      constructoras para que pudieran evaluar costos de obra, alternativas técnicas y
+                      variantes de proyecto.
+                    </p>
+                    <p>
+                      Luego de meses de visitas y reuniones, Seventeen decidió comprar un terreno en
+                      el Parque Industrial Ruta 6. Allí hoy están terminando de construir una nave a
+                      estrenar, pensada de acuerdo a sus gustos y necesidades, con un área de
+                      depósito y otra destinada al desarrollo de un nuevo producto. La administración
+                      y el trabajo comercial se mantienen en Munro.
+                    </p>
+                    <p>
+                      CADEMA Industrias continúa acompañando a pymes que necesitan soluciones
+                      personalizadas para crecer, radicarse mejor y proyectar su expansión en parques
+                      industriales de Zona Norte.
+                    </p>
+                  </>
+                )}
               </div>
+              <button
+                type="button"
+                onClick={() => setIsCaseExpanded((current) => !current)}
+                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-[#b8252c] transition hover:text-[#8e1a20]"
+                aria-expanded={isCaseExpanded}
+              >
+                {isCaseExpanded ? 'Leer menos' : 'Leer más'}
+                <span aria-hidden="true">{isCaseExpanded ? '↑' : '↓'}</span>
+              </button>
               <div className="mt-8 grid grid-cols-1 gap-4 border-t border-[#d8d1c4] pt-6 sm:grid-cols-3">
                 <div>
                   <div className="mb-1 font-mono text-xs uppercase tracking-widest text-[#6b6660]">
@@ -871,7 +885,7 @@ export default function IndustriasPage() {
             <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               07 · Preguntas frecuentes
             </span>
-            <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
+            <h2 className="mt-3 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
               Todo lo que conviene saber antes de radicar tu empresa
             </h2>
           </div>
@@ -936,7 +950,7 @@ export default function IndustriasPage() {
             <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               Nuestro Equipo
             </span>
-            <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
+            <h2 className="mt-3 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
               Especialistas en real estate industrial y logístico
             </h2>
           </div>
@@ -968,7 +982,7 @@ export default function IndustriasPage() {
             <span className="font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
               Consúltenos
             </span>
-            <h2 className="mt-3 text-4xl font-medium leading-tight text-[#141414]">
+            <h2 className="mt-3 text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
               Contanos qué necesita tu empresa
             </h2>
           </div>

@@ -293,18 +293,17 @@ export function LogosCarousel({
 }: LogosCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(6);
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 640) {
-        setItemsPerView(1);
-      } else if (window.innerWidth < 768) {
         setItemsPerView(2);
-      } else if (window.innerWidth < 1024) {
+      } else if (window.innerWidth < 768) {
         setItemsPerView(3);
-      } else if (window.innerWidth < 1280) {
+      } else if (window.innerWidth < 1024) {
         setItemsPerView(4);
+      } else if (window.innerWidth < 1280) {
+        setItemsPerView(5);
       } else {
         setItemsPerView(6);
       }
@@ -325,13 +324,12 @@ export function LogosCarousel({
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   }, [maxIndex]);
 
-  // Auto-play with pause on hover
   useEffect(() => {
-    if (!isAutoPlay || logos.length <= itemsPerView) return;
+    if (logos.length <= itemsPerView) return;
     
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, [next, isAutoPlay, logos.length, itemsPerView]);
+  }, [next, logos.length, itemsPerView]);
 
   if (!logos || logos.length === 0) {
     return <p className="text-center text-gray-500">No hay logos disponibles</p>;
@@ -344,17 +342,13 @@ export function LogosCarousel({
         <span className="mb-2 block font-mono text-sm font-semibold uppercase leading-relaxed tracking-[0.18em] text-[#6b6660] md:text-base">
           {title}
         </span>
-        <h2 className="font-serif text-4xl font-medium text-[#141414] leading-tight">
+        <h2 className="text-3xl font-semibold uppercase leading-tight text-neutral-900 md:text-5xl">
           {subtitle}
         </h2>
       </div>
 
       {/* Carousel */}
-      <div 
-        className="relative"
-        onMouseEnter={() => setIsAutoPlay(false)}
-        onMouseLeave={() => setIsAutoPlay(true)}
-      >
+      <div className="relative">
         <div className="overflow-hidden">
           <div
             className="flex transition-transform duration-500 ease-out"
@@ -369,12 +363,12 @@ export function LogosCarousel({
                 className="flex-shrink-0"
                 style={{ width: `calc(${100 / itemsPerView}% - ${1.5 * (itemsPerView - 1) / itemsPerView}rem)` }}
               >
-                <div className="bg-white rounded-lg border border-[#d8d1c4] flex items-center justify-center p-4 md:p-6 hover:border-[#b8252c] hover:shadow-md transition-all cursor-pointer group min-h-28 md:min-h-32">
+                <div className="flex min-h-24 cursor-pointer items-center justify-center p-2 transition-all group md:min-h-28 md:p-3">
                   {logo.image ? (
                     <img
                       src={logo.image}
                       alt={logo.name || 'Logo'}
-                      className="max-h-16 max-w-[85%] object-contain group-hover:scale-110 transition-transform duration-300"
+                      className="max-h-20 max-w-full object-contain transition-transform duration-300 group-hover:scale-105 md:max-h-24"
                       loading="lazy"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
@@ -402,7 +396,7 @@ export function LogosCarousel({
             <button
               onClick={prev}
               aria-label="Anterior"
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 md:-translate-x-16 bg-white border border-[#d8d1c4] rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#b8252c] hover:text-white hover:border-[#b8252c] transition-all z-10"
+              className="absolute left-0 top-1/2 z-10 flex h-10 w-10 -translate-x-2 -translate-y-1/2 items-center justify-center rounded-full border border-[#d8d1c4] bg-white/95 shadow-sm transition-all hover:border-[#b8252c] hover:bg-[#b8252c] hover:text-white md:-translate-x-5"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -412,7 +406,7 @@ export function LogosCarousel({
             <button
               onClick={next}
               aria-label="Siguiente"
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 md:translate-x-16 bg-white border border-[#d8d1c4] rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#b8252c] hover:text-white hover:border-[#b8252c] transition-all z-10"
+              className="absolute right-0 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 translate-x-2 items-center justify-center rounded-full border border-[#d8d1c4] bg-white/95 shadow-sm transition-all hover:border-[#b8252c] hover:bg-[#b8252c] hover:text-white md:translate-x-5"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -430,7 +424,6 @@ export function LogosCarousel({
               key={idx}
               onClick={() => {
                 setCurrentIndex(idx);
-                setIsAutoPlay(true);
               }}
               aria-label={`Ir a slide ${idx + 1}`}
               className={`h-2 rounded-full transition-all ${
