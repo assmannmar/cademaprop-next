@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "./components/Footer";
 import GlobalChrome from "./components/GlobalChrome";
+import StaticDocumentNavigation from "./components/StaticDocumentNavigation";
 import {
   absoluteUrl,
   brandName,
@@ -89,6 +90,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="antialiased bg-gray-50">
+        <StaticDocumentNavigation />
         <GlobalChrome />
 
         {children}
