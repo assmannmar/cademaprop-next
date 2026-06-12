@@ -45,9 +45,9 @@ function NavbarIndustrias() {
 
   const navLinks = [
     { label: "Como trabajamos", href: "#como" },
-    { label: "Propiedades", href: "#propiedades" },
-    { label: "Parques", href: "#parques" },
     { label: "Casos", href: "#casos" },
+    { label: "Parques", href: "#parques" },
+    { label: "Propiedades", href: "#propiedades" },
     { label: "Preguntas", href: "#faq" },
     { label: "Ir a web Cadema", href: "/" },
   ];

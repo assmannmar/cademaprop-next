@@ -24,6 +24,18 @@ function patchStaticHtaccess() {
   if (!fs.existsSync(htaccessPath)) return;
 
   const current = fs.readFileSync(htaccessPath, "utf8");
+  const cacheBlock = [
+    "<IfModule mod_headers.c>",
+    "  <FilesMatch \"\\.(html|txt|php)$\">",
+    "    Header set Cache-Control \"no-cache, no-store, must-revalidate\"",
+    "    Header set Pragma \"no-cache\"",
+    "    Header set Expires \"0\"",
+    "  </FilesMatch>",
+    "  <FilesMatch \"\\.(js|css|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf)$\">",
+    "    Header set Cache-Control \"public, max-age=31536000, immutable\"",
+    "  </FilesMatch>",
+    "</IfModule>",
+  ].join("\n");
   const listRule = "RewriteRule ^propiedades/?$ /propiedades/index.html [L]";
   const seoBlock = [
     "RewriteCond %{REQUEST_FILENAME} !-f",
@@ -57,6 +69,13 @@ function patchStaticHtaccess() {
     updated = updated.includes(placeholderBlock)
       ? updated.replace(placeholderBlock, `${seoBlock}\n${placeholderBlock}`)
       : `${updated.trimEnd()}\n${seoBlock}\n${placeholderBlock}\n`;
+  }
+
+  if (!updated.includes("Cache-Control \"no-cache, no-store, must-revalidate\"")) {
+    updated = updated.replace(
+      "RewriteEngine On",
+      `RewriteEngine On\n\n${cacheBlock}`
+    );
   }
 
   fs.writeFileSync(htaccessPath, updated);
