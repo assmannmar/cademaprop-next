@@ -3,8 +3,6 @@ import type { NextRequest } from 'next/server';
 
 const industriaRedirects = new Set([
   '/industria',
-  '/parque-industrial',
-  '/parque-industrial/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones',
   '/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones',
 ]);
 
@@ -30,7 +28,6 @@ export const config = {
   matcher: [
     '/propiedad-:path*',
     '/industria',
-    '/parque-industrial/:path*',
     '/centro-logistico-consultor-inmobiliario-empresas-venta-alquiler-fracciones-galpones',
   ],
 };
