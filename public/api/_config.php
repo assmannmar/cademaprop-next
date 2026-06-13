@@ -4,6 +4,7 @@ declare(strict_types=1);
 const TOKKO_API_KEY = '';
 const GOOGLE_SHEETS_API_KEY = '';
 const INSTAGRAM_ACCESS_TOKEN = '';
+const INSTAGRAM_INDUSTRIAS_ACCESS_TOKEN = '';
 
 const REVIEWS_SPREADSHEET_ID = '1nWEyaRGyfd4fxxu_-Is7pAVIrwmflSJj-AnZ74LlIwA';
 const REVIEWS_RANGE = 'Reviews!A2:C10';

@@ -14,13 +14,22 @@ type InstagramPost = {
   fallback?: boolean;
 };
 
-const instagramProfileUrl = 'https://www.instagram.com/cademabienesraices/';
+type InstagramFeedProps = {
+  endpoint?: 'instagram' | 'instagramIndustrias';
+  profileUrl?: string;
+  eyebrow?: string;
+  title?: string;
+  fallbackTitle?: string;
+  fallbackPosts?: InstagramPost[];
+};
+
+const defaultInstagramProfileUrl = 'https://www.instagram.com/cademabienesraices/';
 
 const fallbackPosts: InstagramPost[] = [
   {
     id: 'instagram-fallback-1',
     media_url: '/carousel/3.jpg',
-    permalink: instagramProfileUrl,
+    permalink: defaultInstagramProfileUrl,
     caption: 'Conoce nuestras novedades y propiedades en Instagram',
     media_type: 'IMAGE',
     fallback: true,
@@ -28,7 +37,7 @@ const fallbackPosts: InstagramPost[] = [
   {
     id: 'instagram-fallback-2',
     media_url: '/carousel/5.jpg',
-    permalink: instagramProfileUrl,
+    permalink: defaultInstagramProfileUrl,
     caption: 'Seguinos para ver los ultimos posteos de Cadema',
     media_type: 'IMAGE',
     fallback: true,
@@ -36,7 +45,7 @@ const fallbackPosts: InstagramPost[] = [
   {
     id: 'instagram-fallback-3',
     media_url: '/carousel/7.jpg',
-    permalink: instagramProfileUrl,
+    permalink: defaultInstagramProfileUrl,
     caption: 'Tasaciones, lanzamientos y oportunidades en Zona Norte',
     media_type: 'IMAGE',
     fallback: true,
@@ -56,12 +65,19 @@ function truncate(text: string, max = 90) {
   return text.slice(0, max).trim() + '...';
 }
 
-export default function InstagramFeed() {
+export default function InstagramFeed({
+  endpoint = 'instagram',
+  profileUrl = defaultInstagramProfileUrl,
+  eyebrow = 'Seguinos en Instagram',
+  title = 'Ultimos posteos',
+  fallbackTitle = 'Novedades de Cadema',
+  fallbackPosts: customFallbackPosts,
+}: InstagramFeedProps = {}) {
   const [posts, setPosts] = useState<InstagramPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(apiUrl('instagram'))
+    fetch(apiUrl(endpoint))
       .then((r) => r.json())
       .then((data) => {
         if (data.posts && Array.isArray(data.posts)) {
@@ -70,7 +86,7 @@ export default function InstagramFeed() {
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+  }, [endpoint]);
 
   if (loading) {
     return (
@@ -81,7 +97,7 @@ export default function InstagramFeed() {
   }
 
   const hasLivePosts = posts.length > 0;
-  const visiblePosts = hasLivePosts ? posts : fallbackPosts;
+  const visiblePosts = hasLivePosts ? posts : customFallbackPosts || fallbackPosts;
 
   return (
     <section className="bg-white py-16">
@@ -89,10 +105,10 @@ export default function InstagramFeed() {
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
             <p className="text-sm uppercase tracking-[0.2em] text-neutral-500">
-              Seguinos en Instagram
+              {eyebrow}
             </p>
             <h2 className="mt-2 text-3xl font-semibold text-neutral-900 md:text-4xl">
-              {hasLivePosts ? 'Ultimos posteos' : 'Novedades de Cadema'}
+              {hasLivePosts ? title : fallbackTitle}
             </h2>
             {!hasLivePosts && (
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-600">
@@ -103,7 +119,7 @@ export default function InstagramFeed() {
           </div>
 
           <a
-            href={instagramProfileUrl}
+            href={profileUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 md:inline-flex"

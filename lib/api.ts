@@ -3,6 +3,7 @@ type ApiEndpoint =
   | "developments"
   | "reviews"
   | "instagram"
+  | "instagramIndustrias"
   | "simulatorCalculate";
 
 const nextApiPaths: Record<ApiEndpoint, string> = {
@@ -10,6 +11,7 @@ const nextApiPaths: Record<ApiEndpoint, string> = {
   developments: "/api/developments",
   reviews: "/api/reviews",
   instagram: "/api/instagram",
+  instagramIndustrias: "/api/instagram-industrias",
   simulatorCalculate: "/api/simulador/calcular",
 };
 
@@ -18,6 +20,7 @@ const phpApiPaths: Record<ApiEndpoint, string> = {
   developments: "/api/developments.php",
   reviews: "/api/reviews.php",
   instagram: "/api/instagram.php",
+  instagramIndustrias: "/api/instagram-industrias.php",
   simulatorCalculate: "/api/simulador-calcular.php",
 };
 

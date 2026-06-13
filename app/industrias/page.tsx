@@ -10,6 +10,7 @@ import {
 } from '@/app/components/IndustriasCarousels';
 import { TestimoniosCarousel } from '@/app/components/Carousels';
 import BlogSection from '@/app/components/BlogSection';
+import InstagramFeed from '@/app/components/InstagramFeed';
 import { apiUrl } from '@/lib/api';
 
 interface Property {
@@ -1014,6 +1015,40 @@ export default function IndustriasPage() {
       </section>
 
       <BlogSection />
+
+      <InstagramFeed
+        endpoint="instagramIndustrias"
+        profileUrl="https://www.instagram.com/cademaindustrias/"
+        eyebrow="Seguinos en Instagram"
+        title="Últimos posteos de Cadema Industrias"
+        fallbackTitle="Novedades de Cadema Industrias"
+        fallbackPosts={[
+          {
+            id: 'instagram-industrias-fallback-1',
+            media_url: '/industria/como-trabajamos/parque-ruta-6-aereo.jpg',
+            permalink: 'https://www.instagram.com/cademaindustrias/',
+            caption: 'Novedades, parques industriales y oportunidades para empresas',
+            media_type: 'IMAGE',
+            fallback: true,
+          },
+          {
+            id: 'instagram-industrias-fallback-2',
+            media_url: '/industria/corredor-norte-ruta-panorama.jpg',
+            permalink: 'https://www.instagram.com/cademaindustrias/',
+            caption: 'Seguinos para ver los últimos posteos de Cadema Industrias',
+            media_type: 'IMAGE',
+            fallback: true,
+          },
+          {
+            id: 'instagram-industrias-fallback-3',
+            media_url: '/industria/seventeen/nave-nueva-parque.webp',
+            permalink: 'https://www.instagram.com/cademaindustrias/',
+            caption: 'Real estate industrial, logística y radicación de empresas',
+            media_type: 'IMAGE',
+            fallback: true,
+          },
+        ]}
+      />
     </main>
   );
 }
