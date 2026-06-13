@@ -15,7 +15,6 @@ import InstagramFeed from "./components/InstagramFeed";
 import BlogSection from "@/app/components/BlogSection";
 import { apiUrl } from "@/lib/api";
 import {
-  NosotrosIntro,
   NosotrosServicesSection,
   NosotrosStatsSection,
   NosotrosValuesSection,
@@ -291,7 +290,32 @@ export default function HomePage() {
 
       {/* QUIENES SOMOS + VALORES + SERVICIOS */}
       <div className="home-nosotros-sections">
-        <NosotrosIntro showCta />
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl font-bold text-gray-900 mb-6 tracking-wide">Quiénes Somos</h2>
+                <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                  Con más de 60 años de experiencia en el mercado inmobiliario, nuestro compromiso es brindar un servicio personalizado y profesional, acompañando a nuestros clientes en cada paso del proceso de compra, venta o alquiler de su propiedad.
+                </p>
+                <Link href="/nosotros" className="btn-split btn-split-bottom btn-split-wide">
+                  <span className="btn-text">Conocé más</span>
+                  <span className="btn-arrow">→</span>
+                </Link>
+              </div>
+              <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden">
+                <img
+                  src="/img/directores.jpg"
+                  alt="Cadema Prop"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80";
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
         <NosotrosValuesSection />
         <NosotrosStatsSection />
         <NosotrosServicesSection />
