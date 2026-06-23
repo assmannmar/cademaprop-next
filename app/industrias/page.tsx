@@ -244,6 +244,11 @@ const team = [
     role: 'Asesoramiento y ventas',
     image: '/industria/equipo/jose-luis-perez.webp',
   },
+  {
+    name: 'María Eugenia Freire',
+    role: 'Asesoramiento y ventas',
+    image: '/industria/equipo/maria-eugenia-freire.webp',
+  },
 ];
 
 function AccordionList({
@@ -955,9 +960,10 @@ export default function IndustriasPage() {
               Especialistas en real estate industrial y logístico
             </h2>
           </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          {/* <div className="grid grid-cols-1 gap-8 md:grid-cols-3"> */}
+          <div className="flex flex-wrap justify-center gap-8">
             {team.map((person) => (
-              <article key={person.name} className="text-center">
+              <article key={person.name} className="w-64 text-center">
                 <div className="mx-auto mb-6 h-64 w-64 max-w-full overflow-hidden rounded-full bg-white">
                   <Image
                     src={person.image}
