@@ -1,18 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import PropertyFilters from '@/app/components/PropertyFilters';
 import PropertyCard from '@/app/components/PropertyCard';
 import type { FilterValues } from '@/app/components/PropertyFilters';
 import { buildSearchUrl } from '@/utils/urlHelpers';
+import { apiUrl } from "@/lib/api";
 
 interface Property {
   id: number;
   publication_title?: string;
   address?: string;
   fake_address?: string;
-  location?: { 
+  location?: {
     name: string;
     short_location?: string;
   };
@@ -30,12 +31,11 @@ interface Property {
   parking_lot_amount?: number;
   surface?: number | string;
   roofed_surface?: number | string;
-  // total_surface?: number | string;
-  photos?: Array<{ 
-    image: string; 
+  photos?: Array<{
+    image: string;
     is_front_cover?: boolean;
   }>;
-  videos?: Array<any>;
+  videos?: Array<unknown>;
   tags?: Array<{ name: string }>;
   custom_tags?: Array<{ name: string; group_name?: string }>;
   created_at?: string;
@@ -47,12 +47,52 @@ interface ApiResponse {
     limit: number;
     offset: number;
     total_count?: number;
+    total_pages?: number;
+    page?: number;
   };
 }
 
-type SortOption = 'recent_desc' | 'recent_asc' | 'price_desc' | 'price_asc' | 'surface_desc' | 'surface_asc' | 'roofed_desc' | 'roofed_asc';
+type SortOption =
+  | 'recent_desc'
+  | 'recent_asc'
+  | 'price_desc'
+  | 'price_asc'
+  | 'surface_desc'
+  | 'surface_asc'
+  | 'roofed_desc'
+  | 'roofed_asc';
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 30;
+const DEFAULT_HERO_IMAGE = '/carousel/2.jpg';
+const INDUSTRIAL_HERO_IMAGE = '/industrial-banner.jpg';
+const INDUSTRIAL_PROPERTY_TYPES = new Set([
+  'countryside',
+  'campo',
+  'deposito/nave industrial',
+  'depósito/nave industrial',
+  'industrial ship',
+  'nave industrial',
+  'terreno industrial',
+]);
+
+const normalizeFilterValue = (value: string) =>
+  value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+
+const emptyFilters: FilterValues = {
+  division: '',
+  location: '',
+  operation_type: '',
+  property_type: '',
+  bedrooms: '',
+  has_parking: '',
+  has_pool: '',
+  credit_eligible: '',
+  max_price: '',
+};
 
 export default function PropertiesContainer() {
   const router = useRouter();
@@ -60,249 +100,232 @@ export default function PropertiesContainer() {
 
   const [properties, setProperties] = useState<Property[]>([]);
   const [displayedProperties, setDisplayedProperties] = useState<Property[]>([]);
-  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>('recent_desc');
-  
-  // Filtros pendientes (no aplicados hasta hacer click en Buscar)
-  const [pendingFilters, setPendingFilters] = useState<FilterValues>({
-    division: '',
-    location: '',
-    operation_type: '',
-    property_type: '',
-    bedrooms: '',
-    has_parking: '',
-    has_pool: '',
-    credit_eligible: '',
-    max_price: '',
+  const [totalProperties, setTotalProperties] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pendingFilters, setPendingFilters] = useState<FilterValues>(emptyFilters);
+
+  const heroImage = useMemo(() => {
+    const division = normalizeFilterValue(pendingFilters.division);
+    const propertyType = normalizeFilterValue(pendingFilters.property_type);
+
+    const isIndustrialFilter =
+      division === 'industria' || INDUSTRIAL_PROPERTY_TYPES.has(propertyType);
+
+    return isIndustrialFilter ? INDUSTRIAL_HERO_IMAGE : DEFAULT_HERO_IMAGE;
+  }, [pendingFilters.division, pendingFilters.property_type]);
+
+  const getCurrentPage = () => {
+    const pageParam = Number(searchParams.get('page') || '1');
+    return Number.isFinite(pageParam) && pageParam > 0 ? Math.trunc(pageParam) : 1;
+  };
+
+  const getFiltersFromUrl = (): FilterValues => ({
+    division: searchParams.get('division') || '',
+    location: searchParams.get('ubicacion') || '',
+    operation_type: searchParams.get('operacion') || searchParams.get('operation') || '',
+    property_type: searchParams.get('tipo') || '',
+    bedrooms: searchParams.get('dormitorios') || '',
+    has_parking: searchParams.get('cochera') || '',
+    has_pool: searchParams.get('pileta') || '',
+    credit_eligible: searchParams.get('credito') || '',
+    max_price: searchParams.get('precio-max') || '',
   });
 
-  // Cargar filtros desde URL al iniciar
-  useEffect(() => {
-    const initialFilters: FilterValues = {
-      division: searchParams.get('division') || '',
-      location: searchParams.get('ubicacion') || '',
-      operation_type: searchParams.get('operacion') || '',
-      property_type: searchParams.get('tipo') || '',
-      bedrooms: searchParams.get('dormitorios') || '',
-      has_parking: searchParams.get('cochera') || '',
-      has_pool: searchParams.get('pileta') || '',
-      credit_eligible: searchParams.get('credito') || '',
-      max_price: searchParams.get('precio-max') || '',
+  const getSortFromUrl = (): SortOption => {
+    const sort = searchParams.get('orden') as SortOption | null;
+    const validSorts: SortOption[] = [
+      'recent_desc',
+      'recent_asc',
+      'price_desc',
+      'price_asc',
+      'surface_desc',
+      'surface_asc',
+      'roofed_desc',
+      'roofed_asc',
+    ];
+
+    return sort && validSorts.includes(sort) ? sort : 'recent_desc';
+  };
+
+  const buildApiQuery = (filterValues: FilterValues, page: number) => {
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: String(ITEMS_PER_PAGE),
+      sort: getSortFromUrl(),
+    });
+
+    const apiParamMap: Record<keyof FilterValues, string> = {
+      division: 'division',
+      location: 'location',
+      operation_type: 'operation_type',
+      property_type: 'property_type',
+      bedrooms: 'bedrooms',
+      has_parking: 'has_parking',
+      has_pool: 'has_pool',
+      credit_eligible: 'credit_eligible',
+      max_price: 'max_price',
     };
-    
-    setPendingFilters(initialFilters);
-    fetchProperties(initialFilters);
-  }, [searchParams]);
 
-  // El ordenamiento se aplica automáticamente cuando cambian las propiedades
-  useEffect(() => {
-    sortProperties(sortBy);
-  }, [properties, sortBy]);
+    Object.entries(filterValues).forEach(([key, value]) => {
+      if (value) {
+        params.set(apiParamMap[key as keyof FilterValues], value);
+      }
+    });
 
-  const fetchProperties = async (filterValues?: FilterValues) => {
+    return params.toString();
+  };
+
+  const fetchProperties = async (filterValues: FilterValues, page: number) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('/api/properties');
+      const response = await fetch(`${apiUrl("properties")}?${buildApiQuery(filterValues, page)}`);
 
       if (!response.ok) {
         throw new Error(`Error al cargar propiedades: ${response.statusText}`);
       }
 
       const data: ApiResponse = await response.json();
-      let filtered = data.objects;
-
-      // Aplicar filtros del lado del cliente
-      if (filterValues) {
-        console.log('🔍 Filtros aplicados:', filterValues);
-        
-        filtered = data.objects.filter((prop) => {
-          // Filtro por división
-          if (filterValues.division) {
-            const hasDivision = prop.custom_tags?.some(tag => 
-              tag.group_name === 'División' && 
-              tag.name.toLowerCase().includes(filterValues.division.toLowerCase())
-            );
-            if (!hasDivision) return false;
-          }
-
-          // Filtro por ubicación
-          if (filterValues.location) {
-            const searchTerm = filterValues.location.toLowerCase();
-            const matchAddress = prop.address?.toLowerCase().includes(searchTerm);
-            const matchLocation = prop.location?.name.toLowerCase().includes(searchTerm);
-            const matchFakeAddress = prop.fake_address?.toLowerCase().includes(searchTerm);
-            const matchShortLocation = prop.location?.short_location?.toLowerCase().includes(searchTerm);
-            if (!matchAddress && !matchLocation && !matchFakeAddress && !matchShortLocation) {
-              return false;
-            }
-          }
-
-          // Filtro por tipo de operación
-          if (filterValues.operation_type) {
-            const hasOperation = prop.operations?.some(op => 
-              op.operation_type.toLowerCase() === filterValues.operation_type.toLowerCase()
-            );
-            if (!hasOperation) return false;
-          }
-
-          // Filtro por tipo de propiedad
-          if (filterValues.property_type) {
-            const propertyTypeName = prop.type?.name.toLowerCase() || '';
-            if (!propertyTypeName.includes(filterValues.property_type.toLowerCase())) {
-              return false;
-            }
-          }
-
-          // Filtro por dormitorios
-          if (filterValues.bedrooms) {
-            const minBedrooms = parseInt(filterValues.bedrooms);
-            const totalRooms = (prop.room_amount || 0) + (prop.suite_amount || 0);
-            if (totalRooms < minBedrooms) {
-              return false;
-            }
-          }
-
-          // Filtro por cochera
-          if (filterValues.has_parking === 'yes' && (!prop.parking_lot_amount || prop.parking_lot_amount === 0)) {
-            return false;
-          }
-          if (filterValues.has_parking === 'no' && prop.parking_lot_amount && prop.parking_lot_amount > 0) {
-            return false;
-          }
-
-          // Filtro por pileta
-          if (filterValues.has_pool === 'yes') {
-            const hasPool = prop.tags?.some(tag => 
-              tag.name.toLowerCase().includes('pool') || 
-              tag.name.toLowerCase().includes('swimming')
-            ) || prop.custom_tags?.some(tag =>
-              tag.name.toLowerCase().includes('pileta') || 
-              tag.name.toLowerCase().includes('piscina')
-            );
-            if (!hasPool) return false;
-          }
-
-          // Filtro por apto crédito
-          const normalize = (text: string) =>
-            text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-          
-          const creditField = (prop as any).credit_eligible;
-
-          const hasPropertyField = creditField === 'Eligible';
-          const hasTag = prop.tags?.some(tag => normalize(tag.name).includes('credit'));
-          const hasCustomTag = prop.custom_tags?.some(tag => normalize(tag.name).includes('credito'));
-
-          const isCreditEligible = hasPropertyField || hasTag || hasCustomTag;
-
-          // SI = solo apto crédito
-          if (filterValues.credit_eligible === 'Eligible' && !isCreditEligible) {
-            return false;
-          }
-
-          // NO = no apto crédito + no especificado
-          if (filterValues.credit_eligible === 'Not eligible' && isCreditEligible) {
-            return false;
-          }
-
-          // Filtro por precio máximo
-          if (filterValues.max_price) {
-            const maxPrice = parseFloat(filterValues.max_price);
-            const propertyPrice = prop.operations?.[0]?.prices?.[0]?.price;
-            if (propertyPrice && propertyPrice > maxPrice) {
-              return false;
-            }
-          }
-
-          return true;
-        });
-      }
-
-      setProperties(filtered);
+      setProperties(data.objects || []);
+      setTotalProperties(data.meta?.total_count || 0);
+      setTotalPages(Math.max(data.meta?.total_pages || 1, 1));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido al cargar propiedades');
       setProperties([]);
+      setTotalProperties(0);
+      setTotalPages(1);
     } finally {
       setLoading(false);
     }
   };
 
-  const sortProperties = (criteria: SortOption) => {
-    setVisibleCount(ITEMS_PER_PAGE);
-    const sorted = [...properties].sort((a, b) => {
-      switch (criteria) {
-        case 'surface_desc':
-        return parseFloat(String(b.surface || 0)) - parseFloat(String(a.surface || 0));
-      case 'surface_asc':
-        return parseFloat(String(a.surface || 0)) - parseFloat(String(b.surface || 0));
-        case 'roofed_desc':
-          return parseFloat(String(b.roofed_surface || 0)) - parseFloat(String(a.roofed_surface || 0));
-        case 'roofed_asc':
-          return parseFloat(String(a.roofed_surface || 0)) - parseFloat(String(b.roofed_surface || 0));
-        case 'price_desc':
-          const priceA_desc = a.operations?.[0]?.prices?.[0]?.price || 0;
-          const priceB_desc = b.operations?.[0]?.prices?.[0]?.price || 0;
-          return priceB_desc - priceA_desc;
-        case 'price_asc':
-          const priceA_asc = a.operations?.[0]?.prices?.[0]?.price || 0;
-          const priceB_asc = b.operations?.[0]?.prices?.[0]?.price || 0;
-          return priceA_asc - priceB_asc;
-        case 'recent_desc':
-          const dateA_desc = a.created_at ? new Date(a.created_at).getTime() : 0;
-          const dateB_desc = b.created_at ? new Date(b.created_at).getTime() : 0;
-          return dateB_desc - dateA_desc;
-        case 'recent_asc':
-          const dateA_asc = a.created_at ? new Date(a.created_at).getTime() : 0;
-          const dateB_asc = b.created_at ? new Date(b.created_at).getTime() : 0;
-          return dateA_asc - dateB_asc;
-        default:
-          return 0;
-      }
-    });
-    setDisplayedProperties(sorted);
-  };
+  useEffect(() => {
+    const initialFilters = getFiltersFromUrl();
+    setPendingFilters(initialFilters);
+    setSortBy(getSortFromUrl());
+    fetchProperties(initialFilters, getCurrentPage());
+  }, [searchParams]);
 
-  // Manejar cambios en los filtros (solo actualiza el estado local)
+  useEffect(() => {
+    setDisplayedProperties(properties);
+  }, [properties]);
+
   const handleFilterChange = (newFilters: FilterValues) => {
     setPendingFilters(newFilters);
   };
 
-  // Aplicar filtros y actualizar URL
-  const handleSearch = () => {
-    // Actualizar URL
-    const newUrl = buildSearchUrl({
-      division: pendingFilters.division,
-      location: pendingFilters.location,
-      operation_type: pendingFilters.operation_type,
-      property_type: pendingFilters.property_type,
-      bedrooms: pendingFilters.bedrooms,
-      has_parking: pendingFilters.has_parking,
-      has_pool: pendingFilters.has_pool,
-      credit_eligible: pendingFilters.credit_eligible,
-      max_price: pendingFilters.max_price,
-    });
-    
-    router.push(newUrl, { scroll: false });
-    
-    // Aplicar filtros
-    fetchProperties(pendingFilters);
+  const handleSearch = (filtersOverride?: FilterValues) => {
+    const filtersToApply = filtersOverride || pendingFilters;
+    const nextUrl = buildSearchUrl({ ...filtersToApply });
+    const params = new URLSearchParams(nextUrl.split('?')[1] || '');
+    const currentSort = getSortFromUrl();
+
+    if (currentSort !== 'recent_desc') {
+      params.set('orden', currentSort);
+    }
+
+    const queryString = params.toString();
+    router.push(`/propiedades${queryString ? `?${queryString}` : ''}`, { scroll: false });
+  };
+
+  const goToPage = (page: number) => {
+    const nextPage = Math.min(Math.max(page, 1), totalPages);
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (nextPage === 1) {
+      params.delete('page');
+    } else {
+      params.set('page', String(nextPage));
+    }
+
+    const queryString = params.toString();
+    router.push(`/propiedades${queryString ? `?${queryString}` : ''}`, { scroll: false });
+  };
+
+  const paginationItems = () => {
+    const currentPage = getCurrentPage();
+    const pages = new Set<number>([1, totalPages]);
+
+    for (let page = currentPage - 2; page <= currentPage + 2; page += 1) {
+      if (page >= 1 && page <= totalPages) {
+        pages.add(page);
+      }
+    }
+
+    return Array.from(pages).sort((a, b) => a - b);
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortBy(e.target.value as SortOption);
+    const params = new URLSearchParams(searchParams.toString());
+    const nextSort = e.target.value as SortOption;
+
+    setSortBy(nextSort);
+    params.set('orden', nextSort);
+    params.delete('page');
+
+    const queryString = params.toString();
+    router.push(`/propiedades${queryString ? `?${queryString}` : ''}`, { scroll: false });
+  };
+
+  const currentPage = getCurrentPage();
+
+  const PaginationControls = ({ className = '' }: { className?: string }) => {
+    if (totalPages <= 1) return null;
+
+    return (
+      <nav
+        className={`flex flex-wrap items-center justify-center gap-2 ${className}`}
+        aria-label="Paginacion de propiedades"
+      >
+        <button
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Anterior
+        </button>
+
+        {paginationItems().map((page, index, pages) => (
+          <div key={page} className="flex items-center gap-2">
+            {index > 0 && page - pages[index - 1] > 1 && (
+              <span className="px-1 text-gray-400">...</span>
+            )}
+            <button
+              onClick={() => goToPage(page)}
+              aria-current={currentPage === page ? 'page' : undefined}
+              className={`h-10 min-w-10 rounded-md border px-3 text-sm font-semibold transition ${
+                currentPage === page
+                  ? 'border-red-600 bg-red-600 text-white'
+                  : 'border-gray-300 text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              {page}
+            </button>
+          </div>
+        ))}
+
+        <button
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Siguiente
+        </button>
+      </nav>
+    );
   };
 
   return (
     <div className="w-full">
-      {/* PORTADA */}
       <section
         className="relative w-full min-h-[60vh] md:min-h-[60vh] flex items-end"
         style={{
           backgroundImage:
-            "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.35) 100%), url('/carousel/2.jpg')",
+            `linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.35) 100%), url('${heroImage}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
@@ -321,7 +344,6 @@ export default function PropertiesContainer() {
         </div>
       </section>
 
-      {/* CONTENIDO */}
       <section className="container mx-auto px-4 py-10">
         <PropertyFilters
           onFilterChange={handleFilterChange}
@@ -330,13 +352,15 @@ export default function PropertiesContainer() {
         />
 
         {!loading && properties.length > 0 && (
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 mt-8">
+          <div className="grid gap-4 mb-6 mt-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
             <p className="text-gray-600">
-              Mostrando <span className="font-semibold">{displayedProperties.length}</span>{' '}
-              propiedades
+              Mostrando <span className="font-semibold">{displayedProperties.length}</span> de{' '}
+              <span className="font-semibold">{totalProperties}</span> propiedades
             </p>
 
-            <div className="flex items-center gap-2">
+            <PaginationControls className="lg:justify-center" />
+
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center lg:justify-end">
               <label className="text-sm font-semibold text-gray-700 ">
                 Ordenar por:
               </label>
@@ -377,23 +401,12 @@ export default function PropertiesContainer() {
         {!loading && displayedProperties.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {displayedProperties.slice(0, visibleCount).map((property) => (
+              {displayedProperties.map((property) => (
                 <PropertyCard key={property.id} {...property} />
               ))}
             </div>
-            {visibleCount < displayedProperties.length && (
-              <div className="flex justify-center mt-10">
-                <button
-                  onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_PAGE)}
-                  className="btn-split btn-split-bottom btn-split-wide"
-                >
-                  <span className="btn-text">
-                    Cargar más ({displayedProperties.length - visibleCount} restantes)
-                  </span>
-                  <span className="btn-arrow">→</span>
-                </button>
-              </div>
-            )}
+
+            <PaginationControls className="mt-10" />
           </>
         ) : (
           !loading && (

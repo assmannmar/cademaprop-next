@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation';
 export default function WhatsAppButton() {
   const pathname = usePathname();
   
-  // No mostrar el botón si estamos en /industria
-  if (pathname.startsWith('/industria')) {
+  // No mostrar el botón si estamos en la seccion de industrias
+  if (pathname.startsWith('/industrias') || pathname.startsWith('/industria')) {
     return null;
   }
 

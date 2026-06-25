@@ -1,700 +1,269 @@
-'use client';
+import type { Metadata } from "next";
+import PropertyDetailClient, { type Property } from "./PropertyDetailClient";
+import {
+  absoluteUrl,
+  brandName,
+  breadcrumbJsonLd,
+  jsonLdScript,
+} from "@/app/lib/seo";
 
-import { useState, useEffect, useMemo } from 'react';
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
-import Script from 'next/script';
-import './propiedad.css';
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
 
-interface Property {
-  id: number;
-  publication_title?: string;
-  address?: string;
-  fake_address?: string;
-  description?: string;
-  rich_description?: string;
-  location?: {
-    name: string;
-    short_location?: string;
-    full_location?: string;
+function getPropertyId(slug?: string) {
+  if (!slug || slug === "placeholder") return null;
+  const id = slug.split("-")[0];
+  return /^\d+$/.test(id) ? id : null;
+}
+
+function stripHtml(value?: string) {
+  return value ? value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() : "";
+}
+
+function truncate(value: string, maxLength: number) {
+  if (value.length <= maxLength) return value;
+  return `${value.slice(0, maxLength - 1).trim()}...`;
+}
+
+function translateOperationType(type?: string) {
+  const translations: Record<string, string> = {
+    Sale: "venta",
+    Rent: "alquiler",
+    "Temporary Rent": "alquiler temporal",
   };
-  geo_lat?: string;
-  geo_long?: string;
-  operations?: Array<{
-    operation_type: string;
-    prices?: Array<{
-      price: number;
-      currency: string;
-      web_price?: boolean;
-    }>;
-  }>;
-  type?: { name: string };
-  development?: {
-    type?: { name: string };
+  return translations[type || ""] || type || "";
+}
+
+function translatePropertyType(type?: string) {
+  const translations: Record<string, string> = {
+    House: "Casa",
+    Apartment: "Departamento",
+    Land: "Terreno",
+    Office: "Oficina",
+    Commercial: "Local comercial",
+    "Industrial Ship": "Nave industrial",
+    Storage: "Deposito",
   };
-  suite_amount?: number;
-  room_amount?: number;
-  bathroom_amount?: number;
-  toilet_amount?: number;
-  parking_lot_amount?: number;
-  surface?: number;
-  roofed_surface?: number;
-  total_surface?: number;
-  front_measure?: string;
-  depth_measure?: string;
-  age?: number;
-  orientation?: string;
-  disposition?: string;
-  credit_eligible?: string;
-  expenses?: number;
-  photos?: Array<{
-    image: string;
-    original?: string;
-    description?: string;
-    is_blueprint?: boolean;
-    is_front_cover?: boolean;
-  }>;
-  videos?: Array<{
-    player_url: string;
-    title?: string;
-  }>;
-  tags?: Array<{ name: string }>;
-  custom_tags?: Array<{ name: string; group_name?: string }>;
-  branch?: {
-    name: string;
-    phone?: string;
-    phone_area?: string;
-    email?: string;
-    address?: string;
+  return translations[type || ""] || type || "Propiedad";
+}
+
+function getPropertyTitle(property: Property) {
+  const operationType = translateOperationType(property.operations?.[0]?.operation_type);
+  const propertyType = translatePropertyType(
+    property.development?.type?.name || property.type?.name
+  );
+  const location = property.location?.name;
+
+  return (
+    property.publication_title ||
+    `${propertyType}${operationType ? ` en ${operationType}` : ""}${
+      location ? ` en ${location}` : ""
+    }`
+  );
+}
+
+function getPropertyDescription(property: Property) {
+  const rawDescription = stripHtml(property.rich_description || property.description);
+  if (rawDescription) return truncate(rawDescription, 155);
+
+  const operationType = translateOperationType(property.operations?.[0]?.operation_type);
+  const propertyType = translatePropertyType(
+    property.development?.type?.name || property.type?.name
+  );
+  const location = property.location?.name || property.location?.short_location;
+  const specs = [
+    property.room_amount ? `${property.room_amount} ambientes` : null,
+    property.suite_amount ? `${property.suite_amount} dormitorios` : null,
+    property.bathroom_amount ? `${property.bathroom_amount} banos` : null,
+    property.surface ? `${property.surface} m2 de terreno` : null,
+  ].filter(Boolean);
+
+  return truncate(
+    `${propertyType}${operationType ? ` en ${operationType}` : ""}${
+      location ? ` en ${location}` : ""
+    }. ${specs.join(", ")}. Consulta precio y coordina una visita con Cadema.`,
+    155
+  );
+}
+
+function getMainImage(property: Property) {
+  const photo =
+    property.photos?.find((item) => item.is_front_cover) || property.photos?.[0];
+  return photo?.original || photo?.image || "/carousel/2.jpg";
+}
+
+function getPrice(property: Property) {
+  const mainOperation = property.operations?.[0];
+  const webPrice = mainOperation?.prices?.find((price) => price.web_price);
+  return webPrice || mainOperation?.prices?.[0] || null;
+}
+
+async function getProperty(id: string): Promise<Property | null> {
+  const apiKey = process.env.TOKKO_API_KEY;
+  if (!apiKey) return null;
+
+  try {
+    const params = new URLSearchParams({
+      key: apiKey,
+      format: "json",
+      lang: "es",
+    });
+    const response = await fetch(
+      `https://www.tokkobroker.com/api/v1/property/${id}/?${params.toString()}`,
+      { next: { revalidate: 300 } }
+    );
+
+    if (!response.ok) return null;
+    return (await response.json()) as Property;
+  } catch {
+    return null;
+  }
+}
+
+export function generateStaticParams() {
+  return [{ id: "placeholder" }];
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id: slug } = await params;
+  const propertyId = getPropertyId(slug);
+
+  if (!propertyId) {
+    return {
+      title: "Propiedad en venta o alquiler",
+      description:
+        "Ficha de propiedad publicada por Cadema Bienes Raices. Consulta precio, ubicacion, caracteristicas, fotos y coordina una visita con el equipo comercial.",
+      openGraph: {
+        type: "website",
+        locale: "es_AR",
+        siteName: brandName,
+        title: "Propiedad en venta o alquiler",
+        description:
+          "Ficha de propiedad publicada por Cadema Bienes Raices. Consulta precio, ubicacion, caracteristicas, fotos y coordina una visita con el equipo comercial.",
+        images: [absoluteUrl("/carousel/2.jpg")],
+      },
+    };
+  }
+
+  const property = await getProperty(propertyId);
+  if (!property) {
+    return {
+      title: "Propiedad en venta o alquiler",
+      description:
+        "Ficha de propiedad publicada por Cadema Bienes Raices. Consulta precio, ubicacion, caracteristicas, fotos y coordina una visita con el equipo comercial.",
+    };
+  }
+
+  const title = getPropertyTitle(property);
+  const description = getPropertyDescription(property);
+  const image = absoluteUrl(getMainImage(property));
+  const canonical = absoluteUrl(`/propiedades/${slug}`);
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      type: "website",
+      locale: "es_AR",
+      siteName: brandName,
+      title,
+      description,
+      url: canonical,
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
   };
 }
 
-export default function PropertyDetailPage() {
-  const params = useParams();
-  const id = params?.id;
+function propertyJsonLd(property: Property, slug: string) {
+  const title = getPropertyTitle(property);
+  const price = getPrice(property);
+  const image = absoluteUrl(getMainImage(property));
+  const url = absoluteUrl(`/propiedades/${slug}`);
+  const location = property.location?.full_location || property.location?.name;
 
-  const propertyId = id ? (id as string).split('-')[0] : null;
+  return [
+    breadcrumbJsonLd([
+      { name: "Inicio", path: "/" },
+      { name: "Propiedades", path: "/propiedades" },
+      { name: title, path: `/propiedades/${slug}` },
+    ]),
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: title,
+      description: getPropertyDescription(property),
+      image,
+      url,
+      brand: {
+        "@type": "RealEstateAgent",
+        name: brandName,
+      },
+      category: translatePropertyType(property.development?.type?.name || property.type?.name),
+      offers: {
+        "@type": "Offer",
+        availability: "https://schema.org/InStock",
+        url,
+        price: price?.price,
+        priceCurrency: price?.currency || "USD",
+        seller: {
+          "@type": "RealEstateAgent",
+          name: brandName,
+        },
+      },
+      additionalProperty: [
+        property.surface
+          ? { "@type": "PropertyValue", name: "Superficie terreno", value: property.surface }
+          : null,
+        property.roofed_surface
+          ? {
+              "@type": "PropertyValue",
+              name: "Superficie cubierta",
+              value: property.roofed_surface,
+            }
+          : null,
+        property.room_amount
+          ? { "@type": "PropertyValue", name: "Ambientes", value: property.room_amount }
+          : null,
+        property.suite_amount
+          ? { "@type": "PropertyValue", name: "Dormitorios", value: property.suite_amount }
+          : null,
+      ].filter(Boolean),
+      areaServed: location,
+    },
+  ];
+}
 
-  const [currentUrl, setCurrentUrl] = useState('');
-  const [property, setProperty] = useState<Property | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [autoplayPaused, setAutoplayPaused] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      history.scrollRestoration = 'manual'; 
-      setCurrentUrl(window.location.href);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      fetchProperty();
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (!isFullscreen) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') prevImage();
-      if (e.key === 'ArrowRight') nextImage();
-      if (e.key === 'Escape') setIsFullscreen(false);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isFullscreen, selectedImage, property]);
-
-  const fetchProperty = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('/api/properties');
-      if (!response.ok) throw new Error('Error al cargar la propiedad');
-
-      const data = await response.json();
-      const foundProperty = data.objects.find((p: Property) => p.id === parseInt(propertyId as string));
-
-      if (!foundProperty) throw new Error('Propiedad no encontrada');
-
-      setProperty(foundProperty);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error desconocido');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const translateOperationType = (type: string) => {
-    const translations: Record<string, string> = {
-      Sale: 'Venta',
-      Rent: 'Alquiler',
-      'Temporary Rent': 'Alquiler Temporal',
-    };
-    return translations[type] || type;
-  };
-
-  const translatePropertyType = (type: string) => {
-    const translations: Record<string, string> = {
-      House: 'Casa',
-      'Weekend House': 'Casa de Fin de Semana',
-      Apartment: 'Departamento',
-      Land: 'Terreno',
-      Commercial: 'Comercial',
-      Office: 'Oficina',
-      Building: 'Edificio',
-      PH: 'PH',
-      'Industrial Ship': 'Nave Industrial',
-      Storage: 'Depósito',
-    };
-    return translations[type] || type;
-  };
-
-  const translateTag = (tag: string) => {
-    const translations: Record<string, string> = {
-      'Water':               'Agua',
-      'Sewage':              'Cloacas',
-      'Natural Gas':         'Gas Natural',
-      'Internet':            'Internet',
-      'Electricity':         'Electricidad',
-      'Pavement':            'Pavimento',
-      'Backyard':            'Jardín',
-      'Barbecue area':       'Parrilla',
-      'Pool':                'Pileta',
-      'Drinking Water':      'Agua Potable',
-      'Balcony terrace':     'Balcón / Terraza',
-      'Public lighting':     'Alumbrado Público',
-      'Daily dining':        'Comedor diario',
-      'Dining lounge':       'Living comedor',
-      'Garden':              'Jardín',
-      'Dresser':             'Vestidor',
-      'Solarium':            'Solarium',
-      'Swimming pool':       'Pileta',
-    };
-    return translations[tag] || tag;
-  };
-
-  const translateOrientation = (orientation: string) => {
-    const translations: Record<string, string> = {
-      North: 'Norte',
-      South: 'Sur',
-      East: 'Este',
-      West: 'Oeste',
-      Northeast: 'Noreste',
-      Northwest: 'Noroeste',
-      Southeast: 'Sudeste',
-      Southwest: 'Sudoeste',
-    };
-    return translations[orientation] || orientation;
-  };
-
-  const translateCreditEligible = (credit: string) => {
-    const translations: Record<string, string> = {
-      Eligible: 'Sí',
-      'Not specified': 'No',
-      Yes: 'Sí',
-      No: 'No',
-    };
-    return translations[credit] || credit;
-  };
-
-  const formatCurrency = (currency?: string) => {
-    if (!currency) return 'U$S';
-    if (currency.toUpperCase() === 'USD') return 'U$S';
-    return currency;
-  };
-
-  const formatNumber = (value?: number | string, decimals = 0) => {
-    if (value === undefined || value === null || value === '') return null;
-    const num = Number(value);
-    if (Number.isNaN(num)) return value;
-    return num.toLocaleString('es-AR', {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-    });
-  };
-
-  const photos = useMemo(
-    () => property?.photos?.filter((p) => !p.is_blueprint) || [],
-    [property]
-  );
-
-  const blueprints = useMemo(
-    () => property?.photos?.filter((p) => p.is_blueprint) || [],
-    [property]
-  );
-
-  const nextImage = () => {
-    if (photos.length <= 1) return;
-    setSelectedImage((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
-  };
-
-  const prevImage = () => {
-    if (photos.length <= 1) return;
-    setSelectedImage((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
-  };
-
-  useEffect(() => {
-    if (photos.length <= 1 || autoplayPaused || isFullscreen) return;
-
-    const interval = setInterval(() => {
-      setSelectedImage((prev) => (prev === photos.length - 1 ? 0 : prev + 1));
-    }, 4500);
-
-    return () => clearInterval(interval);
-  }, [photos.length, autoplayPaused, isFullscreen]);
-
-  if (loading) {
-    return (
-      <div className="property-page-loading">
-        <div className="property-page-loading__spinner" />
-        <p>Cargando propiedad...</p>
-      </div>
-    );
-  }
-
-  if (error || !property) {
-    return (
-      <div className="property-page-error">
-        <h1>Propiedad no encontrada</h1>
-        <p>{error}</p>
-        <Link href="/propiedades" className="property-page-error__button">
-          Volver a Propiedades
-        </Link>
-      </div>
-    );
-  }
-
-  const mainOperation = property.operations?.[0];
-  const webPrice = mainOperation?.prices?.find((p) => p.web_price);
-  const price = webPrice?.price || mainOperation?.prices?.[0]?.price;
-  const currency = webPrice?.currency || mainOperation?.prices?.[0]?.currency || 'USD';
-  const operationType = translateOperationType(mainOperation?.operation_type || '');
-
-  const propertyType = translatePropertyType(
-    property.development?.type?.name || property.type?.name || 'Propiedad'
-  );
-
-  const displayAddress = property.fake_address || property.address || 'Consultar ubicación';
-  const totalRooms = (property.room_amount || 0) + (property.suite_amount || 0);
-
-  const isCreditEligible =
-    property.credit_eligible === 'Eligible' ||
-    property.credit_eligible === 'Yes' ||
-    property.tags?.some((tag) => tag.name.toLowerCase().includes('credit')) ||
-    property.custom_tags?.some((tag) => tag.name.toLowerCase().includes('crédito'));
-
-  const description = property.rich_description || property.description || null;
-  const heroImage = photos[0]?.original || photos[0]?.image || '';
-  const title =
-    property.publication_title ||
-    `${propertyType} en ${operationType}${property.location?.name ? ` - ${property.location.name}` : ''}`;
-
-  const specs = [
-    totalRooms > 0 ? { label: 'Amb', value: totalRooms } : null,
-    property.bathroom_amount ? { label: 'Baños', value: property.bathroom_amount } : null,
-    property.parking_lot_amount && property.parking_lot_amount > 0
-      ? { label: 'Cochera', value: property.parking_lot_amount }
-      : null,
-    property.surface ? { label: 'Terreno', value: `${formatNumber(property.surface)} m²` } : null,
-    property.roofed_surface
-      ? { label: 'Cubiertos', value: `${formatNumber(property.roofed_surface)} m²` }
-      : null,
-    property.age !== undefined && property.age !== null
-      ? { label: 'Antigüedad', value: `${property.age} años` }
-      : null,
-  ].filter(Boolean) as Array<{ label: string; value: string | number }>;
-
-  const detailRows = [
-    { label: 'ID del inmueble', value: property.id },
-    { label: 'Tipo de inmueble', value: propertyType },
-    { label: 'Tipo de operación', value: operationType || '-' },
-    price ? { label: 'Precio', value: `${formatCurrency(currency)} ${formatNumber(price)}` } : null,
-    property.roofed_surface
-      ? { label: 'Superficie cubierta', value: `${formatNumber(property.roofed_surface)} m²` }
-      : null,
-    property.surface
-      ? { label: 'Superficie terreno', value: `${formatNumber(property.surface)} m²` }
-      : null,
-    property.total_surface
-      ? { label: 'Superficie total', value: `${formatNumber(property.total_surface)} m²` }
-      : null,
-    property.front_measure && parseFloat(property.front_measure) > 0
-      ? { label: 'Frente', value: `${formatNumber(property.front_measure)} m` }
-      : null,
-    property.depth_measure && parseFloat(property.depth_measure) > 0
-      ? { label: 'Fondo', value: `${formatNumber(property.depth_measure)} m` }
-      : null,
-    property.orientation
-      ? { label: 'Orientación', value: translateOrientation(property.orientation) }
-      : null,
-    property.disposition ? { label: 'Disposición', value: property.disposition } : null,
-    property.age !== undefined && property.age !== null
-      ? { label: 'Antigüedad', value: `${property.age} años` }
-      : null,
-    property.credit_eligible
-      ? { label: 'Apto crédito', value: translateCreditEligible(property.credit_eligible) }
-      : null,
-  ].filter(Boolean) as Array<{ label: string; value: string | number }>;
+export default async function PropertyDetailPage({ params }: PageProps) {
+  const { id: slug } = await params;
+  const propertyId = getPropertyId(slug);
+  const initialProperty = propertyId ? await getProperty(propertyId) : null;
 
   return (
     <>
-      <div className="property-page">
-        <section className="property-hero">
-          {heroImage && (
-            <img
-              src={heroImage}
-              alt={title}
-              className="property-hero__bg"
-            />
-          )}
-
-          <div className="property-hero__overlay" />
-          <div className="property-hero__gradient" />
-
-          <div className="property-hero__inner container-property">
-            <div className="property-hero__content">
-              <div className="property-hero__main">
-                <div className="property-hero__info">
-                  <div className="property-hero__badges">
-                    <span className="property-badge">
-                      {propertyType} en {operationType}
-                    </span>
-
-                    {isCreditEligible && (
-                      <span className="property-badge property-badge--credit">
-                        Apto crédito
-                      </span>
-                    )}
-                  </div>
-
-                  <h1 className="property-hero__title">{title}</h1>
-
-                  <div className="property-hero__location">
-                    <span className="property-hero__location-icon">📍</span>
-                    <a href='#mapa'>{displayAddress}</a>
-                  </div>
-
-                  {specs.length > 0 && (
-                    <div className="property-hero__specs">
-                      {specs.map((item) => (
-                        <div className="property-hero__spec" key={item.label}>
-                          <span className="property-hero__spec-value">{item.value}</span>
-                          <span className="property-hero__spec-label">{item.label}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="property-hero__bottom">
-                  <div className="property-price-card">
-                    <span className="property-price-card__label">Precio</span>
-                    {price && price > 0 ? (
-                      <strong className="property-price-card__value">
-                        {formatCurrency(currency)} {formatNumber(price)}
-                      </strong>
-                    ) : (
-                      <strong className="property-price-card__value">
-                        Consultar precio
-                      </strong>
-                    )}
-                  </div>
-
-                  <a href="#consulta" className="property-hero__cta">
-                    Consultar propiedad
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="property-gallery-wrap container-property">
-          <div
-            className="property-gallery"
-            onMouseEnter={() => setAutoplayPaused(true)}
-            onMouseLeave={() => setAutoplayPaused(false)}
-          >
-            <div className="property-gallery__header">
-              <div>
-                <span className="property-section-kicker">Galería</span>
-                <h2 className="property-section-title">Recorré la propiedad</h2>
-              </div>
-
-              {photos.length > 1 && (
-                <div className="property-gallery__nav">
-                  <button onClick={prevImage} aria-label="Imagen anterior">
-                    ‹
-                  </button>
-                  <button onClick={nextImage} aria-label="Imagen siguiente">
-                    ›
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {photos.length > 0 && (
-              <>
-                <button
-                  type="button"
-                  className="property-gallery__main"
-                  onClick={() => setIsFullscreen(true)}
-                >
-                  <img
-                    src={photos[selectedImage]?.image}
-                    alt={photos[selectedImage]?.description || title}
-                  />
-                  <span className="property-gallery__counter">
-                    {selectedImage + 1} / {photos.length}
-                  </span>
-                </button>
-
-                {photos.length > 1 && (
-                  <div className="property-gallery__thumbs">
-                    {photos.map((photo, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className={`property-gallery__thumb ${
-                          selectedImage === idx ? 'is-active' : ''
-                        }`}
-                        onClick={() => setSelectedImage(idx)}
-                      >
-                        <img src={photo.image} alt={`Miniatura ${idx + 1}`} />
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </section>
-
-        <section className="property-main container-property">
-          <div className="property-main__grid">
-            <div className="property-main__content">
-              <div className="property-card">
-                <div className="property-breadcrumb">
-                  <Link href="/">Inicio</Link>
-                  <span>/</span>
-                  <Link href="/propiedades">Propiedades</Link>
-                  <span>/</span>
-                  <span>#{property.id}</span>
-                </div>
-
-                {description && (
-                  <div className="property-block">
-                    <h2 className="property-block__title">Descripción</h2>
-                    <div
-                      className="property-description"
-                      dangerouslySetInnerHTML={{
-                        __html: property.rich_description || description.replace(/\n/g, '<br />'),
-                      }}
-                    />
-                  </div>
-                )}
-
-                <div className="property-features-box">
-                  <h3 className="property-block__subtitle">Características</h3>
-
-                  <div className="property-features-grid">
-                    {detailRows.map((item) => (
-                      <div className="property-feature-row" key={item.label}>
-                        <span className="property-feature-row__label">{item.label}</span>
-                        <span className="property-feature-row__value">{item.value}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {property.tags && property.tags.length > 0 && (
-                    <div className="property-tags">
-                      {property.tags.map((tag, idx) => (
-                        <span key={idx} className="property-tag">
-                          {translateTag(tag.name)}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {property.geo_lat && property.geo_long && (
-                <div className="property-card" id='mapa'>
-                  <div className="property-block">
-                    <h2 className="property-block__title">Ubicación</h2>
-                    <div className="property-map">
-                      <iframe
-                        width="100%"
-                        height="420"
-                        frameBorder="0"
-                        style={{ border: 0 }}
-                        src={`https://www.google.com/maps?q=${property.geo_lat},${property.geo_long}&z=15&output=embed`}
-                        allowFullScreen
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {blueprints.length > 0 && (
-                <div className="property-card">
-                  <div className="property-block">
-                    <h2 className="property-block__title">Planos</h2>
-                    <div className="property-blueprints">
-                      {blueprints.map((blueprint, idx) => (
-                        <img
-                          key={idx}
-                          src={blueprint.image}
-                          alt={`Plano ${idx + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {property.videos && property.videos.length > 0 && (
-                <div className="property-card">
-                  <div className="property-block">
-                    <h2 className="property-block__title">Videos</h2>
-                    <div className="property-videos">
-                      {property.videos.map((video, idx) => (
-                        <iframe
-                          key={idx}
-                          src={video.player_url}
-                          className="property-video-frame"
-                          allowFullScreen
-                          title={video.title || `Video ${idx + 1}`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <aside className="property-main__sidebar">
-              <div className="property-contact-card" id="consulta">
-                {isCreditEligible && (
-                  <div className="property-contact-card__badge">
-                    Apto crédito
-                  </div>
-                )}
-
-                <div className="property-contact-card__price">
-                  <span>Precio</span>
-                  {price && price > 0 ? (
-                    <strong>
-                      {formatCurrency(currency)} {formatNumber(price)}
-                    </strong>
-                  ) : (
-                    <strong>Consultar precio</strong>
-                  )}
-                </div>
-
-                <div className="property-contact-card__form">
-                  <h3>Dejanos tu consulta</h3>
-
-                  <div className="property-contact-card__form-embed">
-                    <iframe
-                      src="https://link.ventux.io/widget/form/OWI77RP94NZkMNa4BIaz"
-                      style={{ width: '100%', height: '619px', border: 'none', borderRadius: '3px' }}
-                      id="inline-OWI77RP94NZkMNa4BIaz"
-                      data-layout='{"id":"INLINE"}'
-                      data-trigger-type="alwaysShow"
-                      data-trigger-value=""
-                      data-activation-type="alwaysActivated"
-                      data-activation-value=""
-                      data-deactivation-type="neverDeactivate"
-                      data-deactivation-value=""
-                      data-form-name="Form Web Inmueble"
-                      data-height="619"
-                      data-layout-iframe-id="inline-OWI77RP94NZkMNa4BIaz"
-                      data-form-id="OWI77RP94NZkMNa4BIaz"
-                      title="Form Web Inmueble"
-                    />
-                  </div>
-                </div>
-
-                {property.branch && (
-                  <div className="property-contact-card__branch">
-                    <h4>{property.branch.name}</h4>
-                    {property.branch.address && <p>📍 {property.branch.address}</p>}
-                    {property.branch.phone && (
-                      <p>
-                        📞 {property.branch.phone_area ? `(${property.branch.phone_area}) ` : ''}
-                        {property.branch.phone}
-                      </p>
-                    )}
-                    {property.branch.email && <p>✉️ {property.branch.email}</p>}
-                  </div>
-                )}
-              </div>
-            </aside>
-          </div>
-        </section>
-
-        {isFullscreen && photos.length > 0 && (
-          <div
-            className="property-lightbox"
-            onClick={() => setIsFullscreen(false)}
-          >
-            <button
-              className="property-lightbox__close"
-              onClick={() => setIsFullscreen(false)}
-              aria-label="Cerrar"
-            >
-              ×
-            </button>
-
-            <img
-              src={photos[selectedImage]?.image}
-              alt={photos[selectedImage]?.description || title}
-              className="property-lightbox__image"
-              onClick={(e) => e.stopPropagation()}
-            />
-
-            {photos.length > 1 && (
-              <>
-                <button
-                  className="property-lightbox__nav property-lightbox__nav--prev"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    prevImage();
-                  }}
-                  aria-label="Imagen anterior"
-                >
-                  ‹
-                </button>
-
-                <button
-                  className="property-lightbox__nav property-lightbox__nav--next"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    nextImage();
-                  }}
-                  aria-label="Imagen siguiente"
-                >
-                  ›
-                </button>
-              </>
-            )}
-
-            <div className="property-lightbox__counter">
-              {selectedImage + 1} / {photos.length}
-            </div>
-          </div>
-        )}
-
-        
-      </div>
+      <PropertyDetailClient initialProperty={initialProperty} />
+      {initialProperty && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLdScript(propertyJsonLd(initialProperty, slug))}
+        />
+      )}
     </>
   );
 }

@@ -1,8 +1,15 @@
-"use client";
-export const dynamic = "force-dynamic";
-
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import PropertiesContainer from "@/app/components/PropertiesContainer";
+import { pageMetadata } from "@/app/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Propiedades en venta y alquiler",
+  description:
+    "Busca casas, departamentos, terrenos, locales e inmuebles industriales en Campana, Zarate, Exaltacion de la Cruz y Corredor Norte.",
+  path: "/propiedades",
+  image: "/carousel/2.jpg",
+});
 
 function LoadingFallback() {
   return (

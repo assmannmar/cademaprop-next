@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import "./emprendimientos.css";
 import FullScreenLoader from "../components/loader";
+import { apiUrl } from "@/lib/api";
 // --- 1. DICCIONARIOS Y TRADUCCIONES ---
 
 const TIPOLOGIAS_MAP: Record<string, string> = {
@@ -31,6 +32,12 @@ const ESTADOS_MAP: Record<number, string> = {
 const translateType = (type: string | undefined) => {
   if (!type) return "Emprendimiento";
   return TIPOLOGIAS_MAP[type.toLowerCase()] || type;
+};
+
+const matchesDivision = (emp: Development, division: string) => {
+  if (division === "industrial") return emp.is_industrial === true;
+  if (division === "residencial") return emp.is_industrial !== true;
+  return true;
 };
 
 // Shuffle para mostrar los emprendimientos destacados en un orden diferente cada vez, pero siempre el mismo para cada usuario gracias a la semilla fija por sesión
@@ -97,6 +104,7 @@ function EmprendimientosContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [heroDivision, setHeroDivision] = useState(searchParams.get("div") || "all");
 
   // Filtros
   const [filterLoc, setFilterLoc] = useState(searchParams.get("loc") || "all");
@@ -113,19 +121,33 @@ function EmprendimientosContent() {
   const railRef = useRef<HTMLDivElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const autoplayRef = useRef<number | null>(null);
+  const internalFilterNavigationRef = useRef(false);
 
   // Función para actualizar URL
   const updateUrl = (newFilters: { loc?: string; type?: string; div?: string }) => {
+    internalFilterNavigationRef.current = true;
     const params = new URLSearchParams(searchParams.toString());
 
     if (newFilters.loc !== undefined) {
-      newFilters.loc === "all" ? params.delete("loc") : params.set("loc", newFilters.loc);
+      if (newFilters.loc === "all") {
+        params.delete("loc");
+      } else {
+        params.set("loc", newFilters.loc);
+      }
     }
     if (newFilters.type !== undefined) {
-      newFilters.type === "all" ? params.delete("type") : params.set("type", newFilters.type);
+      if (newFilters.type === "all") {
+        params.delete("type");
+      } else {
+        params.set("type", newFilters.type);
+      }
     }
     if (newFilters.div !== undefined) {
-      newFilters.div === "all" ? params.delete("div") : params.set("div", newFilters.div);
+      if (newFilters.div === "all") {
+        params.delete("div");
+      } else {
+        params.set("div", newFilters.div);
+      }
     }
 
     const qs = params.toString();
@@ -151,13 +173,31 @@ function EmprendimientosContent() {
     setFilterLoc("all");
     setFilterType("all");
     setFilterDivision("all");
+    internalFilterNavigationRef.current = true;
     router.push(pathname, { scroll: false });
   };
 
   useEffect(() => {
+    const urlLoc = searchParams.get("loc") || "all";
+    const urlType = searchParams.get("type") || "all";
+    const urlDivision = searchParams.get("div") || "all";
+
+    setFilterLoc(urlLoc);
+    setFilterType(urlType);
+    setFilterDivision(urlDivision);
+
+    if (internalFilterNavigationRef.current) {
+      internalFilterNavigationRef.current = false;
+      return;
+    }
+
+    setHeroDivision(urlDivision);
+  }, [searchParams]);
+
+  useEffect(() => {
     const fetchEmprendimientos = async () => {
       try {
-        const response = await fetch("/api/developments");
+        const response = await fetch(apiUrl("developments"));
         const data = await response.json();
         setEmprendimientos(data.objects || []);
       } catch (err) {
@@ -174,9 +214,7 @@ function EmprendimientosContent() {
     const filtered = emprendimientos.filter((emp) => {
       const matchLoc = filterLoc === "all" || emp.location?.name === filterLoc;
       const matchType = filterType === "all" || emp.type?.name === filterType;
-      let matchDiv = true;
-      if (filterDivision === "industrial") matchDiv = emp.is_industrial === true;
-      if (filterDivision === "residencial") matchDiv = emp.is_industrial !== true;
+      const matchDiv = matchesDivision(emp, filterDivision);
       return matchLoc && matchType && matchDiv;
     });
     const filterHash = [...`${filterLoc}-${filterType}-${filterDivision}`]
@@ -193,7 +231,9 @@ function EmprendimientosContent() {
   );
 
   const heroItems = useMemo<HeroItem[]>(() => {
-    const withPhotos = emprendimientos.filter((emp) => emp.photos?.length);
+    const withPhotos = emprendimientos.filter(
+      (emp) => emp.photos?.length && matchesDivision(emp, heroDivision)
+    );
     const shuffled = seededShuffle(withPhotos, sessionSeed);
     const count = Math.max(6, Math.min(10, shuffled.length));
     return shuffled.slice(0, count).map((emp) => {
@@ -216,7 +256,7 @@ function EmprendimientosContent() {
           isExternal: Boolean(emp.web_url),
         };
       });
-  }, [emprendimientos]);
+  }, [emprendimientos, heroDivision]);
 
   const activeHeroItem = heroItems[activeIndex];
 

@@ -19,11 +19,14 @@ type InstagramApiResponse = {
   };
 };
 
-export async function getInstagramPosts(limit = 6): Promise<InstagramPost[]> {
-  const accessToken = "IGAAYNHIKSHRRBZAGJrdENzcHhCVS1uRXBNWkNxbTNRdTJGX1RaZAkl0U21sdkQ0TmN5ZAThON3Uwd3ppYW50ZAVQtekZAoRWJlN0syTVNwR0dsQnJhR2tzNWpjejFrNVMxMncyRUh5cjE1UjVnc0ZACenFYZA2lrZAG1sb21SZAVZA2TEY3ZAwZDZD";
+export async function getInstagramPosts(
+  limit = 6,
+  tokenName = "INSTAGRAM_ACCESS_TOKEN"
+): Promise<InstagramPost[]> {
+  const accessToken = process.env[tokenName];
 
   if (!accessToken) {
-    console.error("Instagram: falta INSTAGRAM_ACCESS_TOKEN");
+    console.error(`Instagram: falta ${tokenName}`);
     return [];
   }
 

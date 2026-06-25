@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
+import { apiUrl } from "@/lib/api";
 
 // ============ CAROUSEL DE EMPRENDIMIENTOS ============
 interface EmprendimientoCarouselProps {
@@ -125,9 +126,10 @@ interface DestacadasCarouselProps {
 export function DestacadasCarousel({ propiedades }: DestacadasCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerView, setItemsPerView] = useState(4);
+  const [shuffleSeed] = useState(() => Math.floor(Math.random() * 1_000_000));
   const shuffledData = useMemo(() => {
-    return seededShuffle(propiedades, SESSION_SEED);
-  }, [propiedades]);
+    return seededShuffle(propiedades, shuffleSeed);
+  }, [propiedades, shuffleSeed]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -273,7 +275,7 @@ export function TestimoniosCarousel() {
 
   const fetchSheetReviews = useCallback(async () => {
     try {
-      const response = await fetch('/api/reviews');
+      const response = await fetch(apiUrl("reviews"));
 
       if (!response.ok) throw new Error();
 

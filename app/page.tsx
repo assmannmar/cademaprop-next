@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import HeroCarousel from "./components/HeroCarousel";
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { 
   EmprendimientosCarousel, 
   DestacadasCarousel, 
@@ -12,6 +13,13 @@ import {
 import FullScreenLoader from './components/loader';
 import InstagramFeed from "./components/InstagramFeed";
 import BlogSection from "@/app/components/BlogSection";
+import { apiUrl } from "@/lib/api";
+import {
+  NosotrosServicesSection,
+  NosotrosStatsSection,
+  NosotrosValuesSection,
+} from "@/app/components/nosotros/NosotrosSections";
+import "./nosotros/nosotros.css";
 
 interface Property {
   id: number;
@@ -37,53 +45,108 @@ interface Development {
   description?: string;
 }
 
+function ApiSectionLoader() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" aria-label="Cargando contenido">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div key={index} className="px-3">
+          <div className="relative aspect-[3/4] overflow-hidden bg-gray-200 shadow-lg">
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-gray-200 via-gray-100 to-gray-200" />
+            <div className="absolute inset-x-8 top-1/2 h-4 -translate-y-1/2 rounded bg-white/70" />
+            <div className="absolute inset-x-14 top-[56%] h-3 rounded bg-white/50" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function HomePage() {
 
   const [emprendimientos, setEmprendimientos] = useState<Development[]>([]);
   const [destacadas, setDestacadas] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [showInitialLoader, setShowInitialLoader] = useState(true);
+  const [emprendimientosLoading, setEmprendimientosLoading] = useState(true);
+  const [destacadasLoading, setDestacadasLoading] = useState(true);
+
+  const forceDocumentNavigation =
+    (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      window.location.assign(href);
+    };
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setShowInitialLoader(false);
+    }, 1000);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
 
   useEffect(() => {
+    let isActive = true;
 
-    const timeout = setTimeout(() => {
-      setLoading(false); // ← fuerza que el loader desaparezca después de 5s
-    }, 5000);
-    
-    const load = async () => {
+    const loadDevelopments = async () => {
       try {
-        const [devRes, propRes] = await Promise.allSettled([
-          fetch('/api/developments'),
-          fetch('/api/properties'),
-        ]);
+        const response = await fetch(apiUrl("developments"));
 
-        if (devRes.status === 'fulfilled' && devRes.value.ok) {
-          const devData = await devRes.value.json();
+        if (response.ok) {
+          const devData = await response.json();
+          if (!isActive) return;
           setEmprendimientos(devData.objects?.slice(0, 20) || []);
         }
-
-        if (propRes.status === 'fulfilled' && propRes.value.ok) {
-          const propData = await propRes.value.json();
-          const starred = propData.objects?.filter(
-            (p: Property) => p.is_starred_on_web === true
-          ) || [];
-          setDestacadas(starred.length > 0 ? starred.slice(0, 12) : propData.objects?.slice(0, 12) || []);
-        }
-
       } catch (err) {
-        console.error('❌ error:', err);
+        console.error('Error cargando emprendimientos:', err);
       } finally {
-        setLoading(false);
+        if (isActive) setEmprendimientosLoading(false);
       }
     };
 
-    load();
+    const loadProperties = async () => {
+      try {
+        const params = new URLSearchParams({
+          featured: "true",
+          limit: "50",
+          page: "1",
+        });
+        const response = await fetch(`${apiUrl("properties")}?${params.toString()}`);
+
+        if (response.ok) {
+          const propData = await response.json();
+          if (!isActive) return;
+          setDestacadas(propData.objects || []);
+        }
+      } catch (err) {
+        console.error('Error cargando propiedades destacadas:', err);
+      } finally {
+        if (isActive) setDestacadasLoading(false);
+      }
+    };
+
+    loadDevelopments();
+    loadProperties();
+
+    return () => {
+      isActive = false;
+    };
   }, []);
   
 
   return (
     <>
-    {loading && <FullScreenLoader />}
+    {showInitialLoader && <FullScreenLoader />}
     <main className="page">
       {/* PORTADA */}
       <section className="portada">
@@ -95,7 +158,11 @@ export default function HomePage() {
 
           {/* BOTONES SUPERIORES */}
           <div className="portada-botones top">
-            <Link href="/propiedades?operation=sale" className="btn-split">
+            <Link
+              href="/propiedades/?operation=sale"
+              onClick={forceDocumentNavigation("/propiedades/?operation=sale")}
+              className="btn-split"
+            >
               <span className="btn-text">Comprar</span>
               <span className="btn-arrow">→</span>
             </Link>
@@ -110,11 +177,15 @@ export default function HomePage() {
       {/* SECCIÓN INFERIOR DE LA PORTADA */}
       <section className="portada-bottom">
         <div className="portada-botones bottom">
-          <Link href="/propiedades" className="btn-split">
+          <Link
+            href="/propiedades/"
+            onClick={forceDocumentNavigation("/propiedades/")}
+            className="btn-split"
+          >
             <span className="btn-text">Residencial</span>
             <span className="btn-arrow">→</span>
           </Link>
-          <Link href="https://cademaprop.com.ar/industrias/" className="btn-split">
+          <Link href="/industrias" className="btn-split">
             <span className="btn-text">Industrias</span>
             <span className="btn-arrow">→</span>
           </Link>
@@ -133,10 +204,8 @@ export default function HomePage() {
             <p className="text-xl text-gray-600">Proyectos exclusivos en las mejores ubicaciones</p>
           </div>
 
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
-            </div>
+          {emprendimientosLoading ? (
+            <ApiSectionLoader />
           ) : emprendimientos.length > 0 ? (
             <EmprendimientosCarousel emprendimientos={emprendimientos} />
           ) : (
@@ -159,17 +228,19 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wide">Propiedades Destacadas</h2>
           </div>
 
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
-            </div>
+          {destacadasLoading ? (
+            <ApiSectionLoader />
           ) : destacadas.length > 0 ? (
             <DestacadasCarousel propiedades={destacadas} />
           ) : (
             <p className="text-center text-gray-500">No hay propiedades disponibles</p>
           )}
           <div className="flex justify-center mt-12">
-            <Link href="/propiedades" className="btn-split btn-split-bottom btn-split-wide">
+            <Link
+              href="/propiedades/"
+              onClick={forceDocumentNavigation("/propiedades/")}
+              className="btn-split btn-split-bottom btn-split-wide"
+            >
               <span className="btn-text">Ver Todas las Propiedades</span>
               <span className="btn-arrow">→</span>
             </Link>
@@ -205,7 +276,7 @@ export default function HomePage() {
 
             <div className="flex justify-center">
               <Link
-                href="https://cademaprop.com.ar/parque-industrial/"
+                href="/industrias"
                 className="btn-split btn-split-top btn-split-wide"
               >
                 <span className="btn-text">Explorar Opciones Industriales</span>
@@ -217,61 +288,38 @@ export default function HomePage() {
 
       </section>
 
-      {/* QUIÉNES SOMOS */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6 tracking-wide">Quiénes Somos</h2>
-              <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                Con más de 60 años de experiencia en el mercado inmobiliario, nuestro compromiso es brindar un servicio personalizado y profesional, acompañando a nuestros clientes en cada paso del proceso de compra, venta o alquiler de su propiedad.
-              </p>
-              <Link href="/nosotros" className="btn-split btn-split-bottom btn-split-wide">
-                <span className="btn-text">Conocé más</span>
-                <span className="btn-arrow">→</span>
-              </Link>
-            </div>
-            <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden">
-              <img
-                src="/img/directores.jpg"
-                alt="Cadema Prop"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80';
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CADEMA EN NÚMEROS */}
-      {/* <section className="py-16 bg-red-600 text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 tracking-wide">Cadema en Números</h2>
-            <p className="text-xl">Nuestra trayectoria nos respalda</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">25+</div>
-              <p className="text-xl">Años de experiencia</p>
-            </div>
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">500+</div>
-              <p className="text-xl">Propiedades</p>
-            </div>
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">2000+</div>
-              <p className="text-xl">Clientes satisfechos</p>
-            </div>
-            <div className="text-center">
-              <div className="text-6xl font-bold mb-2">15</div>
-              <p className="text-xl">Agentes expertos</p>
+      {/* QUIENES SOMOS + VALORES + SERVICIOS */}
+      <div className="home-nosotros-sections">
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl font-bold text-gray-900 mb-6 tracking-wide">Quiénes Somos</h2>
+                <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                  Con más de 60 años de experiencia en el mercado inmobiliario, nuestro compromiso es brindar un servicio personalizado y profesional, acompañando a nuestros clientes en cada paso del proceso de compra, venta o alquiler de su propiedad.
+                </p>
+                <Link href="/nosotros" className="btn-split btn-split-bottom btn-split-wide">
+                  <span className="btn-text">Conocé más</span>
+                  <span className="btn-arrow">→</span>
+                </Link>
+              </div>
+              <div className="bg-gray-300 h-96 rounded-xl shadow-xl overflow-hidden">
+                <img
+                  src="/img/directores.jpg"
+                  alt="Cadema Prop"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80";
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section> */}
+        </section>
+        <NosotrosValuesSection />
+        <NosotrosStatsSection />
+        <NosotrosServicesSection />
+      </div>
 
       {/* TESTIMONIOS - CAROUSEL DE GOOGLE REVIEWS */}
       <section className="py-16 bg-white">
@@ -313,7 +361,7 @@ export default function HomePage() {
                   src="https://link.ventux.io/widget/form/ucy1LfDZBfGuZJOStMqg"
                   allowFullScreen
                 />
-            <script src="https://link.ventux.io/js/form_embed.js"></script>
+            <Script src="https://link.ventux.io/js/form_embed.js" strategy="lazyOnload" />
           
         </div>
       </section>

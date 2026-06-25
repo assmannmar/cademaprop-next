@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import VentuxForm from "@/app/emprendimientos/campo-alto/Form-campo-alto";
+import { apiUrl } from "@/lib/api";
 
 // Paleta: verde campo oscuro + crema cálido
 const C = {
@@ -96,7 +97,7 @@ export default function CampoAltoPage() {
 
   const fetchDevelopment = async () => {
     try {
-      const response = await fetch('/api/developments');
+      const response = await fetch(apiUrl("developments"));
       if (!response.ok) throw new Error('Error al cargar datos');
       const data = await response.json();
       const found = data.objects.find((d: Development) => d.id === EMPRENDIMIENTO_ID);

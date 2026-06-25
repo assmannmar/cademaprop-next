@@ -33,7 +33,7 @@ const offices: Office[] = [
       url: "https://www.instagram.com/cademabienesraices/",
     },
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3027.9099475284183!2d-58.96005257404506!3d-34.16455470453288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bb723638fc8f43%3A0x2c96856a436e54b9!2sCadema%20Bienes%20Ra%C3%ADces!5e0!3m2!1ses-419!2sar!4v1775625611984!5m2!1ses-419!2sar",
-    image: "img/oficinas/oficina-campana.jpg",
+    image: "/img/oficinas/oficina-campana.jpg",
   },
   {
     name: "Oficina Zárate",
@@ -47,7 +47,7 @@ const offices: Office[] = [
     },
     mapEmbedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9619.81480238391!2d-59.0334292948396!3d-34.10479426596738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bb0bef987e78a9%3A0xcac78c420fff659b!2sCadema%20Bienes%20Ra%C3%ADces%20-%20Oficina%20Z%C3%A1rate!5e0!3m2!1ses-419!2sar!4v1775625556347!5m2!1ses-419!2sar",
-    image: "img/oficinas/oficina-zarate.jpg",
+    image: "/img/oficinas/oficina-zarate.jpg",
   },
   {
     name: "Oficina Industrias",
@@ -61,7 +61,7 @@ const offices: Office[] = [
     },
     mapEmbedUrl:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d76736.29718934897!2d-59.02578471843406!3d-34.34833905062533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bb7b0016940f27%3A0xd0d1ffdf59487e32!2sOficina%20Cadema%20Industrias%20en%20Parque%20Industrial%20Ruta%206!5e0!3m2!1ses-419!2sar!4v1775625650857!5m2!1ses-419!2sar",
-    image: "img/oficinas/oficina-industria.jpg",
+    image: "/img/oficinas/oficina-industria.jpg",
   },
 ];
 

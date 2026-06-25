@@ -2,6 +2,7 @@
 
 import FullScreenLoader from '@/app/components/loader';
 import { useState } from "react";
+import { apiUrl } from "@/lib/api";
 
 function agruparPorBarrio(opciones: any[]) {
   const mapa: Record<string, any> = {};
@@ -52,7 +53,7 @@ export default function SimuladorPage() {
     setResultado(null);
 
     try {
-      const res = await fetch("/api/simulador/calcular", {
+      const res = await fetch(apiUrl("simulatorCalculate"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
