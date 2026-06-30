@@ -249,6 +249,7 @@ const team = [
     role: 'Asesoramiento y ventas',
     image: '/industria/equipo/maria-eugenia-freire.webp',
   },
+  // 
 ];
 
 function AccordionList({
